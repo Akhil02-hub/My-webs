@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodies | Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: #f5f0eb;
+      color: #1b1612;
+      padding: 24px;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Playfair Display", serif;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #d66a2b;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 28px;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #8a7e72;
+    }
+
+    .view-site {
+      background: #d66a2b;
+      color: #fff;
+      padding: 10px 16px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .view-site:hover {
+      background: #c45a22;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .stat-value {
+      color: #d66a2b;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .stat-label {
+      color: #8a7e72;
+      font-size: 0.85rem;
+      margin-top: 5px;
+    }
+
+    .section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 3px 14px rgba(0, 0, 0, 0.06);
+    }
+
+    .section-title {
+      font-size: 1.55rem;
+      border-bottom: 2px solid #f0ebe5;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+    }
+
+    .section-description {
+      color: #8a7e72;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    .form-card {
+      background: #f8f3ec;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .form-card h3 {
+      margin-bottom: 15px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column: 1/-1;
+    }
+
+    .form-group label {
+      color: #5a4f45;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1px solid #ddd2c7;
+      border-radius: 7px;
+      background: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .form-group textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: 2px solid #d66a2b;
+      border-color: transparent;
+    }
+
+    .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    .checkbox-row label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+
+    .upload-wrapper {
+      margin-top: 16px;
+    }
+
+    .upload-box {
+      width: 190px;
+      height: 140px;
+      border: 2px dashed #d7c7b7;
+      border-radius: 10px;
+      background: #fbf7f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #8a7e72;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .upload-box:hover {
+      border-color: #d66a2b;
+    }
+
+    .upload-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hidden-input {
+      display: none;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 7px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: #d66a2b;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #c45a22;
+    }
+
+    .btn-secondary {
+      background: #e8e0d8;
+      color: #4d433b;
+    }
+
+    .btn-success {
+      background: #2d8f5c;
+      color: #fff;
+    }
+
+    .btn-danger {
+      background: #c0392b;
+      color: #fff;
+    }
+
+    .btn-gold {
+      background: #d9af44;
+      color: #241b11;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th,
+    td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee7df;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #f7f2e9;
+      color: #5a4f45;
+      font-weight: 700;
+    }
+
+    .table-photo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .photo-placeholder {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      background: #f7f2e9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .badge-yes {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .badge-no {
+      background: #fce4ec;
+      color: #c62828;
+    }
+
+    .empty {
+      text-align: center;
+      color: #8a7e72;
+      padding: 20px;
+    }
+
+    .signature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    .signature-card {
+      border: 1px solid #eadfd4;
+      border-radius: 12px;
+      background: #fffaf5;
+      padding: 12px;
+    }
+
+    .signature-card img {
+      width: 100%;
+      height: 155px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .signature-card h4 {
+      margin-bottom: 5px;
+    }
+
+    .signature-price {
+      color: #d66a2b;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .gallery-card {
+      background: #fff5eb;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-body {
+      padding: 10px;
+    }
+
+    .gallery-label {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .muted {
+      color: #8a7e72;
+      font-size: 0.82rem;
+    }
+
+    .about-box {
+      width: 300px;
+      height: 220px;
+      border: 2px dashed #d7c7b7;
+      border-radius: 12px;
+      background: #fbf7f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+      color: #8a7e72;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .about-box:hover {
+      border-color: #d66a2b;
+    }
+
+    .about-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #2d8f5c;
+    }
+
+    @media (max-width:768px) {
+      body {
+        padding: 12px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .section {
+        padding: 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-box {
+        width: 100%;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+
+    /* Login overlay */
+    #loginOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #f5f0eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #loginOverlay h2 {
+      font-family: 'Playfair Display', serif;
+      color: #1b1612;
+    }
+
+    #loginOverlay p {
+      color: #8a7e72;
+    }
+
+    #loginOverlay input {
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: 2px solid #ddd2c7;
+      font-size: 1rem;
+      width: 280px;
+      max-width: 90%;
+    }
+
+    #loginOverlay .btn {
+      width: 280px;
+      max-width: 90%;
+    }
+
+    #adminLoginError {
+      color: #c0392b;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= ADMIN LOGIN OVERLAY ================= -->
+  <div id="loginOverlay">
+    <h2>🔐 Admin Access</h2>
+    <p>Enter the admin key to continue</p>
+    <input id="adminKeyInput" type="password" placeholder="Enter admin key...">
+    <button id="adminLoginBtn" class="btn btn-primary">Login</button>
+    <div id="adminLoginError">Invalid key. Try again.</div>
+  </div>
+
+  <!-- ================= MAIN ADMIN CONTENT ================= -->
+  <div class="admin-container" style="display:none;" id="adminContent">
+
+    <a href="/" class="back-link">← Back to Website</a>
+
+    <div class="header">
+      <div>
+        <h1>⚙️ Foodies Admin Dashboard</h1>
+        <p class="subtitle">Manage your website content from one place.</p>
+      </div>
+      <a href="/" class="view-site">View Website</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statToday">0</div>
+        <div class="stat-label">Today's Bookings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statPending">0</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statConfirmed">0</div>
+        <div class="stat-label">Confirmed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statReviews">0</div>
+        <div class="stat-label">Reviews</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statMenu">0</div>
+        <div class="stat-label">Menu Items</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statSignature">0</div>
+        <div class="stat-label">Signature Favourites</div>
+      </div>
+    </div>
+
+    <!-- ================= OUR MENU ================= -->
+    <section class="section">
+      <h2 class="section-title">🍽️ 1. Our Menu</h2>
+      <p class="section-description">Add, edit or delete items shown in the Our Menu section.</p>
+      <div class="form-card">
+        <h3 id="menuFormTitle">Add Menu Item</h3>
+        <input type="hidden" id="menuId">
+        <div class="form-grid">
+          <div class="form-group"><label>Name</label><input id="menuName" type="text" required></div>
+          <div class="form-group"><label>Category</label>
+            <select id="menuCategory">
+              <option>Biryani</option>
+              <option>Fast Food</option>
+              <option>Chinese</option>
+              <option>Cakes</option>
+              <option>Bakery</option>
+              <option>Beverages</option>
+              <option>Curry</option>
+              <option>Dessert</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Price (₹)</label><input id="menuPrice" type="number" min="0" step="1" required>
+          </div>
+          <div class="form-group full"><label>Description</label><textarea id="menuDescription"></textarea></div>
+        </div>
+        <div class="checkbox-row">
+          <label><input id="menuVeg" type="checkbox" checked> Veg</label>
+          <label><input id="menuAvailable" type="checkbox" checked> Available</label>
+        </div>
+        <div class="upload-wrapper">
+          <div class="upload-box" onclick="document.getElementById('menuImageInput').click()">
+            <img id="menuImagePreview" style="display:none">
+            <span id="menuImagePlaceholder">📷<br>Upload Menu Photo</span>
+          </div>
+          <input class="hidden-input" id="menuImageInput" type="file" accept="image/*">
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" type="button" onclick="saveMenuItem()">Save Menu Item</button>
+          <button class="btn btn-secondary" type="button" onclick="resetMenuForm()">Clear</button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="menuTableBody"></tbody>
+      </table>
+    </section>
+
+    <!-- ================= SIGNATURE FAVOURITES ================= -->
+    <section class="section">
+      <h2 class="section-title">⭐ 2. Signature Favourites</h2>
+      <p class="section-description">Manage Signature Favourites independently from Our Menu.</p>
+      <div class="form-card">
+        <h3 id="signatureFormTitle">Add Signature Favourite</h3>
+        <input type="hidden" id="signatureId">
+        <div class="form-grid">
+          <div class="form-group"><label>Name</label><input id="signatureName" type="text"></div>
+          <div class="form-group"><label>Category</label><input id="signatureCategory" type="text"
+              placeholder="Biryani / Chinese / Dessert"></div>
+          <div class="form-group"><label>Price (₹)</label><input id="signaturePrice" type="number" min="0" step="1">
+          </div>
+          <div class="form-group full"><label>Description</label><textarea id="signatureDescription"></textarea></div>
+        </div>
+        <div class="upload-wrapper">
+          <div class="upload-box" onclick="document.getElementById('signatureImageInput').click()">
+            <img id="signatureImagePreview" style="display:none">
+            <span id="signatureImagePlaceholder">📷<br>Upload Favourite Photo</span>
+          </div>
+          <input class="hidden-input" id="signatureImageInput" type="file" accept="image/*">
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" type="button" onclick="saveSignatureFavourite()">Save Favourite</button>
+          <button class="btn btn-secondary" type="button" onclick="resetSignatureForm()">Clear</button>
+        </div>
+      </div>
+      <div class="signature-grid" id="signatureGrid"></div>
+    </section>
+
+    <!-- ================= GALLERY ================= -->
+    <section class="section">
+      <h2 class="section-title">🖼️ 3. Gallery</h2>
+      <p class="section-description">Upload and manage all Gallery photos.</p>
+      <div class="form-card">
+        <div class="form-grid">
+          <div class="form-group"><label>Label</label><input id="galleryLabel" placeholder="Restaurant / Food / Event">
+          </div>
+          <div class="form-group"><label>Category</label>
+            <select id="galleryCategory">
+              <option>Food</option>
+              <option>Cakes</option>
+              <option>Bakery</option>
+              <option>Restaurant</option>
+            </select>
+          </div>
+        </div>
+        <div class="upload-wrapper">
+          <div class="upload-box" onclick="document.getElementById('galleryImageInput').click()">
+            <img id="galleryImagePreview" style="display:none">
+            <span id="galleryImagePlaceholder">📷<br>Upload Gallery Photo</span>
+          </div>
+          <input class="hidden-input" id="galleryImageInput" type="file" accept="image/*">
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" type="button" onclick="saveGalleryImage()">Add Gallery Photo</button>
+          <button class="btn btn-secondary" type="button" onclick="resetGalleryForm()">Clear</button>
+        </div>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+
+    <!-- ================= ABOUT US ================= -->
+    <section class="section">
+      <h2 class="section-title">📸 4. About Us Photo</h2>
+      <p class="section-description">Upload, replace or remove the main About Us image.</p>
+      <div class="about-box" onclick="document.getElementById('aboutImageInput').click()">
+        <img id="aboutImagePreview" style="display:none">
+        <span id="aboutPlaceholder">📷<br>Click to Upload About Us Photo</span>
+      </div>
+      <input class="hidden-input" id="aboutImageInput" type="file" accept="image/*">
+      <div class="actions">
+        <button class="btn btn-primary" type="button" onclick="saveAboutImage()">Save About Us Photo</button>
+        <button class="btn btn-danger" type="button" onclick="removeAboutImage()">Remove Photo</button>
+      </div>
+      <div id="aboutMessage" class="message"></div>
+    </section>
+
+    <!-- ================= BOOKINGS ================= -->
+    <section class="section">
+      <h2 class="section-title">📋 Bookings</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Guests</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="bookingsTableBody"></tbody>
+      </table>
+    </section>
+
+    <!-- ================= REVIEWS ================= -->
+    <section class="section">
+      <h2 class="section-title">⭐ Reviews</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="reviewsTableBody"></tbody>
+      </table>
+    </section>
+
+  </div><!-- end admin-container -->
+
+  <script>
+    const API = "";
+    let adminKey = '';
+    let menuItems = [];
+    let signatureItems = [];
+    let menuImageData = "";
+    let signatureImageData = "";
+    let galleryImageData = "";
+    let aboutImageData = "";
+
+    // ================= LOGIN =================
+    async function loginAdmin() {
+      const input = document.getElementById('adminKeyInput');
+      const error = document.getElementById('adminLoginError');
+      const key = input.value.trim();
+      if (!key) return;
+      try {
+        const res = await fetch(`${API}/api/admin-verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key })
+        });
+        if (!res.ok) throw new Error('Invalid');
+        adminKey = key;
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('adminContent').style.display = 'block';
+        loadAll();
+      } catch {
+        error.style.display = 'block';
+        setTimeout(() => error.style.display = 'none', 3000);
+      }
+    }
+    document.getElementById('adminLoginBtn').addEventListener('click', loginAdmin);
+    document.getElementById('adminKeyInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') loginAdmin(); });
+
+    // ================= IMAGE HELPERS =================
+    function fileToDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+      });
+    }
+    function setPreview(imageId, placeholderId, data) {
+      const image = document.getElementById(imageId);
+      const placeholder = document.getElementById(placeholderId);
+      if (data) {
+        image.src = data;
+        image.style.display = "block";
+        if (placeholder) placeholder.style.display = "none";
+      } else {
+        image.removeAttribute("src");
+        image.style.display = "none";
+        if (placeholder) placeholder.style.display = "block";
+      }
+    }
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // ================= MENU IMAGE =================
+    document.getElementById("menuImageInput").addEventListener("change", async function () {
+      const file = this.files[0];
+      if (!file) return;
+      menuImageData = await fileToDataURL(file);
+      setPreview("menuImagePreview", "menuImagePlaceholder", menuImageData);
+    });
+
+    // ================= SIGNATURE IMAGE =================
+    document.getElementById("signatureImageInput").addEventListener("change", async function () {
+      const file = this.files[0];
+      if (!file) return;
+      signatureImageData = await fileToDataURL(file);
+      setPreview("signatureImagePreview", "signatureImagePlaceholder", signatureImageData);
+    });
+
+    // ================= GALLERY IMAGE =================
+    document.getElementById("galleryImageInput").addEventListener("change", async function () {
+      const file = this.files[0];
+      if (!file) return;
+      galleryImageData = await fileToDataURL(file);
+      setPreview("galleryImagePreview", "galleryImagePlaceholder", galleryImageData);
+    });
+
+    // ================= ABOUT IMAGE =================
+    document.getElementById("aboutImageInput").addEventListener("change", async function () {
+      const file = this.files[0];
+      if (!file) return;
+      aboutImageData = await fileToDataURL(file);
+      setPreview("aboutImagePreview", "aboutPlaceholder", aboutImageData);
+    });
+
+    // ================= MENU =================
+    async function loadMenu() {
+      try {
+        const res = await fetch(`${API}/api/menu`);
+        if (!res.ok) throw new Error("Menu loading failed");
+        menuItems = await res.json();
+        renderMenu();
+        document.getElementById("statMenu").textContent = menuItems.length;
+      } catch {
+        document.getElementById("menuTableBody").innerHTML = `<tr><td colspan="6" class="empty">Could not load menu items.</td></tr>`;
+      }
+    }
+    function renderMenu() {
+      const tbody = document.getElementById("menuTableBody");
+      if (!menuItems.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="empty">No menu items yet.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = menuItems.map(item => {
+        const photo = item.image ? `<img class="table-photo" src="${item.image}" alt="${escapeHTML(item.name)}">` : `<div class="photo-placeholder">🍽️</div>`;
+        return `<tr><td>${photo}</td><td><strong>${escapeHTML(item.name)}</strong></td><td>${escapeHTML(item.category || "")}</td><td>₹${item.price}</td><td>${item.available ? `<span class="badge badge-yes">Available</span>` : `<span class="badge badge-no">Unavailable</span>`}</td><td><button class="btn btn-gold" onclick="editMenu(${item.id})">Edit</button> <button class="btn btn-danger" onclick="deleteMenu(${item.id})">Delete</button></td></tr>`;
+      }).join("");
+    }
+    function editMenu(id) {
+      const item = menuItems.find(x => x.id === id);
+      if (!item) return;
+      document.getElementById("menuId").value = item.id;
+      document.getElementById("menuName").value = item.name || "";
+      document.getElementById("menuCategory").value = item.category || "";
+      document.getElementById("menuPrice").value = item.price || "";
+      document.getElementById("menuDescription").value = item.description || "";
+      document.getElementById("menuVeg").checked = !!item.veg;
+      document.getElementById("menuAvailable").checked = !!item.available;
+      menuImageData = item.image || "";
+      setPreview("menuImagePreview", "menuImagePlaceholder", menuImageData);
+      document.getElementById("menuFormTitle").textContent = "Edit Menu Item";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    async function saveMenuItem() {
+      const id = document.getElementById("menuId").value;
+      const data = {
+        name: document.getElementById("menuName").value.trim(),
+        category: document.getElementById("menuCategory").value,
+        description: document.getElementById("menuDescription").value.trim(),
+        price: Number(document.getElementById("menuPrice").value),
+        veg: document.getElementById("menuVeg").checked,
+        available: document.getElementById("menuAvailable").checked,
+        image: menuImageData
+      };
+      if (!data.name || !data.price) { alert("Enter the menu name and price."); return; }
+      try {
+        const url = id ? `${API}/api/menu/${id}` : `${API}/api/menu`;
+        const method = id ? "PUT" : "POST";
+        const res = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error("Menu save failed");
+        resetMenuForm();
+        await loadMenu();
+      } catch (error) { console.error(error); alert("Could not save the menu item."); }
+    }
+    async function deleteMenu(id) {
+      if (!confirm("Delete this menu item?")) return;
+      await fetch(`${API}/api/menu/${id}`, {
+        method: "DELETE",
+        headers: { "X-Admin-Key": adminKey }
+      });
+      loadMenu();
+    }
+    function resetMenuForm() {
+      document.getElementById("menuId").value = "";
+      document.getElementById("menuName").value = "";
+      document.getElementById("menuPrice").value = "";
+      document.getElementById("menuDescription").value = "";
+      document.getElementById("menuVeg").checked = true;
+      document.getElementById("menuAvailable").checked = true;
+      document.getElementById("menuImageInput").value = "";
+      menuImageData = "";
+      setPreview("menuImagePreview", "menuImagePlaceholder", "");
+      document.getElementById("menuFormTitle").textContent = "Add Menu Item";
+    }
+
+    // ================= SIGNATURE FAVOURITES =================
+    async function loadSignatureFavourites() {
+      try {
+        const res = await fetch(`${API}/api/signature-favourites`);
+        if (!res.ok) throw new Error("Signature API unavailable");
+        signatureItems = await res.json();
+        renderSignatureFavourites();
+      } catch {
+        document.getElementById("signatureGrid").innerHTML = `<div class="empty">Signature Favourites API is not connected yet.</div>`;
+        document.getElementById("statSignature").textContent = "0";
+      }
+    }
+    function renderSignatureFavourites() {
+      const grid = document.getElementById("signatureGrid");
+      document.getElementById("statSignature").textContent = signatureItems.length;
+      if (!signatureItems.length) { grid.innerHTML = `<div class="empty">No Signature Favourites yet.</div>`; return; }
+      grid.innerHTML = signatureItems.map(item => {
+        const image = item.image ? `<img src="${item.image}" alt="${escapeHTML(item.name)}">` : "";
+        return `<div class="signature-card">${image}<h4>${escapeHTML(item.name)}</h4><div class="signature-price">₹${item.price}</div><div class="muted">${escapeHTML(item.category || "")}</div><p class="muted" style="margin-top:8px">${escapeHTML(item.description || "")}</p><div class="actions"><button class="btn btn-gold" onclick="editSignatureFavourite(${item.id})">Edit</button> <button class="btn btn-danger" onclick="deleteSignatureFavourite(${item.id})">Delete</button></div></div>`;
+      }).join("");
+    }
+    async function saveSignatureFavourite() {
+      const id = document.getElementById("signatureId").value;
+      const data = {
+        name: document.getElementById("signatureName").value.trim(),
+        category: document.getElementById("signatureCategory").value.trim(),
+        price: Number(document.getElementById("signaturePrice").value),
+        description: document.getElementById("signatureDescription").value.trim(),
+        image: signatureImageData
+      };
+      if (!data.name || !data.price) { alert("Enter the favourite name and price."); return; }
+      try {
+        const url = id ? `${API}/api/signature-favourites/${id}` : `${API}/api/signature-favourites`;
+        const method = id ? "PUT" : "POST";
+        const res = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error("Signature favourite save failed");
+        resetSignatureForm();
+        loadSignatureFavourites();
+      } catch (error) { console.error(error); alert("Could not save Signature Favourite."); }
+    }
+    function editSignatureFavourite(id) {
+      const item = signatureItems.find(x => x.id === id);
+      if (!item) return;
+      document.getElementById("signatureId").value = item.id;
+      document.getElementById("signatureName").value = item.name || "";
+      document.getElementById("signatureCategory").value = item.category || "";
+      document.getElementById("signaturePrice").value = item.price || "";
+      document.getElementById("signatureDescription").value = item.description || "";
+      signatureImageData = item.image || "";
+      setPreview("signatureImagePreview", "signatureImagePlaceholder", signatureImageData);
+      document.getElementById("signatureFormTitle").textContent = "Edit Signature Favourite";
+      window.scrollTo({ top: document.querySelectorAll(".section")[1].offsetTop - 15, behavior: "smooth" });
+    }
+    async function deleteSignatureFavourite(id) {
+      if (!confirm("Delete this Signature Favourite?")) return;
+      await fetch(`${API}/api/signature-favourites/${id}`, {
+        method: "DELETE",
+        headers: { "X-Admin-Key": adminKey }
+      });
+      loadSignatureFavourites();
+    }
+    function resetSignatureForm() {
+      document.getElementById("signatureId").value = "";
+      document.getElementById("signatureName").value = "";
+      document.getElementById("signatureCategory").value = "";
+      document.getElementById("signaturePrice").value = "";
+      document.getElementById("signatureDescription").value = "";
+      document.getElementById("signatureImageInput").value = "";
+      signatureImageData = "";
+      setPreview("signatureImagePreview", "signatureImagePlaceholder", "");
+      document.getElementById("signatureFormTitle").textContent = "Add Signature Favourite";
+    }
+
+    // ================= GALLERY =================
+    async function loadGallery() {
+      try {
+        const res = await fetch(`${API}/api/gallery`);
+        if (!res.ok) throw new Error("Gallery load failed");
+        const items = await res.json();
+        const grid = document.getElementById("galleryGrid");
+        if (!items.length) { grid.innerHTML = `<div class="empty">No gallery photos yet.</div>`; return; }
+        grid.innerHTML = items.map(item => `
+      <div class="gallery-card">
+        <img src="${item.image}" alt="${escapeHTML(item.label || "Gallery photo")}">
+        <div class="gallery-body">
+          <div class="gallery-label">${escapeHTML(item.label || "Photo")}</div>
+          <div class="muted">${escapeHTML(item.category || "")}</div>
+          <div class="actions"><button class="btn btn-danger" onclick="deleteGallery(${item.id})">Delete</button></div>
+        </div>
+      </div>
+    `).join("");
+      } catch (error) { console.error(error); document.getElementById("galleryGrid").innerHTML = `<div class="empty">Could not load gallery.</div>`; }
+    }
+    async function saveGalleryImage() {
+      if (!galleryImageData) { alert("Please choose a Gallery photo."); return; }
+      const data = { label: document.getElementById("galleryLabel").value.trim(), category: document.getElementById("galleryCategory").value, image: galleryImageData };
+      try {
+        const res = await fetch(`${API}/api/gallery`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error("Gallery upload failed");
+        resetGalleryForm();
+        loadGallery();
+      } catch (error) { console.error(error); alert("Could not add Gallery photo."); }
+    }
+    async function deleteGallery(id) {
+      if (!confirm("Delete this Gallery photo?")) return;
+      await fetch(`${API}/api/gallery/${id}`, {
+        method: "DELETE",
+        headers: { "X-Admin-Key": adminKey }
+      });
+      loadGallery();
+    }
+    function resetGalleryForm() {
+      document.getElementById("galleryLabel").value = "";
+      document.getElementById("galleryCategory").selectedIndex = 0;
+      document.getElementById("galleryImageInput").value = "";
+      galleryImageData = "";
+      setPreview("galleryImagePreview", "galleryImagePlaceholder", "");
+    }
+
+    // ================= ABOUT US =================
+    async function loadAboutImage() {
+      try {
+        const res = await fetch(`${API}/api/about-image`);
+        const data = await res.json();
+        aboutImageData = data.image || "";
+        setPreview("aboutImagePreview", "aboutPlaceholder", aboutImageData);
+      } catch (error) { console.error(error); }
+    }
+    async function saveAboutImage() {
+      if (!aboutImageData) { alert("Please choose an About Us photo."); return; }
+      try {
+        const res = await fetch(`${API}/api/about-image`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+          body: JSON.stringify({ image: aboutImageData })
+        });
+        if (!res.ok) throw new Error("About image save failed");
+        document.getElementById("aboutMessage").textContent = "About Us photo saved successfully.";
+      } catch (error) { console.error(error); document.getElementById("aboutMessage").textContent = "Could not save About Us photo."; }
+    }
+    async function removeAboutImage() {
+      if (!confirm("Remove the About Us photo?")) return;
+      try {
+        await fetch(`${API}/api/about-image`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+          body: JSON.stringify({ image: "" })
+        });
+        aboutImageData = "";
+        setPreview("aboutImagePreview", "aboutPlaceholder", "");
+        document.getElementById("aboutMessage").textContent = "About Us photo removed.";
+      } catch (error) { console.error(error); }
+    }
+
+    // ================= BOOKINGS =================
+    async function loadBookings() {
+      try {
+        const res = await fetch(`${API}/api/bookings`);
+        const bookings = await res.json();
+        let pending = 0, confirmed = 0, today = 0;
+        const todayDate = new Date().toISOString().slice(0, 10);
+        const tbody = document.getElementById("bookingsTableBody");
+        if (!bookings.length) { tbody.innerHTML = `<tr><td colspan="8" class="empty">No bookings yet.</td></tr>`; } else {
+          tbody.innerHTML = bookings.map(item => {
+            const status = String(item.status || "").toLowerCase();
+            if (status === "pending") pending++;
+            if (status === "confirmed") confirmed++;
+            if (item.date === todayDate) today++;
+            return `<tr><td>${item.id}</td><td>${escapeHTML(item.name || "")}</td><td>${escapeHTML(item.phone || "")}</td><td>${item.guests ?? ""}</td><td>${item.date || ""}</td><td>${item.time || ""}</td><td>${escapeHTML(item.status || "")}</td><td><button class="btn btn-success" onclick="updateBooking(${item.id}, 'Confirmed')">Confirm</button> <button class="btn btn-danger" onclick="updateBooking(${item.id}, 'Cancelled')">Cancel</button></td></tr>`;
+          }).join("");
+        }
+        document.getElementById("statToday").textContent = today;
+        document.getElementById("statPending").textContent = pending;
+        document.getElementById("statConfirmed").textContent = confirmed;
+      } catch (error) { console.error(error); }
+    }
+    async function updateBooking(id, status) {
+      await fetch(`${API}/api/bookings/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+        body: JSON.stringify({ status })
+      });
+      loadBookings();
+    }
+
+    // ================= REVIEWS =================
+    async function loadReviews() {
+      try {
+        const res = await fetch(`${API}/api/reviews`);
+        const reviews = await res.json();
+        document.getElementById("statReviews").textContent = reviews.length;
+        const tbody = document.getElementById("reviewsTableBody");
+        if (!reviews.length) { tbody.innerHTML = `<tr><td colspan="5" class="empty">No reviews yet.</td></tr>`; return; }
+        tbody.innerHTML = reviews.map(item => `
+      <tr><td>${escapeHTML(item.name || "")}</td><td>${"★".repeat(item.rating || 0)}</td><td>${escapeHTML(item.comment || "")}</td><td>${escapeHTML(item.created_at || "")}</td><td><button class="btn btn-danger" onclick="deleteReview(${item.id})">Delete</button></td></tr>
+    `).join("");
+      } catch (error) { console.error(error); }
+    }
+    async function deleteReview(id) {
+      if (!confirm("Delete this review?")) return;
+      await fetch(`${API}/api/reviews/${id}`, {
+        method: "DELETE",
+        headers: { "X-Admin-Key": adminKey }
+      });
+      loadReviews();
+    }
+
+    // ================= LOAD ALL =================
+    async function loadAll() {
+      await loadMenu();
+      await loadSignatureFavourites();
+      await loadGallery();
+      await loadAboutImage();
+      await loadBookings();
+      await loadReviews();
+    }
+  </script>
+</body>
+
+</html>

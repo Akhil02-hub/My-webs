@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Foodies | Bakery, Cakes & Fast Food in Kodad</title>
+
+    <meta name="description"
+        content="Foodies in Kodad offers fresh cakes, bakery favourites, fast food, Chinese dishes, biryani and more." />
+
+    <meta property="og:title" content="Foodies | Bakery, Cakes & Fast Food in Kodad" />
+    <meta property="og:description"
+        content="Fresh cakes, bakery favourites, fast food, Chinese dishes and biryani — all under one roof." />
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" aria-hidden="true">
+        <div class="loader-spinner"></div>
+        <p>Loading Foodies...</p>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar" role="navigation">
+        <div class="nav-container">
+
+            <div class="nav-brand">
+                <a href="#home" class="brand-link">FOODIES</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks" role="menubar">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#booking">Booking</a></li>
+                <li><a href="#contact">Contact</a></li>
+
+                <li class="nav-cta">
+                    <a href="#booking" class="btn btn-primary btn-small">
+                        Book a Table
+                    </a>
+                </li>
+
+                <!-- Cart button in navbar -->
+                <li class="nav-cart">
+                    <button type="button" class="nav-cart-btn" id="navCartBtn" aria-label="Open shopping cart">
+                        🛒
+                        <span class="cart-count" id="navCartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-text">
+
+                <span class="hero-subtitle">Welcome to</span>
+
+                <h1 class="hero-title">FOODIES</h1>
+
+                <p class="hero-tagline">
+                    Taste. Celebrate. Enjoy.
+                </p>
+
+                <p class="hero-desc">
+                    Fresh cakes, bakery favourites, fast food, Chinese dishes and biryani —
+                    all under one roof.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn btn-primary">
+                        Explore Menu
+                    </a>
+
+                    <a href="#booking" class="btn btn-secondary">
+                        Book a Table
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="scroll-indicator" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </section>
+
+    <!-- Highlights -->
+    <section class="highlights" aria-label="Highlights">
+
+        <div class="container">
+
+            <div class="highlights-grid">
+
+                <div class="highlight-card">
+                    <div class="highlight-icon">🍽️</div>
+                    <div class="highlight-number">10+</div>
+                    <p>Popular Dishes</p>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="highlight-icon">🎂</div>
+                    <div class="highlight-number">Custom</div>
+                    <p>Cakes &amp; Celebrations</p>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="highlight-icon">👨‍👩‍👧‍👦</div>
+                    <div class="highlight-number">Family</div>
+                    <p>Friendly Dining</p>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="highlight-icon">🥐</div>
+                    <div class="highlight-number">Fresh</div>
+                    <p>Bakery Favourites</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+
+        <div class="container">
+
+            <div class="about-grid">
+
+                <div class="about-text">
+
+                    <span class="section-tag">
+                        About Us
+                    </span>
+
+                    <h2 class="section-title">
+                        A little bit of everything.<br />
+                        Made for everyone.
+                    </h2>
+
+                    <p>
+                        Foodies brings together the best of bakery, cakes, fast food,
+                        Chinese, biryani, and snacks – all in one welcoming space.
+                    </p>
+
+                    <div class="about-features">
+
+                        <div class="about-feature">
+                            <span class="about-feature-icon">🥖</span>
+                            <div>
+                                <strong>Fresh Bakery</strong>
+                                <p>Daily baked goods, breads &amp; pastries.</p>
+                            </div>
+                        </div>
+
+                        <div class="about-feature">
+                            <span class="about-feature-icon">🎂</span>
+                            <div>
+                                <strong>Custom Cakes</strong>
+                                <p>Designed for your special moments.</p>
+                            </div>
+                        </div>
+
+                        <div class="about-feature">
+                            <span class="about-feature-icon">👪</span>
+                            <div>
+                                <strong>Family Dining</strong>
+                                <p>Comfortable seating for everyone.</p>
+                            </div>
+                        </div>
+
+                        <div class="about-feature">
+                            <span class="about-feature-icon">🛵</span>
+                            <div>
+                                <strong>Takeaway &amp; Delivery</strong>
+                                <p>Enjoy Foodies at home.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="about-image">
+                    <img id="aboutImage" src="" alt="About Foodies" style="display:none;" />
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Featured Dishes -->
+    <section class="featured" id="featured">
+
+        <div class="container">
+
+            <span class="section-tag">
+                Signature Favourites
+            </span>
+
+            <h2 class="section-title">
+                Chef's Special
+            </h2>
+
+            <div class="featured-grid" id="featuredGrid">
+
+                <div class="featured-skeleton" aria-hidden="true">
+
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Menu -->
+    <section class="menu-section" id="menu">
+
+        <div class="container">
+
+            <span class="section-tag">
+                Our Menu
+            </span>
+
+            <h2 class="section-title">
+                Explore What We Offer
+            </h2>
+
+            <div class="menu-filters">
+
+                <div class="filter-group" id="filterGroup">
+
+                    <button class="filter-btn active" data-category="all">
+                        All
+                    </button>
+
+                    <button class="filter-btn" data-category="Biryani">
+                        Biryani
+                    </button>
+
+                    <button class="filter-btn" data-category="Fast Food">
+                        Fast Food
+                    </button>
+
+                    <button class="filter-btn" data-category="Chinese">
+                        Chinese
+                    </button>
+
+                    <button class="filter-btn" data-category="Cakes">
+                        Cakes
+                    </button>
+
+                    <button class="filter-btn" data-category="Bakery">
+                        Bakery
+                    </button>
+
+                    <button class="filter-btn" data-category="Beverages">
+                        Beverages
+                    </button>
+
+                </div>
+
+                <div class="menu-search">
+
+                    <input type="text" id="menuSearch" placeholder="Search dishes..." aria-label="Search menu" />
+
+                    <span class="search-icon">
+                        🔍
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+
+                <div class="menu-skeleton" aria-hidden="true">
+
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+
+                </div>
+
+            </div>
+
+            <div class="menu-empty" id="menuEmpty" style="display:none;">
+
+                <span class="empty-icon">
+                    🍽️
+                </span>
+
+                <p>
+                    No dishes found.
+                </p>
+
+                <p class="empty-sub">
+                    Try another category or search term.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Cake / Celebration -->
+    <section class="cake-section" id="cakes">
+
+        <div class="container">
+
+            <div class="cake-content">
+
+                <span class="section-tag">
+                    Celebrations
+                </span>
+
+                <h2 class="section-title">
+                    Made for your special moments.
+                </h2>
+
+                <p>
+                    From birthday cakes to anniversary treats,
+                    our custom creations are baked with care.
+                </p>
+
+                <div class="cake-grid">
+
+                    <div class="cake-card">
+                        <span class="cake-emoji">🎂</span>
+                        <h4>Birthday Cakes</h4>
+                    </div>
+
+                    <div class="cake-card">
+                        <span class="cake-emoji">💍</span>
+                        <h4>Anniversary Cakes</h4>
+                    </div>
+
+                    <div class="cake-card">
+                        <span class="cake-emoji">✨</span>
+                        <h4>Custom Cakes</h4>
+                    </div>
+
+                    <div class="cake-card">
+                        <span class="cake-emoji">🧁</span>
+                        <h4>Cupcakes &amp; Pops</h4>
+                    </div>
+
+                </div>
+
+                <div class="cake-cta">
+
+                    <a href="#menu" class="btn btn-primary">
+                        Explore Cakes
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery-section" id="gallery">
+
+        <div class="container">
+
+            <span class="section-tag">
+                Gallery
+            </span>
+
+            <h2 class="section-title">
+                A Glimpse Inside
+            </h2>
+
+            <div class="gallery-tabs" id="galleryTabs">
+
+                <button class="gallery-tab active" data-category="all">
+                    All
+                </button>
+
+                <button class="gallery-tab" data-category="Food">
+                    Food
+                </button>
+
+                <button class="gallery-tab" data-category="Cakes">
+                    Cakes
+                </button>
+
+                <button class="gallery-tab" data-category="Bakery">
+                    Bakery
+                </button>
+
+                <button class="gallery-tab" data-category="Restaurant">
+                    Restaurant
+                </button>
+
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid"></div>
+
+            <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+
+                <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+                    ✕
+                </button>
+
+                <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous">
+                    ‹
+                </button>
+
+                <button class="lightbox-next" id="lightboxNext" aria-label="Next">
+                    ›
+                </button>
+
+                <img class="lightbox-image" id="lightboxImage" src="" alt="Enlarged view" />
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews-section" id="reviews">
+
+        <div class="container">
+
+            <span class="section-tag">
+                Testimonials
+            </span>
+
+            <h2 class="section-title">
+                What Our Customers Say
+            </h2>
+
+            <div class="reviews-stats" id="reviewsStats">
+
+                <div class="review-rating">
+
+                    <span class="rating-number" id="avgRating">
+                        0.0
+                    </span>
+
+                    <div class="rating-stars" id="avgStars">
+                        ☆☆☆☆☆
+                    </div>
+
+                    <span class="rating-count" id="reviewCount">
+                        0 reviews
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="reviews-grid" id="reviewsGrid">
+
+                <div class="review-skeleton" aria-hidden="true">
+
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+
+                </div>
+
+            </div>
+
+            <div class="review-form-container">
+
+                <h3>
+                    Share Your Experience
+                </h3>
+
+                <form id="reviewForm" class="review-form">
+
+                    <div class="form-group">
+
+                        <label for="reviewName">
+                            Your Name
+                        </label>
+
+                        <input type="text" id="reviewName" placeholder="Enter your name" required />
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Rating
+                        </label>
+
+                        <div class="star-rating" id="starRating">
+
+                            <span data-value="1">☆</span>
+                            <span data-value="2">☆</span>
+                            <span data-value="3">☆</span>
+                            <span data-value="4">☆</span>
+                            <span data-value="5">☆</span>
+
+                        </div>
+
+                        <input type="hidden" id="reviewRatingInput" value="0" />
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="reviewComment">
+                            Your Review
+                        </label>
+
+                        <textarea id="reviewComment" rows="3" placeholder="Tell us about your experience..."
+                            required></textarea>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="reviewSubmitBtn">
+                        Submit Review
+                    </button>
+
+                    <div id="reviewMessage" class="form-message"></div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Booking -->
+    <section class="booking-section" id="booking">
+
+        <div class="container">
+
+            <div class="booking-wrapper">
+
+                <div class="booking-info">
+
+                    <span class="section-tag">
+                        Reserve Your Table
+                    </span>
+
+                    <h2 class="section-title">
+                        Book a Table
+                    </h2>
+
+                    <p>
+                        Planning a visit? Let us know when you're coming,
+                        and we'll make sure a warm welcome awaits you.
+                    </p>
+
+                    <ul class="booking-info-list">
+
+                        <li>
+                            💬 <strong>WhatsApp us:</strong>
+
+                            <a href="https://wa.me/919951000029" target="_blank" rel="noopener noreferrer">
+                                099510 00029
+                            </a>
+                        </li>
+
+                        <li>
+                            📍 <strong>Location:</strong>
+                            Kodad Main Road, beside Ranga Theater
+                        </li>
+
+                        <li>
+                            👥 <strong>Groups &amp; families</strong>
+                            welcome
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="booking-form-container">
+
+                    <form id="bookingForm" class="booking-form">
+
+                        <div class="form-group">
+
+                            <label for="bookName">
+                                Your Name
+                            </label>
+
+                            <input type="text" id="bookName" placeholder="Enter your name" required />
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="bookPhone">
+                                Phone Number
+                            </label>
+
+                            <input type="tel" id="bookPhone" placeholder="Enter phone number" required />
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="bookGuests">
+                                Number of Guests
+                            </label>
+
+                            <input type="number" id="bookGuests" placeholder="2" min="1" max="50" required />
+
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="bookDate">
+                                    Date
+                                </label>
+
+                                <input type="date" id="bookDate" required />
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="bookTime">
+                                    Time
+                                </label>
+
+                                <input type="time" id="bookTime" required />
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="bookNotes">
+                                Special Requests
+                            </label>
+
+                            <textarea id="bookNotes" rows="2"
+                                placeholder="Any special occasion, seating preference, or dietary needs?"></textarea>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="bookSubmitBtn">
+                            Book Now
+                        </button>
+
+                        <div id="bookingMessage" class="form-message"></div>
+
+                    </form>
+
+                    <div class="booking-confirmation" id="bookingConfirmation" style="display:none;">
+
+                        <div class="confirmation-icon">
+                            ✓
+                        </div>
+
+                        <h3>
+                            Booking Received
+                        </h3>
+
+                        <div class="confirmation-details">
+
+                            <p>
+                                <strong>Booking ID:</strong>
+                                <span id="confirmId">#1024</span>
+                            </p>
+
+                            <p>
+                                <strong>Name:</strong>
+                                <span id="confirmName">—</span>
+                            </p>
+
+                            <p>
+                                <strong>Date:</strong>
+                                <span id="confirmDate">—</span>
+                            </p>
+
+                            <p>
+                                <strong>Time:</strong>
+                                <span id="confirmTime">—</span>
+                            </p>
+
+                            <p>
+                                <strong>Guests:</strong>
+                                <span id="confirmGuests">—</span>
+                            </p>
+
+                            <p>
+                                <strong>Status:</strong>
+
+                                <span class="status-pending" id="confirmStatus">
+                                    Pending
+                                </span>
+
+                            </p>
+
+                        </div>
+
+                        <button class="btn btn-secondary" id="bookingNewBtn">
+                            Book Another
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-section" id="contact">
+
+        <div class="container">
+
+            <span class="section-tag">
+                Get in Touch
+            </span>
+
+            <h2 class="section-title">
+                Contact Us
+            </h2>
+
+            <div class="contact-grid">
+
+                <div class="contact-info">
+
+                    <div class="contact-card">
+
+                        <h4>FOODIES</h4>
+
+                        <p>
+                            Kodad Main Road,<br />
+                            beside Ranga Theater,<br />
+                            Kodad, Telangana 508206
+                        </p>
+
+                        <p>
+
+                            <a href="https://wa.me/919951000029" class="contact-phone" target="_blank"
+                                rel="noopener noreferrer">
+                                099510 00029
+                            </a>
+
+                        </p>
+
+                        <div class="contact-services">
+                            <span>Dine-in</span>
+                            <span>Takeaway</span>
+                            <span>Delivery</span>
+                            <span>Drive-through</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="contact-map">
+
+                    <div class="map-placeholder">
+
+                        <p>
+                            📍 Foodies, Kodad Main Road,
+                            beside Ranga Theater
+                        </p>
+
+                        <a href="https://maps.google.com/maps?q=Kodad+Main+Road+beside+Ranga+Theater+Kodad+Telangana"
+                            target="_blank" rel="noopener" class="btn btn-secondary btn-small">
+                            Get Directions
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="hours-section">
+
+                <h4>
+                    Opening Hours
+                </h4>
+
+                <p class="hours-note">
+                    (Please call to confirm current timings)
+                </p>
+
+                <ul class="hours-list">
+
+                    <li>
+                        <span>Monday – Sunday</span>
+                        <span>9:00 AM – 10:00 PM</span>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+
+                    <h3>
+                        FOODIES
+                    </h3>
+
+                    <p>
+                        Bakery • Fast Food • Cakes • Chinese • Biryani<br />
+                        Kodad Main Road, beside Ranga Theater, Kodad,
+                        Telangana
+                    </p>
+
+                </div>
+
+                <div class="footer-links">
+
+                    <h4>
+                        Quick Links
+                    </h4>
+
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#reviews">Reviews</a></li>
+                        <li><a href="#booking">Booking</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+
+                </div>
+
+                <div class="footer-contact">
+
+                    <h4>
+                        Contact
+                    </h4>
+
+                    <p>
+
+                        <a href="https://wa.me/919951000029" target="_blank" rel="noopener noreferrer">
+                            099510 00029
+                        </a>
+
+                        <br />
+
+                        Kodad Main Road, beside Ranga Theater,<br />
+                        Kodad, Telangana 508206
+
+                    </p>
+
+                    <p>
+
+                        <a href="admin.html" class="footer-admin-link">
+                            ⚙️ Admin
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <p>
+                    &copy; 2026 Foodies. All rights reserved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!-- =========================================================
+         SHOPPING CART
+         ========================================================= -->
+
+    <!-- Cart Floating Button
+         Kept as fallback/mobile button -->
+    <button class="cart-floating-btn" id="cartFloatingBtn" aria-label="Open cart" type="button">
+
+        🛒
+
+        <span class="cart-count" id="cartCount">
+            0
+        </span>
+
+    </button>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay" aria-hidden="true">
+    </div>
+
+    <!-- Cart Mini Page / Right Side Panel -->
+    <aside class="cart-panel" id="cartPanel" aria-label="Shopping cart" aria-hidden="true">
+
+        <div class="cart-header">
+
+            <div>
+                <h2>
+                    Your Cart
+                </h2>
+
+                <span class="cart-item-summary" id="cartItemSummary">
+                    0 items
+                </span>
+            </div>
+
+            <button class="cart-close" id="cartClose" aria-label="Close cart" type="button">
+                ✕
+            </button>
+
+        </div>
+
+        <!-- Cart Items -->
+        <div class="cart-items" id="cartItems">
+
+            <div class="cart-empty">
+
+                <span>
+                    🛒
+                </span>
+
+                <p>
+                    Your cart is empty
+                </p>
+
+                <small>
+                    Add dishes from the menu
+                </small>
+
+            </div>
+
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="cart-footer">
+
+            <div class="cart-summary-row">
+
+                <span>
+                    Items
+                </span>
+
+                <strong id="cartTotalItems">
+                    0
+                </strong>
+
+            </div>
+
+            <div class="cart-total">
+
+                <span>
+                    Total
+                </span>
+
+                <strong id="cartTotal">
+                    ₹0
+                </strong>
+
+            </div>
+
+            <button type="button" class="btn btn-primary cart-order-btn" id="cartOrderBtn" disabled>
+
+                Order Now
+
+            </button>
+
+        </div>
+
+    </aside>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top" type="button">
+        ↑
+    </button>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
