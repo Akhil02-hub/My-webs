@@ -6,7 +6,7 @@
 Full‑stack restaurant website for **Foodies** – a bakery, fast food, cakes, Chinese, and biryani spot located in **Kodad, Telangana**.  
 Customers can explore the menu, book a table, leave reviews, and browse the gallery. Owners can manage everything through a secure admin dashboard.
 
-🔗 **Live Demo**: `https://FOODIE_dhaba.onrender.com`
+🔗 **Live Demo**: https://foodieskodad.onrender.com
 
 ---
 
@@ -33,5 +33,3 @@ Customers can explore the menu, book a table, leave reviews, and browse the gall
 | **Deployment** | Render (recommended), GitHub    |
 
 ---
-
-## 📁 Project Structure

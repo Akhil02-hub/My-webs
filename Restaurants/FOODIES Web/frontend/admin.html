@@ -1020,7 +1020,8 @@
       try {
         const res = await fetch(`${API}/api/gallery`, {
           method: "POST",
-          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+
+
           body: JSON.stringify(data)
         });
         if (!res.ok) throw new Error("Gallery upload failed");

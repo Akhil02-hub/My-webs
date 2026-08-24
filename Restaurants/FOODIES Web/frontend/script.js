@@ -1,48 +1,33 @@
 // ============================================================
 // FILE: frontend/script.js
-// Complete frontend functionality for FOODIES
-// Includes:
-// - Navbar
-// - Featured dishes
-// - Menu
-// - Search & filters
-// - Shopping cart
-// - + / - quantity controls
-// - Cart total
-// - WhatsApp ordering
-// - Reviews
-// - Booking
-// - Gallery
-// - About image
-// - Toast notifications
+// Final consolidated frontend
 // ============================================================
 
 const API_BASE = '/api';
-
-// ============================================================
-// GLOBAL STATE
-// ============================================================
+const MAX_CART_QUANTITY = 99;
 
 let allMenuItems = [];
+const menuItemCache = new Map();
+let menuRequestController = null;
 let cart = [];
-
 let currentCategory = 'all';
 let currentSearch = '';
 
-// Cart DOM elements
-let navCartBtn = null;
-let navCartCount = null;
+let authToken = localStorage.getItem('foodies_token') || null;
+let currentUser = null;
+let favouriteIds = [];
 
-let cartFloatingBtn = null;
-let cartFloatingCount = null;
+let navCartBtn, navCartCount, cartFloatingBtn, cartFloatingCount;
+let cartOverlay, cartPanel, cartClose, cartItems, cartTotal;
+let cartTotalItems, cartOrderBtn, cartItemSummary, cartTizolaBtn;
 
-let cartOverlay = null;
-let cartPanel = null;
-let cartClose = null;
-let cartItems = null;
-let cartTotal = null;
-let cartOrderBtn = null;
+let authModalOverlay, authModalClose;
+let userMenuBtn, userDropdown, userNameDisplay;
+let myBookingsLink, myFavouritesLink, logoutLink;
 
+let orderNowBtn, heroOrderNow, askFoodiesBtn;
+
+let whatsappNumber = '919951000029';
 
 // ============================================================
 // DOM READY
@@ -50,189 +35,166 @@ let cartOrderBtn = null;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --------------------------------------------------------
-    // Loading Screen
-    // --------------------------------------------------------
-
-    const loadingScreen =
-        document.getElementById('loading-screen');
+    const loadingScreen = document.getElementById('loading-screen');
 
     if (loadingScreen) {
-
         setTimeout(() => {
-
             loadingScreen.classList.add('hidden');
-
         }, 600);
     }
 
+    const navbar = document.getElementById('navbar');
 
-    // --------------------------------------------------------
-    // Navbar
-    // --------------------------------------------------------
+    if (navbar) {
+        const updateNavbar = () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 80);
+        };
 
-    const navbar =
-        document.getElementById('navbar');
+        updateNavbar();
 
-    const navToggle =
-        document.getElementById('navToggle');
-
-    const navLinks =
-        document.getElementById('navLinks');
-
-
-    window.addEventListener('scroll', () => {
-
-        if (!navbar) return;
-
-        if (window.scrollY > 80) {
-
-            navbar.classList.add('scrolled');
-
-        } else {
-
-            navbar.classList.remove('scrolled');
-
-        }
-
-    });
-
-
-    if (navToggle && navLinks) {
-
-        navToggle.addEventListener('click', () => {
-
-            navToggle.classList.toggle('open');
-            navLinks.classList.toggle('open');
-
-            navToggle.setAttribute(
-                'aria-expanded',
-                navLinks.classList.contains('open')
-            );
-
+        window.addEventListener('scroll', updateNavbar, {
+            passive: true
         });
-
-
-        navLinks.querySelectorAll('a').forEach(link => {
-
-            link.addEventListener('click', () => {
-
-                navToggle.classList.remove('open');
-                navLinks.classList.remove('open');
-
-                navToggle.setAttribute(
-                    'aria-expanded',
-                    'false'
-                );
-
-            });
-
-        });
-
     }
 
+    setupMobileNav();
+    setupScrollTop();
+    setupSmoothAnchors();
 
-    // --------------------------------------------------------
-    // Scroll To Top
-    // --------------------------------------------------------
+    updateWhatsAppLinks();
 
-    const scrollBtn =
-        document.getElementById('scrollTop');
-
-
-    if (scrollBtn) {
-
-        window.addEventListener('scroll', () => {
-
-            if (window.scrollY > 400) {
-
-                scrollBtn.classList.add('visible');
-
-            } else {
-
-                scrollBtn.classList.remove('visible');
-
+    fetch(`${API_BASE}/whatsapp-number`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('WhatsApp number request failed');
             }
 
-        });
+            return res.json();
+        })
+        .then(data => {
+            whatsappNumber = String(
+                data.number || '919951000029'
+            ).replace(/\D/g, '');
 
-
-        scrollBtn.addEventListener('click', () => {
-
-            window.scrollTo({
-
-                top: 0,
-
-                behavior: 'smooth'
-
-            });
-
-        });
-
-    }
-
-
-    // --------------------------------------------------------
-    // Cart Setup
-    // --------------------------------------------------------
+            updateWhatsAppLinks();
+        })
+        .catch(() => { });
 
     setupCart();
 
-
-    // --------------------------------------------------------
-    // Load Featured Dishes
-    // --------------------------------------------------------
-
     loadFeatured();
-
-
-    // --------------------------------------------------------
-    // Load Menu
-    // --------------------------------------------------------
-
     loadMenu();
-
-
-    // --------------------------------------------------------
-    // Menu Filters & Search
-    // --------------------------------------------------------
 
     setupMenuFilters();
 
-
-    // --------------------------------------------------------
-    // Reviews
-    // --------------------------------------------------------
-
     loadReviews();
-
     setupReviewForm();
-
-
-    // --------------------------------------------------------
-    // Booking
-    // --------------------------------------------------------
 
     setupBookingForm();
 
-
-    // --------------------------------------------------------
-    // Gallery
-    // --------------------------------------------------------
-
     setupGallery();
-
-
-    // --------------------------------------------------------
-    // About Image
-    // --------------------------------------------------------
-
     loadAboutImage();
 
+    setupAuth();
 
-    // --------------------------------------------------------
-    // Smooth Scroll
-    // --------------------------------------------------------
+    setupOrderNow();
+    setupAskFoodies();
+
+    if (authToken) {
+        fetchUserProfile();
+        loadFavouriteIds();
+    }
+});
+
+// ============================================================
+// MOBILE NAVIGATION
+// ============================================================
+
+function setupMobileNav() {
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    if (!navToggle || !navLinks) return;
+
+    navToggle.addEventListener('click', () => {
+
+        const open = !navLinks.classList.contains('open');
+
+        navToggle.classList.toggle('open', open);
+        navLinks.classList.toggle('open', open);
+
+        navToggle.setAttribute(
+            'aria-expanded',
+            String(open)
+        );
+    });
+
+    navLinks
+        .querySelectorAll('a[href^="#"]')
+        .forEach(link => {
+
+            link.addEventListener('click', () => {
+                closeMobileNav();
+            });
+
+        });
+}
+
+function closeMobileNav() {
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    if (!navToggle || !navLinks) return;
+
+    navToggle.classList.remove('open');
+    navLinks.classList.remove('open');
+
+    navToggle.setAttribute(
+        'aria-expanded',
+        'false'
+    );
+}
+
+// ============================================================
+// SCROLL TOP
+// ============================================================
+
+function setupScrollTop() {
+
+    const scrollBtn = document.getElementById('scrollTop');
+
+    if (!scrollBtn) return;
+
+    const update = () => {
+        scrollBtn.classList.toggle(
+            'visible',
+            window.scrollY > 400
+        );
+    };
+
+    update();
+
+    window.addEventListener('scroll', update, {
+        passive: true
+    });
+
+    scrollBtn.addEventListener('click', () => {
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+    });
+}
+
+// ============================================================
+// SMOOTH ANCHORS
+// ============================================================
+
+function setupSmoothAnchors() {
 
     document
         .querySelectorAll('a[href^="#"]')
@@ -240,51 +202,170 @@ document.addEventListener('DOMContentLoaded', () => {
 
             anchor.addEventListener('click', function (e) {
 
-                const targetId =
-                    this.getAttribute('href');
+                const targetId = this.getAttribute('href');
 
-                if (
-                    !targetId ||
-                    targetId === '#'
-                ) {
+                if (!targetId || targetId === '#') {
                     return;
                 }
 
-
-                const targetElement =
+                const target =
                     document.querySelector(targetId);
 
+                if (!target) return;
 
-                if (targetElement) {
+                e.preventDefault();
 
-                    e.preventDefault();
-
-                    targetElement.scrollIntoView({
-
-                        behavior: 'smooth',
-
-                        block: 'start'
-
-                    });
-
-                }
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
 
             });
 
         });
-
-});
-
+}
 
 // ============================================================
-// CART SETUP
+// WHATSAPP
 // ============================================================
+
+function updateWhatsAppLinks() {
+
+    const links = document.querySelectorAll(
+        '#whatsappBookingLink, ' +
+        '#contactWhatsAppLink, ' +
+        '#footerWhatsAppLink'
+    );
+
+    const waUrl =
+        `https://wa.me/${whatsappNumber}`;
+
+    links.forEach(el => {
+
+        el.href = waUrl;
+
+        el.textContent =
+            formatPhoneNumber(whatsappNumber);
+
+    });
+}
+
+function formatPhoneNumber(num) {
+
+    const value = String(num);
+
+    if (
+        value.length === 12 &&
+        value.startsWith('91')
+    ) {
+
+        return value
+            .slice(2)
+            .replace(/(\d{5})(\d{5})/, '$1 $2');
+
+    }
+
+    return value;
+}
+
+// ============================================================
+// CART
+// ============================================================
+
+function getCartKey() {
+
+    return authToken && currentUser
+        ? `foodies_cart_user_${currentUser.id}`
+        : 'foodies_cart_guest';
+}
+
+function sanitizeCartItem(item) {
+
+    if (
+        !item ||
+        item.id === undefined ||
+        item.id === null
+    ) {
+        return null;
+    }
+
+    const quantity = Number(item.quantity);
+    const price = Number(item.price);
+
+    if (
+        !Number.isInteger(quantity) ||
+        quantity < 1 ||
+        quantity > MAX_CART_QUANTITY
+    ) {
+        return null;
+    }
+
+    if (
+        !Number.isFinite(price) ||
+        price < 0
+    ) {
+        return null;
+    }
+
+    return {
+        id: String(item.id),
+        name: String(item.name || 'Item'),
+        price,
+        quantity
+    };
+}
+
+function loadCartFromStorage() {
+
+    try {
+
+        const raw =
+            localStorage.getItem(getCartKey());
+
+        if (!raw) {
+            cart = [];
+            return;
+        }
+
+        const parsed = JSON.parse(raw);
+
+        cart = Array.isArray(parsed)
+            ? parsed
+                .map(sanitizeCartItem)
+                .filter(Boolean)
+            : [];
+
+        saveCart();
+
+    } catch {
+
+        cart = [];
+
+    }
+}
+
+function saveCart() {
+
+    try {
+
+        localStorage.setItem(
+            getCartKey(),
+            JSON.stringify(cart)
+        );
+
+    } catch (e) {
+
+        console.error(
+            'Cart storage error:',
+            e
+        );
+
+    }
+}
 
 function setupCart() {
 
-    // --------------------------------------------------------
-    // Navbar Cart
-    // --------------------------------------------------------
+    loadCartFromStorage();
 
     navCartBtn =
         document.getElementById('navCartBtn');
@@ -292,21 +373,11 @@ function setupCart() {
     navCartCount =
         document.getElementById('navCartCount');
 
-
-    // --------------------------------------------------------
-    // Optional Floating Cart
-    // --------------------------------------------------------
-
     cartFloatingBtn =
         document.getElementById('cartFloatingBtn');
 
     cartFloatingCount =
         document.getElementById('cartCount');
-
-
-    // --------------------------------------------------------
-    // Cart Panel
-    // --------------------------------------------------------
 
     cartOverlay =
         document.getElementById('cartOverlay');
@@ -323,612 +394,408 @@ function setupCart() {
     cartTotal =
         document.getElementById('cartTotal');
 
+    cartTotalItems =
+        document.getElementById('cartTotalItems');
+
     cartOrderBtn =
         document.getElementById('cartOrderBtn');
 
+    cartItemSummary =
+        document.getElementById('cartItemSummary');
 
-    // --------------------------------------------------------
-    // Open Navbar Cart
-    // --------------------------------------------------------
+    cartTizolaBtn =
+        document.getElementById('cartTizolaBtn');
 
-    if (navCartBtn) {
+    navCartBtn?.addEventListener(
+        'click',
+        openCart
+    );
 
-        navCartBtn.addEventListener('click', () => {
+    cartFloatingBtn?.addEventListener(
+        'click',
+        openCart
+    );
 
-            openCart();
+    cartClose?.addEventListener(
+        'click',
+        closeCart
+    );
 
-        });
+    cartOverlay?.addEventListener(
+        'click',
+        closeCart
+    );
 
-    }
+    cartOrderBtn?.addEventListener(
+        'click',
+        orderCart
+    );
 
+    cartTizolaBtn?.addEventListener(
+        'click',
+        redirectToTizola
+    );
 
-    // --------------------------------------------------------
-    // Open Floating Cart
-    // --------------------------------------------------------
+    document.addEventListener(
+        'keydown',
+        e => {
 
-    if (cartFloatingBtn) {
-
-        cartFloatingBtn.addEventListener('click', () => {
-
-            openCart();
-
-        });
-
-    }
-
-
-    // --------------------------------------------------------
-    // Close Cart
-    // --------------------------------------------------------
-
-    if (cartClose) {
-
-        cartClose.addEventListener('click', () => {
-
-            closeCart();
-
-        });
-
-    }
-
-
-    // --------------------------------------------------------
-    // Close By Overlay
-    // --------------------------------------------------------
-
-    if (cartOverlay) {
-
-        cartOverlay.addEventListener('click', () => {
-
-            closeCart();
-
-        });
-
-    }
-
-
-    // --------------------------------------------------------
-    // Order Now
-    // --------------------------------------------------------
-
-    if (cartOrderBtn) {
-
-        cartOrderBtn.addEventListener('click', () => {
-
-            orderCart();
-
-        });
-
-    }
-
-
-    // --------------------------------------------------------
-    // Escape Key
-    // --------------------------------------------------------
-
-    document.addEventListener('keydown', event => {
-
-        if (event.key === 'Escape') {
-
-            closeCart();
+            if (e.key === 'Escape') {
+                closeCart();
+            }
 
         }
+    );
 
-    });
-
-
-    // Initial UI
     updateCartUI();
-
 }
-
-
-// ============================================================
-// OPEN CART
-// ============================================================
 
 function openCart() {
 
-    if (cartPanel) {
+    cartPanel?.classList.add('open');
 
-        cartPanel.classList.add('open');
+    cartPanel?.setAttribute(
+        'aria-hidden',
+        'false'
+    );
 
-        cartPanel.setAttribute(
-            'aria-hidden',
-            'false'
-        );
+    cartOverlay?.classList.add('open');
 
-    }
+    cartOverlay?.setAttribute(
+        'aria-hidden',
+        'false'
+    );
 
+    navCartBtn?.setAttribute(
+        'aria-expanded',
+        'true'
+    );
 
-    if (cartOverlay) {
-
-        cartOverlay.classList.add('open');
-
-        cartOverlay.setAttribute(
-            'aria-hidden',
-            'false'
-        );
-
-    }
-
-
-    if (navCartBtn) {
-
-        navCartBtn.setAttribute(
-            'aria-expanded',
-            'true'
-        );
-
-    }
-
-
-    document.body.classList.add('cart-open');
-
+    document.body.classList.add(
+        'cart-open'
+    );
 
     updateCartUI();
-
 }
-
-
-// ============================================================
-// CLOSE CART
-// ============================================================
 
 function closeCart() {
 
-    if (cartPanel) {
+    cartPanel?.classList.remove('open');
 
-        cartPanel.classList.remove('open');
+    cartPanel?.setAttribute(
+        'aria-hidden',
+        'true'
+    );
 
-        cartPanel.setAttribute(
-            'aria-hidden',
-            'true'
-        );
+    cartOverlay?.classList.remove('open');
 
-    }
+    cartOverlay?.setAttribute(
+        'aria-hidden',
+        'true'
+    );
 
+    navCartBtn?.setAttribute(
+        'aria-expanded',
+        'false'
+    );
 
-    if (cartOverlay) {
-
-        cartOverlay.classList.remove('open');
-
-        cartOverlay.setAttribute(
-            'aria-hidden',
-            'true'
-        );
-
-    }
-
-
-    if (navCartBtn) {
-
-        navCartBtn.setAttribute(
-            'aria-expanded',
-            'false'
-        );
-
-    }
-
-
-    document.body.classList.remove('cart-open');
-
+    document.body.classList.remove(
+        'cart-open'
+    );
 }
-
-
-// ============================================================
-// ADD TO CART
-// ============================================================
 
 function addToCart(item) {
 
     if (!item) {
-
-        showToast(
+        return showToast(
             'Unable to add this item.',
             'error'
         );
-
-        return;
     }
 
+    if (Number(item.available) === 0) {
 
-    // Prevent unavailable items
-    if (item.available === false) {
-
-        showToast(
+        return showToast(
             `${item.name} is currently unavailable.`,
             'error'
         );
-
-        return;
     }
 
+    const existing = cart.find(
+        c => String(c.id) === String(item.id)
+    );
 
-    const existingItem =
-        cart.find(cartItem => {
+    if (existing) {
 
-            return String(cartItem.id) ===
-                String(item.id);
+        if (
+            existing.quantity >=
+            MAX_CART_QUANTITY
+        ) {
 
-        });
+            return showToast(
+                `Maximum quantity is ${MAX_CART_QUANTITY}.`,
+                'error'
+            );
+        }
 
-
-    if (existingItem) {
-
-        existingItem.quantity += 1;
+        existing.quantity += 1;
+        existing.name = String(item.name);
+        existing.price =
+            Number(item.price) || 0;
 
     } else {
 
         cart.push({
-
-            id: item.id,
-
-            name: item.name,
-
+            id: String(item.id),
+            name: String(item.name),
             price: Number(item.price) || 0,
-
             quantity: 1
-
         });
 
     }
 
-
-    // Update count + cart panel + total
+    saveCart();
     updateCartUI();
-
 
     showToast(
         `${item.name} added to cart`,
         'success'
     );
-
 }
-
-
-// ============================================================
-// ADD MENU ITEM TO CART
-// ============================================================
 
 function addMenuItemToCart(id) {
 
     const item =
-        allMenuItems.find(menuItem => {
-
-            return String(menuItem.id) ===
-                String(id);
-
-        });
-
+        menuItemCache.get(String(id));
 
     if (!item) {
 
-        showToast(
-            'Item could not be found.',
+        return showToast(
+            'Item not found. Please refresh the menu.',
             'error'
         );
-
-        return;
     }
 
-
     addToCart(item);
-
 }
-
-
-// ============================================================
-// INCREASE QUANTITY
-// ============================================================
 
 function increaseCartItem(id) {
 
-    const item =
-        cart.find(cartItem => {
+    const item = cart.find(
+        c => String(c.id) === String(id)
+    );
 
-            return String(cartItem.id) ===
-                String(id);
+    if (!item) return;
 
-        });
+    if (
+        !Number.isInteger(item.quantity) ||
+        item.quantity >= MAX_CART_QUANTITY
+    ) {
 
-
-    if (!item) {
-        return;
+        return showToast(
+            `Maximum quantity is ${MAX_CART_QUANTITY}.`,
+            'error'
+        );
     }
-
 
     item.quantity += 1;
 
-
+    saveCart();
     updateCartUI();
-
 }
-
-
-// ============================================================
-// DECREASE QUANTITY
-// ============================================================
 
 function decreaseCartItem(id) {
 
-    const item =
-        cart.find(cartItem => {
+    const item = cart.find(
+        c => String(c.id) === String(id)
+    );
 
-            return String(cartItem.id) ===
-                String(id);
-
-        });
-
-
-    if (!item) {
-        return;
-    }
-
+    if (!item) return;
 
     if (item.quantity > 1) {
-
         item.quantity -= 1;
-
     } else {
 
-        cart =
-            cart.filter(cartItem => {
-
-                return String(cartItem.id) !==
-                    String(id);
-
-            });
+        cart = cart.filter(
+            c => String(c.id) !== String(id)
+        );
 
     }
 
-
+    saveCart();
     updateCartUI();
-
 }
-
-
-// ============================================================
-// REMOVE ITEM
-// ============================================================
 
 function removeCartItem(id) {
 
-    cart =
-        cart.filter(cartItem => {
+    cart = cart.filter(
+        c => String(c.id) !== String(id)
+    );
 
-            return String(cartItem.id) !==
-                String(id);
-
-        });
-
-
+    saveCart();
     updateCartUI();
-
 }
-
-
-// ============================================================
-// UPDATE CART UI
-// ============================================================
 
 function updateCartUI() {
 
     updateCartCount();
-
     renderCart();
-
     updateCartTotal();
-
 }
-
-
-// ============================================================
-// UPDATE CART COUNT
-// ============================================================
 
 function updateCartCount() {
 
-    const totalItems =
-        cart.reduce(
-            (sum, item) => {
+    const total = cart.reduce(
+        (sum, i) =>
+            sum + (Number(i.quantity) || 0),
+        0
+    );
 
-                return (
-                    sum +
-                    Number(item.quantity)
-                );
-
-            },
-            0
-        );
-
-
-    // Navbar cart count
     if (navCartCount) {
 
         navCartCount.textContent =
-            totalItems;
+            String(total);
 
         navCartCount.style.display =
             'inline-flex';
 
     }
 
-
-    // Floating cart count
     if (cartFloatingCount) {
 
         cartFloatingCount.textContent =
-            totalItems;
+            String(total);
 
         cartFloatingCount.style.display =
-            totalItems > 0
+            total > 0
                 ? 'inline-flex'
                 : 'none';
 
     }
-
 }
-
-
-// ============================================================
-// RENDER CART
-// ============================================================
 
 function renderCart() {
 
-    if (!cartItems) {
-        return;
-    }
+    if (!cartItems) return;
 
-
-    // --------------------------------------------------------
-    // Empty
-    // --------------------------------------------------------
-
-    if (cart.length === 0) {
+    if (!cart.length) {
 
         cartItems.innerHTML = `
-
             <div class="cart-empty">
-
                 <span>🛒</span>
-
-                <p>
-                    Your cart is empty
-                </p>
-
-                <small>
-                    Add dishes from the menu
-                </small>
-
+                <p>Your cart is empty</p>
+                <small>Add dishes from the menu</small>
             </div>
-
         `;
 
         return;
     }
 
+    cartItems.innerHTML = cart.map(item => {
 
-    // --------------------------------------------------------
-    // Items
-    // --------------------------------------------------------
+        const subtotal =
+            Number(item.price) *
+            Number(item.quantity);
 
-    cartItems.innerHTML =
-        cart
-            .map(item => {
+        const id =
+            escapeHtml(item.id);
 
-                const subtotal =
-                    Number(item.price) *
-                    Number(item.quantity);
+        return `
+            <div class="cart-item">
 
+                <div class="cart-item-info">
 
-                return `
+                    <h4>
+                        ${escapeHtml(item.name)}
+                    </h4>
 
-                    <div class="cart-item">
+                    <span class="cart-item-price">
+                        ₹${formatMoney(item.price)} each
+                    </span>
 
-                        <div class="cart-item-info">
+                </div>
 
-                            <h4>
-                                ${escapeHtml(item.name)}
-                            </h4>
+                <div class="cart-item-actions">
 
-                            <span class="cart-item-price">
-                                ₹${formatMoney(item.price)}
-                                each
-                            </span>
+                    <div
+                        class="quantity-control"
+                        aria-label="Quantity controls"
+                    >
 
-                        </div>
+                        <button
+                            type="button"
+                            class="quantity-btn"
+                            onclick="decreaseCartItem('${id}')"
+                            aria-label="Decrease quantity"
+                        >
+                            −
+                        </button>
 
+                        <span class="quantity-number">
+                            ${item.quantity}
+                        </span>
 
-                        <div class="cart-item-actions">
-
-                            <div class="quantity-control">
-
-                                <button
-                                    type="button"
-                                    class="quantity-btn"
-                                    onclick="decreaseCartItem('${item.id}')"
-                                    aria-label="Decrease quantity"
-                                >
-                                    −
-                                </button>
-
-
-                                <span class="quantity-number">
-                                    ${item.quantity}
-                                </span>
-
-
-                                <button
-                                    type="button"
-                                    class="quantity-btn"
-                                    onclick="increaseCartItem('${item.id}')"
-                                    aria-label="Increase quantity"
-                                >
-                                    +
-                                </button>
-
-                            </div>
-
-
-                            <strong class="cart-item-total">
-                                ₹${formatMoney(subtotal)}
-                            </strong>
-
-
-                            <button
-                                type="button"
-                                class="cart-remove-btn"
-                                onclick="removeCartItem('${item.id}')"
-                                aria-label="Remove item"
-                            >
-                                ✕
-                            </button>
-
-                        </div>
+                        <button
+                            type="button"
+                            class="quantity-btn"
+                            onclick="increaseCartItem('${id}')"
+                            aria-label="Increase quantity"
+                        >
+                            +
+                        </button>
 
                     </div>
 
-                `;
+                    <strong class="cart-item-total">
+                        ₹${formatMoney(subtotal)}
+                    </strong>
 
-            })
-            .join('');
+                    <button
+                        type="button"
+                        class="cart-remove-btn"
+                        onclick="removeCartItem('${id}')"
+                        aria-label="Remove ${escapeHtml(item.name)}"
+                    >
+                        ✕
+                    </button>
 
+                </div>
+
+            </div>
+        `;
+
+    }).join('');
 }
-
-
-// ============================================================
-// UPDATE CART TOTAL
-// ============================================================
 
 function updateCartTotal() {
 
-    if (!cartTotal) {
-        return;
+    const totalItems = cart.reduce(
+        (sum, i) =>
+            sum + (Number(i.quantity) || 0),
+        0
+    );
+
+    const totalPrice = cart.reduce(
+        (sum, i) =>
+            sum +
+            Number(i.price) *
+            Number(i.quantity),
+        0
+    );
+
+    if (cartTotalItems) {
+
+        cartTotalItems.textContent =
+            String(totalItems);
+
     }
 
+    if (cartTotal) {
 
-    const total =
-        cart.reduce(
-            (sum, item) => {
+        cartTotal.textContent =
+            `₹${formatMoney(totalPrice)}`;
 
-                return (
-                    sum +
-                    (
-                        Number(item.price) *
-                        Number(item.quantity)
-                    )
-                );
-
-            },
-            0
-        );
-
-
-    cartTotal.textContent =
-        `₹${formatMoney(total)}`;
-
+    }
 
     if (cartOrderBtn) {
 
@@ -937,16 +804,21 @@ function updateCartTotal() {
 
     }
 
+    if (cartItemSummary) {
+
+        cartItemSummary.textContent =
+            `${totalItems} item${totalItems !== 1 ? 's' : ''}`;
+
+    }
 }
 
-
 // ============================================================
-// ORDER CART THROUGH WHATSAPP
+// ORDER CART VIA WHATSAPP
 // ============================================================
 
-function orderCart() {
+async function orderCart() {
 
-    if (cart.length === 0) {
+    if (!cart.length) {
 
         showToast(
             'Your cart is empty.',
@@ -956,79 +828,224 @@ function orderCart() {
         return;
     }
 
+    const phone =
+        String(whatsappNumber)
+            .replace(/\D/g, '');
+
+    if (!/^\d{10,15}$/.test(phone)) {
+
+        showToast(
+            'Invalid WhatsApp number.',
+            'error'
+        );
+
+        return;
+    }
+
+    let menu;
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/menu`,
+            {
+                cache: 'no-store'
+            }
+        );
+
+        if (!res.ok) {
+            throw new Error(
+                'Unable to fetch menu'
+            );
+        }
+
+        menu = await res.json();
+
+    } catch (error) {
+
+        console.error(
+            'Cart validation error:',
+            error
+        );
+
+        showToast(
+            'Could not validate cart items. Please try again.',
+            'error'
+        );
+
+        return;
+    }
+
+    let invalid = false;
+
+    const validatedCart =
+        cart.map(rawItem => {
+
+            const item =
+                sanitizeCartItem(rawItem);
+
+            if (!item) {
+
+                invalid = true;
+
+                return {
+                    ...rawItem,
+                    error: 'Invalid cart item.'
+                };
+            }
+
+            const menuItem = menu.find(
+                m =>
+                    String(m.id) ===
+                    String(item.id)
+            );
+
+            if (!menuItem) {
+
+                invalid = true;
+
+                return {
+                    ...item,
+                    error:
+                        `${item.name} is no longer available`
+                };
+            }
+
+            if (
+                Number(menuItem.available) === 0
+            ) {
+
+                invalid = true;
+
+                return {
+                    ...item,
+                    error:
+                        `${menuItem.name} is currently unavailable`
+                };
+            }
+
+            if (
+                !Number.isFinite(
+                    Number(menuItem.price)
+                ) ||
+                Number(menuItem.price) < 0
+            ) {
+
+                invalid = true;
+
+                return {
+                    ...item,
+                    error:
+                        `${menuItem.name} has an invalid price`
+                };
+            }
+
+            if (
+                Math.abs(
+                    Number(menuItem.price) -
+                    Number(item.price)
+                ) > 0.01
+            ) {
+
+                invalid = true;
+
+                return {
+                    ...item,
+                    error:
+                        `${menuItem.name} price has changed to ₹${formatMoney(menuItem.price)}`
+                };
+            }
+
+            return {
+                ...item,
+                name: String(menuItem.name),
+                price: Number(menuItem.price)
+            };
+
+        });
+
+    if (invalid) {
+
+        const errors =
+            validatedCart
+                .filter(item => item.error)
+                .map(item => item.error)
+                .join('\n');
+
+        showToast(
+            `Some items are invalid:\n${errors}`,
+            'error'
+        );
+
+        return;
+    }
 
     let total = 0;
 
-
-    let message =
+    let msg =
         'Hello Foodies! 👋\n\n' +
         'I would like to place the following order:\n\n';
 
+    validatedCart.forEach(
+        (item, index) => {
 
-    cart.forEach((item, index) => {
+            const subtotal =
+                item.price *
+                item.quantity;
 
-        const subtotal =
-            Number(item.price) *
-            Number(item.quantity);
+            total += subtotal;
 
+            msg +=
+                `${index + 1}. ${item.name}\n` +
+                `Qty: ${item.quantity}\n` +
+                `₹${formatMoney(item.price)} each\n` +
+                `Subtotal: ₹${formatMoney(subtotal)}\n\n`;
 
-        total += subtotal;
+        }
+    );
 
-
-        message +=
-            `${index + 1}. ${item.name}\n` +
-            `   Quantity: ${item.quantity}\n` +
-            `   Price: ₹${formatMoney(item.price)}\n` +
-            `   Subtotal: ₹${formatMoney(subtotal)}\n\n`;
-
-    });
-
-
-    message +=
+    msg +=
         `Total: ₹${formatMoney(total)}\n\n` +
         'Please confirm my order.';
 
-
-    const whatsappNumber =
-        '919951000029';
-
-
-    const whatsappURL =
-        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
-
-    window.open(
-        whatsappURL,
-        '_blank',
-        'noopener,noreferrer'
+    const shouldSend = confirm(
+        'Send order via WhatsApp? Your cart will be cleared after ordering.'
     );
 
+    if (!shouldSend) return;
+
+    const whatsappUrl =
+        `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+
+    window.location.href =
+        whatsappUrl;
+
+    cart = [];
+
+    saveCart();
+    updateCartUI();
+    closeCart();
 }
 
-
 // ============================================================
-// FORMAT MONEY
+// HELPERS
 // ============================================================
 
 function formatMoney(value) {
 
-    const number =
-        Number(value) || 0;
+    const number = Number(value);
 
-
-    return number.toLocaleString(
+    return (
+        Number.isFinite(number)
+            ? number
+            : 0
+    ).toLocaleString(
         'en-IN',
         {
             maximumFractionDigits: 2
         }
     );
-
 }
-
-
-// ============================================================
-// ESCAPE HTML
-// ============================================================
 
 function escapeHtml(value) {
 
@@ -1038,178 +1055,1682 @@ function escapeHtml(value) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
-
 }
 
+function isSafeImageSource(value) {
 
-// ============================================================
-// FEATURED DISHES
-// ============================================================
-
-async function loadFeatured() {
-
-    const container =
-        document.getElementById(
-            'featuredGrid'
-        );
-
-
-    if (!container) {
-        return;
+    if (typeof value !== 'string') {
+        return false;
     }
 
+    return (
+        value.startsWith('https://') ||
+        /^data:image\/(png|jpeg|jpg|webp|gif);base64,[A-Za-z0-9+/=\r\n]+$/i.test(value)
+    );
+}
 
-    try {
+function imageHtml(source, alt) {
 
-        const response =
-            await fetch(
-                `${API_BASE}/featured`
-            );
+    if (isSafeImageSource(source)) {
 
+        return `
+            <img
+                src="${escapeHtml(source)}"
+                alt="${escapeHtml(alt)}"
+                loading="lazy"
+            >
+        `;
 
-        if (!response.ok) {
+    }
 
-            throw new Error(
-                'Failed to fetch featured'
+    return `
+        <span
+            class="image-fallback"
+            aria-hidden="true"
+        >
+            🍽️
+        </span>
+    `;
+}
+
+function cacheMenuItems(items) {
+
+    if (!Array.isArray(items)) return;
+
+    items.forEach(item => {
+
+        if (
+            item?.id !== undefined
+        ) {
+
+            menuItemCache.set(
+                String(item.id),
+                item
             );
 
         }
 
+    });
+}
+
+function showToast(
+    message,
+    type = 'success'
+) {
+
+    let container =
+        document.querySelector(
+            '.toast-container'
+        );
+
+    if (!container) {
+
+        container =
+            document.createElement('div');
+
+        container.className =
+            'toast-container';
+
+        document.body.appendChild(
+            container
+        );
+    }
+
+    const toast =
+        document.createElement('div');
+
+    toast.className =
+        `toast ${type}`;
+
+    toast.textContent =
+        message;
+
+    container.appendChild(
+        toast
+    );
+
+    setTimeout(() => {
+
+        toast.classList.add(
+            'toast-out'
+        );
+
+        setTimeout(
+            () => toast.remove(),
+            300
+        );
+
+    }, 3500);
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+
+function setupAuth() {
+
+    authModalOverlay =
+        document.getElementById(
+            'authModalOverlay'
+        );
+
+    authModalClose =
+        document.getElementById(
+            'authModalClose'
+        );
+
+    userMenuBtn =
+        document.getElementById(
+            'userMenuBtn'
+        );
+
+    userDropdown =
+        document.getElementById(
+            'userDropdown'
+        );
+
+    userNameDisplay =
+        document.getElementById(
+            'userNameDisplay'
+        );
+
+    myBookingsLink =
+        document.getElementById(
+            'myBookingsLink'
+        );
+
+    myFavouritesLink =
+        document.getElementById(
+            'myFavouritesLink'
+        );
+
+    logoutLink =
+        document.getElementById(
+            'logoutLink'
+        );
+
+    authModalClose?.addEventListener(
+        'click',
+        closeAuthModal
+    );
+
+    authModalOverlay?.addEventListener(
+        'click',
+        e => {
+
+            if (
+                e.target ===
+                authModalOverlay
+            ) {
+                closeAuthModal();
+            }
+
+        }
+    );
+
+    userMenuBtn?.addEventListener(
+        'click',
+        e => {
+
+            e.stopPropagation();
+
+            if (!authToken || !currentUser) {
+
+                openAuthModal('login');
+
+            } else {
+
+                const open =
+                    !userDropdown.classList.contains(
+                        'open'
+                    );
+
+                userDropdown.classList.toggle(
+                    'open',
+                    open
+                );
+
+                userMenuBtn.setAttribute(
+                    'aria-expanded',
+                    String(open)
+                );
+
+            }
+
+        }
+    );
+
+    document.addEventListener(
+        'click',
+        () => {
+
+            userDropdown?.classList.remove(
+                'open'
+            );
+
+            userMenuBtn?.setAttribute(
+                'aria-expanded',
+                'false'
+            );
+
+        }
+    );
+
+    logoutLink?.addEventListener(
+        'click',
+        e => {
+
+            e.preventDefault();
+
+            logoutUser(
+                'Logged out successfully.',
+                'success'
+            );
+
+        }
+    );
+
+    myBookingsLink?.addEventListener(
+        'click',
+        e => {
+
+            e.preventDefault();
+
+            userDropdown?.classList.remove(
+                'open'
+            );
+
+            const section =
+                document.getElementById(
+                    'myBookingsSection'
+                );
+
+            if (!section) return;
+
+            section.style.display =
+                'block';
+
+            loadMyBookings();
+
+            section.scrollIntoView({
+                behavior: 'smooth'
+            });
+
+        }
+    );
+
+    myFavouritesLink?.addEventListener(
+        'click',
+        e => {
+
+            e.preventDefault();
+
+            userDropdown?.classList.remove(
+                'open'
+            );
+
+            const section =
+                document.getElementById(
+                    'myFavouritesSection'
+                );
+
+            if (!section) return;
+
+            section.style.display =
+                'block';
+
+            loadMyFavourites();
+
+            section.scrollIntoView({
+                behavior: 'smooth'
+            });
+
+        }
+    );
+
+    document
+        .getElementById('loginFormElement')
+        ?.addEventListener(
+            'submit',
+            handleLogin
+        );
+
+    document
+        .getElementById('registerFormElement')
+        ?.addEventListener(
+            'submit',
+            handleRegister
+        );
+
+    document
+        .getElementById('forgotFormElement')
+        ?.addEventListener(
+            'submit',
+            handleForgotPassword
+        );
+
+    document
+        .getElementById('showRegister')
+        ?.addEventListener(
+            'click',
+            e => {
+
+                e.preventDefault();
+
+                openAuthModal('register');
+
+            }
+        );
+
+    document
+        .getElementById('showLogin')
+        ?.addEventListener(
+            'click',
+            e => {
+
+                e.preventDefault();
+
+                openAuthModal('login');
+
+            }
+        );
+
+    document
+        .getElementById('showLoginFromForgot')
+        ?.addEventListener(
+            'click',
+            e => {
+
+                e.preventDefault();
+
+                openAuthModal('login');
+
+            }
+        );
+
+    document
+        .getElementById('showForgot')
+        ?.addEventListener(
+            'click',
+            e => {
+
+                e.preventDefault();
+
+                openAuthModal('forgot');
+
+            }
+        );
+
+    const forgotUsername =
+        document.getElementById(
+            'forgotUsername'
+        );
+
+    forgotUsername?.addEventListener(
+        'blur',
+        fetchSecurityQuestion
+    );
+
+    forgotUsername?.addEventListener(
+        'input',
+        () => {
+
+            const display =
+                document.getElementById(
+                    'securityQuestionDisplay'
+                );
+
+            if (display) {
+                display.textContent = '';
+            }
+
+        }
+    );
+
+    updateAuthUI();
+}
+
+function openAuthModal(
+    tab = 'login'
+) {
+
+    [
+        'loginForm',
+        'registerForm',
+        'forgotForm'
+    ].forEach(id => {
+
+        const el =
+            document.getElementById(id);
+
+        if (el) {
+            el.style.display = 'none';
+        }
+
+    });
+
+    const active =
+        document.getElementById(
+            `${tab}Form`
+        );
+
+    if (active) {
+        active.style.display = 'block';
+    }
+
+    if (tab === 'forgot') {
+
+        const display =
+            document.getElementById(
+                'securityQuestionDisplay'
+            );
+
+        if (display) {
+            display.textContent = '';
+        }
+
+        const username =
+            document
+                .getElementById(
+                    'forgotUsername'
+                )
+                ?.value
+                .trim();
+
+        if (username) {
+            fetchSecurityQuestion();
+        }
+    }
+
+    if (authModalOverlay) {
+        authModalOverlay.style.display =
+            'flex';
+    }
+
+    document
+        .querySelectorAll('.form-message')
+        .forEach(el => {
+
+            el.style.display = 'none';
+            el.textContent = '';
+
+        });
+}
+
+function closeAuthModal() {
+
+    if (authModalOverlay) {
+        authModalOverlay.style.display =
+            'none';
+    }
+}
+
+function updateAuthUI() {
+
+    const loggedIn =
+        Boolean(
+            authToken &&
+            currentUser
+        );
+
+    if (loggedIn) {
+
+        if (userNameDisplay) {
+            userNameDisplay.textContent =
+                currentUser.username;
+        }
+
+        if (myBookingsLink) {
+            myBookingsLink.style.display =
+                'block';
+        }
+
+        if (myFavouritesLink) {
+            myFavouritesLink.style.display =
+                'block';
+        }
+
+        if (logoutLink) {
+            logoutLink.style.display =
+                'block';
+        }
+
+        const bookName =
+            document.getElementById(
+                'bookName'
+            );
+
+        const bookPhone =
+            document.getElementById(
+                'bookPhone'
+            );
+
+        if (bookName) {
+            bookName.value =
+                currentUser.username || '';
+        }
+
+        if (
+            bookPhone &&
+            currentUser.phone
+        ) {
+            bookPhone.value =
+                currentUser.phone;
+        }
+
+    } else {
+
+        if (userNameDisplay) {
+            userNameDisplay.textContent =
+                'Account';
+        }
+
+        if (myBookingsLink) {
+            myBookingsLink.style.display =
+                'none';
+        }
+
+        if (myFavouritesLink) {
+            myFavouritesLink.style.display =
+                'none';
+        }
+
+        if (logoutLink) {
+            logoutLink.style.display =
+                'none';
+        }
+
+        const bookName =
+            document.getElementById(
+                'bookName'
+            );
+
+        const bookPhone =
+            document.getElementById(
+                'bookPhone'
+            );
+
+        if (bookName) {
+            bookName.value = '';
+        }
+
+        if (bookPhone) {
+            bookPhone.value = '';
+        }
+
+        const bookings =
+            document.getElementById(
+                'myBookingsSection'
+            );
+
+        const favourites =
+            document.getElementById(
+                'myFavouritesSection'
+            );
+
+        if (bookings) {
+            bookings.style.display =
+                'none';
+        }
+
+        if (favourites) {
+            favourites.style.display =
+                'none';
+        }
+    }
+}
+
+// ============================================================
+// SECURITY QUESTION
+// ============================================================
+
+async function fetchSecurityQuestion() {
+
+    const username =
+        document
+            .getElementById(
+                'forgotUsername'
+            )
+            ?.value
+            .trim();
+
+    const display =
+        document.getElementById(
+            'securityQuestionDisplay'
+        );
+
+    if (!display) return;
+
+    if (!username) {
+
+        display.textContent = '';
+
+        return;
+    }
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/auth/security-question?username=${encodeURIComponent(username)}`
+        );
+
+        const data =
+            await res.json();
+
+        display.textContent =
+            data.question
+                ? `Security Question: ${data.question}`
+                : '';
+
+    } catch {
+
+        display.textContent =
+            '⚠️ Could not fetch the question.';
+
+    }
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+
+async function handleLogin(e) {
+
+    e.preventDefault();
+
+    const username =
+        document
+            .getElementById(
+                'loginUsername'
+            )
+            .value
+            .trim();
+
+    const password =
+        document.getElementById(
+            'loginPassword'
+        ).value;
+
+    const msg =
+        document.getElementById(
+            'authMessage'
+        );
+
+    if (!username || !password) {
+
+        return showFormMessage(
+            msg,
+            'Please fill in all fields.',
+            'error'
+        );
+    }
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/auth/login`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':
+                        'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password
+                })
+            }
+        );
+
+        const data =
+            await res.json();
+
+        if (!res.ok) {
+            throw new Error(
+                data.detail ||
+                'Login failed'
+            );
+        }
+
+        authToken =
+            data.access_token;
+
+        localStorage.setItem(
+            'foodies_token',
+            authToken
+        );
+
+        currentUser = {
+            id: data.user_id,
+            username: data.username,
+            phone: ''
+        };
+
+        await fetchUserProfile();
+
+        if (!authToken || !currentUser) {
+
+            return showToast(
+                'Session error. Please try again.',
+                'error'
+            );
+        }
+
+        loadCartFromStorage();
+        updateCartUI();
+
+        loadFavouriteIds();
+
+        updateAuthUI();
+
+        closeAuthModal();
+
+        showToast(
+            `Welcome back, ${currentUser.username}!`,
+            'success'
+        );
+
+    } catch (err) {
+
+        showFormMessage(
+            msg,
+            err.message,
+            'error'
+        );
+    }
+}
+
+// ============================================================
+// REGISTER
+// ============================================================
+
+async function handleRegister(e) {
+
+    e.preventDefault();
+
+    const username =
+        document
+            .getElementById(
+                'regUsername'
+            )
+            .value
+            .trim();
+
+    const phone =
+        document
+            .getElementById(
+                'regPhone'
+            )
+            .value
+            .trim();
+
+    const email =
+        document
+            .getElementById(
+                'regEmail'
+            )
+            .value
+            .trim();
+
+    const password =
+        document.getElementById(
+            'regPassword'
+        ).value;
+
+    const security_question =
+        document
+            .getElementById(
+                'regSecurityQuestion'
+            )
+            .value
+            .trim();
+
+    const security_answer =
+        document
+            .getElementById(
+                'regSecurityAnswer'
+            )
+            .value
+            .trim();
+
+    const msg =
+        document.getElementById(
+            'regMessage'
+        );
+
+    if (
+        !username ||
+        !phone ||
+        !password ||
+        !security_question ||
+        !security_answer
+    ) {
+
+        return showFormMessage(
+            msg,
+            'All fields except email are required.',
+            'error'
+        );
+    }
+
+    if (!/^\d{10}$/.test(phone)) {
+
+        return showFormMessage(
+            msg,
+            'Phone must be exactly 10 digits.',
+            'error'
+        );
+    }
+
+    if (
+        password.length < 6 ||
+        password.length > 72
+    ) {
+
+        return showFormMessage(
+            msg,
+            'Password must be 6–72 characters.',
+            'error'
+        );
+    }
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/auth/register`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':
+                        'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    phone,
+                    email,
+                    password,
+                    security_question,
+                    security_answer
+                })
+            }
+        );
+
+        const data =
+            await res.json();
+
+        if (!res.ok) {
+
+            throw new Error(
+                data.detail ||
+                'Registration failed'
+            );
+        }
+
+        showFormMessage(
+            msg,
+            'Registration successful! Please login.',
+            'success'
+        );
+
+        setTimeout(
+            () => openAuthModal('login'),
+            1200
+        );
+
+    } catch (err) {
+
+        showFormMessage(
+            msg,
+            err.message,
+            'error'
+        );
+    }
+}
+
+// ============================================================
+// FORGOT PASSWORD
+// ============================================================
+
+async function handleForgotPassword(e) {
+
+    e.preventDefault();
+
+    const username =
+        document
+            .getElementById(
+                'forgotUsername'
+            )
+            .value
+            .trim();
+
+    const security_answer =
+        document
+            .getElementById(
+                'forgotSecurityAnswer'
+            )
+            .value
+            .trim();
+
+    const new_password =
+        document
+            .getElementById(
+                'forgotNewPassword'
+            )
+            .value;
+
+    const msg =
+        document.getElementById(
+            'forgotMessage'
+        );
+
+    if (
+        !username ||
+        !security_answer ||
+        !new_password
+    ) {
+
+        return showFormMessage(
+            msg,
+            'All fields are required.',
+            'error'
+        );
+    }
+
+    if (
+        new_password.length < 6 ||
+        new_password.length > 72
+    ) {
+
+        return showFormMessage(
+            msg,
+            'Password must be 6–72 characters.',
+            'error'
+        );
+    }
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/auth/reset-password`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':
+                        'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    security_answer,
+                    new_password
+                })
+            }
+        );
+
+        const data =
+            await res.json();
+
+        if (!res.ok) {
+
+            throw new Error(
+                data.detail ||
+                'Password reset failed'
+            );
+        }
+
+        showFormMessage(
+            msg,
+            'Password reset successful! Please login.',
+            'success'
+        );
+
+        setTimeout(
+            () => openAuthModal('login'),
+            1200
+        );
+
+    } catch (err) {
+
+        showFormMessage(
+            msg,
+            err.message,
+            'error'
+        );
+    }
+}
+
+// ============================================================
+// USER PROFILE
+// ============================================================
+
+async function fetchUserProfile() {
+
+    if (!authToken) return;
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/auth/me`,
+            {
+                headers: {
+                    'Authorization':
+                        `Bearer ${authToken}`
+                },
+                cache: 'no-store'
+            }
+        );
+
+        if (res.status === 401) {
+
+            logoutUser(
+                'Session expired. Please log in again.',
+                'error'
+            );
+
+            return;
+        }
+
+        if (!res.ok) {
+
+            throw new Error(
+                `Profile request failed (${res.status})`
+            );
+        }
+
+        const data =
+            await res.json();
+
+        currentUser = {
+            id: data.id,
+            username: data.username,
+            phone: data.phone,
+            email: data.email
+        };
+
+        loadCartFromStorage();
+
+        updateCartUI();
+        updateAuthUI();
+
+    } catch (e) {
+
+        console.error(
+            'Profile error:',
+            e
+        );
+
+        showToast(
+            'Could not fetch your profile. Please refresh and try again.',
+            'error'
+        );
+    }
+}
+
+function logoutUser(
+    message = 'Logged out.',
+    type = 'success'
+) {
+
+    authToken = null;
+
+    localStorage.removeItem(
+        'foodies_token'
+    );
+
+    currentUser = null;
+    favouriteIds = [];
+
+    loadCartFromStorage();
+
+    updateCartUI();
+    updateAuthUI();
+
+    const bookings =
+        document.getElementById(
+            'myBookingsSection'
+        );
+
+    const favourites =
+        document.getElementById(
+            'myFavouritesSection'
+        );
+
+    if (bookings) {
+        bookings.style.display =
+            'none';
+    }
+
+    if (favourites) {
+        favourites.style.display =
+            'none';
+    }
+
+    showToast(
+        message,
+        type
+    );
+}
+
+function showFormMessage(
+    element,
+    text,
+    type
+) {
+
+    if (!element) return;
+
+    element.textContent = text;
+
+    element.className =
+        `form-message ${type}`;
+
+    element.style.display =
+        'block';
+}
+
+// ============================================================
+// FAVOURITES
+// ============================================================
+
+async function loadFavouriteIds() {
+
+    if (!authToken) return;
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/favourites/ids`,
+            {
+                headers: {
+                    'Authorization':
+                        `Bearer ${authToken}`
+                },
+                cache: 'no-store'
+            }
+        );
+
+        if (res.status === 401) {
+
+            logoutUser(
+                'Session expired. Please log in again.',
+                'error'
+            );
+
+            return;
+        }
+
+        if (!res.ok) {
+
+            throw new Error(
+                'Failed to load favourites'
+            );
+        }
+
+        const ids =
+            await res.json();
+
+        favouriteIds =
+            Array.isArray(ids)
+                ? ids.map(Number)
+                : [];
+
+        updateFavouriteUI();
+
+    } catch (e) {
+
+        console.error(
+            'Favourites error:',
+            e
+        );
+    }
+}
+
+async function toggleFavourite(
+    menuItemId
+) {
+
+    if (!authToken || !currentUser) {
+
+        showToast(
+            'Please login to add favourites.',
+            'error'
+        );
+
+        openAuthModal('login');
+
+        return;
+    }
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/favourites/toggle`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':
+                        'application/json',
+                    'Authorization':
+                        `Bearer ${authToken}`
+                },
+                body: JSON.stringify({
+                    menu_item_id:
+                        Number(menuItemId)
+                })
+            }
+        );
+
+        if (res.status === 401) {
+
+            logoutUser(
+                'Session expired. Please log in again.',
+                'error'
+            );
+
+            return;
+        }
+
+        const data =
+            await res.json();
+
+        if (!res.ok) {
+
+            throw new Error(
+                data.detail ||
+                'Failed to toggle favourite'
+            );
+        }
+
+        if (data.favourite) {
+
+            if (
+                !favouriteIds.includes(
+                    Number(menuItemId)
+                )
+            ) {
+
+                favouriteIds.push(
+                    Number(menuItemId)
+                );
+            }
+
+            showToast(
+                'Added to favourites ❤️',
+                'success'
+            );
+
+        } else {
+
+            favouriteIds =
+                favouriteIds.filter(
+                    id =>
+                        id !==
+                        Number(menuItemId)
+                );
+
+            showToast(
+                'Removed from favourites',
+                'success'
+            );
+        }
+
+        updateFavouriteUI();
+
+        const favouritesSection =
+            document.getElementById(
+                'myFavouritesSection'
+            );
+
+        if (
+            favouritesSection &&
+            favouritesSection.style.display ===
+            'block'
+        ) {
+
+            loadMyFavourites();
+
+        }
+
+    } catch (e) {
+
+        showToast(
+            e.message ||
+            'Error updating favourite.',
+            'error'
+        );
+    }
+}
+
+function updateFavouriteUI() {
+
+    document
+        .querySelectorAll('.favourite-btn')
+        .forEach(btn => {
+
+            const id =
+                Number(btn.dataset.id);
+
+            const isFav =
+                favouriteIds.includes(id);
+
+            btn.textContent =
+                isFav
+                    ? '❤️'
+                    : '🤍';
+
+            btn.classList.toggle(
+                'active',
+                isFav
+            );
+
+            btn.setAttribute(
+                'aria-pressed',
+                String(isFav)
+            );
+
+        });
+}
+
+async function loadMyFavourites() {
+
+    const grid =
+        document.getElementById(
+            'myFavouritesGrid'
+        );
+
+    if (!grid) return;
+
+    if (!authToken || !currentUser) {
+
+        grid.innerHTML = `
+            <p class="menu-empty">
+                Please login to see your favourites.
+            </p>
+        `;
+
+        return;
+    }
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/favourites`,
+            {
+                headers: {
+                    'Authorization':
+                        `Bearer ${authToken}`
+                },
+                cache: 'no-store'
+            }
+        );
+
+        if (res.status === 401) {
+
+            logoutUser(
+                'Session expired. Please log in again.',
+                'error'
+            );
+
+            return;
+        }
 
         const items =
-            await response.json();
+            await res.json();
 
+        if (!res.ok) {
+
+            throw new Error(
+                items.detail ||
+                'Failed to load favourites'
+            );
+        }
+
+        cacheMenuItems(items);
 
         if (!items.length) {
 
-            container.innerHTML = `
-
+            grid.innerHTML = `
                 <p class="menu-empty">
-                    No featured items yet.
+                    You have not added any favourites yet.
                 </p>
-
             `;
 
             return;
         }
 
-
-        container.innerHTML =
+        grid.innerHTML =
             items
-                .map(item => {
-
-                    return `
-
-                        <div class="featured-card">
-
-                            <div class="card-image">
-
-                                ${item.image &&
-                            (
-                                item.image.startsWith(
-                                    'data:image'
-                                ) ||
-                                item.image.startsWith(
-                                    'http'
-                                )
-                            )
-                            ?
-                            `
-                                        <img
-                                            src="${item.image}"
-                                            alt="${escapeHtml(item.name)}"
-                                            style="width:100%;height:100%;object-fit:cover;"
-                                        >
-                                    `
-                            :
-                            (
-                                item.image ||
-                                '🍽️'
-                            )
-                        }
-
-                            </div>
-
-
-                            <div class="card-body">
-
-                                <h4>
-                                    ${escapeHtml(item.name)}
-                                </h4>
-
-
-                                <p>
-                                    ${escapeHtml(
-                            item.description ||
-                            ''
-                        )}
-                                </p>
-
-
-                                <div class="card-footer">
-
-                                    <span class="price">
-                                        ₹${formatMoney(
-                            item.price
-                        )}
-                                    </span>
-
-
-                                    ${item.popular
-                            ?
-                            `
-                                            <span class="badge">
-                                                Popular
-                                            </span>
-                                        `
-                            :
-                            ''
-                        }
-
-
-                                    ${item.chef_special
-                            ?
-                            `
-                                            <span class="badge">
-                                                Chef’s Special
-                                            </span>
-                                        `
-                            :
-                            ''
-                        }
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-                })
+                .map(renderMenuItemCard)
                 .join('');
 
+        attachFavouriteHandlers(grid);
 
-    } catch (error) {
+        updateFavouriteUI();
 
-        console.error(
-            'Featured error:',
-            error
-        );
+    } catch (e) {
 
+        console.error(e);
 
-        container.innerHTML = `
-
+        grid.innerHTML = `
             <p class="menu-empty">
-                Could not load featured dishes.
+                Could not load favourites.
             </p>
-
         `;
-
     }
-
 }
 
+// ============================================================
+// REQUESTS
+// ============================================================
+
+async function submitItemRequest(
+    itemName
+) {
+
+    const cleanName =
+        String(itemName || '')
+            .trim();
+
+    if (!cleanName) {
+
+        return showToast(
+            'Please enter a dish name.',
+            'error'
+        );
+    }
+
+    let phone =
+        currentUser?.phone || '';
+
+    if (!/^\d{10}$/.test(phone)) {
+
+        phone =
+            prompt(
+                'Enter your phone number (10 digits) to request this dish:',
+                ''
+            ) || '';
+
+        if (!/^\d{10}$/.test(phone)) {
+
+            return showToast(
+                'Please enter a valid 10-digit phone number.',
+                'error'
+            );
+        }
+    }
+
+    const waWindow =
+        window.open(
+            'about:blank',
+            '_blank'
+        );
+
+    if (!waWindow) {
+
+        return showToast(
+            'Please allow popups to open WhatsApp.',
+            'error'
+        );
+    }
+
+    try {
+        waWindow.opener = null;
+    } catch { }
+
+    try {
+
+        const headers = {
+            'Content-Type':
+                'application/json'
+        };
+
+        if (authToken) {
+
+            headers.Authorization =
+                `Bearer ${authToken}`;
+
+        }
+
+        const res = await fetch(
+            `${API_BASE}/requests`,
+            {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    item_name: cleanName,
+                    phone,
+                    message:
+                        `Request for ${cleanName}`
+                })
+            }
+        );
+
+        const data =
+            await res.json();
+
+        if (res.status === 401) {
+
+            waWindow.close();
+
+            logoutUser(
+                'Session expired. Please log in again.',
+                'error'
+            );
+
+            return;
+        }
+
+        if (!res.ok) {
+
+            throw new Error(
+                data.detail ||
+                'Failed to submit request'
+            );
+        }
+
+        showToast(
+            `Request for "${cleanName}" sent!`,
+            'success'
+        );
+
+        const waMsg =
+            `Hey Foodies, I requested "${cleanName}" (Request #${data.id}). Can you make it?`;
+
+        waWindow.location.href =
+            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMsg)}`;
+
+    } catch (e) {
+
+        waWindow.close();
+
+        showToast(
+            e.message ||
+            'Error submitting request.',
+            'error'
+        );
+    }
+}
+
+// ============================================================
+// TIZOLA
+// ============================================================
+
+function setupOrderNow() {
+
+    orderNowBtn =
+        document.getElementById(
+            'orderNowBtn'
+        );
+
+    heroOrderNow =
+        document.getElementById(
+            'heroOrderNow'
+        );
+
+    orderNowBtn?.addEventListener(
+        'click',
+        redirectToTizola
+    );
+
+    heroOrderNow?.addEventListener(
+        'click',
+        redirectToTizola
+    );
+}
+
+async function redirectToTizola() {
+
+    const win =
+        window.open(
+            'about:blank',
+            '_blank'
+        );
+
+    if (!win) {
+
+        return showToast(
+            'Please allow popups to open Tizola.',
+            'error'
+        );
+    }
+
+    try {
+        win.opener = null;
+    } catch { }
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/tizola-url`,
+            {
+                cache: 'no-store'
+            }
+        );
+
+        const data =
+            await res.json();
+
+        if (
+            !res.ok ||
+            !data?.url ||
+            !String(
+                data.url
+            ).startsWith('https://')
+        ) {
+
+            throw new Error(
+                'Invalid ordering URL'
+            );
+        }
+
+        win.location.href =
+            data.url;
+
+    } catch {
+
+        win.location.href =
+            'https://tizola.in/share/foodies2/5680';
+
+    }
+}
+
+// ============================================================
+// ASK FOODIES
+// ============================================================
+
+function setupAskFoodies() {
+
+    askFoodiesBtn =
+        document.getElementById(
+            'askFoodiesBtn'
+        );
+
+    askFoodiesBtn?.addEventListener(
+        'click',
+        () => {
+
+            const searchTerm =
+                document
+                    .getElementById(
+                        'menuSearch'
+                    )
+                    ?.value
+                    .trim();
+
+            if (!searchTerm) {
+
+                return showToast(
+                    'Please enter a dish name first.',
+                    'error'
+                );
+            }
+
+            submitItemRequest(
+                searchTerm
+            );
+
+        }
+    );
+}
 
 // ============================================================
 // MENU
@@ -1225,362 +2746,468 @@ async function loadMenu(
             'menuGrid'
         );
 
-
     const empty =
         document.getElementById(
             'menuEmpty'
         );
 
-
-    if (!container) {
+    if (!container || !empty) {
         return;
     }
 
+    menuRequestController?.abort();
 
-    // --------------------------------------------------------
-    // Skeleton
-    // --------------------------------------------------------
+    menuRequestController =
+        new AbortController();
 
     container.innerHTML = `
-
         <div class="menu-skeleton">
 
             ${Array(4)
             .fill(0)
-            .map(() => {
+            .map(
+                () => `
+                    <div class="skeleton-card">
 
-                return `
+                        <div class="skeleton-img"></div>
 
-                        <div class="skeleton-card">
+                        <div class="skeleton-text">
 
-                            <div class="skeleton-img"></div>
+                            <div class="line"></div>
 
-                            <div class="skeleton-text">
+                            <div class="line short"></div>
 
-                                <div class="line"></div>
-
-                                <div class="line short"></div>
-
-                                <div class="line short"></div>
-
-                            </div>
+                            <div class="line short"></div>
 
                         </div>
 
-                    `;
-
-            })
-            .join('')
-        }
+                    </div>
+                `
+            )
+            .join('')}
 
         </div>
-
     `;
-
 
     try {
 
-        let url =
-            `${API_BASE}/menu?`;
-
+        const params =
+            new URLSearchParams();
 
         if (
             category &&
             category !== 'all'
         ) {
 
-            url +=
-                `category=${encodeURIComponent(
-                    category
-                )}&`;
-
+            params.set(
+                'category',
+                category
+            );
         }
-
 
         if (search) {
 
-            url +=
-                `search=${encodeURIComponent(
-                    search
-                )}&`;
-
+            params.set(
+                'search',
+                search.slice(0, 100)
+            );
         }
 
+        const query =
+            params.toString();
 
-        const response =
-            await fetch(url);
+        const res = await fetch(
+            `${API_BASE}/menu${query ? `?${query}` : ''}`,
+            {
+                signal:
+                    menuRequestController.signal,
+                cache: 'no-store'
+            }
+        );
 
-
-        if (!response.ok) {
+        if (!res.ok) {
 
             throw new Error(
                 'Failed to fetch menu'
             );
-
         }
 
-
         const items =
-            await response.json();
-
+            await res.json();
 
         allMenuItems =
-            items;
+            Array.isArray(items)
+                ? items
+                : [];
 
+        cacheMenuItems(
+            allMenuItems
+        );
 
-        // ----------------------------------------------------
-        // No Results
-        // ----------------------------------------------------
-
-        if (!items.length) {
+        if (!allMenuItems.length) {
 
             container.innerHTML = '';
 
+            empty.style.display =
+                'block';
 
-            if (empty) {
-                empty.style.display =
-                    'block';
+            const askBtn =
+                document.getElementById(
+                    'askFoodiesBtn'
+                );
+
+            if (askBtn) {
+
+                askBtn.style.display =
+                    search
+                        ? 'inline-block'
+                        : 'none';
+
             }
 
-
             return;
-
         }
 
-
-        if (empty) {
-            empty.style.display =
-                'none';
-        }
-
-
-        // ----------------------------------------------------
-        // Render Menu
-        // ----------------------------------------------------
+        empty.style.display =
+            'none';
 
         container.innerHTML =
-            items
-                .map(item => {
-
-                    const vegIcon =
-                        item.veg
-                            ? '🟢'
-                            : '🔴';
-
-
-                    const availabilityClass =
-                        item.available
-                            ? 'available'
-                            : 'unavailable';
-
-
-                    const availabilityText =
-                        item.available
-                            ? 'Available'
-                            : 'Unavailable';
-
-
-                    const badges = [];
-
-
-                    if (item.popular) {
-
-                        badges.push(`
-
-                            <span class="badge popular">
-                                Popular
-                            </span>
-
-                        `);
-
-                    }
-
-
-                    if (item.chef_special) {
-
-                        badges.push(`
-
-                            <span class="badge chef">
-                                Chef’s Special
-                            </span>
-
-                        `);
-
-                    }
-
-
-                    return `
-
-                        <div class="menu-card">
-
-                            <div class="card-image">
-
-                                ${item.image &&
-                            (
-                                item.image.startsWith(
-                                    'data:image'
-                                ) ||
-                                item.image.startsWith(
-                                    'http'
-                                )
-                            )
-                            ?
-                            `
-                                        <img
-                                            src="${item.image}"
-                                            alt="${escapeHtml(item.name)}"
-                                            style="width:100%;height:100%;object-fit:cover;"
-                                        >
-                                    `
-                            :
-                            (
-                                item.image ||
-                                '🍽️'
-                            )
-                        }
-
-
-                                <span class="veg-badge">
-                                    ${vegIcon}
-                                </span>
-
-
-                                <div class="badge-group">
-                                    ${badges.join('')}
-                                </div>
-
-                            </div>
-
-
-                            <div class="card-body">
-
-                                <h4>
-                                    ${escapeHtml(item.name)}
-                                </h4>
-
-
-                                <div class="desc">
-                                    ${escapeHtml(
-                            item.description ||
-                            ''
-                        )}
-                                </div>
-
-
-                                <div class="card-footer">
-
-                                    <span class="price">
-                                        ₹${formatMoney(
-                            item.price
-                        )}
-                                    </span>
-
-
-                                    <span
-                                        class="availability
-                                        ${availabilityClass}"
-                                    >
-                                        ${availabilityText}
-                                    </span>
-
-                                </div>
-
-
-                                <button
-                                    type="button"
-                                    class="add-to-cart-btn"
-                                    onclick="addMenuItemToCart('${item.id}')"
-                                    ${!item.available
-                            ? 'disabled'
-                            : ''
-                        }
-                                >
-                                    🛒 Add to Cart
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-                })
+            allMenuItems
+                .map(renderMenuItemCard)
                 .join('');
 
+        attachFavouriteHandlers(
+            container
+        );
 
-    } catch (error) {
+        updateFavouriteUI();
+
+    } catch (e) {
+
+        if (e.name === 'AbortError') {
+            return;
+        }
 
         console.error(
             'Menu error:',
-            error
+            e
         );
 
-
         container.innerHTML = `
-
             <p class="menu-empty">
-                Something went wrong.
-                Please try again.
+                Something went wrong. Please try again.
             </p>
-
         `;
 
-
-        if (empty) {
-
-            empty.style.display =
-                'none';
-
-        }
-
+        empty.style.display =
+            'none';
     }
-
 }
 
+function renderMenuItemCard(item) {
 
-// ============================================================
-// MENU FILTERS
-// ============================================================
+    cacheMenuItems([item]);
+
+    const vegIcon =
+        Number(item.veg)
+            ? '🟢'
+            : '🔴';
+
+    const availabilityClass =
+        Number(item.available)
+            ? 'available'
+            : 'unavailable';
+
+    const availText =
+        Number(item.available)
+            ? 'Available'
+            : 'Unavailable';
+
+    let badges = '';
+
+    if (Number(item.popular)) {
+
+        badges += `
+            <span class="badge popular">
+                Popular
+            </span>
+        `;
+    }
+
+    if (Number(item.chef_special)) {
+
+        badges += `
+            <span class="badge chef">
+                Chef’s Special
+            </span>
+        `;
+    }
+
+    const isFav =
+        favouriteIds.includes(
+            Number(item.id)
+        );
+
+    return `
+        <div class="menu-card">
+
+            <div class="card-image">
+
+                ${imageHtml(
+        item.image,
+        item.name
+    )}
+
+                <span
+                    class="veg-badge"
+                    title="${Number(item.veg)
+            ? 'Vegetarian'
+            : 'Non-vegetarian'
+        }"
+                >
+                    ${vegIcon}
+                </span>
+
+                <div class="badge-group">
+                    ${badges}
+                </div>
+
+                <button
+                    type="button"
+                    class="favourite-btn"
+                    data-id="${escapeHtml(item.id)}"
+                    aria-label="Toggle ${escapeHtml(item.name)} favourite"
+                    aria-pressed="${isFav}"
+                >
+                    ${isFav ? '❤️' : '🤍'}
+                </button>
+
+            </div>
+
+            <div class="card-body">
+
+                <h4>
+                    ${escapeHtml(item.name)}
+                </h4>
+
+                <div class="desc">
+                    ${escapeHtml(
+            item.description || ''
+        )}
+                </div>
+
+                <div class="card-footer">
+
+                    <span class="price">
+                        ₹${formatMoney(item.price)}
+                    </span>
+
+                    <span
+                        class="availability ${availabilityClass}"
+                    >
+                        ${availText}
+                    </span>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="add-to-cart-btn"
+                    onclick="addMenuItemToCart('${escapeHtml(item.id)}')"
+                    ${!Number(item.available) ? 'disabled' : ''}
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+function attachFavouriteHandlers(
+    container
+) {
+
+    container
+        .querySelectorAll(
+            '.favourite-btn'
+        )
+        .forEach(btn => {
+
+            btn.addEventListener(
+                'click',
+                e => {
+
+                    e.stopPropagation();
+
+                    toggleFavourite(
+                        Number(
+                            btn.dataset.id
+                        )
+                    );
+
+                }
+            );
+
+        });
+}
+
+function renderSearchResults(query) {
+
+    const results =
+        document.getElementById('searchResults');
+
+    if (!results) return;
+
+    const search =
+        String(query || '').trim().toLowerCase();
+
+    if (!search) {
+        results.innerHTML = '';
+        results.style.display = 'none';
+        return;
+    }
+
+    const matches =
+        allMenuItems.filter(item =>
+            String(item.name || '')
+                .toLowerCase()
+                .includes(search)
+        );
+
+    if (!matches.length) {
+        results.innerHTML = `
+            <div class="search-no-results">
+                <p style="margin: 0 0 10px 0;">No items found for "<strong>${escapeHtml(search)}</strong>"</p>
+                <button 
+                    type="button" 
+                    class="btn btn-primary" 
+                    id="searchRequestBtn" 
+                    style="padding: 8px 20px; font-size: 14px; border-radius: 6px; cursor: pointer;"
+                >
+                    🙋 Ask Foodies to Make It
+                </button>
+            </div>
+        `;
+        results.style.display = 'block';
+
+        // Attach click handler to the new button
+        const requestBtn = document.getElementById('searchRequestBtn');
+        if (requestBtn) {
+            requestBtn.addEventListener('click', function () {
+                submitItemRequest(search);
+            });
+        }
+        return;
+    }
+
+    results.innerHTML =
+        matches.slice(0, 8).map(item => `
+
+            <button
+                type="button"
+                class="search-result-item"
+                data-id="${escapeHtml(item.id)}"
+            >
+
+                <span class="search-result-image">
+                    ${imageHtml(
+            item.image,
+            item.name
+        )}
+                </span>
+
+                <span class="search-result-name">
+                    ${escapeHtml(item.name)}
+                </span>
+
+            </button>
+
+        `).join('');
+
+    results.style.display = 'block';
+
+    results
+        .querySelectorAll('.search-result-item')
+        .forEach(result => {
+
+            result.addEventListener(
+                'click',
+                () => {
+
+                    const item =
+                        menuItemCache.get(
+                            String(
+                                result.dataset.id
+                            )
+                        );
+
+                    if (!item) return;
+
+                    const searchInput =
+                        document.getElementById(
+                            'menuSearch'
+                        );
+
+                    if (searchInput) {
+                        searchInput.value =
+                            item.name;
+                    }
+
+                    currentSearch =
+                        item.name;
+
+                    results.innerHTML = '';
+                    results.style.display =
+                        'none';
+
+                    loadMenu(
+                        currentCategory,
+                        item.name
+                    );
+
+                    // Scroll to menu section
+                    document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
+
+                }
+            );
+
+        });
+}
 
 function setupMenuFilters() {
 
-    const filterButtons =
+    const filterBtns =
         document.querySelectorAll(
             '.filter-btn'
         );
-
 
     const searchInput =
         document.getElementById(
             'menuSearch'
         );
 
+    filterBtns.forEach(btn => {
 
-    filterButtons.forEach(button => {
-
-        button.addEventListener(
+        btn.addEventListener(
             'click',
             () => {
 
-                filterButtons.forEach(
-                    item => {
-
-                        item.classList.remove(
+                filterBtns.forEach(
+                    b =>
+                        b.classList.remove(
                             'active'
-                        );
-
-                    }
+                        )
                 );
 
-
-                button.classList.add(
+                btn.classList.add(
                     'active'
                 );
 
-
                 currentCategory =
-                    button.dataset.category;
-
+                    btn.dataset.category ||
+                    'all';
 
                 loadMenu(
                     currentCategory,
@@ -1592,42 +3219,186 @@ function setupMenuFilters() {
 
     });
 
-
     if (searchInput) {
 
-        let searchTimeout;
-
+        let timeout;
 
         searchInput.addEventListener(
             'input',
-            event => {
+            e => {
 
-                clearTimeout(
-                    searchTimeout
-                );
+                clearTimeout(timeout);
 
+                const value =
+                    e.target.value.trim();
 
-                searchTimeout =
-                    setTimeout(() => {
+                // Live search suggestions
+                renderSearchResults(value);
 
-                        currentSearch =
-                            event.target.value.trim();
+                timeout =
+                    setTimeout(
+                        () => {
 
+                            currentSearch =
+                                value;
 
-                        loadMenu(
-                            currentCategory,
-                            currentSearch
-                        );
+                            loadMenu(
+                                currentCategory,
+                                currentSearch
+                            );
 
-                    }, 300);
+                            const askBtn =
+                                document.getElementById(
+                                    'askFoodiesBtn'
+                                );
+
+                            if (askBtn) {
+
+                                askBtn.style.display =
+                                    currentSearch
+                                        ? 'inline-block'
+                                        : 'none';
+
+                            }
+
+                        },
+                        300
+                    );
 
             }
         );
 
-    }
+        // Close results when clicking outside
+        document.addEventListener(
+            'click',
+            e => {
 
+                const results =
+                    document.getElementById(
+                        'searchResults'
+                    );
+
+                if (
+                    !searchInput.contains(e.target) &&
+                    !results?.contains(e.target)
+                ) {
+
+                    if (results) {
+                        results.style.display =
+                            'none';
+                    }
+
+                }
+
+            }
+        );
+    }
 }
 
+// ============================================================
+// FEATURED
+// ============================================================
+
+async function loadFeatured() {
+
+    const container =
+        document.getElementById(
+            'featuredGrid'
+        );
+
+    if (!container) return;
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/featured`,
+            {
+                cache: 'no-store'
+            }
+        );
+
+        if (!res.ok) {
+
+            throw new Error(
+                'Failed to fetch featured'
+            );
+        }
+
+        const items =
+            await res.json();
+
+        if (
+            !Array.isArray(items) ||
+            !items.length
+        ) {
+
+            container.innerHTML = `
+                <p class="menu-empty">
+                    No featured items yet.
+                </p>
+            `;
+
+            return;
+        }
+
+        container.innerHTML =
+            items
+                .map(
+                    item => `
+                    <div class="featured-card">
+
+                        <div class="card-image">
+                            ${imageHtml(
+                        item.image,
+                        item.name
+                    )}
+                        </div>
+
+                        <div class="card-body">
+
+                            <h4>
+                                ${escapeHtml(
+                        item.name
+                    )}
+                            </h4>
+
+                            <p>
+                                ${escapeHtml(
+                        item.description || ''
+                    )}
+                            </p>
+
+                            <div class="card-footer">
+
+                                <span class="price">
+                                    ₹${formatMoney(
+                        item.price
+                    )}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                `
+                )
+                .join('');
+
+    } catch (e) {
+
+        console.error(
+            'Featured error:',
+            e
+        );
+
+        container.innerHTML = `
+            <p class="menu-empty">
+                Could not load featured dishes.
+            </p>
+        `;
+    }
+}
 
 // ============================================================
 // REVIEWS
@@ -1640,240 +3411,175 @@ async function loadReviews() {
             'reviewsGrid'
         );
 
-
-    const statsContainer =
+    const stats =
         document.getElementById(
             'reviewsStats'
         );
 
-
-    if (!container) {
-        return;
-    }
-
+    if (!container) return;
 
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE}/reviews`
-            );
+        const res = await fetch(
+            `${API_BASE}/reviews`,
+            {
+                cache: 'no-store'
+            }
+        );
 
-
-        if (!response.ok) {
+        if (!res.ok) {
 
             throw new Error(
                 'Failed to fetch reviews'
             );
-
         }
-
 
         const reviews =
-            await response.json();
-
+            await res.json();
 
         const total =
-            reviews.length;
+            Array.isArray(reviews)
+                ? reviews.length
+                : 0;
 
+        const avg =
+            total
+                ? (
+                    reviews.reduce(
+                        (a, r) =>
+                            a +
+                            Number(r.rating),
+                        0
+                    ) / total
+                ).toFixed(1)
+                : '0.0';
 
-        let average =
-            0;
+        const full =
+            Math.max(
+                0,
+                Math.min(
+                    5,
+                    Math.round(
+                        Number(avg)
+                    )
+                )
+            );
 
+        if (stats) {
 
-        if (total > 0) {
-
-            const sum =
-                reviews.reduce(
-                    (acc, review) =>
-                        acc + Number(
-                            review.rating
-                        ),
-                    0
-                );
-
-
-            average =
-                (
-                    sum /
-                    total
-                ).toFixed(1);
-
-        }
-
-
-        // ----------------------------------------------------
-        // Review Statistics
-        // ----------------------------------------------------
-
-        if (statsContainer) {
-
-            const ratingElement =
-                statsContainer.querySelector(
+            const avgRating =
+                stats.querySelector(
                     '#avgRating'
                 );
 
-
-            const starsElement =
-                statsContainer.querySelector(
+            const avgStars =
+                stats.querySelector(
                     '#avgStars'
                 );
 
-
-            const countElement =
-                statsContainer.querySelector(
+            const reviewCount =
+                stats.querySelector(
                     '#reviewCount'
                 );
 
+            if (avgRating) {
+                avgRating.textContent =
+                    avg;
+            }
 
-            if (ratingElement) {
+            if (avgStars) {
 
-                ratingElement.textContent =
-                    average || '0.0';
+                avgStars.textContent =
+                    '★'.repeat(full) +
+                    '☆'.repeat(5 - full);
 
             }
 
+            if (reviewCount) {
 
-            if (starsElement) {
-
-                const fullStars =
-                    Math.round(
-                        Number(average)
-                    );
-
-
-                starsElement.textContent =
-                    '★'.repeat(
-                        fullStars
-                    ) +
-                    '☆'.repeat(
-                        5 - fullStars
-                    );
+                reviewCount.textContent =
+                    `${total} review${total !== 1 ? 's' : ''}`;
 
             }
-
-
-            if (countElement) {
-
-                countElement.textContent =
-                    `${total} review${total !== 1
-                        ? 's'
-                        : ''
-                    }`;
-
-            }
-
         }
 
-
-        // ----------------------------------------------------
-        // Empty Reviews
-        // ----------------------------------------------------
-
-        if (!reviews.length) {
+        if (!total) {
 
             container.innerHTML = `
-
                 <p class="menu-empty">
-                    No reviews yet.
-                    Be the first!
+                    No reviews yet. Be the first!
                 </p>
-
             `;
 
             return;
-
         }
-
-
-        // ----------------------------------------------------
-        // Render Reviews
-        // ----------------------------------------------------
 
         container.innerHTML =
             reviews
-                .map(review => {
+                .map(r => {
+
+                    const rating =
+                        Math.max(
+                            1,
+                            Math.min(
+                                5,
+                                Number(r.rating)
+                            )
+                        );
 
                     return `
-
                         <div class="review-card">
 
                             <div class="review-header">
 
                                 <span class="review-name">
-                                    ${escapeHtml(
-                        review.name
-                    )}
+                                    ${escapeHtml(r.name)}
                                 </span>
 
-
-                                <span class="review-stars">
-
-                                    ${'★'.repeat(
-                        Number(
-                            review.rating
-                        )
-                    )
-                        }
-
-                                    ${'☆'.repeat(
-                            5 -
-                            Number(
-                                review.rating
-                            )
-                        )
-                        }
-
+                                <span
+                                    class="review-stars"
+                                    aria-label="${rating} out of 5 stars"
+                                >
+                                    ${'★'.repeat(rating)}
+                                    ${'☆'.repeat(5 - rating)}
                                 </span>
 
                             </div>
-
 
                             <div class="review-comment">
                                 ${escapeHtml(
-                            review.comment
-                        )}
+                        r.comment
+                    )}
                             </div>
 
-
                             <div class="review-date">
-
-                                ${new Date(
-                            review.created_at
-                        )
-                            .toLocaleDateString()
-                        }
-
+                                ${escapeHtml(
+                        new Date(
+                            r.created_at
+                        ).toLocaleDateString()
+                    )}
                             </div>
 
                         </div>
-
                     `;
 
                 })
                 .join('');
 
-
-    } catch (error) {
+    } catch (e) {
 
         console.error(
             'Reviews error:',
-            error
+            e
         );
 
-
         container.innerHTML = `
-
             <p class="menu-empty">
                 Could not load reviews.
             </p>
-
         `;
-
     }
-
 }
-
 
 // ============================================================
 // REVIEW FORM
@@ -1886,29 +3592,22 @@ function setupReviewForm() {
             'reviewForm'
         );
 
-
-    if (!form) {
-        return;
-    }
-
+    if (!form) return;
 
     const stars =
         form.querySelectorAll(
-            '.star-rating span'
+            '.star-rating button'
         );
-
 
     const ratingInput =
         document.getElementById(
             'reviewRatingInput'
         );
 
-
-    const messageElement =
+    const msg =
         document.getElementById(
             'reviewMessage'
         );
-
 
     stars.forEach(star => {
 
@@ -1916,64 +3615,22 @@ function setupReviewForm() {
             'click',
             () => {
 
-                const value =
-                    parseInt(
+                const val =
+                    Number(
                         star.dataset.value
                     );
-
 
                 ratingInput.value =
-                    value;
+                    String(val);
 
+                stars.forEach(s => {
 
-                stars.forEach(item => {
-
-                    item.classList.toggle(
+                    s.classList.toggle(
                         'active',
-                        parseInt(
-                            item.dataset.value
-                        ) <= value
+                        Number(
+                            s.dataset.value
+                        ) <= val
                     );
-
-                });
-
-            }
-        );
-
-
-        star.addEventListener(
-            'mouseenter',
-            () => {
-
-                const value =
-                    parseInt(
-                        star.dataset.value
-                    );
-
-
-                stars.forEach(item => {
-
-                    item.style.color =
-                        parseInt(
-                            item.dataset.value
-                        ) <= value
-                            ? '#C99A52'
-                            : '';
-
-                });
-
-            }
-        );
-
-
-        star.addEventListener(
-            'mouseleave',
-            () => {
-
-                stars.forEach(item => {
-
-                    item.style.color =
-                        '';
 
                 });
 
@@ -1982,13 +3639,11 @@ function setupReviewForm() {
 
     });
 
-
     form.addEventListener(
         'submit',
-        async event => {
+        async e => {
 
-            event.preventDefault();
-
+            e.preventDefault();
 
             const name =
                 document
@@ -1998,12 +3653,10 @@ function setupReviewForm() {
                     .value
                     .trim();
 
-
             const rating =
-                parseInt(
+                Number(
                     ratingInput.value
                 );
-
 
             const comment =
                 document
@@ -2013,174 +3666,122 @@ function setupReviewForm() {
                     .value
                     .trim();
 
-
             if (
                 !name ||
                 !rating ||
                 !comment
             ) {
 
-                showMessage(
-                    messageElement,
-                    'Please fill in all fields and select a rating.',
+                return showFormMessage(
+                    msg,
+                    'Please fill all fields and select a rating.',
                     'error'
                 );
-
-                return;
-
             }
 
-
-            const submitButton =
+            const btn =
                 document.getElementById(
                     'reviewSubmitBtn'
                 );
 
-
-            submitButton.disabled =
-                true;
-
-
-            submitButton.textContent =
+            btn.disabled = true;
+            btn.textContent =
                 'Submitting...';
-
 
             try {
 
-                const response =
+                const res =
                     await fetch(
                         `${API_BASE}/reviews`,
                         {
-
                             method: 'POST',
-
                             headers: {
-
                                 'Content-Type':
                                     'application/json'
-
                             },
-
-                            body:
-                                JSON.stringify({
-
-                                    name,
-
-                                    rating,
-
-                                    comment
-
-                                })
-
+                            body: JSON.stringify({
+                                name,
+                                rating,
+                                comment
+                            })
                         }
                     );
 
+                const data =
+                    await res.json();
 
-                if (!response.ok) {
-
-                    const errorData =
-                        await response.json();
-
+                if (!res.ok) {
 
                     throw new Error(
-                        errorData.detail ||
-                        'Failed to submit'
+                        data.detail ||
+                        'Submission failed'
                     );
-
                 }
 
-
-                showMessage(
-                    messageElement,
+                showFormMessage(
+                    msg,
                     '✅ Review submitted successfully!',
                     'success'
                 );
 
-
                 form.reset();
 
-
                 stars.forEach(
-                    star =>
-                        star.classList.remove(
+                    s =>
+                        s.classList.remove(
                             'active'
                         )
                 );
 
-
-                ratingInput.value =
-                    0;
-
+                ratingInput.value = '0';
 
                 loadReviews();
 
+            } catch (err) {
 
-            } catch (error) {
-
-                showMessage(
-                    messageElement,
-                    '❌ ' + error.message,
+                showFormMessage(
+                    msg,
+                    `❌ ${err.message}`,
                     'error'
                 );
 
-
             } finally {
 
-                submitButton.disabled =
-                    false;
+                btn.disabled = false;
 
-
-                submitButton.textContent =
+                btn.textContent =
                     'Submit Review';
 
             }
 
         }
     );
-
 }
 
-
 // ============================================================
-// SHOW MESSAGE
+// BOOKINGS
 // ============================================================
 
-function showMessage(
-    element,
-    text,
-    type
-) {
+function getLocalDateInputValue() {
 
-    if (!element) {
-        return;
-    }
+    const now =
+        new Date();
 
+    const year =
+        now.getFullYear();
 
-    element.textContent =
-        text;
+    const month =
+        String(
+            now.getMonth() + 1
+        ).padStart(2, '0');
 
+    const day =
+        String(
+            now.getDate()
+        ).padStart(2, '0');
 
-    element.className =
-        `form-message ${type}`;
-
-
-    element.style.display =
-        'block';
-
-
-    setTimeout(() => {
-
-        element.style.display =
-            'none';
-
-    }, 5000);
-
+    return `${year}-${month}-${day}`;
 }
-
-
-// ============================================================
-// BOOKING
-// ============================================================
 
 function setupBookingForm() {
 
@@ -2189,52 +3790,36 @@ function setupBookingForm() {
             'bookingForm'
         );
 
-
-    const confirmation =
+    const confirmBox =
         document.getElementById(
             'bookingConfirmation'
         );
 
-
-    const messageElement =
+    const msg =
         document.getElementById(
             'bookingMessage'
         );
 
-
-    if (!form) {
-        return;
-    }
-
+    if (!form) return;
 
     const dateInput =
         document.getElementById(
             'bookDate'
         );
 
-
     if (dateInput) {
-
-        const today =
-            new Date()
-                .toISOString()
-                .split('T')[0];
-
 
         dateInput.setAttribute(
             'min',
-            today
+            getLocalDateInputValue()
         );
-
     }
-
 
     form.addEventListener(
         'submit',
-        async event => {
+        async e => {
 
-            event.preventDefault();
-
+            e.preventDefault();
 
             const name =
                 document
@@ -2244,7 +3829,6 @@ function setupBookingForm() {
                     .value
                     .trim();
 
-
             const phone =
                 document
                     .getElementById(
@@ -2253,32 +3837,22 @@ function setupBookingForm() {
                     .value
                     .trim();
 
-
             const guests =
-                parseInt(
-                    document
-                        .getElementById(
-                            'bookGuests'
-                        )
-                        .value
+                Number(
+                    document.getElementById(
+                        'bookGuests'
+                    ).value
                 );
 
-
-            const date =
-                document
-                    .getElementById(
-                        'bookDate'
-                    )
-                    .value;
-
+            const bookingDate =
+                document.getElementById(
+                    'bookDate'
+                ).value;
 
             const time =
-                document
-                    .getElementById(
-                        'bookTime'
-                    )
-                    .value;
-
+                document.getElementById(
+                    'bookTime'
+                ).value;
 
             const notes =
                 document
@@ -2288,214 +3862,170 @@ function setupBookingForm() {
                     .value
                     .trim();
 
-
             if (
                 !name ||
                 !phone ||
                 !guests ||
-                !date ||
+                !bookingDate ||
                 !time
             ) {
 
-                showMessage(
-                    messageElement,
-                    'Please fill in all required fields.',
+                return showFormMessage(
+                    msg,
+                    'Please fill all required fields.',
                     'error'
                 );
-
-                return;
             }
 
+            if (!/^\d{10}$/.test(phone)) {
 
-            const submitButton =
+                return showFormMessage(
+                    msg,
+                    'Phone must be exactly 10 digits.',
+                    'error'
+                );
+            }
+
+            if (
+                !Number.isInteger(guests) ||
+                guests < 1 ||
+                guests > 50
+            ) {
+
+                return showFormMessage(
+                    msg,
+                    'Guests must be between 1 and 50.',
+                    'error'
+                );
+            }
+
+            if (
+                bookingDate <
+                getLocalDateInputValue()
+            ) {
+
+                return showFormMessage(
+                    msg,
+                    'Please choose today or a future date.',
+                    'error'
+                );
+            }
+
+            const btn =
                 document.getElementById(
                     'bookSubmitBtn'
                 );
 
-
-            submitButton.disabled =
-                true;
-
-
-            submitButton.textContent =
+            btn.disabled = true;
+            btn.textContent =
                 'Booking...';
-
 
             try {
 
-                const response =
+                const headers = {
+                    'Content-Type':
+                        'application/json'
+                };
+
+                if (authToken) {
+
+                    headers.Authorization =
+                        `Bearer ${authToken}`;
+
+                }
+
+                const res =
                     await fetch(
                         `${API_BASE}/bookings`,
                         {
-
                             method: 'POST',
-
-                            headers: {
-
-                                'Content-Type':
-                                    'application/json'
-
-                            },
-
-                            body:
-                                JSON.stringify({
-
-                                    name,
-
-                                    phone,
-
-                                    guests,
-
-                                    date,
-
-                                    time,
-
-                                    notes
-
-                                })
-
+                            headers,
+                            body: JSON.stringify({
+                                name,
+                                phone,
+                                guests,
+                                date: bookingDate,
+                                time,
+                                notes
+                            })
                         }
                     );
 
+                const data =
+                    await res.json();
 
-                if (!response.ok) {
+                if (res.status === 401) {
 
-                    const errorData =
-                        await response.json();
+                    logoutUser(
+                        'Session expired. Please log in again.',
+                        'error'
+                    );
 
+                    return;
+                }
+
+                if (!res.ok) {
 
                     throw new Error(
-                        errorData.detail ||
+                        data.detail ||
                         'Booking failed'
                     );
-
                 }
 
+                document.getElementById(
+                    'confirmId'
+                ).textContent =
+                    `#${data.id}`;
 
-                const data =
-                    await response.json();
+                document.getElementById(
+                    'confirmName'
+                ).textContent =
+                    data.name;
 
+                document.getElementById(
+                    'confirmDate'
+                ).textContent =
+                    data.date;
 
-                const confirmId =
-                    document.getElementById(
-                        'confirmId'
-                    );
+                document.getElementById(
+                    'confirmTime'
+                ).textContent =
+                    data.time;
 
+                document.getElementById(
+                    'confirmGuests'
+                ).textContent =
+                    data.guests;
 
-                const confirmName =
-                    document.getElementById(
-                        'confirmName'
-                    );
-
-
-                const confirmDate =
-                    document.getElementById(
-                        'confirmDate'
-                    );
-
-
-                const confirmTime =
-                    document.getElementById(
-                        'confirmTime'
-                    );
-
-
-                const confirmGuests =
-                    document.getElementById(
-                        'confirmGuests'
-                    );
-
-
-                const confirmStatus =
-                    document.getElementById(
-                        'confirmStatus'
-                    );
-
-
-                if (confirmId) {
-
-                    confirmId.textContent =
-                        '#' + data.id;
-
-                }
-
-
-                if (confirmName) {
-
-                    confirmName.textContent =
-                        data.name;
-
-                }
-
-
-                if (confirmDate) {
-
-                    confirmDate.textContent =
-                        data.date;
-
-                }
-
-
-                if (confirmTime) {
-
-                    confirmTime.textContent =
-                        data.time;
-
-                }
-
-
-                if (confirmGuests) {
-
-                    confirmGuests.textContent =
-                        data.guests;
-
-                }
-
-
-                if (confirmStatus) {
-
-                    confirmStatus.textContent =
-                        data.status;
-
-                }
-
+                document.getElementById(
+                    'confirmStatus'
+                ).textContent =
+                    data.status;
 
                 form.style.display =
                     'none';
 
-
-                if (confirmation) {
-
-                    confirmation.style.display =
+                if (confirmBox) {
+                    confirmBox.style.display =
                         'block';
-
                 }
 
+                msg.style.display =
+                    'none';
 
-                if (messageElement) {
+            } catch (err) {
 
-                    messageElement.style.display =
-                        'none';
-
-                }
-
-
-            } catch (error) {
-
-                showMessage(
-                    messageElement,
-                    '❌ ' + error.message,
+                showFormMessage(
+                    msg,
+                    `❌ ${err.message}`,
                     'error'
                 );
 
-
             } finally {
 
-                submitButton.disabled =
-                    false;
+                btn.disabled = false;
 
-
-                submitButton.textContent =
+                btn.textContent =
                     'Book Now';
 
             }
@@ -2503,48 +4033,220 @@ function setupBookingForm() {
         }
     );
 
-
-    const newBookingButton =
-        document.getElementById(
+    document
+        .getElementById(
             'bookingNewBtn'
-        );
-
-
-    if (newBookingButton) {
-
-        newBookingButton.addEventListener(
+        )
+        ?.addEventListener(
             'click',
             () => {
 
                 form.style.display =
                     'block';
 
-
-                if (confirmation) {
-
-                    confirmation.style.display =
+                if (confirmBox) {
+                    confirmBox.style.display =
                         'none';
-
                 }
-
 
                 form.reset();
 
+                if (dateInput) {
 
-                if (messageElement) {
+                    dateInput.setAttribute(
+                        'min',
+                        getLocalDateInputValue()
+                    );
 
-                    messageElement.style.display =
-                        'none';
+                }
+
+                msg.style.display =
+                    'none';
+
+                if (currentUser) {
+
+                    const name =
+                        document.getElementById(
+                            'bookName'
+                        );
+
+                    const phone =
+                        document.getElementById(
+                            'bookPhone'
+                        );
+
+                    if (name) {
+                        name.value =
+                            currentUser.username || '';
+                    }
+
+                    if (phone) {
+                        phone.value =
+                            currentUser.phone || '';
+                    }
 
                 }
 
             }
         );
-
-    }
-
 }
 
+async function loadMyBookings() {
+
+    const container =
+        document.getElementById(
+            'myBookingsList'
+        );
+
+    if (!container) return;
+
+    if (!authToken || !currentUser) {
+
+        container.innerHTML = `
+            <p class="menu-empty">
+                Please login to view your bookings.
+            </p>
+        `;
+
+        return;
+    }
+
+    try {
+
+        const res =
+            await fetch(
+                `${API_BASE}/my-bookings`,
+                {
+                    headers: {
+                        'Authorization':
+                            `Bearer ${authToken}`
+                    },
+                    cache: 'no-store'
+                }
+            );
+
+        if (res.status === 401) {
+
+            logoutUser(
+                'Session expired. Please log in again.',
+                'error'
+            );
+
+            return;
+        }
+
+        const bookings =
+            await res.json();
+
+        if (!res.ok) {
+
+            throw new Error(
+                bookings.detail ||
+                'Failed to fetch bookings'
+            );
+        }
+
+        if (!bookings.length) {
+
+            container.innerHTML = `
+                <p class="menu-empty">
+                    You have no bookings yet.
+                </p>
+            `;
+
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Guests</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        ${bookings.map(
+            b => `
+                            <tr>
+
+                                <td>
+                                    ${escapeHtml(b.id)}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(b.name)}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(b.phone)}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(b.guests)}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(b.date)}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(b.time)}
+                                </td>
+
+                                <td>
+
+                                    <span
+                                        class="badge ${escapeHtml(
+                String(
+                    b.status
+                ).toLowerCase()
+            )}"
+                                    >
+                                        ${escapeHtml(
+                b.status
+            )}
+                                    </span>
+
+                                </td>
+
+                            </tr>
+                        `
+        ).join('')}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        `;
+
+    } catch (e) {
+
+        console.error(
+            'My bookings error:',
+            e
+        );
+
+        container.innerHTML = `
+            <p class="menu-empty">
+                Could not load bookings.
+            </p>
+        `;
+    }
+}
 
 // ============================================================
 // GALLERY
@@ -2557,99 +4259,153 @@ function setupGallery() {
             'galleryGrid'
         );
 
-
-    if (!grid) {
-        return;
-    }
-
+    if (!grid) return;
 
     const lightbox =
         document.getElementById(
             'lightbox'
         );
 
-
     const lightboxImage =
         document.getElementById(
             'lightboxImage'
         );
-
 
     const lightboxClose =
         document.getElementById(
             'lightboxClose'
         );
 
-
     const lightboxPrev =
         document.getElementById(
             'lightboxPrev'
         );
-
 
     const lightboxNext =
         document.getElementById(
             'lightboxNext'
         );
 
+    let currentImages = [];
+    let currentIndex = 0;
 
-    let currentGalleryImages = [];
-    let currentGalleryIndex = 0;
+    const closeLightbox = () => {
 
+        lightbox?.classList.remove(
+            'open'
+        );
 
-    // --------------------------------------------------------
-    // Open Lightbox
-    // --------------------------------------------------------
+    };
 
-    function openLightbox(index) {
+    const openLightbox = index => {
 
         if (
             !lightbox ||
             !lightboxImage ||
-            !currentGalleryImages.length
+            !currentImages.length
         ) {
             return;
         }
 
-
-        currentGalleryIndex =
-            index;
-
+        currentIndex = index;
 
         lightboxImage.src =
-            currentGalleryImages[
-            currentGalleryIndex
-            ];
-
+            currentImages[currentIndex];
 
         lightbox.classList.add(
             'open'
         );
+    };
 
-    }
+    lightboxClose?.addEventListener(
+        'click',
+        closeLightbox
+    );
 
+    lightbox?.addEventListener(
+        'click',
+        e => {
 
-    // --------------------------------------------------------
-    // Close Lightbox
-    // --------------------------------------------------------
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
 
-    function closeLightbox() {
-
-        if (!lightbox) {
-            return;
         }
+    );
 
+    lightboxPrev?.addEventListener(
+        'click',
+        e => {
 
-        lightbox.classList.remove(
-            'open'
-        );
+            e.stopPropagation();
 
-    }
+            if (!currentImages.length) {
+                return;
+            }
 
+            currentIndex =
+                (
+                    currentIndex -
+                    1 +
+                    currentImages.length
+                ) %
+                currentImages.length;
 
-    // --------------------------------------------------------
-    // Gallery Rendering
-    // --------------------------------------------------------
+            lightboxImage.src =
+                currentImages[currentIndex];
+
+        }
+    );
+
+    lightboxNext?.addEventListener(
+        'click',
+        e => {
+
+            e.stopPropagation();
+
+            if (!currentImages.length) {
+                return;
+            }
+
+            currentIndex =
+                (
+                    currentIndex +
+                    1
+                ) %
+                currentImages.length;
+
+            lightboxImage.src =
+                currentImages[currentIndex];
+
+        }
+    );
+
+    document.addEventListener(
+        'keydown',
+        e => {
+
+            if (
+                !lightbox?.classList.contains(
+                    'open'
+                )
+            ) {
+                return;
+            }
+
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+
+            if (e.key === 'ArrowLeft') {
+                lightboxPrev?.click();
+            }
+
+            if (e.key === 'ArrowRight') {
+                lightboxNext?.click();
+            }
+
+        }
+    );
 
     async function renderGallery(
         filter = 'all'
@@ -2657,150 +4413,163 @@ function setupGallery() {
 
         try {
 
-            const response =
+            const res =
                 await fetch(
-                    `${API_BASE}/gallery`
+                    `${API_BASE}/gallery`,
+                    {
+                        cache: 'no-store'
+                    }
                 );
 
-
-            if (!response.ok) {
+            if (!res.ok) {
 
                 throw new Error(
                     'Failed to fetch gallery'
                 );
-
             }
 
-
             const items =
-                await response.json();
-
+                await res.json();
 
             const filtered =
                 filter === 'all'
                     ? items
                     : items.filter(
-                        item =>
-                            item.category ===
+                        i =>
+                            i.category ===
                             filter
                     );
 
-
             if (!filtered.length) {
 
-                currentGalleryImages = [];
-
+                currentImages = [];
 
                 grid.innerHTML = `
-
                     <p class="menu-empty">
-
                         No images in this category.
-
                     </p>
-
                 `;
 
                 return;
-
             }
 
-
-            currentGalleryImages =
-                filtered.map(
-                    item => item.image
-                );
-
+            currentImages =
+                filtered
+                    .filter(
+                        i =>
+                            isSafeImageSource(
+                                i.image
+                            )
+                    )
+                    .map(
+                        i => i.image
+                    );
 
             grid.innerHTML =
                 filtered
-                    .map((item, index) => {
+                    .map(
+                        (item, idx) => {
 
-                        return `
+                            const safeImage =
+                                isSafeImageSource(
+                                    item.image
+                                );
 
-                            <div
-                                class="gallery-item"
-                                data-index="${index}"
-                            >
-
-                                <img
-                                    src="${item.image}"
-                                    alt="${escapeHtml(
-                            item.label ||
-                            'Gallery'
-                        )}"
-                                    loading="lazy"
+                            return `
+                                <button
+                                    type="button"
+                                    class="gallery-item"
+                                    data-index="${idx}"
+                                    aria-label="Open ${escapeHtml(
+                                item.label ||
+                                'Gallery image'
+                            )}"
                                 >
 
-                                <div class="gallery-label">
+                                    ${safeImage
+                                    ? `
+                                            <img
+                                                src="${escapeHtml(
+                                        item.image
+                                    )}"
+                                                alt="${escapeHtml(
+                                        item.label ||
+                                        'Gallery'
+                                    )}"
+                                                loading="lazy"
+                                            >
+                                        `
+                                    : `
+                                            <span class="image-fallback">
+                                                🍽️
+                                            </span>
+                                        `
+                                }
 
-                                    ${escapeHtml(
-                            item.label ||
-                            ''
-                        )}
+                                    <span class="gallery-label">
+                                        ${escapeHtml(
+                                    item.label ||
+                                    ''
+                                )}
+                                    </span>
 
-                                </div>
-
-                            </div>
-
-                        `;
-
-                    })
+                                </button>
+                            `;
+                        }
+                    )
                     .join('');
-
 
             grid
                 .querySelectorAll(
                     '.gallery-item'
                 )
-                .forEach(item => {
+                .forEach(el => {
 
-                    item.addEventListener(
+                    el.addEventListener(
                         'click',
                         () => {
 
-                            const index =
+                            const item =
+                                filtered[
                                 Number(
-                                    item.dataset.index
+                                    el.dataset.index
+                                )
+                                ];
+
+                            const safeIndex =
+                                currentImages.indexOf(
+                                    item?.image
                                 );
 
+                            if (
+                                safeIndex >= 0
+                            ) {
 
-                            openLightbox(
-                                index
-                            );
+                                openLightbox(
+                                    safeIndex
+                                );
+
+                            }
 
                         }
                     );
 
                 });
 
-
-        } catch (error) {
+        } catch (e) {
 
             console.error(
                 'Gallery error:',
-                error
+                e
             );
 
-
             grid.innerHTML = `
-
                 <p class="menu-empty">
-
                     Could not load gallery.
-
                 </p>
-
             `;
-
         }
-
     }
-
-
-    // --------------------------------------------------------
-    // Gallery Tabs
-    // --------------------------------------------------------
 
     document
         .querySelectorAll(
@@ -2816,22 +4585,20 @@ function setupGallery() {
                         .querySelectorAll(
                             '.gallery-tab'
                         )
-                        .forEach(item => {
-
-                            item.classList.remove(
-                                'active'
-                            );
-
-                        });
-
+                        .forEach(
+                            t =>
+                                t.classList.remove(
+                                    'active'
+                                )
+                        );
 
                     tab.classList.add(
                         'active'
                     );
 
-
                     renderGallery(
-                        tab.dataset.category
+                        tab.dataset.category ||
+                        'all'
                     );
 
                 }
@@ -2839,163 +4606,8 @@ function setupGallery() {
 
         });
 
-
-    // --------------------------------------------------------
-    // Lightbox Controls
-    // --------------------------------------------------------
-
-    if (lightboxClose) {
-
-        lightboxClose.addEventListener(
-            'click',
-            closeLightbox
-        );
-
-    }
-
-
-    if (lightbox) {
-
-        lightbox.addEventListener(
-            'click',
-            event => {
-
-                if (
-                    event.target ===
-                    lightbox
-                ) {
-
-                    closeLightbox();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (lightboxPrev) {
-
-        lightboxPrev.addEventListener(
-            'click',
-            event => {
-
-                event.stopPropagation();
-
-
-                if (!currentGalleryImages.length) {
-                    return;
-                }
-
-
-                currentGalleryIndex =
-                    (
-                        currentGalleryIndex -
-                        1 +
-                        currentGalleryImages.length
-                    ) %
-                    currentGalleryImages.length;
-
-
-                if (lightboxImage) {
-
-                    lightboxImage.src =
-                        currentGalleryImages[
-                        currentGalleryIndex
-                        ];
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (lightboxNext) {
-
-        lightboxNext.addEventListener(
-            'click',
-            event => {
-
-                event.stopPropagation();
-
-
-                if (!currentGalleryImages.length) {
-                    return;
-                }
-
-
-                currentGalleryIndex =
-                    (
-                        currentGalleryIndex +
-                        1
-                    ) %
-                    currentGalleryImages.length;
-
-
-                if (lightboxImage) {
-
-                    lightboxImage.src =
-                        currentGalleryImages[
-                        currentGalleryIndex
-                        ];
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // --------------------------------------------------------
-    // Keyboard Lightbox
-    // --------------------------------------------------------
-
-    document.addEventListener(
-        'keydown',
-        event => {
-
-            if (
-                !lightbox ||
-                !lightbox.classList.contains('open')
-            ) {
-                return;
-            }
-
-
-            if (event.key === 'Escape') {
-
-                closeLightbox();
-
-            }
-
-
-            if (event.key === 'ArrowLeft' &&
-                lightboxPrev) {
-
-                lightboxPrev.click();
-
-            }
-
-
-            if (event.key === 'ArrowRight' &&
-                lightboxNext) {
-
-                lightboxNext.click();
-
-            }
-
-        }
-    );
-
-
     renderGallery('all');
-
 }
-
 
 // ============================================================
 // ABOUT IMAGE
@@ -3003,144 +4615,67 @@ function setupGallery() {
 
 async function loadAboutImage() {
 
-    const image =
+    const img =
         document.getElementById(
             'aboutImage'
         );
 
-
-    if (!image) {
-        return;
-    }
-
+    if (!img) return;
 
     try {
 
-        const response =
+        const res =
             await fetch(
-                `${API_BASE}/about-image`
+                `${API_BASE}/about-image`,
+                {
+                    cache: 'no-store'
+                }
             );
 
-
-        if (!response.ok) {
+        if (!res.ok) {
 
             throw new Error(
                 'Failed to fetch about image'
             );
-
         }
 
-
         const data =
-            await response.json();
+            await res.json();
 
+        if (
+            data.image &&
+            isSafeImageSource(
+                data.image
+            )
+        ) {
 
-        if (data.image) {
-
-            image.src =
+            img.src =
                 data.image;
 
-
-            image.style.display =
+            img.style.display =
                 'block';
 
         } else {
 
-            image.style.display =
+            img.style.display =
                 'none';
 
         }
 
-
-    } catch (error) {
+    } catch (e) {
 
         console.error(
             'About image error:',
-            error
+            e
         );
 
-
-        image.style.display =
+        img.style.display =
             'none';
-
     }
-
 }
 
-
 // ============================================================
-// TOAST
-// ============================================================
-
-function showToast(
-    message,
-    type = 'success'
-) {
-
-    let container =
-        document.querySelector(
-            '.toast-container'
-        );
-
-
-    if (!container) {
-
-        container =
-            document.createElement(
-                'div'
-            );
-
-
-        container.className =
-            'toast-container';
-
-
-        document.body.appendChild(
-            container
-        );
-
-    }
-
-
-    const toast =
-        document.createElement(
-            'div'
-        );
-
-
-    toast.className =
-        `toast ${type}`;
-
-
-    toast.textContent =
-        message;
-
-
-    container.appendChild(
-        toast
-    );
-
-
-    setTimeout(() => {
-
-        toast.classList.add(
-            'toast-out'
-        );
-
-
-        setTimeout(() => {
-
-            toast.remove();
-
-        }, 400);
-
-    }, 3000);
-
-}
-
-
-// ============================================================
-// GLOBAL FUNCTIONS
+// GLOBALS FOR INLINE BUTTONS
 // ============================================================
 
 window.showToast =
@@ -3169,3 +4704,9 @@ window.closeCart =
 
 window.orderCart =
     orderCart;
+
+window.toggleFavourite =
+    toggleFavourite;
+
+window.submitItemRequest =
+    submitItemRequest;

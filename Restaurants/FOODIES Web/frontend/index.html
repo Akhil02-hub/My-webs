@@ -5,97 +5,327 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Foodies | Bakery, Cakes & Fast Food in Kodad</title>
-
     <meta name="description"
         content="Foodies in Kodad offers fresh cakes, bakery favourites, fast food, Chinese dishes, biryani and more." />
 
-    <meta property="og:title" content="Foodies | Bakery, Cakes & Fast Food in Kodad" />
-    <meta property="og:description"
-        content="Fresh cakes, bakery favourites, fast food, Chinese dishes and biryani — all under one roof." />
+    <meta name="theme-color" content="#1B1612" />
+
+    <title>Foodies | Bakery, Cakes & Fast Food in Kodad</title>
 
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
 
     <link rel="stylesheet" href="style.css" />
+
+    <!-- =========================================================
+         THREE UI CHANGES
+         ========================================================= -->
+
+    <style>
+        /* ---------------------------------------------------------
+           1. TOP SEARCH BAR
+           --------------------------------------------------------- */
+
+        .nav-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+
+        .nav-search input {
+            width: 210px;
+            height: 40px;
+            padding: 0 38px 0 14px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font: inherit;
+            outline: none;
+        }
+
+        .nav-search input::placeholder {
+            opacity: 0.65;
+        }
+
+        .nav-search input:focus {
+            border-color: currentColor;
+        }
+
+        .nav-search .search-icon {
+            position: absolute;
+            right: 13px;
+            pointer-events: none;
+            font-size: 15px;
+        }
+
+        /* ---------------------------------------------------------
+           2. SMALL FAVOURITE HEART
+           --------------------------------------------------------- */
+
+        .favourite-btn {
+            width: 30px !important;
+            height: 30px !important;
+            min-width: 30px !important;
+            min-height: 30px !important;
+            padding: 0 !important;
+            font-size: 15px !important;
+            line-height: 1 !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* ---------------------------------------------------------
+           3. MOBILE NAV SEARCH
+           --------------------------------------------------------- */
+
+        @media (max-width: 900px) {
+            .nav-search {
+                width: 100%;
+                margin: 10px 0;
+                order: 10;
+            }
+
+            .nav-search input {
+                width: 100%;
+            }
+        }
+
+        /* ---------------------------------------------------------
+           4. SEARCH RESULTS - HORIZONTAL (image left, text right)
+        --------------------------------------------------------- */
+
+        .search-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            padding: 8px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .search-results.active {
+            display: flex;
+        }
+
+        .search-result-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: #f8f8f8;
+        }
+
+        .search-result-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+            background: #eee;
+        }
+
+        .search-result-item .item-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1B1612;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+        }
+
+        .search-result-item .item-category {
+            font-size: 11px;
+            color: #999;
+            font-weight: 400;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .search-no-results {
+            padding: 16px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Loading Screen -->
+    <!-- =========================================================
+         LOADING SCREEN
+         ========================================================= -->
+
     <div id="loading-screen" aria-hidden="true">
         <div class="loader-spinner"></div>
         <p>Loading Foodies...</p>
     </div>
 
-    <!-- Navbar -->
-    <nav class="navbar" id="navbar" role="navigation">
+    <!-- =========================================================
+         NAVBAR
+         ========================================================= -->
+
+    <nav class="navbar" id="navbar" aria-label="Main navigation">
+
         <div class="nav-container">
 
             <div class="nav-brand">
                 <a href="#home" class="brand-link">FOODIES</a>
             </div>
 
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false"
+                aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </button>
 
-            <ul class="nav-links" id="navLinks" role="menubar">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#reviews">Reviews</a></li>
-                <li><a href="#booking">Booking</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <ul class="nav-links" id="navLinks">
 
+                <!-- Menu -->
+                <li>
+                    <a href="#menu">Menu</a>
+                </li>
+
+                <!-- Booking -->
                 <li class="nav-cta">
                     <a href="#booking" class="btn btn-primary btn-small">
                         Book a Table
                     </a>
                 </li>
 
-                <!-- Cart button in navbar -->
-                <li class="nav-cart">
-                    <button type="button" class="nav-cart-btn" id="navCartBtn" aria-label="Open shopping cart">
-                        🛒
-                        <span class="cart-count" id="navCartCount">0</span>
+                <!-- SEARCH BAR -->
+                <li class="nav-search">
+                    <input type="search" id="menuSearch" placeholder="Search dishes..." aria-label="Search menu"
+                        autocomplete="off" />
+
+                    <span class="search-icon" aria-hidden="true">🔍</span>
+
+                    <div id="searchResults" class="search-results"></div>
+                </li>
+
+                <!-- TIZOLA -->
+                <li class="nav-order">
+                    <button type="button" class="btn btn-order" id="orderNowBtn">
+                        Order from Tizola
                     </button>
                 </li>
+
+                <!-- USER -->
+                <li class="nav-user" id="navUser">
+
+                    <button type="button" class="nav-user-btn" id="userMenuBtn" aria-label="User menu"
+                        aria-haspopup="true" aria-expanded="false">
+
+                        👤
+                        <span id="userNameDisplay">Account</span>
+
+                    </button>
+
+                    <div class="user-dropdown" id="userDropdown">
+
+                        <a href="#" id="myBookingsLink">
+                            My Bookings
+                        </a>
+
+                        <a href="#" id="myFavouritesLink">
+                            My Favourites
+                        </a>
+
+                        <a href="#" id="logoutLink">
+                            Logout
+                        </a>
+
+                    </div>
+
+                </li>
+
+                <!-- CART -->
+                <li class="nav-cart">
+
+                    <button type="button" class="nav-cart-btn" id="navCartBtn" aria-label="Open shopping cart"
+                        aria-expanded="false">
+
+                        🛒
+                        <span class="cart-count" id="navCartCount">
+                            0
+                        </span>
+
+                    </button>
+
+                </li>
+
             </ul>
+
         </div>
+
     </nav>
 
-    <!-- Hero -->
-    <section class="hero" id="home">
 
-        <div class="hero-overlay"></div>
+    <!-- =========================================================
+         MAIN
+         ========================================================= -->
 
-        <div class="hero-content">
-            <div class="hero-text">
+    <main>
 
-                <span class="hero-subtitle">Welcome to</span>
+        <!-- HERO -->
+        <section class="hero" id="home">
 
-                <h1 class="hero-title">FOODIES</h1>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+
+                <span class="hero-subtitle">
+                    Welcome to
+                </span>
+
+                <h1 class="hero-title">
+                    FOODIES
+                </h1>
 
                 <p class="hero-tagline">
                     Taste. Celebrate. Enjoy.
                 </p>
 
                 <p class="hero-desc">
-                    Fresh cakes, bakery favourites, fast food, Chinese dishes and biryani —
-                    all under one roof.
+                    Fresh cakes, bakery favourites, fast food,
+                    Chinese dishes and biryani — all under one roof.
                 </p>
 
                 <div class="hero-buttons">
+
                     <a href="#menu" class="btn btn-primary">
                         Explore Menu
                     </a>
@@ -103,719 +333,298 @@
                     <a href="#booking" class="btn btn-secondary">
                         Book a Table
                     </a>
-                </div>
 
-            </div>
-        </div>
+                    <button type="button" class="btn btn-outline" id="heroOrderNow">
+                        Order from Tizola
+                    </button>
 
-        <div class="scroll-indicator" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-    </section>
-
-    <!-- Highlights -->
-    <section class="highlights" aria-label="Highlights">
-
-        <div class="container">
-
-            <div class="highlights-grid">
-
-                <div class="highlight-card">
-                    <div class="highlight-icon">🍽️</div>
-                    <div class="highlight-number">10+</div>
-                    <p>Popular Dishes</p>
-                </div>
-
-                <div class="highlight-card">
-                    <div class="highlight-icon">🎂</div>
-                    <div class="highlight-number">Custom</div>
-                    <p>Cakes &amp; Celebrations</p>
-                </div>
-
-                <div class="highlight-card">
-                    <div class="highlight-icon">👨‍👩‍👧‍👦</div>
-                    <div class="highlight-number">Family</div>
-                    <p>Friendly Dining</p>
-                </div>
-
-                <div class="highlight-card">
-                    <div class="highlight-icon">🥐</div>
-                    <div class="highlight-number">Fresh</div>
-                    <p>Bakery Favourites</p>
                 </div>
 
             </div>
 
-        </div>
+            <div class="scroll-indicator" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
-    </section>
+        </section>
 
-    <!-- About -->
-    <section class="about" id="about">
 
-        <div class="container">
+        <!-- HIGHLIGHTS -->
+        <section class="highlights" aria-label="Highlights">
 
-            <div class="about-grid">
+            <div class="container">
 
-                <div class="about-text">
+                <div class="highlights-grid">
 
-                    <span class="section-tag">
-                        About Us
-                    </span>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">🍽️</div>
+                        <div class="highlight-number">10+</div>
+                        <p>Popular Dishes</p>
+                    </div>
 
-                    <h2 class="section-title">
-                        A little bit of everything.<br />
-                        Made for everyone.
-                    </h2>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">🎂</div>
+                        <div class="highlight-number">Custom</div>
+                        <p>Cakes &amp; Celebrations</p>
+                    </div>
 
-                    <p>
-                        Foodies brings together the best of bakery, cakes, fast food,
-                        Chinese, biryani, and snacks – all in one welcoming space.
-                    </p>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">👨‍👩‍👧‍👦</div>
+                        <div class="highlight-number">Family</div>
+                        <p>Friendly Dining</p>
+                    </div>
 
-                    <div class="about-features">
-
-                        <div class="about-feature">
-                            <span class="about-feature-icon">🥖</span>
-                            <div>
-                                <strong>Fresh Bakery</strong>
-                                <p>Daily baked goods, breads &amp; pastries.</p>
-                            </div>
-                        </div>
-
-                        <div class="about-feature">
-                            <span class="about-feature-icon">🎂</span>
-                            <div>
-                                <strong>Custom Cakes</strong>
-                                <p>Designed for your special moments.</p>
-                            </div>
-                        </div>
-
-                        <div class="about-feature">
-                            <span class="about-feature-icon">👪</span>
-                            <div>
-                                <strong>Family Dining</strong>
-                                <p>Comfortable seating for everyone.</p>
-                            </div>
-                        </div>
-
-                        <div class="about-feature">
-                            <span class="about-feature-icon">🛵</span>
-                            <div>
-                                <strong>Takeaway &amp; Delivery</strong>
-                                <p>Enjoy Foodies at home.</p>
-                            </div>
-                        </div>
-
+                    <div class="highlight-card">
+                        <div class="highlight-icon">🥐</div>
+                        <div class="highlight-number">Fresh</div>
+                        <p>Bakery Favourites</p>
                     </div>
 
                 </div>
 
-                <div class="about-image">
-                    <img id="aboutImage" src="" alt="About Foodies" style="display:none;" />
-                </div>
-
             </div>
 
-        </div>
+        </section>
 
-    </section>
 
-    <!-- Featured Dishes -->
-    <section class="featured" id="featured">
+        <!-- ABOUT -->
+        <section class="about" id="about">
 
-        <div class="container">
+            <div class="container">
 
-            <span class="section-tag">
-                Signature Favourites
-            </span>
+                <div class="about-grid">
 
-            <h2 class="section-title">
-                Chef's Special
-            </h2>
+                    <div class="about-text">
 
-            <div class="featured-grid" id="featuredGrid">
+                        <span class="section-tag">
+                            About Us
+                        </span>
 
-                <div class="featured-skeleton" aria-hidden="true">
+                        <h2 class="section-title">
+                            A little bit of everything.<br />
+                            Made for everyone.
+                        </h2>
 
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
+                        <p>
+                            Foodies brings together the best of bakery,
+                            cakes, fast food, Chinese, biryani, and snacks
+                            – all in one welcoming space.
+                        </p>
 
-                </div>
+                        <div class="about-features">
 
-            </div>
+                            <div class="about-feature">
+                                <span class="about-feature-icon">🥖</span>
+                                <div>
+                                    <strong>Fresh Bakery</strong>
+                                    <p>Daily baked goods, breads &amp; pastries.</p>
+                                </div>
+                            </div>
 
-        </div>
+                            <div class="about-feature">
+                                <span class="about-feature-icon">🎂</span>
+                                <div>
+                                    <strong>Custom Cakes</strong>
+                                    <p>Designed for your special moments.</p>
+                                </div>
+                            </div>
 
-    </section>
+                            <div class="about-feature">
+                                <span class="about-feature-icon">👪</span>
+                                <div>
+                                    <strong>Family Dining</strong>
+                                    <p>Comfortable seating for everyone.</p>
+                                </div>
+                            </div>
 
-    <!-- Menu -->
-    <section class="menu-section" id="menu">
+                            <div class="about-feature">
+                                <span class="about-feature-icon">🛵</span>
+                                <div>
+                                    <strong>Takeaway &amp; Delivery</strong>
+                                    <p>Enjoy Foodies at home.</p>
+                                </div>
+                            </div>
 
-        <div class="container">
+                        </div>
 
-            <span class="section-tag">
-                Our Menu
-            </span>
+                    </div>
 
-            <h2 class="section-title">
-                Explore What We Offer
-            </h2>
-
-            <div class="menu-filters">
-
-                <div class="filter-group" id="filterGroup">
-
-                    <button class="filter-btn active" data-category="all">
-                        All
-                    </button>
-
-                    <button class="filter-btn" data-category="Biryani">
-                        Biryani
-                    </button>
-
-                    <button class="filter-btn" data-category="Fast Food">
-                        Fast Food
-                    </button>
-
-                    <button class="filter-btn" data-category="Chinese">
-                        Chinese
-                    </button>
-
-                    <button class="filter-btn" data-category="Cakes">
-                        Cakes
-                    </button>
-
-                    <button class="filter-btn" data-category="Bakery">
-                        Bakery
-                    </button>
-
-                    <button class="filter-btn" data-category="Beverages">
-                        Beverages
-                    </button>
-
-                </div>
-
-                <div class="menu-search">
-
-                    <input type="text" id="menuSearch" placeholder="Search dishes..." aria-label="Search menu" />
-
-                    <span class="search-icon">
-                        🔍
-                    </span>
+                    <div class="about-image">
+                        <img id="aboutImage" src="" alt="About Foodies" style="display:none;" />
+                    </div>
 
                 </div>
 
             </div>
 
-            <div class="menu-grid" id="menuGrid">
+        </section>
 
-                <div class="menu-skeleton" aria-hidden="true">
 
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
+        <!-- FEATURED -->
+        <section class="featured" id="featured">
 
-                </div>
-
-            </div>
-
-            <div class="menu-empty" id="menuEmpty" style="display:none;">
-
-                <span class="empty-icon">
-                    🍽️
-                </span>
-
-                <p>
-                    No dishes found.
-                </p>
-
-                <p class="empty-sub">
-                    Try another category or search term.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- Cake / Celebration -->
-    <section class="cake-section" id="cakes">
-
-        <div class="container">
-
-            <div class="cake-content">
+            <div class="container">
 
                 <span class="section-tag">
-                    Celebrations
+                    Signature Favourites
                 </span>
 
                 <h2 class="section-title">
-                    Made for your special moments.
+                    Chef's Special
                 </h2>
 
-                <p>
-                    From birthday cakes to anniversary treats,
-                    our custom creations are baked with care.
-                </p>
+                <div class="featured-grid" id="featuredGrid">
 
-                <div class="cake-grid">
+                    <div class="featured-skeleton" aria-hidden="true">
 
-                    <div class="cake-card">
-                        <span class="cake-emoji">🎂</span>
-                        <h4>Birthday Cakes</h4>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+
                     </div>
-
-                    <div class="cake-card">
-                        <span class="cake-emoji">💍</span>
-                        <h4>Anniversary Cakes</h4>
-                    </div>
-
-                    <div class="cake-card">
-                        <span class="cake-emoji">✨</span>
-                        <h4>Custom Cakes</h4>
-                    </div>
-
-                    <div class="cake-card">
-                        <span class="cake-emoji">🧁</span>
-                        <h4>Cupcakes &amp; Pops</h4>
-                    </div>
-
-                </div>
-
-                <div class="cake-cta">
-
-                    <a href="#menu" class="btn btn-primary">
-                        Explore Cakes
-                    </a>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
 
-    <!-- Gallery -->
-    <section class="gallery-section" id="gallery">
+        <!-- MENU -->
+        <section class="menu-section" id="menu">
 
-        <div class="container">
+            <div class="container">
 
-            <span class="section-tag">
-                Gallery
-            </span>
+                <span class="section-tag">
+                    Our Menu
+                </span>
 
-            <h2 class="section-title">
-                A Glimpse Inside
-            </h2>
+                <h2 class="section-title">
+                    Explore What We Offer
+                </h2>
 
-            <div class="gallery-tabs" id="galleryTabs">
+                <div class="menu-filters">
 
-                <button class="gallery-tab active" data-category="all">
-                    All
-                </button>
+                    <div class="filter-group" id="filterGroup">
 
-                <button class="gallery-tab" data-category="Food">
-                    Food
-                </button>
+                        <button type="button" class="filter-btn active" data-category="all">
+                            All
+                        </button>
 
-                <button class="gallery-tab" data-category="Cakes">
-                    Cakes
-                </button>
+                        <button type="button" class="filter-btn" data-category="Biryani">
+                            Biryani
+                        </button>
 
-                <button class="gallery-tab" data-category="Bakery">
-                    Bakery
-                </button>
+                        <button type="button" class="filter-btn" data-category="Fast Food">
+                            Fast Food
+                        </button>
 
-                <button class="gallery-tab" data-category="Restaurant">
-                    Restaurant
-                </button>
+                        <button type="button" class="filter-btn" data-category="Chinese">
+                            Chinese
+                        </button>
 
-            </div>
+                        <button type="button" class="filter-btn" data-category="Cakes">
+                            Cakes
+                        </button>
 
-            <div class="gallery-grid" id="galleryGrid"></div>
+                        <button type="button" class="filter-btn" data-category="Bakery">
+                            Bakery
+                        </button>
 
-            <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+                        <button type="button" class="filter-btn" data-category="Beverages">
+                            Beverages
+                        </button>
 
-                <button class="lightbox-close" id="lightboxClose" aria-label="Close">
-                    ✕
-                </button>
-
-                <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous">
-                    ‹
-                </button>
-
-                <button class="lightbox-next" id="lightboxNext" aria-label="Next">
-                    ›
-                </button>
-
-                <img class="lightbox-image" id="lightboxImage" src="" alt="Enlarged view" />
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- Reviews -->
-    <section class="reviews-section" id="reviews">
-
-        <div class="container">
-
-            <span class="section-tag">
-                Testimonials
-            </span>
-
-            <h2 class="section-title">
-                What Our Customers Say
-            </h2>
-
-            <div class="reviews-stats" id="reviewsStats">
-
-                <div class="review-rating">
-
-                    <span class="rating-number" id="avgRating">
-                        0.0
-                    </span>
-
-                    <div class="rating-stars" id="avgStars">
-                        ☆☆☆☆☆
                     </div>
-
-                    <span class="rating-count" id="reviewCount">
-                        0 reviews
-                    </span>
 
                 </div>
 
-            </div>
 
-            <div class="reviews-grid" id="reviewsGrid">
+                <div class="menu-grid" id="menuGrid">
 
-                <div class="review-skeleton" aria-hidden="true">
+                    <div class="menu-skeleton" aria-hidden="true">
 
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+
+                    </div>
 
                 </div>
 
-            </div>
 
-            <div class="review-form-container">
+                <div class="menu-empty" id="menuEmpty" style="display:none;">
 
-                <h3>
-                    Share Your Experience
-                </h3>
+                    <span class="empty-icon">🍽️</span>
 
-                <form id="reviewForm" class="review-form">
+                    <p>No dishes found.</p>
 
-                    <div class="form-group">
+                    <p class="empty-sub">
+                        Try another category or search term.
+                    </p>
 
-                        <label for="reviewName">
-                            Your Name
-                        </label>
-
-                        <input type="text" id="reviewName" placeholder="Enter your name" required />
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label>
-                            Rating
-                        </label>
-
-                        <div class="star-rating" id="starRating">
-
-                            <span data-value="1">☆</span>
-                            <span data-value="2">☆</span>
-                            <span data-value="3">☆</span>
-                            <span data-value="4">☆</span>
-                            <span data-value="5">☆</span>
-
-                        </div>
-
-                        <input type="hidden" id="reviewRatingInput" value="0" />
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="reviewComment">
-                            Your Review
-                        </label>
-
-                        <textarea id="reviewComment" rows="3" placeholder="Tell us about your experience..."
-                            required></textarea>
-
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" id="reviewSubmitBtn">
-                        Submit Review
+                    <button type="button" class="btn btn-primary" id="askFoodiesBtn" style="margin-top:16px;">
+                        🙋 Ask Foodies to Make It
                     </button>
 
-                    <div id="reviewMessage" class="form-message"></div>
-
-                </form>
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
 
-    <!-- Booking -->
-    <section class="booking-section" id="booking">
+        <!-- CAKES -->
+        <section class="cake-section" id="cakes">
 
-        <div class="container">
+            <div class="container">
 
-            <div class="booking-wrapper">
-
-                <div class="booking-info">
+                <div class="cake-content">
 
                     <span class="section-tag">
-                        Reserve Your Table
+                        Celebrations
                     </span>
 
                     <h2 class="section-title">
-                        Book a Table
+                        Made for your special moments.
                     </h2>
 
                     <p>
-                        Planning a visit? Let us know when you're coming,
-                        and we'll make sure a warm welcome awaits you.
+                        From birthday cakes to anniversary treats,
+                        our custom creations are baked with care.
                     </p>
 
-                    <ul class="booking-info-list">
+                    <div class="cake-grid">
 
-                        <li>
-                            💬 <strong>WhatsApp us:</strong>
-
-                            <a href="https://wa.me/919951000029" target="_blank" rel="noopener noreferrer">
-                                099510 00029
-                            </a>
-                        </li>
-
-                        <li>
-                            📍 <strong>Location:</strong>
-                            Kodad Main Road, beside Ranga Theater
-                        </li>
-
-                        <li>
-                            👥 <strong>Groups &amp; families</strong>
-                            welcome
-                        </li>
-
-                    </ul>
-
-                </div>
-
-                <div class="booking-form-container">
-
-                    <form id="bookingForm" class="booking-form">
-
-                        <div class="form-group">
-
-                            <label for="bookName">
-                                Your Name
-                            </label>
-
-                            <input type="text" id="bookName" placeholder="Enter your name" required />
-
+                        <div class="cake-card">
+                            <span class="cake-emoji">🎂</span>
+                            <h4>Birthday Cakes</h4>
                         </div>
 
-                        <div class="form-group">
-
-                            <label for="bookPhone">
-                                Phone Number
-                            </label>
-
-                            <input type="tel" id="bookPhone" placeholder="Enter phone number" required />
-
+                        <div class="cake-card">
+                            <span class="cake-emoji">💍</span>
+                            <h4>Anniversary Cakes</h4>
                         </div>
 
-                        <div class="form-group">
-
-                            <label for="bookGuests">
-                                Number of Guests
-                            </label>
-
-                            <input type="number" id="bookGuests" placeholder="2" min="1" max="50" required />
-
+                        <div class="cake-card">
+                            <span class="cake-emoji">✨</span>
+                            <h4>Custom Cakes</h4>
                         </div>
 
-                        <div class="form-row">
-
-                            <div class="form-group">
-
-                                <label for="bookDate">
-                                    Date
-                                </label>
-
-                                <input type="date" id="bookDate" required />
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for="bookTime">
-                                    Time
-                                </label>
-
-                                <input type="time" id="bookTime" required />
-
-                            </div>
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <label for="bookNotes">
-                                Special Requests
-                            </label>
-
-                            <textarea id="bookNotes" rows="2"
-                                placeholder="Any special occasion, seating preference, or dietary needs?"></textarea>
-
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" id="bookSubmitBtn">
-                            Book Now
-                        </button>
-
-                        <div id="bookingMessage" class="form-message"></div>
-
-                    </form>
-
-                    <div class="booking-confirmation" id="bookingConfirmation" style="display:none;">
-
-                        <div class="confirmation-icon">
-                            ✓
-                        </div>
-
-                        <h3>
-                            Booking Received
-                        </h3>
-
-                        <div class="confirmation-details">
-
-                            <p>
-                                <strong>Booking ID:</strong>
-                                <span id="confirmId">#1024</span>
-                            </p>
-
-                            <p>
-                                <strong>Name:</strong>
-                                <span id="confirmName">—</span>
-                            </p>
-
-                            <p>
-                                <strong>Date:</strong>
-                                <span id="confirmDate">—</span>
-                            </p>
-
-                            <p>
-                                <strong>Time:</strong>
-                                <span id="confirmTime">—</span>
-                            </p>
-
-                            <p>
-                                <strong>Guests:</strong>
-                                <span id="confirmGuests">—</span>
-                            </p>
-
-                            <p>
-                                <strong>Status:</strong>
-
-                                <span class="status-pending" id="confirmStatus">
-                                    Pending
-                                </span>
-
-                            </p>
-
-                        </div>
-
-                        <button class="btn btn-secondary" id="bookingNewBtn">
-                            Book Another
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- Contact -->
-    <section class="contact-section" id="contact">
-
-        <div class="container">
-
-            <span class="section-tag">
-                Get in Touch
-            </span>
-
-            <h2 class="section-title">
-                Contact Us
-            </h2>
-
-            <div class="contact-grid">
-
-                <div class="contact-info">
-
-                    <div class="contact-card">
-
-                        <h4>FOODIES</h4>
-
-                        <p>
-                            Kodad Main Road,<br />
-                            beside Ranga Theater,<br />
-                            Kodad, Telangana 508206
-                        </p>
-
-                        <p>
-
-                            <a href="https://wa.me/919951000029" class="contact-phone" target="_blank"
-                                rel="noopener noreferrer">
-                                099510 00029
-                            </a>
-
-                        </p>
-
-                        <div class="contact-services">
-                            <span>Dine-in</span>
-                            <span>Takeaway</span>
-                            <span>Delivery</span>
-                            <span>Drive-through</span>
+                        <div class="cake-card">
+                            <span class="cake-emoji">🧁</span>
+                            <h4>Cupcakes &amp; Pops</h4>
                         </div>
 
                     </div>
 
-                </div>
+                    <div class="cake-cta">
 
-                <div class="contact-map">
-
-                    <div class="map-placeholder">
-
-                        <p>
-                            📍 Foodies, Kodad Main Road,
-                            beside Ranga Theater
-                        </p>
-
-                        <a href="https://maps.google.com/maps?q=Kodad+Main+Road+beside+Ranga+Theater+Kodad+Telangana"
-                            target="_blank" rel="noopener" class="btn btn-secondary btn-small">
-                            Get Directions
+                        <a href="#menu" class="btn btn-primary">
+                            Explore Cakes
                         </a>
 
                     </div>
@@ -824,32 +633,543 @@
 
             </div>
 
-            <div class="hours-section">
+        </section>
 
-                <h4>
-                    Opening Hours
-                </h4>
 
-                <p class="hours-note">
-                    (Please call to confirm current timings)
-                </p>
+        <!-- GALLERY -->
+        <section class="gallery-section" id="gallery">
 
-                <ul class="hours-list">
+            <div class="container">
 
-                    <li>
-                        <span>Monday – Sunday</span>
-                        <span>9:00 AM – 10:00 PM</span>
-                    </li>
+                <span class="section-tag">
+                    Gallery
+                </span>
 
-                </ul>
+                <h2 class="section-title">
+                    A Glimpse Inside
+                </h2>
+
+                <div class="gallery-tabs" id="galleryTabs">
+
+                    <button type="button" class="gallery-tab active" data-category="all">
+                        All
+                    </button>
+
+                    <button type="button" class="gallery-tab" data-category="Food">
+                        Food
+                    </button>
+
+                    <button type="button" class="gallery-tab" data-category="Cakes">
+                        Cakes
+                    </button>
+
+                    <button type="button" class="gallery-tab" data-category="Bakery">
+                        Bakery
+                    </button>
+
+                    <button type="button" class="gallery-tab" data-category="Restaurant">
+                        Restaurant
+                    </button>
+
+                </div>
+
+                <div class="gallery-grid" id="galleryGrid">
+                </div>
+
+                <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+
+                    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close">
+                        ✕
+                    </button>
+
+                    <button type="button" class="lightbox-prev" id="lightboxPrev" aria-label="Previous">
+                        ‹
+                    </button>
+
+                    <button type="button" class="lightbox-next" id="lightboxNext" aria-label="Next">
+                        ›
+                    </button>
+
+                    <img class="lightbox-image" id="lightboxImage" src="" alt="Enlarged gallery view" />
+
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
 
-    <!-- Footer -->
+        <!-- REVIEWS -->
+        <section class="reviews-section" id="reviews">
+
+            <div class="container">
+
+                <span class="section-tag">
+                    Testimonials
+                </span>
+
+                <h2 class="section-title">
+                    What Our Customers Say
+                </h2>
+
+                <div class="reviews-stats" id="reviewsStats">
+
+                    <div class="review-rating">
+
+                        <span class="rating-number" id="avgRating">
+                            0.0
+                        </span>
+
+                        <div class="rating-stars" id="avgStars">
+                            ☆☆☆☆☆
+                        </div>
+
+                        <span class="rating-count" id="reviewCount">
+                            0 reviews
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="reviews-grid" id="reviewsGrid">
+
+                    <div class="review-skeleton" aria-hidden="true">
+
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="review-form-container">
+
+                    <h3>
+                        Share Your Experience
+                    </h3>
+
+                    <form id="reviewForm" class="review-form">
+
+                        <div class="form-group">
+
+                            <label for="reviewName">
+                                Your Name
+                            </label>
+
+                            <input type="text" id="reviewName" maxlength="100" placeholder="Enter your name" required />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Rating
+                            </label>
+
+                            <div class="star-rating" id="starRating" role="radiogroup" aria-label="Choose a rating">
+
+                                <button type="button" data-value="1" aria-label="1 star">
+                                    ☆
+                                </button>
+
+                                <button type="button" data-value="2" aria-label="2 stars">
+                                    ☆
+                                </button>
+
+                                <button type="button" data-value="3" aria-label="3 stars">
+                                    ☆
+                                </button>
+
+                                <button type="button" data-value="4" aria-label="4 stars">
+                                    ☆
+                                </button>
+
+                                <button type="button" data-value="5" aria-label="5 stars">
+                                    ☆
+                                </button>
+
+                            </div>
+
+                            <input type="hidden" id="reviewRatingInput" value="0" />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="reviewComment">
+                                Your Review
+                            </label>
+
+                            <textarea id="reviewComment" rows="3" maxlength="500"
+                                placeholder="Tell us about your experience..." required></textarea>
+
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary" id="reviewSubmitBtn">
+                            Submit Review
+                        </button>
+
+                        <div id="reviewMessage" class="form-message" aria-live="polite">
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- BOOKING -->
+        <section class="booking-section" id="booking">
+
+            <div class="container">
+
+                <div class="booking-wrapper">
+
+                    <div class="booking-info">
+
+                        <span class="section-tag">
+                            Reserve Your Table
+                        </span>
+
+                        <h2 class="section-title">
+                            Book a Table
+                        </h2>
+
+                        <p>
+                            Planning a visit? Let us know when you're
+                            coming, and we'll make sure a warm welcome
+                            awaits you.
+                        </p>
+
+                        <ul class="booking-info-list">
+
+                            <li>
+                                💬
+                                <strong>WhatsApp us:</strong>
+                                <a href="#" id="whatsappBookingLink">
+                                    099510 00029
+                                </a>
+                            </li>
+
+                            <li>
+                                📍
+                                <strong>Location:</strong>
+                                Kodad Main Road, beside Ranga Theater
+                            </li>
+
+                            <li>
+                                👥
+                                <strong>Groups &amp; families</strong>
+                                welcome
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+
+                    <div class="booking-form-container">
+
+                        <form id="bookingForm" class="booking-form">
+
+                            <div class="form-group">
+
+                                <label for="bookName">
+                                    Your Name
+                                </label>
+
+                                <input type="text" id="bookName" maxlength="100" placeholder="Enter your name"
+                                    required />
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="bookPhone">
+                                    Phone Number
+                                </label>
+
+                                <input type="tel" id="bookPhone" inputmode="numeric" maxlength="10" pattern="[0-9]{10}"
+                                    placeholder="10-digit phone number" required />
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="bookGuests">
+                                    Number of Guests
+                                </label>
+
+                                <input type="number" id="bookGuests" placeholder="2" min="1" max="50" step="1"
+                                    required />
+
+                            </div>
+
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <label for="bookDate">
+                                        Date
+                                    </label>
+
+                                    <input type="date" id="bookDate" required />
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="bookTime">
+                                        Time
+                                    </label>
+
+                                    <input type="time" id="bookTime" required />
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="bookNotes">
+                                    Special Requests
+                                </label>
+
+                                <textarea id="bookNotes" rows="2" maxlength="500"
+                                    placeholder="Any special occasion, seating preference, or dietary needs?"></textarea>
+
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary" id="bookSubmitBtn">
+                                Book Now
+                            </button>
+
+                            <div id="bookingMessage" class="form-message" aria-live="polite">
+                            </div>
+
+                        </form>
+
+
+                        <div class="booking-confirmation" id="bookingConfirmation" style="display:none;">
+
+                            <div class="confirmation-icon">
+                                ✓
+                            </div>
+
+                            <h3>
+                                Booking Received
+                            </h3>
+
+                            <div class="confirmation-details">
+
+                                <p>
+                                    <strong>Booking ID:</strong>
+                                    <span id="confirmId">—</span>
+                                </p>
+
+                                <p>
+                                    <strong>Name:</strong>
+                                    <span id="confirmName">—</span>
+                                </p>
+
+                                <p>
+                                    <strong>Date:</strong>
+                                    <span id="confirmDate">—</span>
+                                </p>
+
+                                <p>
+                                    <strong>Time:</strong>
+                                    <span id="confirmTime">—</span>
+                                </p>
+
+                                <p>
+                                    <strong>Guests:</strong>
+                                    <span id="confirmGuests">—</span>
+                                </p>
+
+                                <p>
+                                    <strong>Status:</strong>
+                                    <span class="status-pending" id="confirmStatus">
+                                        Pending
+                                    </span>
+                                </p>
+
+                            </div>
+
+                            <button type="button" class="btn btn-secondary" id="bookingNewBtn">
+                                Book Another
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MY BOOKINGS -->
+        <section class="my-bookings-section" id="myBookingsSection" style="display:none;">
+
+            <div class="container">
+
+                <span class="section-tag">
+                    My Bookings
+                </span>
+
+                <h2 class="section-title">
+                    Your Reservations
+                </h2>
+
+                <div id="myBookingsList"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MY FAVOURITES -->
+        <section class="my-favourites-section" id="myFavouritesSection" style="display:none;">
+
+            <div class="container">
+
+                <span class="section-tag">
+                    My Favourites
+                </span>
+
+                <h2 class="section-title">
+                    Your Favourite Dishes
+                </h2>
+
+                <div class="menu-grid" id="myFavouritesGrid">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTACT -->
+        <section class="contact-section" id="contact">
+
+            <div class="container">
+
+                <span class="section-tag">
+                    Get in Touch
+                </span>
+
+                <h2 class="section-title">
+                    Contact Us
+                </h2>
+
+                <div class="contact-grid">
+
+                    <div class="contact-info">
+
+                        <div class="contact-card">
+
+                            <h4>FOODIES</h4>
+
+                            <p>
+                                Kodad Main Road,<br />
+                                beside Ranga Theater,<br />
+                                Kodad, Telangana 508206
+                            </p>
+
+                            <p>
+                                <a href="#" id="contactWhatsAppLink" class="contact-phone">
+                                    099510 00029
+                                </a>
+                            </p>
+
+                            <div class="contact-services">
+                                <span>Dine-in</span>
+                                <span>Takeaway</span>
+                                <span>Delivery</span>
+                                <span>Drive-through</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="contact-map">
+
+                        <div class="map-placeholder">
+
+                            <p>
+                                📍 Foodies, Kodad Main Road,
+                                beside Ranga Theater
+                            </p>
+
+                            <a href="https://maps.google.com/maps?q=Kodad+Main+Road+beside+Ranga+Theater+Kodad+Telangana"
+                                target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-small">
+                                Get Directions
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hours-section">
+
+                    <h4>
+                        Opening Hours
+                    </h4>
+
+                    <p class="hours-note">
+                        (Please call to confirm current timings)
+                    </p>
+
+                    <ul class="hours-list">
+
+                        <li>
+                            <span>
+                                Monday – Sunday
+                            </span>
+
+                            <span>
+                                9:00 AM – 10:00 PM
+                            </span>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
     <footer class="footer" role="contentinfo">
 
         <div class="container">
@@ -864,11 +1184,11 @@
 
                     <p>
                         Bakery • Fast Food • Cakes • Chinese • Biryani<br />
-                        Kodad Main Road, beside Ranga Theater, Kodad,
-                        Telangana
+                        Kodad Main Road, beside Ranga Theater, Kodad, Telangana
                     </p>
 
                 </div>
+
 
                 <div class="footer-links">
 
@@ -877,16 +1197,53 @@
                     </h4>
 
                     <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#menu">Menu</a></li>
-                        <li><a href="#gallery">Gallery</a></li>
-                        <li><a href="#reviews">Reviews</a></li>
-                        <li><a href="#booking">Booking</a></li>
-                        <li><a href="#contact">Contact</a></li>
+
+                        <li>
+                            <a href="#home">
+                                Home
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#about">
+                                About
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#menu">
+                                Menu
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#gallery">
+                                Gallery
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#reviews">
+                                Reviews
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#booking">
+                                Booking
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#contact">
+                                Contact
+                            </a>
+                        </li>
+
                     </ul>
 
                 </div>
+
 
                 <div class="footer-contact">
 
@@ -896,13 +1253,15 @@
 
                     <p>
 
-                        <a href="https://wa.me/919951000029" target="_blank" rel="noopener noreferrer">
+                        <a href="#" id="footerWhatsAppLink">
                             099510 00029
                         </a>
 
                         <br />
 
-                        Kodad Main Road, beside Ranga Theater,<br />
+                        Kodad Main Road,
+                        beside Ranga Theater,
+                        <br />
                         Kodad, Telangana 508206
 
                     </p>
@@ -919,6 +1278,7 @@
 
             </div>
 
+
             <div class="footer-bottom">
 
                 <p>
@@ -931,12 +1291,11 @@
 
     </footer>
 
+
     <!-- =========================================================
-         SHOPPING CART
+         FLOATING CART
          ========================================================= -->
 
-    <!-- Cart Floating Button
-         Kept as fallback/mobile button -->
     <button class="cart-floating-btn" id="cartFloatingBtn" aria-label="Open cart" type="button">
 
         🛒
@@ -947,16 +1306,17 @@
 
     </button>
 
-    <!-- Cart Overlay -->
+
     <div class="cart-overlay" id="cartOverlay" aria-hidden="true">
     </div>
 
-    <!-- Cart Mini Page / Right Side Panel -->
+
     <aside class="cart-panel" id="cartPanel" aria-label="Shopping cart" aria-hidden="true">
 
         <div class="cart-header">
 
             <div>
+
                 <h2>
                     Your Cart
                 </h2>
@@ -964,22 +1324,21 @@
                 <span class="cart-item-summary" id="cartItemSummary">
                     0 items
                 </span>
+
             </div>
 
-            <button class="cart-close" id="cartClose" aria-label="Close cart" type="button">
+            <button type="button" class="cart-close" id="cartClose" aria-label="Close cart">
                 ✕
             </button>
 
         </div>
 
-        <!-- Cart Items -->
+
         <div class="cart-items" id="cartItems">
 
             <div class="cart-empty">
 
-                <span>
-                    🛒
-                </span>
+                <span>🛒</span>
 
                 <p>
                     Your cart is empty
@@ -993,7 +1352,7 @@
 
         </div>
 
-        <!-- Cart Footer -->
+
         <div class="cart-footer">
 
             <div class="cart-summary-row">
@@ -1008,6 +1367,7 @@
 
             </div>
 
+
             <div class="cart-total">
 
                 <span>
@@ -1020,22 +1380,292 @@
 
             </div>
 
+
             <button type="button" class="btn btn-primary cart-order-btn" id="cartOrderBtn" disabled>
+                📱 Order via WhatsApp
+            </button>
 
-                Order Now
 
+            <button type="button" class="btn btn-order cart-tizola-btn" id="cartTizolaBtn">
+                🛵 Order from Tizola
             </button>
 
         </div>
 
     </aside>
 
-    <!-- Scroll to Top -->
+
+    <!-- SCROLL TOP -->
+
     <button class="scroll-top" id="scrollTop" aria-label="Scroll to top" type="button">
         ↑
     </button>
 
-    <script src="script.js"></script>
+
+    <!-- =========================================================
+         AUTH MODAL
+         ========================================================= -->
+
+    <div class="auth-modal-overlay" id="authModalOverlay" style="display:none;">
+
+        <div class="auth-modal" role="dialog" aria-modal="true" aria-label="Account">
+
+            <button type="button" class="auth-modal-close" id="authModalClose" aria-label="Close account dialog">
+                ✕
+            </button>
+
+
+            <div id="authModalContent">
+
+
+                <!-- LOGIN -->
+
+                <div id="loginForm">
+
+                    <h2>
+                        Welcome Back
+                    </h2>
+
+                    <form id="loginFormElement">
+
+                        <div class="form-group">
+
+                            <label for="loginUsername">
+                                Username
+                            </label>
+
+                            <input type="text" id="loginUsername" maxlength="50" autocomplete="username" required />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="loginPassword">
+                                Password
+                            </label>
+
+                            <input type="password" id="loginPassword" maxlength="72" autocomplete="current-password"
+                                required />
+
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">
+                            Login
+                        </button>
+
+
+                        <p class="auth-switch">
+                            Don't have an account?
+                            <a href="#" id="showRegister">
+                                Register
+                            </a>
+                        </p>
+
+
+                        <p class="auth-switch">
+                            <a href="#" id="showForgot">
+                                Forgot password?
+                            </a>
+                        </p>
+
+
+                        <div id="authMessage" class="form-message" aria-live="polite">
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- REGISTER -->
+
+                <div id="registerForm" style="display:none;">
+
+                    <h2>
+                        Create Account
+                    </h2>
+
+                    <form id="registerFormElement">
+
+                        <div class="form-group">
+
+                            <label for="regUsername">
+                                Username
+                            </label>
+
+                            <input type="text" id="regUsername" maxlength="50" autocomplete="username" required />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="regPhone">
+                                Phone (10 digits)
+                            </label>
+
+                            <input type="tel" id="regPhone" inputmode="numeric" maxlength="10" pattern="[0-9]{10}"
+                                autocomplete="tel" required />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="regEmail">
+                                Email (optional)
+                            </label>
+
+                            <input type="email" id="regEmail" maxlength="100" autocomplete="email" />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="regPassword">
+                                Password (6–72 chars)
+                            </label>
+
+                            <input type="password" id="regPassword" maxlength="72" autocomplete="new-password"
+                                required />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="regSecurityQuestion">
+                                Security Question
+                            </label>
+
+                            <input type="text" id="regSecurityQuestion" maxlength="200"
+                                placeholder="e.g. What is your pet's name?" required />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="regSecurityAnswer">
+                                Security Answer
+                            </label>
+
+                            <input type="text" id="regSecurityAnswer" maxlength="200" autocomplete="off" required />
+
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">
+                            Register
+                        </button>
+
+
+                        <p class="auth-switch">
+
+                            Already have an account?
+
+                            <a href="#" id="showLogin">
+                                Login
+                            </a>
+
+                        </p>
+
+
+                        <div id="regMessage" class="form-message" aria-live="polite">
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- FORGOT PASSWORD -->
+
+                <div id="forgotForm" style="display:none;">
+
+                    <h2>
+                        Reset Password
+                    </h2>
+
+
+                    <p id="securityQuestionDisplay" class="security-question" aria-live="polite">
+                    </p>
+
+
+                    <form id="forgotFormElement">
+
+                        <div class="form-group">
+
+                            <label for="forgotUsername">
+                                Username
+                            </label>
+
+                            <input type="text" id="forgotUsername" maxlength="50" autocomplete="username" required />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="forgotSecurityAnswer">
+                                Security Answer
+                            </label>
+
+                            <input type="text" id="forgotSecurityAnswer" maxlength="200" autocomplete="off" required />
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="forgotNewPassword">
+                                New Password (6–72 chars)
+                            </label>
+
+                            <input type="password" id="forgotNewPassword" maxlength="72" autocomplete="new-password"
+                                required />
+
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">
+                            Reset Password
+                        </button>
+
+
+                        <p class="auth-switch">
+
+                            Remembered?
+
+                            <a href="#" id="showLoginFromForgot">
+                                Login
+                            </a>
+
+                        </p>
+
+
+                        <div id="forgotMessage" class="form-message" aria-live="polite">
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+         ========================================================= -->
+
+    <script src="script.js" defer></script>
 
 </body>
 
