@@ -755,26 +755,37 @@
       const input = document.getElementById('adminKeyInput');
       const error = document.getElementById('adminLoginError');
       const key = input.value.trim();
+
       if (!key) return;
+
       try {
         const res = await fetch(`${API}/api/admin-verify`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ key })
+          headers: {
+            'X-Admin-Key': key
+          }
         });
-        if (!res.ok) throw new Error('Invalid');
+
+        if (!res.ok) {
+          throw new Error('Invalid admin key');
+        }
+
         adminKey = key;
+
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('adminContent').style.display = 'block';
+
         loadAll();
-      } catch {
-        error.style.display = 'block';
-        setTimeout(() => error.style.display = 'none', 3000);
+
+      } catch (error) {
+        console.error(error);
+        document.getElementById('adminLoginError').style.display = 'block';
+
+        setTimeout(() => {
+          document.getElementById('adminLoginError').style.display = 'none';
+        }, 3000);
       }
     }
-    document.getElementById('adminLoginBtn').addEventListener('click', loginAdmin);
-    document.getElementById('adminKeyInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') loginAdmin(); });
-
     // ================= IMAGE HELPERS =================
     function fileToDataURL(file) {
       return new Promise((resolve, reject) => {
@@ -1020,10 +1031,13 @@
       try {
         const res = await fetch(`${API}/api/gallery`, {
           method: "POST",
-
-
+          headers: {
+            "Content-Type": "application/json",
+            "X-Admin-Key": adminKey
+          },
           body: JSON.stringify(data)
         });
+
         if (!res.ok) throw new Error("Gallery upload failed");
         resetGalleryForm();
         loadGallery();
