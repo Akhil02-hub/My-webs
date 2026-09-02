@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Athidhi Grand Lodge - Comfortable stay in Kodad, Telangana.">
+
+    <title>Athidhi Grand Lodge</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <nav id="navbar">
+        <div class="container nav-container">
+
+            <a href="#home" class="logo">
+                Athidhi Grand
+            </a>
+
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Open menu"
+                aria-expanded="false">
+                ☰
+            </button>
+
+            <ul id="nav-links">
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+
+                <li>
+                    <a href="#rooms">Rooms</a>
+                </li>
+
+                <li>
+                    <a href="#gallery">Gallery</a>
+                </li>
+
+                <li>
+                    <a href="#about">About</a>
+                </li>
+
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+
+                <li>
+                    <a href="#booking" class="cta-nav">
+                        Book Now
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+
+    <main>
+
+        <!-- HERO -->
+        <section id="home" class="hero-section">
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+
+                <span class="hero-eyebrow">
+                    Welcome to
+                </span>
+
+                <h1 id="site-name">
+                    Athidhi Grand
+                </h1>
+
+                <p id="site-tagline">
+                    Comfortable Stay in Kodad
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="#booking" class="btn btn-gold">
+                        Book Your Stay
+                    </a>
+
+                    <a href="tel:08985705777" id="call-now" class="btn btn-dark">
+                        Call Now
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ROOMS -->
+        <section id="rooms" class="section">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span>Stay With Us</span>
+                    <h2>Our Rooms</h2>
+                    <p>
+                        Comfortable accommodation designed
+                        for a pleasant stay.
+                    </p>
+                </div>
+
+                <div id="room-list" class="room-grid"></div>
+
+            </div>
+        </section>
+
+
+        <!-- AMENITIES -->
+        <section id="amenities" class="section section-alt">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span>Everything You Need</span>
+                    <h2>Amenities</h2>
+                </div>
+
+                <div id="amenities-list" class="amenities-grid"></div>
+
+            </div>
+        </section>
+
+
+        <!-- GALLERY -->
+        <section id="gallery" class="section">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span>See The Property</span>
+                    <h2>Gallery</h2>
+                </div>
+
+                <div id="gallery-grid" class="gallery-grid"></div>
+
+            </div>
+        </section>
+
+
+        <!-- ABOUT -->
+        <section id="about" class="section section-alt">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span>About Our Lodge</span>
+                    <h2>About Us</h2>
+                </div>
+
+                <div id="about-text" class="about-content"></div>
+
+            </div>
+        </section>
+
+
+        <!-- CONTACT -->
+        <section id="contact" class="section">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span>Get In Touch</span>
+                    <h2>Contact</h2>
+                </div>
+
+                <div id="contact-info" class="contact-card"></div>
+
+                <div id="map-container" class="map-container"></div>
+
+            </div>
+        </section>
+
+
+        <!-- BOOKING -->
+        <section id="booking" class="section section-alt">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span>Reserve Your Stay</span>
+                    <h2>Book Your Stay</h2>
+                    <p>
+                        Submit a booking request and our team
+                        will contact you to confirm it.
+                    </p>
+                </div>
+
+                <div class="booking-wrapper">
+
+                    <form id="booking-form">
+
+                        <div class="form-group">
+                            <label for="guest-name">
+                                Full Name *
+                            </label>
+
+                            <input type="text" id="guest-name" maxlength="150" autocomplete="name" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="guest-phone">
+                                Phone *
+                            </label>
+
+                            <input type="tel" id="guest-phone" maxlength="10" inputmode="numeric" autocomplete="tel"
+                                placeholder="10-digit mobile number" required>
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+                                <label for="check-in">
+                                    Check-in *
+                                </label>
+
+                                <input type="date" id="check-in" required>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="check-out">
+                                    Check-out *
+                                </label>
+
+                                <input type="date" id="check-out" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+                                <label for="guests">
+                                    Guests
+                                </label>
+
+                                <input type="number" id="guests" value="1" min="1" max="100" required>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="rooms">
+                                    Rooms
+                                </label>
+
+                                <input type="number" id="rooms" value="1" min="1" max="100" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="preferred-room">
+                                Preferred Room
+                            </label>
+
+                            <select id="preferred-room">
+                                <option value="">
+                                    Any Available Room
+                                </option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="special-request">
+                                Special Requests
+                            </label>
+
+                            <textarea id="special-request" rows="4" maxlength="2000"
+                                placeholder="Any special requirements?"></textarea>
+                        </div>
+
+
+                        <div id="booking-error" class="error-msg" role="alert" aria-live="polite"></div>
+
+
+                        <button type="submit" id="booking-submit" class="btn btn-gold btn-full">
+                            Submit Booking Request
+                        </button>
+
+                        <p class="form-note">
+                            This is a booking request.
+                            We will call you to confirm availability.
+                        </p>
+
+                    </form>
+
+
+                    <div id="booking-success" class="success-card" style="display:none;">
+
+                        <div class="success-icon">
+                            ✓
+                        </div>
+
+                        <h3>
+                            Booking Request Received!
+                        </h3>
+
+                        <p id="booking-ref"></p>
+
+                        <div id="booking-details"></div>
+
+                        <a href="tel:08985705777" id="booking-call" class="btn btn-green">
+                            📞 Call Now
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <footer>
+        <div class="container">
+
+            <div class="footer-content">
+
+                <div>
+                    <div class="footer-brand" id="footer-name">
+                        Athidhi Grand
+                    </div>
+
+                    <p id="footer-address">
+                        Kodad, Telangana
+                    </p>
+                </div>
+
+                <div>
+                    <p>
+                        Phone:
+                        <a href="tel:08985705777" id="footer-phone-link">
+                            08985705777
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>
+                    &copy;
+                    <span id="year"></span>
+                    <span id="footer-name-bottom">
+                        Athidhi Grand
+                    </span>.
+                    All rights reserved.
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="robots" content="noindex,nofollow">
+
+    <title>Admin - Athidhi Grand</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body class="admin-body">
+
+    <nav id="admin-nav">
+
+        <div class="container nav-container">
+
+            <a href="/admin" class="logo admin-logo">
+                Athidhi Grand Admin
+            </a>
+
+            <button type="button" class="mobile-menu-toggle" id="admin-mobile-menu-toggle" aria-label="Open admin menu"
+                aria-expanded="false">
+                ☰
+            </button>
+
+            <ul id="admin-nav-links">
+
+                <li>
+                    <a href="#" data-view="dashboard">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-view="rooms">
+                        Rooms
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-view="gallery">
+                        Gallery
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-view="bookings">
+                        Bookings
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-view="site">
+                        Site
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" id="admin-logout">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+
+    <main id="admin-content">
+
+        <!-- LOGIN -->
+        <div id="admin-login-view" class="admin-view" style="display:block;">
+
+            <div class="login-container">
+
+                <div class="login-header">
+                    <span>Administration</span>
+                    <h2>Admin Login</h2>
+                    <p>
+                        Sign in to manage Athidhi Grand.
+                    </p>
+                </div>
+
+                <form id="admin-login-form">
+
+                    <div class="form-group">
+
+                        <label for="login-username">
+                            Username
+                        </label>
+
+                        <input type="text" id="login-username" autocomplete="username" maxlength="100" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="login-password">
+                            Password
+                        </label>
+
+                        <input type="password" id="login-password" autocomplete="current-password" required>
+
+                    </div>
+
+
+                    <div id="login-error" class="error-msg" role="alert" aria-live="polite"></div>
+
+
+                    <button type="submit" class="btn btn-gold btn-full" id="admin-login-submit">
+                        Login
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD -->
+        <div id="admin-dashboard-view" class="admin-view" style="display:none;">
+
+            <div class="container">
+
+                <div class="admin-page-header">
+                    <span>Administration</span>
+                    <h2>Dashboard</h2>
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <button type="button" class="dashboard-card" data-view="rooms">
+                        <div class="dashboard-icon">
+                            🛏️
+                        </div>
+
+                        <h3>
+                            Manage Rooms
+                        </h3>
+
+                        <p>
+                            Add, edit, delete rooms and photos.
+                        </p>
+                    </button>
+
+
+                    <button type="button" class="dashboard-card" data-view="gallery">
+                        <div class="dashboard-icon">
+                            🖼️
+                        </div>
+
+                        <h3>
+                            Manage Gallery
+                        </h3>
+
+                        <p>
+                            Upload and delete property images.
+                        </p>
+                    </button>
+
+
+                    <button type="button" class="dashboard-card" data-view="bookings">
+                        <div class="dashboard-icon">
+                            📋
+                        </div>
+
+                        <h3>
+                            Booking Requests
+                        </h3>
+
+                        <p>
+                            View and update booking statuses.
+                        </p>
+                    </button>
+
+
+                    <button type="button" class="dashboard-card" data-view="site">
+                        <div class="dashboard-icon">
+                            ⚙️
+                        </div>
+
+                        <h3>
+                            Site Manager
+                        </h3>
+
+                        <p>
+                            Edit lodge details, amenities and hero image.
+                        </p>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ROOMS -->
+        <div id="admin-rooms-view" class="admin-view" style="display:none;">
+
+            <div class="container">
+
+                <div class="admin-page-header">
+                    <span>Content Management</span>
+                    <h2>Manage Rooms</h2>
+                </div>
+
+
+                <form id="room-form" class="admin-form-card">
+
+                    <h3 id="room-form-title">
+                        Add Room
+                    </h3>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="room-name">
+                                Name *
+                            </label>
+
+                            <input type="text" id="room-name" maxlength="150" required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="room-price">
+                                Price per Night *
+                            </label>
+
+                            <input type="number" id="room-price" min="0" step="0.01" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="room-desc">
+                            Description *
+                        </label>
+
+                        <textarea id="room-desc" rows="4" maxlength="2000" required></textarea>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="room-units">
+                                Total Units
+                            </label>
+
+                            <input type="number" id="room-units" value="1" min="1" max="1000" required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="room-amenities">
+                                Amenities
+                            </label>
+
+                            <input type="text" id="room-amenities" placeholder="WiFi, AC, TV" maxlength="1000">
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="checkbox-label">
+
+                        <input type="checkbox" id="room-available" checked>
+
+                        <span>
+                            Room is available for booking
+                        </span>
+
+                    </label>
+
+
+                    <input type="hidden" id="room-edit-id">
+
+
+                    <div class="form-actions">
+
+                        <button type="submit" class="btn btn-gold" id="room-submit">
+                            Create Room
+                        </button>
+
+                        <button type="button" class="btn btn-secondary" id="room-cancel" style="display:none;">
+                            Cancel
+                        </button>
+
+                    </div>
+
+
+                    <div id="room-error" class="error-msg" role="alert"></div>
+
+                </form>
+
+
+                <div id="room-list-admin" class="room-grid admin-room-grid"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GALLERY -->
+        <div id="admin-gallery-view" class="admin-view" style="display:none;">
+
+            <div class="container">
+
+                <div class="admin-page-header">
+                    <span>Content Management</span>
+                    <h2>Manage Gallery</h2>
+                </div>
+
+
+                <form id="gallery-form" class="admin-form-card">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="gallery-title">
+                                Title
+                            </label>
+
+                            <input type="text" id="gallery-title" maxlength="200">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="gallery-category">
+                                Category
+                            </label>
+
+                            <select id="gallery-category">
+
+                                <option value="property">
+                                    Property
+                                </option>
+
+                                <option value="food">
+                                    Food
+                                </option>
+
+                                <option value="pool">
+                                    Pool
+                                </option>
+
+                                <option value="surroundings">
+                                    Surroundings
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="gallery-image">
+                            Image *
+                        </label>
+
+                        <input type="file" id="gallery-image"
+                            accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required>
+
+                    </div>
+
+
+                    <button type="submit" class="btn btn-gold">
+                        Upload Image
+                    </button>
+
+
+                    <div id="gallery-error" class="error-msg" role="alert"></div>
+
+                </form>
+
+
+                <div id="gallery-list-admin" class="gallery-grid admin-gallery-grid"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOOKINGS -->
+        <div id="admin-bookings-view" class="admin-view" style="display:none;">
+
+            <div class="container">
+
+                <div class="admin-page-header">
+                    <span>Reservations</span>
+                    <h2>Booking Requests</h2>
+                </div>
+
+                <div id="booking-list-admin" class="booking-admin-container"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SITE -->
+        <div id="admin-site-view" class="admin-view" style="display:none;">
+
+            <div class="container">
+
+                <div class="admin-page-header">
+                    <span>Website Settings</span>
+                    <h2>Site Manager</h2>
+                </div>
+
+
+                <form id="site-form" class="admin-form-card">
+
+                    <div class="form-group">
+
+                        <label for="site-name">
+                            Lodge Name
+                        </label>
+
+                        <input type="text" id="site-name" maxlength="150">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="site-tagline">
+                            Tagline
+                        </label>
+
+                        <input type="text" id="site-tagline" maxlength="300">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="site-about">
+                            About Text
+                        </label>
+
+                        <textarea id="site-about" rows="6" maxlength="5000"></textarea>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="site-phone">
+                                Phone
+                            </label>
+
+                            <input type="text" id="site-phone" maxlength="30">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="site-email">
+                                Email
+                            </label>
+
+                            <input type="email" id="site-email" maxlength="200">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="site-address">
+                            Address
+                        </label>
+
+                        <input type="text" id="site-address" maxlength="500">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="site-map">
+                            Google Maps Embed URL
+                        </label>
+
+                        <input type="url" id="site-map" placeholder="https://www.google.com/maps/embed?... ">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="site-amenities">
+                            Amenities
+                        </label>
+
+                        <input type="text" id="site-amenities" placeholder="WiFi, AC, Parking" maxlength="1000">
+
+                    </div>
+
+
+                    <div class="hero-manager">
+
+                        <h3>
+                            Hero Image
+                        </h3>
+
+                        <div id="hero-preview" class="hero-preview">
+                            <img id="hero-img" src="/hero.jpg" alt="Current hero image">
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <label for="hero-upload" class="btn btn-secondary">
+                                Choose Image
+                            </label>
+
+                            <input type="file" id="hero-upload"
+                                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden>
+
+                            <button type="button" id="hero-delete" class="btn btn-danger">
+                                Reset Hero
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" class="btn btn-gold">
+                        Save Changes
+                    </button>
+
+
+                    <div id="site-error" class="error-msg" role="alert"></div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
