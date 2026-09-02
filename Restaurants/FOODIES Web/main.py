@@ -571,10 +571,19 @@ class BookingUpdate(BaseModel):
 
     @validator("status")
     def validate_status(cls, v):
-        allowed = {"Pending", "Confirmed", "Cancelled"}
+        allowed = {
+            "pending": "Pending",
+            "confirmed": "Confirmed",
+            "cancelled": "Cancelled",
+            "Pending": "Pending",
+            "Confirmed": "Confirmed",
+            "Cancelled": "Cancelled",
+        }
+
         if v not in allowed:
             raise ValueError("Invalid status")
-        return v
+
+        return allowed[v]
 
 
 class ReviewCreate(BaseModel):

@@ -2,15 +2,16 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Foodies | Admin Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
-    rel="stylesheet">
+    rel="stylesheet" />
   <style>
+    /* ===== RESET & BASE ===== */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -53,6 +54,7 @@
       align-items: center;
       gap: 15px;
       margin-bottom: 28px;
+      flex-wrap: wrap;
     }
 
     .header h1 {
@@ -78,6 +80,7 @@
       background: #c45a22;
     }
 
+    /* ===== STATS ===== */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -105,6 +108,7 @@
       margin-top: 5px;
     }
 
+    /* ===== SECTIONS ===== */
     .section {
       background: #fff;
       border-radius: 16px;
@@ -126,6 +130,7 @@
       margin-bottom: 18px;
     }
 
+    /* ===== FORMS ===== */
     .form-card {
       background: #f8f3ec;
       border-radius: 12px;
@@ -231,6 +236,7 @@
       display: none;
     }
 
+    /* ===== BUTTONS ===== */
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -249,6 +255,16 @@
       cursor: pointer;
       font-size: 0.82rem;
       font-weight: 600;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .btn-primary {
@@ -280,10 +296,7 @@
       color: #241b11;
     }
 
-    .btn:hover {
-      opacity: 0.9;
-    }
-
+    /* ===== TABLES ===== */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -323,22 +336,13 @@
       font-size: 1.4rem;
     }
 
+    /* ===== BADGES ===== */
     .badge {
       display: inline-block;
       padding: 4px 9px;
       border-radius: 20px;
       font-size: 0.72rem;
       font-weight: 700;
-    }
-
-    .badge-yes {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-
-    .badge-no {
-      background: #fce4ec;
-      color: #c62828;
     }
 
     .badge-yes {
@@ -366,12 +370,14 @@
       color: #c62828;
     }
 
+    /* ===== EMPTY STATE ===== */
     .empty {
       text-align: center;
       color: #8a7e72;
       padding: 20px;
     }
 
+    /* ===== SIGNATURE CARDS ===== */
     .signature-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -403,6 +409,7 @@
       margin-bottom: 6px;
     }
 
+    /* ===== GALLERY ===== */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -431,6 +438,7 @@
       margin-bottom: 4px;
     }
 
+    /* ===== MISC ===== */
     .muted {
       color: #8a7e72;
       font-size: 0.82rem;
@@ -468,7 +476,8 @@
       color: #2d8f5c;
     }
 
-    @media (max-width:768px) {
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
       body {
         padding: 12px;
       }
@@ -496,7 +505,7 @@
       }
     }
 
-    /* Login overlay */
+    /* ===== LOGIN OVERLAY ===== */
     #loginOverlay {
       position: fixed;
       inset: 0;
@@ -510,7 +519,7 @@
     }
 
     #loginOverlay h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: "Playfair Display", serif;
       color: #1b1612;
     }
 
@@ -537,23 +546,58 @@
       font-size: 0.9rem;
       display: none;
     }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1b1612;
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+      z-index: 9998;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      max-width: 90%;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast.error {
+      background: #c0392b;
+    }
+
+    .toast.success {
+      background: #2d8f5c;
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- ================= ADMIN LOGIN OVERLAY ================= -->
+  <!-- ================= LOGIN OVERLAY ================= -->
   <div id="loginOverlay">
     <h2>🔐 Admin Access</h2>
     <p>Enter the admin key to continue</p>
-    <input id="adminKeyInput" type="password" placeholder="Enter admin key...">
+    <input id="adminKeyInput" type="password" placeholder="Enter admin key..." autocomplete="current-password" />
     <button id="adminLoginBtn" class="btn btn-primary">Login</button>
     <div id="adminLoginError">Invalid key. Try again.</div>
   </div>
+
   <div id="toast" class="toast"></div>
 
   <!-- ================= MAIN ADMIN CONTENT ================= -->
-  <div class="admin-container" style="display:none;" id="adminContent">
+  <div class="admin-container" style="display: none" id="adminContent">
 
     <a href="/" class="back-link">← Back to Website</a>
 
@@ -599,10 +643,14 @@
       <p class="section-description">Add, edit or delete items shown in the Our Menu section.</p>
       <div class="form-card">
         <h3 id="menuFormTitle">Add Menu Item</h3>
-        <input type="hidden" id="menuId">
+        <input type="hidden" id="menuId" />
         <div class="form-grid">
-          <div class="form-group"><label>Name</label><input id="menuName" type="text" required></div>
-          <div class="form-group"><label>Category</label>
+          <div class="form-group">
+            <label>Name</label>
+            <input id="menuName" type="text" required />
+          </div>
+          <div class="form-group">
+            <label>Category</label>
             <select id="menuCategory">
               <option>Biryani</option>
               <option>Fast Food</option>
@@ -614,20 +662,25 @@
               <option>Dessert</option>
             </select>
           </div>
-          <div class="form-group"><label>Price (₹)</label><input id="menuPrice" type="number" min="0" step="1" required>
+          <div class="form-group">
+            <label>Price (₹)</label>
+            <input id="menuPrice" type="number" min="0" step="1" required />
           </div>
-          <div class="form-group full"><label>Description</label><textarea id="menuDescription"></textarea></div>
+          <div class="form-group full">
+            <label>Description</label>
+            <textarea id="menuDescription"></textarea>
+          </div>
         </div>
         <div class="checkbox-row">
-          <label><input id="menuVeg" type="checkbox" checked> Veg</label>
-          <label><input id="menuAvailable" type="checkbox" checked> Available</label>
+          <label><input id="menuVeg" type="checkbox" checked /> Veg</label>
+          <label><input id="menuAvailable" type="checkbox" checked /> Available</label>
         </div>
         <div class="upload-wrapper">
           <div class="upload-box" onclick="document.getElementById('menuImageInput').click()">
-            <img id="menuImagePreview" style="display:none">
-            <span id="menuImagePlaceholder">📷<br>Upload Menu Photo</span>
+            <img id="menuImagePreview" style="display:none" />
+            <span id="menuImagePlaceholder">📷<br />Upload Menu Photo</span>
           </div>
-          <input class="hidden-input" id="menuImageInput" type="file" accept="image/*">
+          <input class="hidden-input" id="menuImageInput" type="file" accept="image/*" />
         </div>
         <div class="actions">
           <button class="btn btn-primary" type="button" onclick="saveMenuItem()">Save Menu Item</button>
@@ -655,21 +708,31 @@
       <p class="section-description">Manage Signature Favourites independently from Our Menu.</p>
       <div class="form-card">
         <h3 id="signatureFormTitle">Add Signature Favourite</h3>
-        <input type="hidden" id="signatureId">
+        <input type="hidden" id="signatureId" />
         <div class="form-grid">
-          <div class="form-group"><label>Name</label><input id="signatureName" type="text"></div>
-          <div class="form-group"><label>Category</label><input id="signatureCategory" type="text"
-              placeholder="Biryani / Chinese / Dessert"></div>
-          <div class="form-group"><label>Price (₹)</label><input id="signaturePrice" type="number" min="0" step="1">
+          <div class="form-group">
+            <label>Name</label>
+            <input id="signatureName" type="text" />
           </div>
-          <div class="form-group full"><label>Description</label><textarea id="signatureDescription"></textarea></div>
+          <div class="form-group">
+            <label>Category</label>
+            <input id="signatureCategory" type="text" placeholder="Biryani / Chinese / Dessert" />
+          </div>
+          <div class="form-group">
+            <label>Price (₹)</label>
+            <input id="signaturePrice" type="number" min="0" step="1" />
+          </div>
+          <div class="form-group full">
+            <label>Description</label>
+            <textarea id="signatureDescription"></textarea>
+          </div>
         </div>
         <div class="upload-wrapper">
           <div class="upload-box" onclick="document.getElementById('signatureImageInput').click()">
-            <img id="signatureImagePreview" style="display:none">
-            <span id="signatureImagePlaceholder">📷<br>Upload Favourite Photo</span>
+            <img id="signatureImagePreview" style="display:none" />
+            <span id="signatureImagePlaceholder">📷<br />Upload Favourite Photo</span>
           </div>
-          <input class="hidden-input" id="signatureImageInput" type="file" accept="image/*">
+          <input class="hidden-input" id="signatureImageInput" type="file" accept="image/*" />
         </div>
         <div class="actions">
           <button class="btn btn-primary" type="button" onclick="saveSignatureFavourite()">Save Favourite</button>
@@ -685,9 +748,12 @@
       <p class="section-description">Upload and manage all Gallery photos.</p>
       <div class="form-card">
         <div class="form-grid">
-          <div class="form-group"><label>Label</label><input id="galleryLabel" placeholder="Restaurant / Food / Event">
+          <div class="form-group">
+            <label>Label</label>
+            <input id="galleryLabel" placeholder="Restaurant / Food / Event" />
           </div>
-          <div class="form-group"><label>Category</label>
+          <div class="form-group">
+            <label>Category</label>
             <select id="galleryCategory">
               <option>Food</option>
               <option>Cakes</option>
@@ -698,10 +764,10 @@
         </div>
         <div class="upload-wrapper">
           <div class="upload-box" onclick="document.getElementById('galleryImageInput').click()">
-            <img id="galleryImagePreview" style="display:none">
-            <span id="galleryImagePlaceholder">📷<br>Upload Gallery Photo</span>
+            <img id="galleryImagePreview" style="display:none" />
+            <span id="galleryImagePlaceholder">📷<br />Upload Gallery Photo</span>
           </div>
-          <input class="hidden-input" id="galleryImageInput" type="file" accept="image/*">
+          <input class="hidden-input" id="galleryImageInput" type="file" accept="image/*" />
         </div>
         <div class="actions">
           <button class="btn btn-primary" type="button" onclick="saveGalleryImage()">Add Gallery Photo</button>
@@ -716,10 +782,10 @@
       <h2 class="section-title">📸 4. About Us Photo</h2>
       <p class="section-description">Upload, replace or remove the main About Us image.</p>
       <div class="about-box" onclick="document.getElementById('aboutImageInput').click()">
-        <img id="aboutImagePreview" style="display:none">
-        <span id="aboutPlaceholder">📷<br>Click to Upload About Us Photo</span>
+        <img id="aboutImagePreview" style="display:none" />
+        <span id="aboutPlaceholder">📷<br />Click to Upload About Us Photo</span>
       </div>
-      <input class="hidden-input" id="aboutImageInput" type="file" accept="image/*">
+      <input class="hidden-input" id="aboutImageInput" type="file" accept="image/*" />
       <div class="actions">
         <button class="btn btn-primary" type="button" onclick="saveAboutImage()">Save About Us Photo</button>
         <button class="btn btn-danger" type="button" onclick="removeAboutImage()">Remove Photo</button>
@@ -767,466 +833,566 @@
 
   </div><!-- end admin-container -->
 
-
-  const API = "";
-  let adminKey = '';
-  let menuItems = [];
-  let signatureItems = [];
-  let menuImageData = "";
-  let signatureImageData = "";
-  let galleryImageData = "";
-  let aboutImageData = "";
-
-  // ================= LOGIN =================
-
-  async function loginAdmin() {
-  const input = document.getElementById("adminKeyInput");
-  const error = document.getElementById("adminLoginError");
-  const key = input.value.trim();
-
-  error.style.display = "none";
-
-  if (!key) {
-  error.textContent = "Please enter the admin key.";
-  error.style.display = "block";
-  return;
-  }
   <script>
-    try {
-      const res = await fetch("/api/admin-verify", {
-        method: "POST",
-        headers: {
-          "X-Admin-Key": key
-        }
-      });
+    (async function () {
+      "use strict";
 
-      if (!res.ok) {
-        error.textContent = "Invalid admin key.";
-        error.style.display = "block";
-        input.value = "";
-        input.focus();
-        return;
+      // ===== CONFIG =====
+      const API = ""; // set to your backend URL if needed, e.g. "http://localhost:5000"
+      let adminKey = "";
+      let menuItems = [];
+      let signatureItems = [];
+      let menuImageData = "";
+      let signatureImageData = "";
+      let galleryImageData = "";
+      let aboutImageData = "";
+
+      // ===== LOGIN =====
+      async function loginAdmin() {
+        console.log("loginAdmin called");
+        const input = document.getElementById("adminKeyInput");
+        const error = document.getElementById("adminLoginError");
+        const key = input.value.trim();
+
+        error.style.display = "none";
+
+        if (!key) {
+          error.textContent = "Please enter the admin key.";
+          error.style.display = "block";
+          return;
+        }
+
+        try {
+          console.log("Sending request to /api/admin-verify");
+          const res = await fetch("/api/admin-verify", {
+            method: "POST",
+            headers: { "X-Admin-Key": key }
+          });
+
+          console.log("Response status:", res.status);
+
+          if (!res.ok) {
+            const errorText = await res.text();
+            console.error("Server error:", errorText);
+            error.textContent = "Invalid admin key.";
+            error.style.display = "block";
+            input.value = "";
+            input.focus();
+            return;
+          }
+
+          adminKey = key;
+          document.getElementById("loginOverlay").style.display = "none";
+          document.getElementById("adminContent").style.display = "block";
+          console.log("Login successful, loading data...");
+          await loadAll();
+
+        } catch (err) {
+          console.error("Login error:", err);
+          error.textContent = "Server connection error: " + err.message;
+          error.style.display = "block";
+        }
       }
 
-      adminKey = key;
-
-      document.getElementById("loginOverlay").style.display = "none";
-      document.getElementById("adminContent").style.display = "block";
-
-      await loadAll();
-
-    } catch (err) {
-      console.error("Login error:", err);
-      error.textContent = "Server connection error.";
-      error.style.display = "block";
-    }
-    }
-
-    // ================= IMAGE HELPERS =================
-
-    function fileToDataURL(file) {
-      return new Promise((resolve, reject) => {
-        if (!file) {
-          reject(new Error("No file selected"));
-          return;
-        }
-
-        // Maximum original file size: 5 MB
-        if (file.size > 5 * 1024 * 1024) {
-          alert("Image is too large. Please choose an image under 5 MB.");
-          reject(new Error("Image too large"));
-          return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          const img = new Image();
-
-          img.onload = () => {
-            const MAX_SIZE = 1200;
-            let width = img.width;
-            let height = img.height;
-
-            if (width > MAX_SIZE || height > MAX_SIZE) {
-              if (width > height) {
-                height = Math.round((height * MAX_SIZE) / width);
-                width = MAX_SIZE;
-              } else {
-                width = Math.round((width * MAX_SIZE) / height);
-                height = MAX_SIZE;
+      // ===== IMAGE HELPERS =====
+      function fileToDataURL(file) {
+        return new Promise((resolve, reject) => {
+          if (!file) {
+            reject(new Error("No file selected"));
+            return;
+          }
+          if (file.size > 5 * 1024 * 1024) {
+            alert("Image is too large. Please choose an image under 5 MB.");
+            reject(new Error("Image too large"));
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = () => {
+            const img = new Image();
+            img.onload = () => {
+              const MAX_SIZE = 1200;
+              let width = img.width,
+                height = img.height;
+              if (width > MAX_SIZE || height > MAX_SIZE) {
+                if (width > height) {
+                  height = Math.round((height * MAX_SIZE) / width);
+                  width = MAX_SIZE;
+                } else {
+                  width = Math.round((width * MAX_SIZE) / height);
+                  height = MAX_SIZE;
+                }
               }
-            }
-
-            const canvas = document.createElement("canvas");
-            canvas.width = width;
-            canvas.height = height;
-
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, width, height);
-
-            // Compress to JPEG
-            resolve(canvas.toDataURL("image/jpeg", 0.8));
+              const canvas = document.createElement("canvas");
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, width, height);
+              resolve(canvas.toDataURL("image/jpeg", 0.8));
+            };
+            img.onerror = () => reject(new Error("Invalid image"));
+            img.src = reader.result;
           };
-
-          img.onerror = () => reject(new Error("Invalid image"));
-          img.src = reader.result;
-        };
-
-        reader.onerror = () => reject(reader.error);
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function setPreview(imageId, placeholderId, data) {
-      const image = document.getElementById(imageId);
-      const placeholder = document.getElementById(placeholderId);
-      if (data) {
-        image.src = data;
-        image.style.display = "block";
-        if (placeholder) placeholder.style.display = "none";
-      } else {
-        image.removeAttribute("src");
-        image.style.display = "none";
-        if (placeholder) placeholder.style.display = "block";
+          reader.onerror = () => reject(reader.error);
+          reader.readAsDataURL(file);
+        });
       }
-    }
-    function escapeHTML(value) {
-      return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
 
-    function showToast(msg, type) {
-      const el = document.getElementById("toast");
-      if (!el) { alert(msg); return; }
-      el.textContent = msg;
-      el.className = "toast";
-      if (type === "error") el.classList.add("error");
-      if (type === "success") el.classList.add("success");
-      el.classList.add("show");
-      clearTimeout(el._hide);
-      el._hide = setTimeout(() => el.classList.remove("show"), 3000);
-    }
-
-    // ================= MENU IMAGE =================
-    document.getElementById("menuImageInput").addEventListener("change", async function () {
-      const file = this.files[0];
-      if (!file) return;
-      menuImageData = await fileToDataURL(file);
-      setPreview("menuImagePreview", "menuImagePlaceholder", menuImageData);
-    });
-
-    // ================= SIGNATURE IMAGE =================
-    document.getElementById("signatureImageInput").addEventListener("change", async function () {
-      const file = this.files[0];
-      if (!file) return;
-      signatureImageData = await fileToDataURL(file);
-      setPreview("signatureImagePreview", "signatureImagePlaceholder", signatureImageData);
-    });
-
-    // ================= GALLERY IMAGE =================
-    document.getElementById("galleryImageInput").addEventListener("change", async function () {
-      const file = this.files[0];
-      if (!file) return;
-      galleryImageData = await fileToDataURL(file);
-      setPreview("galleryImagePreview", "galleryImagePlaceholder", galleryImageData);
-    });
-
-    // ================= ABOUT IMAGE =================
-    document.getElementById("aboutImageInput").addEventListener("change", async function () {
-      const file = this.files[0];
-      if (!file) return;
-      aboutImageData = await fileToDataURL(file);
-      setPreview("aboutImagePreview", "aboutPlaceholder", aboutImageData);
-    });
-
-    // ================= MENU =================
-    async function loadMenu() {
-      try {
-        const res = await fetch(`${API}/api/menu`);
-        if (!res.ok) throw new Error("Menu loading failed");
-        menuItems = await res.json();
-        renderMenu();
-        document.getElementById("statMenu").textContent = menuItems.length;
-      } catch {
-        document.getElementById("menuTableBody").innerHTML = `<tr><td colspan="6" class="empty">Could not load menu items.</td></tr>`;
-      }
-    }
-    function renderMenu() {
-      const tbody = document.getElementById("menuTableBody");
-      if (!menuItems.length) {
-        tbody.innerHTML = `<tr><td colspan="6" class="empty">No menu items yet.</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = menuItems.map(item => {
-        const photo = item.image ? `<img class="table-photo" src="${item.image}" alt="${escapeHTML(item.name)}">` : `<div class="photo-placeholder">🍽️</div>`;
-        return `<tr><td>${photo}</td><td><strong>${escapeHTML(item.name)}</strong></td><td>${escapeHTML(item.category || "")}</td><td>₹${item.price}</td><td>${item.available ? `<span class="badge badge-yes">Available</span>` : `<span class="badge badge-no">Unavailable</span>`}</td><td><button class="btn btn-gold" onclick="editMenu(${item.id})">Edit</button> <button class="btn btn-danger" onclick="deleteMenu(${item.id})">Delete</button></td></tr>`;
-      }).join("");
-    }
-    function editMenu(id) {
-      const item = menuItems.find(x => x.id === id);
-      if (!item) return;
-      document.getElementById("menuId").value = item.id;
-      document.getElementById("menuName").value = item.name || "";
-      document.getElementById("menuCategory").value = item.category || "";
-      document.getElementById("menuPrice").value = item.price || "";
-      document.getElementById("menuDescription").value = item.description || "";
-      document.getElementById("menuVeg").checked = !!item.veg;
-      document.getElementById("menuAvailable").checked = !!item.available;
-      menuImageData = item.image || "";
-      setPreview("menuImagePreview", "menuImagePlaceholder", menuImageData);
-      document.getElementById("menuFormTitle").textContent = "Edit Menu Item";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    async function saveMenuItem() {
-      const id = document.getElementById("menuId").value;
-      const data = {
-        name: document.getElementById("menuName").value.trim(),
-        category: document.getElementById("menuCategory").value,
-        description: document.getElementById("menuDescription").value.trim(),
-        price: Number(document.getElementById("menuPrice").value),
-        veg: document.getElementById("menuVeg").checked,
-        available: document.getElementById("menuAvailable").checked,
-        image: menuImageData
-      };
-      if (!data.name || !data.price) { alert("Enter the menu name and price."); return; }
-      try {
-        const url = id ? `${API}/api/menu/${id}` : `${API}/api/menu`;
-        const method = id ? "PUT" : "POST";
-        const res = await fetch(url, {
-          method,
-          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
-          body: JSON.stringify(data)
-        });
-        if (!res.ok) throw new Error("Menu save failed");
-        resetMenuForm();
-        await loadMenu();
-      } catch (error) { console.error(error); alert("Could not save the menu item."); }
-    }
-    async function deleteMenu(id) {
-      if (!confirm("Delete this menu item?")) return;
-      await fetch(`${API}/api/menu/${id}`, {
-        method: "DELETE",
-        headers: { "X-Admin-Key": adminKey }
-      });
-      loadMenu();
-    }
-    function resetMenuForm() {
-      document.getElementById("menuId").value = "";
-      document.getElementById("menuName").value = "";
-      document.getElementById("menuPrice").value = "";
-      document.getElementById("menuDescription").value = "";
-      document.getElementById("menuVeg").checked = true;
-      document.getElementById("menuAvailable").checked = true;
-      document.getElementById("menuImageInput").value = "";
-      menuImageData = "";
-      setPreview("menuImagePreview", "menuImagePlaceholder", "");
-      document.getElementById("menuFormTitle").textContent = "Add Menu Item";
-    }
-
-    // ================= SIGNATURE FAVOURITES =================
-    async function loadSignatureFavourites() {
-      try {
-        const res = await fetch(`${API}/api/signature-favourites`);
-        if (!res.ok) throw new Error("Signature API unavailable");
-        signatureItems = await res.json();
-        renderSignatureFavourites();
-      } catch {
-        document.getElementById("signatureGrid").innerHTML = `<div class="empty">Signature Favourites API is not connected yet.</div>`;
-        document.getElementById("statSignature").textContent = "0";
-      }
-    }
-    function renderSignatureFavourites() {
-      const grid = document.getElementById("signatureGrid");
-      document.getElementById("statSignature").textContent = signatureItems.length;
-      if (!signatureItems.length) { grid.innerHTML = `<div class="empty">No Signature Favourites yet.</div>`; return; }
-      grid.innerHTML = signatureItems.map(item => {
-        const image = item.image ? `<img src="${item.image}" alt="${escapeHTML(item.name)}">` : "";
-        return `<div class="signature-card">${image}<h4>${escapeHTML(item.name)}</h4><div class="signature-price">₹${item.price}</div><div class="muted">${escapeHTML(item.category || "")}</div><p class="muted" style="margin-top:8px">${escapeHTML(item.description || "")}</p><div class="actions"><button class="btn btn-gold" onclick="editSignatureFavourite(${item.id})">Edit</button> <button class="btn btn-danger" onclick="deleteSignatureFavourite(${item.id})">Delete</button></div></div>`;
-      }).join("");
-    }
-    async function saveSignatureFavourite() {
-      const id = document.getElementById("signatureId").value;
-      const data = {
-        name: document.getElementById("signatureName").value.trim(),
-        category: document.getElementById("signatureCategory").value.trim(),
-        price: Number(document.getElementById("signaturePrice").value),
-        description: document.getElementById("signatureDescription").value.trim(),
-        image: signatureImageData
-      };
-      if (!data.name || !data.price) { alert("Enter the favourite name and price."); return; }
-      try {
-        const url = id ? `${API}/api/signature-favourites/${id}` : `${API}/api/signature-favourites`;
-        const method = id ? "PUT" : "POST";
-        const res = await fetch(url, {
-          method,
-          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
-          body: JSON.stringify(data)
-        });
-        if (!res.ok) throw new Error("Signature favourite save failed");
-        resetSignatureForm();
-        loadSignatureFavourites();
-      } catch (error) { console.error(error); alert("Could not save Signature Favourite."); }
-    }
-    function editSignatureFavourite(id) {
-      const item = signatureItems.find(x => x.id === id);
-      if (!item) return;
-      document.getElementById("signatureId").value = item.id;
-      document.getElementById("signatureName").value = item.name || "";
-      document.getElementById("signatureCategory").value = item.category || "";
-      document.getElementById("signaturePrice").value = item.price || "";
-      document.getElementById("signatureDescription").value = item.description || "";
-      signatureImageData = item.image || "";
-      setPreview("signatureImagePreview", "signatureImagePlaceholder", signatureImageData);
-      document.getElementById("signatureFormTitle").textContent = "Edit Signature Favourite";
-      window.scrollTo({ top: document.querySelectorAll(".section")[1].offsetTop - 15, behavior: "smooth" });
-    }
-    async function deleteSignatureFavourite(id) {
-      if (!confirm("Delete this Signature Favourite?")) return;
-      await fetch(`${API}/api/signature-favourites/${id}`, {
-        method: "DELETE",
-        headers: { "X-Admin-Key": adminKey }
-      });
-      loadSignatureFavourites();
-    }
-    function resetSignatureForm() {
-      document.getElementById("signatureId").value = "";
-      document.getElementById("signatureName").value = "";
-      document.getElementById("signatureCategory").value = "";
-      document.getElementById("signaturePrice").value = "";
-      document.getElementById("signatureDescription").value = "";
-      document.getElementById("signatureImageInput").value = "";
-      signatureImageData = "";
-      setPreview("signatureImagePreview", "signatureImagePlaceholder", "");
-      document.getElementById("signatureFormTitle").textContent = "Add Signature Favourite";
-    }
-
-    // ================= GALLERY =================
-    async function loadGallery() {
-      try {
-        const res = await fetch(`${API}/api/gallery`);
-        if (!res.ok) throw new Error("Gallery load failed");
-        const items = await res.json();
-        const grid = document.getElementById("galleryGrid");
-        if (!items.length) { grid.innerHTML = `<div class="empty">No gallery photos yet.</div>`; return; }
-        grid.innerHTML = items.map(item => `
-      <div class="gallery-card">
-        <img src="${item.image}" alt="${escapeHTML(item.label || "Gallery photo")}">
-        <div class="gallery-body">
-          <div class="gallery-label">${escapeHTML(item.label || "Photo")}</div>
-          <div class="muted">${escapeHTML(item.category || "")}</div>
-          <div class="actions"><button class="btn btn-danger" onclick="deleteGallery(${item.id})">Delete</button></div>
-        </div>
-      </div>
-    `).join("");
-      } catch (error) { console.error(error); document.getElementById("galleryGrid").innerHTML = `<div class="empty">Could not load gallery.</div>`; }
-    }
-    async function saveGalleryImage() {
-      if (!galleryImageData) { alert("Please choose a Gallery photo."); return; }
-      const data = { label: document.getElementById("galleryLabel").value.trim(), category: document.getElementById("galleryCategory").value, image: galleryImageData };
-      try {
-        const res = await fetch(`${API}/api/gallery`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Admin-Key": adminKey
-          },
-          body: JSON.stringify(data)
-        });
-
-        if (!res.ok) throw new Error("Gallery upload failed");
-        resetGalleryForm();
-        loadGallery();
-      } catch (error) { console.error(error); alert("Could not add Gallery photo."); }
-    }
-    async function deleteGallery(id) {
-      if (!confirm("Delete this Gallery photo?")) return;
-      await fetch(`${API}/api/gallery/${id}`, {
-        method: "DELETE",
-        headers: { "X-Admin-Key": adminKey }
-      });
-      loadGallery();
-    }
-    function resetGalleryForm() {
-      document.getElementById("galleryLabel").value = "";
-      document.getElementById("galleryCategory").selectedIndex = 0;
-      document.getElementById("galleryImageInput").value = "";
-      galleryImageData = "";
-      setPreview("galleryImagePreview", "galleryImagePlaceholder", "");
-    }
-
-    // ================= ABOUT US =================
-    async function loadAboutImage() {
-      try {
-        const res = await fetch(`${API}/api/about-image`);
-        const data = await res.json();
-        aboutImageData = data.image || "";
-        setPreview("aboutImagePreview", "aboutPlaceholder", aboutImageData);
-      } catch (error) { console.error(error); }
-    }
-    async function saveAboutImage() {
-      if (!aboutImageData) { alert("Please choose an About Us photo."); return; }
-      try {
-        const res = await fetch(`${API}/api/about-image`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
-          body: JSON.stringify({ image: aboutImageData })
-        });
-        if (!res.ok) throw new Error("About image save failed");
-        document.getElementById("aboutMessage").textContent = "About Us photo saved successfully.";
-      } catch (error) { console.error(error); document.getElementById("aboutMessage").textContent = "Could not save About Us photo."; }
-    }
-    async function removeAboutImage() {
-      if (!confirm("Remove the About Us photo?")) return;
-      try {
-        await fetch(`${API}/api/about-image`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
-          body: JSON.stringify({ image: "" })
-        });
-        aboutImageData = "";
-        setPreview("aboutImagePreview", "aboutPlaceholder", "");
-        document.getElementById("aboutMessage").textContent = "About Us photo removed.";
-      } catch (error) { console.error(error); }
-    }
-
-    // ================= BOOKINGS =================
-    async function loadBookings() {
-      try {
-        const res = await fetch(`${API}/api/bookings`, {
-          method: "GET",
-          headers: { "X-Admin-Key": adminKey }
-        });
-
-        if (!res.ok) {
-          const errText = await res.text().catch(() => "");
-          throw new Error(`Bookings API error ${res.status}: ${errText}`);
-        }
-
-        const bookings = await res.json();
-        if (!Array.isArray(bookings)) throw new Error("Invalid response format");
-
-        let pending = 0, confirmed = 0, today = 0;
-        const todayStr = new Date().toISOString().slice(0, 10);
-        const tbody = document.getElementById("bookingsTableBody");
-
-        if (bookings.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="8" class="empty">No bookings yet.</td></tr>`;
+      function setPreview(imageId, placeholderId, data) {
+        const image = document.getElementById(imageId);
+        const placeholder = document.getElementById(placeholderId);
+        if (data) {
+          image.src = data;
+          image.style.display = "block";
+          if (placeholder) placeholder.style.display = "none";
         } else {
-          tbody.innerHTML = bookings.map(item => {
-            const status = String(item.status || "").toLowerCase();
-            if (status === "pending") pending++;
-            if (status === "confirmed") confirmed++;
+          image.removeAttribute("src");
+          image.style.display = "none";
+          if (placeholder) placeholder.style.display = "block";
+        }
+      }
 
-            const dateStr = String(item.date || "").slice(0, 10);
-            if (dateStr === todayStr) today++;
+      function escapeHTML(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
 
-            const statusDisplay = status.charAt(0).toUpperCase() + status.slice(1);
-            const badgeClass =
-              status === "pending" ? "badge-pending" :
+      // Safely embed a value as a single-quoted JS string literal inside an
+      // onclick="..." attribute. Without this, any ID that isn't a plain
+      // number (e.g. a string/UUID id from the backend) would be inlined
+      // unquoted into the attribute and throw "Uncaught SyntaxError" /
+      // "ReferenceError" in the console the moment a row is rendered.
+      function jsAttr(value) {
+        return String(value ?? "")
+          .replace(/\\/g, "\\\\")
+          .replace(/'/g, "\\'")
+          .replace(/"/g, "&quot;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function showToast(msg, type) {
+        const el = document.getElementById("toast");
+        if (!el) { alert(msg); return; }
+        el.textContent = msg;
+        el.className = "toast";
+        if (type === "error") el.classList.add("error");
+        if (type === "success") el.classList.add("success");
+        el.classList.add("show");
+        clearTimeout(el._hide);
+        el._hide = setTimeout(() => el.classList.remove("show"), 3000);
+      }
+
+      // ===== IMAGE INPUT LISTENERS =====
+      document.getElementById("menuImageInput").addEventListener("change", async function () {
+        const file = this.files[0];
+        if (!file) return;
+        try {
+          menuImageData = await fileToDataURL(file);
+          setPreview("menuImagePreview", "menuImagePlaceholder", menuImageData);
+        } catch (error) {
+          console.error("Menu image error:", error);
+          this.value = "";
+          menuImageData = "";
+          setPreview("menuImagePreview", "menuImagePlaceholder", "");
+          showToast(error.message || "Could not process the image.", "error");
+        }
+      });
+
+      document.getElementById("signatureImageInput").addEventListener("change", async function () {
+        const file = this.files[0];
+        if (!file) return;
+        try {
+          signatureImageData = await fileToDataURL(file);
+          setPreview("signatureImagePreview", "signatureImagePlaceholder", signatureImageData);
+        } catch (error) {
+          console.error("Signature image error:", error);
+          this.value = "";
+          signatureImageData = "";
+          setPreview("signatureImagePreview", "signatureImagePlaceholder", "");
+          showToast(error.message || "Could not process the image.", "error");
+        }
+      });
+
+      document.getElementById("galleryImageInput").addEventListener("change", async function () {
+        const file = this.files[0];
+        if (!file) return;
+        try {
+          galleryImageData = await fileToDataURL(file);
+          setPreview("galleryImagePreview", "galleryImagePlaceholder", galleryImageData);
+        } catch (error) {
+          console.error("Gallery image error:", error);
+          this.value = "";
+          galleryImageData = "";
+          setPreview("galleryImagePreview", "galleryImagePlaceholder", "");
+          showToast(error.message || "Could not process the image.", "error");
+        }
+      });
+
+      document.getElementById("aboutImageInput").addEventListener("change", async function () {
+        const file = this.files[0];
+        if (!file) return;
+        try {
+          aboutImageData = await fileToDataURL(file);
+          setPreview("aboutImagePreview", "aboutPlaceholder", aboutImageData);
+        } catch (error) {
+          console.error("About image error:", error);
+          this.value = "";
+          aboutImageData = "";
+          setPreview("aboutImagePreview", "aboutPlaceholder", "");
+          showToast(error.message || "Could not process the image.", "error");
+        }
+      });
+
+      // ================= MENU CRUD =================
+      async function loadMenu() {
+        try {
+          const res = await fetch(`${API}/api/menu`);
+          if (!res.ok) throw new Error("Menu loading failed");
+          menuItems = await res.json();
+          renderMenu();
+          document.getElementById("statMenu").textContent = menuItems.length;
+        } catch {
+          document.getElementById("menuTableBody").innerHTML =
+            `<tr><td colspan="6" class="empty">Could not load menu items.</td></tr>`;
+        }
+      }
+
+      function renderMenu() {
+        const tbody = document.getElementById("menuTableBody");
+        if (!menuItems.length) {
+          tbody.innerHTML = `<tr><td colspan="6" class="empty">No menu items yet.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = menuItems.map(item => {
+          const photo = item.image ?
+            `<img class="table-photo" src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}">` :
+            `<div class="photo-placeholder">🍽️</div>`;
+          return `<tr><td>${photo}</td><td><strong>${escapeHTML(item.name)}</strong></td><td>${escapeHTML(item.category || "")}</td><td>₹${item.price}</td><td>${item.available ? `<span class="badge badge-yes">Available</span>` : `<span class="badge badge-no">Unavailable</span>`}</td><td><button class="btn btn-gold" onclick="editMenu('${jsAttr(item.id)}')">Edit</button> <button class="btn btn-danger" onclick="deleteMenu('${jsAttr(item.id)}')">Delete</button></td></tr>`;
+        }).join("");
+      }
+
+      function editMenu(id) {
+        const item = menuItems.find(x => String(x.id) === String(id));
+        if (!item) return;
+        document.getElementById("menuId").value = item.id;
+        document.getElementById("menuName").value = item.name || "";
+        document.getElementById("menuCategory").value = item.category || "";
+        document.getElementById("menuPrice").value = item.price || "";
+        document.getElementById("menuDescription").value = item.description || "";
+        document.getElementById("menuVeg").checked = !!item.veg;
+        document.getElementById("menuAvailable").checked = !!item.available;
+        menuImageData = item.image || "";
+        setPreview("menuImagePreview", "menuImagePlaceholder", menuImageData);
+        document.getElementById("menuFormTitle").textContent = "Edit Menu Item";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      async function saveMenuItem() {
+        const id = document.getElementById("menuId").value;
+        const data = {
+          name: document.getElementById("menuName").value.trim(),
+          category: document.getElementById("menuCategory").value,
+          description: document.getElementById("menuDescription").value.trim(),
+          price: Number(document.getElementById("menuPrice").value),
+          veg: document.getElementById("menuVeg").checked,
+          available: document.getElementById("menuAvailable").checked,
+          image: menuImageData
+        };
+        if (!data.name || !data.price) { alert("Enter the menu name and price."); return; }
+        try {
+          const url = id ? `${API}/api/menu/${id}` : `${API}/api/menu`;
+          const method = id ? "PUT" : "POST";
+          const res = await fetch(url, {
+            method,
+            headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+            body: JSON.stringify(data)
+          });
+          if (!res.ok) throw new Error("Menu save failed");
+          resetMenuForm();
+          await loadMenu();
+        } catch (error) {
+          console.error(error);
+          alert("Could not save the menu item.");
+        }
+      }
+
+      async function deleteMenu(id) {
+        if (!confirm("Delete this menu item?")) return;
+        try {
+          const res = await fetch(`${API}/api/menu/${id}`, {
+            method: "DELETE",
+            headers: { "X-Admin-Key": adminKey }
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          await loadMenu();
+          showToast("Menu item deleted.", "success");
+        } catch (error) {
+          console.error("Menu delete error:", error);
+          showToast(`Could not delete menu item: ${error.message}`, "error");
+        }
+      }
+
+      function resetMenuForm() {
+        document.getElementById("menuId").value = "";
+        document.getElementById("menuName").value = "";
+        document.getElementById("menuPrice").value = "";
+        document.getElementById("menuDescription").value = "";
+        document.getElementById("menuVeg").checked = true;
+        document.getElementById("menuAvailable").checked = true;
+        document.getElementById("menuImageInput").value = "";
+        menuImageData = "";
+        setPreview("menuImagePreview", "menuImagePlaceholder", "");
+        document.getElementById("menuFormTitle").textContent = "Add Menu Item";
+      }
+
+      // ================= SIGNATURE FAVOURITES =================
+      async function loadSignatureFavourites() {
+        try {
+          const res = await fetch(`${API}/api/signature-favourites`);
+          if (!res.ok) throw new Error("Signature API unavailable");
+          signatureItems = await res.json();
+          renderSignatureFavourites();
+        } catch {
+          document.getElementById("signatureGrid").innerHTML =
+            `<div class="empty">Signature Favourites API is not connected yet.</div>`;
+          document.getElementById("statSignature").textContent = "0";
+        }
+      }
+
+      function renderSignatureFavourites() {
+        const grid = document.getElementById("signatureGrid");
+        document.getElementById("statSignature").textContent = signatureItems.length;
+        if (!signatureItems.length) { grid.innerHTML = `<div class="empty">No Signature Favourites yet.</div>`; return; }
+        grid.innerHTML = signatureItems.map(item => {
+          const image = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}">` : "";
+          return `<div class="signature-card">${image}<h4>${escapeHTML(item.name)}</h4><div class="signature-price">₹${item.price}</div><div class="muted">${escapeHTML(item.category || "")}</div><p class="muted" style="margin-top:8px">${escapeHTML(item.description || "")}</p><div class="actions"><button class="btn btn-gold" onclick="editSignatureFavourite('${jsAttr(item.id)}')">Edit</button> <button class="btn btn-danger" onclick="deleteSignatureFavourite('${jsAttr(item.id)}')">Delete</button></div></div>`;
+        }).join("");
+      }
+
+      async function saveSignatureFavourite() {
+        const id = document.getElementById("signatureId").value;
+        const data = {
+          name: document.getElementById("signatureName").value.trim(),
+          category: document.getElementById("signatureCategory").value.trim(),
+          price: Number(document.getElementById("signaturePrice").value),
+          description: document.getElementById("signatureDescription").value.trim(),
+          image: signatureImageData
+        };
+        if (!data.name || !data.price) { alert("Enter the favourite name and price."); return; }
+        try {
+          const url = id ? `${API}/api/signature-favourites/${id}` : `${API}/api/signature-favourites`;
+          const method = id ? "PUT" : "POST";
+          const res = await fetch(url, {
+            method,
+            headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+            body: JSON.stringify(data)
+          });
+          if (!res.ok) throw new Error("Signature favourite save failed");
+          resetSignatureForm();
+          loadSignatureFavourites();
+        } catch (error) {
+          console.error(error);
+          alert("Could not save Signature Favourite.");
+        }
+      }
+
+      function editSignatureFavourite(id) {
+        const item = signatureItems.find(x => String(x.id) === String(id));
+        if (!item) return;
+        document.getElementById("signatureId").value = item.id;
+        document.getElementById("signatureName").value = item.name || "";
+        document.getElementById("signatureCategory").value = item.category || "";
+        document.getElementById("signaturePrice").value = item.price || "";
+        document.getElementById("signatureDescription").value = item.description || "";
+        signatureImageData = item.image || "";
+        setPreview("signatureImagePreview", "signatureImagePlaceholder", signatureImageData);
+        document.getElementById("signatureFormTitle").textContent = "Edit Signature Favourite";
+        window.scrollTo({ top: document.querySelectorAll(".section")[1].offsetTop - 15, behavior: "smooth" });
+      }
+
+      async function deleteSignatureFavourite(id) {
+        if (!confirm("Delete this Signature Favourite?")) return;
+        try {
+          const res = await fetch(`${API}/api/signature-favourites/${id}`, {
+            method: "DELETE",
+            headers: { "X-Admin-Key": adminKey }
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          await loadSignatureFavourites();
+          showToast("Signature Favourite deleted.", "success");
+        } catch (error) {
+          console.error("Signature delete error:", error);
+          showToast(`Could not delete Signature Favourite: ${error.message}`, "error");
+        }
+      }
+
+      function resetSignatureForm() {
+        document.getElementById("signatureId").value = "";
+        document.getElementById("signatureName").value = "";
+        document.getElementById("signatureCategory").value = "";
+        document.getElementById("signaturePrice").value = "";
+        document.getElementById("signatureDescription").value = "";
+        document.getElementById("signatureImageInput").value = "";
+        signatureImageData = "";
+        setPreview("signatureImagePreview", "signatureImagePlaceholder", "");
+        document.getElementById("signatureFormTitle").textContent = "Add Signature Favourite";
+      }
+
+      // ================= GALLERY =================
+      async function loadGallery() {
+        try {
+          const res = await fetch(`${API}/api/gallery`);
+          if (!res.ok) throw new Error("Gallery load failed");
+          const items = await res.json();
+          const grid = document.getElementById("galleryGrid");
+          if (!items.length) { grid.innerHTML = `<div class="empty">No gallery photos yet.</div>`; return; }
+          grid.innerHTML = items.map(item => `
+              <div class="gallery-card">
+                <img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.label || "Gallery photo")}">
+                <div class="gallery-body">
+                  <div class="gallery-label">${escapeHTML(item.label || "Photo")}</div>
+                  <div class="muted">${escapeHTML(item.category || "")}</div>
+                  <div class="actions"><button class="btn btn-danger" onclick="deleteGallery('${jsAttr(item.id)}')">Delete</button></div>
+                </div>
+              </div>
+            `).join("");
+        } catch (error) {
+          console.error(error);
+          document.getElementById("galleryGrid").innerHTML = `<div class="empty">Could not load gallery.</div>`;
+        }
+      }
+
+      async function saveGalleryImage() {
+        if (!galleryImageData) { alert("Please choose a Gallery photo."); return; }
+        const data = {
+          label: document.getElementById("galleryLabel").value.trim(),
+          category: document.getElementById("galleryCategory").value,
+          image: galleryImageData
+        };
+        try {
+          const res = await fetch(`${API}/api/gallery`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+            body: JSON.stringify(data)
+          });
+          if (!res.ok) throw new Error("Gallery upload failed");
+          resetGalleryForm();
+          loadGallery();
+        } catch (error) {
+          console.error(error);
+          alert("Could not add Gallery photo.");
+        }
+      }
+
+      async function deleteGallery(id) {
+        if (!confirm("Delete this Gallery photo?")) return;
+        try {
+          const res = await fetch(`${API}/api/gallery/${id}`, {
+            method: "DELETE",
+            headers: { "X-Admin-Key": adminKey }
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          await loadGallery();
+          showToast("Gallery photo deleted.", "success");
+        } catch (error) {
+          console.error("Gallery delete error:", error);
+          showToast(`Could not delete Gallery photo: ${error.message}`, "error");
+        }
+      }
+
+      function resetGalleryForm() {
+        document.getElementById("galleryLabel").value = "";
+        document.getElementById("galleryCategory").selectedIndex = 0;
+        document.getElementById("galleryImageInput").value = "";
+        galleryImageData = "";
+        setPreview("galleryImagePreview", "galleryImagePlaceholder", "");
+      }
+
+      // ================= ABOUT US =================
+      async function loadAboutImage() {
+        try {
+          const res = await fetch(`${API}/api/about-image`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          aboutImageData = data.image || "";
+          setPreview("aboutImagePreview", "aboutPlaceholder", aboutImageData);
+        } catch (error) {
+          console.error("About image load error:", error);
+        }
+      }
+
+      async function saveAboutImage() {
+        if (!aboutImageData) { alert("Please choose an About Us photo."); return; }
+        try {
+          const res = await fetch(`${API}/api/about-image`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+            body: JSON.stringify({ image: aboutImageData })
+          });
+          if (!res.ok) throw new Error("About image save failed");
+          document.getElementById("aboutMessage").textContent = "About Us photo saved successfully.";
+        } catch (error) {
+          console.error(error);
+          document.getElementById("aboutMessage").textContent = "Could not save About Us photo.";
+        }
+      }
+
+      async function removeAboutImage() {
+        if (!confirm("Remove the About Us photo?")) return;
+        try {
+          const res = await fetch(`${API}/api/about-image`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+            body: JSON.stringify({ image: "" })
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          aboutImageData = "";
+          setPreview("aboutImagePreview", "aboutPlaceholder", "");
+          document.getElementById("aboutMessage").textContent = "About Us photo removed.";
+        } catch (error) {
+          console.error("About image remove error:", error);
+          document.getElementById("aboutMessage").textContent = `Could not remove About Us photo: ${error.message}`;
+        }
+      }
+
+      // ================= BOOKINGS =================
+      async function loadBookings() {
+        try {
+          const res = await fetch(`${API}/api/bookings`, {
+            method: "GET",
+            headers: { "X-Admin-Key": adminKey }
+          });
+          if (!res.ok) {
+            const errText = await res.text().catch(() => "");
+            throw new Error(`Bookings API error ${res.status}: ${errText}`);
+          }
+          const bookings = await res.json();
+          if (!Array.isArray(bookings)) throw new Error("Invalid response format");
+
+          let pending = 0,
+            confirmed = 0,
+            today = 0;
+          const todayStr = new Date().toISOString().slice(0, 10);
+          const tbody = document.getElementById("bookingsTableBody");
+
+          if (bookings.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" class="empty">No bookings yet.</td></tr>`;
+          } else {
+            tbody.innerHTML = bookings.map(item => {
+              const status = String(item.status || "").toLowerCase();
+              if (status === "pending") pending++;
+              if (status === "confirmed") confirmed++;
+              const dateStr = String(item.date || "").slice(0, 10);
+              if (dateStr === todayStr) today++;
+              const statusDisplay = status.charAt(0).toUpperCase() + status.slice(1);
+              const badgeClass = status === "pending" ? "badge-pending" :
                 status === "confirmed" ? "badge-confirmed" :
                   status === "cancelled" ? "badge-cancelled" : "";
-
-            return `<tr>
+              return `<tr>
                       <td>${item.id}</td>
                       <td>${escapeHTML(item.name || "")}</td>
                       <td>${escapeHTML(item.phone || "")}</td>
@@ -1235,115 +1401,142 @@
                       <td>${escapeHTML(item.time || "")}</td>
                       <td><span class="badge ${badgeClass}">${escapeHTML(statusDisplay)}</span></td>
                       <td>
-                          ${status === "pending" ? `<button class="btn btn-success" onclick="updateBooking(${item.id},'confirmed')">Confirm</button>` : ""}
-                          ${status === "pending" || status === "confirmed" ? `<button class="btn btn-danger" onclick="updateBooking(${item.id},'cancelled')">Cancel</button>` : ""}
+                          ${status === "pending" ? `<button class="btn btn-success" onclick="updateBooking('${jsAttr(item.id)}','confirmed')">Confirm</button>` : ""}
+                          ${status === "pending" || status === "confirmed" ? `<button class="btn btn-danger" onclick="updateBooking('${jsAttr(item.id)}','cancelled')">Cancel</button>` : ""}
                           ${status === "cancelled" ? `<span class="muted">Cancelled</span>` : ""}
                       </td>
                   </tr>`;
-          }).join("");
-        }
-
-        document.getElementById("statToday").textContent = today;
-        document.getElementById("statPending").textContent = pending;
-        document.getElementById("statConfirmed").textContent = confirmed;
-
-        const statusMsg = document.getElementById("bookingsStatus");
-        if (statusMsg) {
-          statusMsg.textContent = `📊 ${bookings.length} total · ${pending} pending · ${confirmed} confirmed · ${today} today`;
-        }
-
-      } catch (error) {
-        console.error("Bookings load error:", error);
-        document.getElementById("bookingsTableBody").innerHTML =
-          `<tr><td colspan="8" class="empty">Could not load bookings: ${escapeHTML(error.message)}</td></tr>`;
-        document.getElementById("statToday").textContent = "0";
-        document.getElementById("statPending").textContent = "0";
-        document.getElementById("statConfirmed").textContent = "0";
-        if (document.getElementById("bookingsStatus")) {
-          document.getElementById("bookingsStatus").textContent = "⚠️ Failed to load bookings.";
-        }
-      }
-    }
-    async function updateBooking(id, status) {
-      if (!confirm(`Change booking #${id} status to ${status}?`)) return;
-
-      try {
-        const res = await fetch(`${API}/api/bookings/${id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Admin-Key": adminKey
-          },
-          body: JSON.stringify({ status: status })
-        });
-
-        if (!res.ok) {
-          let detail = `HTTP ${res.status}`;
-          try {
-            const errData = await res.json();
-            if (errData.detail) detail = errData.detail;
-            else if (errData.message) detail = errData.message;
-          } catch (_) {
-            // if response is not JSON, try plain text
-            try {
-              const text = await res.text();
-              if (text) detail = text;
-            } catch (_) { }
+            }).join("");
           }
-          throw new Error(detail);
+
+          document.getElementById("statToday").textContent = today;
+          document.getElementById("statPending").textContent = pending;
+          document.getElementById("statConfirmed").textContent = confirmed;
+          const statusMsg = document.getElementById("bookingsStatus");
+          if (statusMsg) {
+            statusMsg.textContent =
+              `📊 ${bookings.length} total · ${pending} pending · ${confirmed} confirmed · ${today} today`;
+          }
+        } catch (error) {
+          console.error("Bookings load error:", error);
+          document.getElementById("bookingsTableBody").innerHTML =
+            `<tr><td colspan="8" class="empty">Could not load bookings: ${escapeHTML(error.message)}</td></tr>`;
+          document.getElementById("statToday").textContent = "0";
+          document.getElementById("statPending").textContent = "0";
+          document.getElementById("statConfirmed").textContent = "0";
+          if (document.getElementById("bookingsStatus")) {
+            document.getElementById("bookingsStatus").textContent = "⚠️ Failed to load bookings.";
+          }
         }
+      }
 
+      async function updateBooking(id, status) {
+        if (!confirm(`Change booking #${id} status to ${status}?`)) return;
+        try {
+          const res = await fetch(`${API}/api/bookings/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
+            body: JSON.stringify({ status: status })
+          });
+          if (!res.ok) {
+            let detail = `HTTP ${res.status}`;
+            try {
+              const errData = await res.json();
+              if (errData.detail) detail = errData.detail;
+              else if (errData.message) detail = errData.message;
+            } catch (_) {
+              try {
+                const text = await res.text();
+                if (text) detail = text;
+              } catch (_) { }
+            }
+            throw new Error(detail);
+          }
+          await loadBookings();
+          showToast(`Booking #${id} → ${status}`, "success");
+        } catch (error) {
+          console.error("Booking update error:", error);
+          const msg = error.message || error.detail || String(error);
+          alert(`Could not update booking: ${msg}`);
+        }
+      }
+
+      // ================= REVIEWS =================
+      async function loadReviews() {
+        try {
+          const res = await fetch(`${API}/api/reviews`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const reviews = await res.json();
+          if (!Array.isArray(reviews)) throw new Error("Invalid response format");
+          document.getElementById("statReviews").textContent = reviews.length;
+          const tbody = document.getElementById("reviewsTableBody");
+          if (!reviews.length) {
+            tbody.innerHTML = `<tr><td colspan="5" class="empty">No reviews yet.</td></tr>`;
+            return;
+          }
+          tbody.innerHTML = reviews.map(item => `
+              <tr><td>${escapeHTML(item.name || "")}</td><td>${"★".repeat(Math.max(0, Math.min(5, Number(item.rating) || 0)))}</td><td>${escapeHTML(item.comment || "")}</td><td>${escapeHTML(item.created_at || "")}</td><td><button class="btn btn-danger" onclick="deleteReview('${jsAttr(item.id)}')">Delete</button></td></tr>
+            `).join("");
+        } catch (error) {
+          console.error("Reviews load error:", error);
+          document.getElementById("reviewsTableBody").innerHTML = `<tr><td colspan="5" class="empty">Could not load reviews: ${escapeHTML(error.message)}</td></tr>`;
+          document.getElementById("statReviews").textContent = "0";
+        }
+      }
+
+      async function deleteReview(id) {
+        if (!confirm("Delete this review?")) return;
+        try {
+          const res = await fetch(`${API}/api/reviews/${id}`, {
+            method: "DELETE",
+            headers: { "X-Admin-Key": adminKey }
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          await loadReviews();
+          showToast("Review deleted.", "success");
+        } catch (error) {
+          console.error("Review delete error:", error);
+          showToast(`Could not delete review: ${error.message}`, "error");
+        }
+      }
+
+      // ================= LOAD ALL =================
+      async function loadAll() {
+        await loadMenu();
+        await loadSignatureFavourites();
+        await loadGallery();
+        await loadAboutImage();
         await loadBookings();
-        showToast(`Booking #${id} → ${status}`, "success");
-
-      } catch (error) {
-        console.error("Booking update error:", error);
-        // Safely extract the actual error message
-        const msg = error.message || error.detail || String(error);
-        alert(`Could not update booking: ${msg}`);
+        await loadReviews();
       }
-    }
 
-    // ================= REVIEWS =================
-    async function loadReviews() {
-      try {
-        const res = await fetch(`${API}/api/reviews`);
-        const reviews = await res.json();
-        document.getElementById("statReviews").textContent = reviews.length;
-        const tbody = document.getElementById("reviewsTableBody");
-        if (!reviews.length) { tbody.innerHTML = `<tr><td colspan="5" class="empty">No reviews yet.</td></tr>`; return; }
-        tbody.innerHTML = reviews.map(item => `
-      <tr><td>${escapeHTML(item.name || "")}</td><td>${"★".repeat(item.rating || 0)}</td><td>${escapeHTML(item.comment || "")}</td><td>${escapeHTML(item.created_at || "")}</td><td><button class="btn btn-danger" onclick="deleteReview(${item.id})">Delete</button></td></tr>
-    `).join("");
-      } catch (error) { console.error(error); }
-    }
-    async function deleteReview(id) {
-      if (!confirm("Delete this review?")) return;
-      await fetch(`${API}/api/reviews/${id}`, {
-        method: "DELETE",
-        headers: { "X-Admin-Key": adminKey }
+      // ================= GLOBAL ACTIONS =================
+      // The HTML uses inline onclick handlers, so expose those functions globally.
+      window.loginAdmin = loginAdmin;
+      window.saveMenuItem = saveMenuItem;
+      window.resetMenuForm = resetMenuForm;
+      window.editMenu = editMenu;
+      window.deleteMenu = deleteMenu;
+      window.saveSignatureFavourite = saveSignatureFavourite;
+      window.resetSignatureForm = resetSignatureForm;
+      window.editSignatureFavourite = editSignatureFavourite;
+      window.deleteSignatureFavourite = deleteSignatureFavourite;
+      window.saveGalleryImage = saveGalleryImage;
+      window.resetGalleryForm = resetGalleryForm;
+      window.deleteGallery = deleteGallery;
+      window.saveAboutImage = saveAboutImage;
+      window.removeAboutImage = removeAboutImage;
+      window.updateBooking = updateBooking;
+      window.deleteReview = deleteReview;
+
+      // ================= EVENT LISTENERS =================
+      document.getElementById("adminLoginBtn").addEventListener("click", loginAdmin);
+      document.getElementById("adminKeyInput").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") loginAdmin();
       });
-      loadReviews();
-    }
 
-    // ================= LOAD ALL =================
-    async function loadAll() {
-      await loadMenu();
-      await loadSignatureFavourites();
-      await loadGallery();
-      await loadAboutImage();
-      await loadBookings();
-      await loadReviews();
-    }
-
-    document.getElementById("adminLoginBtn").addEventListener("click", loginAdmin);
-
-    document.getElementById("adminKeyInput").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        loginAdmin();
-      }
-    });
-
+      console.log("✅ Dashboard script loaded successfully.");
+    })();
   </script>
 </body>
 
