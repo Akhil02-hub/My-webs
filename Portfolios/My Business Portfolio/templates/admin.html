@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — AkhilWebInvites</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a12;
+            --bg-secondary: #12121e;
+            --bg-card: rgba(255, 255, 255, .03);
+            --bg-glass: rgba(255, 255, 255, .05);
+            --border-glass: rgba(255, 255, 255, .08);
+            --text-primary: #fff;
+            --text-secondary: rgba(255, 255, 255, .72);
+            --text-tertiary: rgba(255, 255, 255, .45);
+            --gradient-accent: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition-fast: .2s cubic-bezier(.4, 0, .2, 1);
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-display: 'Playfair Display', 'Inter', serif
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit
+        }
+
+        .admin-container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+            animation: scaleIn .4s ease;
+            max-height: 92vh;
+            overflow-y: auto
+        }
+
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .admin-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .back-link {
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: .85rem;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none
+        }
+
+        .back-link:hover {
+            background: rgba(168, 85, 247, .2);
+            border-color: rgba(168, 85, 247, .4);
+            color: #fff
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 12px;
+            flex-wrap: wrap
+        }
+
+        .admin-tab {
+            padding: 8px 18px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-tertiary);
+            font-size: .85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-fast)
+        }
+
+        .admin-tab:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, .06)
+        }
+
+        .admin-tab.active {
+            background: rgba(168, 85, 247, .15);
+            color: #fff;
+            border-color: rgba(168, 85, 247, .25)
+        }
+
+        .admin-content-area {
+            min-height: 300px
+        }
+
+        .admin-form-group {
+            margin-bottom: 16px
+        }
+
+        .admin-form-group label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--text-tertiary);
+            margin-bottom: 6px
+        }
+
+        .admin-form-group input,
+        .admin-form-group textarea,
+        .admin-form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            transition: var(--transition-fast)
+        }
+
+        .admin-form-group input:focus,
+        .admin-form-group textarea:focus,
+        .admin-form-group select:focus {
+            border-color: rgba(168, 85, 247, .4);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, .1)
+        }
+
+        .admin-form-group textarea {
+            min-height: 90px;
+            resize: vertical
+        }
+
+        .admin-form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(255,255,255,.5)' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px
+        }
+
+        .admin-form-group select option {
+            background: #12121e;
+            color: #fff
+        }
+
+        .admin-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px
+        }
+
+        .admin-btn {
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: var(--transition-fast);
+            color: #fff
+        }
+
+        .admin-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed
+        }
+
+        .admin-btn-save {
+            background: var(--gradient-accent)
+        }
+
+        .admin-btn-save:hover:not(:disabled) {
+            box-shadow: 0 8px 25px rgba(168, 85, 247, .4);
+            transform: translateY(-1px)
+        }
+
+        .admin-btn-delete {
+            background: rgba(239, 68, 68, .15);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, .3)
+        }
+
+        .admin-btn-delete:hover:not(:disabled) {
+            background: rgba(239, 68, 68, .25);
+            border-color: rgba(239, 68, 68, .5)
+        }
+
+        .admin-btn-edit {
+            background: rgba(168, 85, 247, .15);
+            color: #c084fc;
+            border-color: rgba(168, 85, 247, .3)
+        }
+
+        .admin-btn-edit:hover:not(:disabled) {
+            background: rgba(168, 85, 247, .25);
+            border-color: rgba(168, 85, 247, .5)
+        }
+
+        .admin-project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 24px
+        }
+
+        .admin-project-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .admin-project-item-info {
+            flex: 1;
+            min-width: 180px
+        }
+
+        .admin-project-item-info h4 {
+            font-size: .9rem;
+            font-weight: 600;
+            margin-bottom: 2px
+        }
+
+        .admin-project-item-info p {
+            font-size: .75rem;
+            color: var(--text-tertiary)
+        }
+
+        .admin-project-item-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .admin-login-form {
+            max-width: 380px;
+            margin: 60px auto;
+            text-align: center
+        }
+
+        .admin-login-form input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            text-align: center;
+            letter-spacing: .08em;
+            outline: none
+        }
+
+        .admin-login-form input:focus {
+            border-color: rgba(168, 85, 247, .4);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, .1)
+        }
+
+        .logo-upload-preview {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            background: var(--bg-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px dashed var(--border-glass);
+            transition: var(--transition-fast)
+        }
+
+        .logo-upload-preview:hover {
+            border-color: rgba(168, 85, 247, .4)
+        }
+
+        .logo-upload-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .hint {
+            color: var(--text-tertiary);
+            font-size: .72rem
+        }
+
+        .status {
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: .8rem;
+            display: none
+        }
+
+        .status.show {
+            display: block
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, .12);
+            border: 1px solid rgba(239, 68, 68, .25);
+            color: #fca5a5
+        }
+
+        .status-info {
+            background: rgba(99, 102, 241, .12);
+            border: 1px solid rgba(99, 102, 241, .25);
+            color: #c7d2fe
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .toast {
+            padding: 14px 20px;
+            border-radius: 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            color: #fff;
+            font-size: .85rem;
+            font-weight: 500;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .4);
+            animation: slideInRight .4s ease;
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .toast-success {
+            border-left: 3px solid #22c55e
+        }
+
+        .toast-error {
+            border-left: 3px solid #ef4444
+        }
+
+        .toast-info {
+            border-left: 3px solid #6366f1
+        }
+
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 12, .72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: .25s ease;
+            z-index: 1000
+        }
+
+        .loader-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto
+        }
+
+        .loader-card {
+            padding: 24px 28px;
+            border-radius: 18px;
+            border: 1px solid var(--border-glass);
+            background: rgba(255, 255, 255, .06);
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .4)
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 12px;
+            border: 3px solid rgba(255, 255, 255, .14);
+            border-top-color: #a855f7;
+            border-radius: 50%;
+            animation: spin .8s linear infinite
+        }
+
+        .loader-title {
+            font-size: .95rem;
+            font-weight: 600
+        }
+
+        .loader-subtitle {
+            font-size: .75rem;
+            color: var(--text-tertiary);
+            margin-top: 4px
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(.95);
+                opacity: 0
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @media(max-width:768px) {
+            body {
+                padding: 10px
+            }
+
+            .admin-container {
+                padding: 20px;
+                max-height: 96vh;
+                border-radius: var(--radius-md)
+            }
+
+            .admin-form-row {
+                grid-template-columns: 1fr
+            }
+
+            .admin-project-item {
+                flex-direction: column;
+                align-items: flex-start
+            }
+
+            .admin-project-item-actions {
+                width: 100%
+            }
+
+            .admin-project-item-actions .admin-btn {
+                flex: 1
+            }
+
+            .toast-container {
+                left: 12px;
+                right: 12px;
+                bottom: 12px
+            }
+
+            .toast {
+                width: 100%
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container" id="adminContainer">
+        <div class="status" id="pageStatus"></div>
+    </div>
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-card">
+            <div class="spinner"></div>
+            <div class="loader-title" id="loaderTitle">Working...</div>
+            <div class="loader-subtitle" id="loaderSubtitle">Please wait</div>
+        </div>
+    </div>
+    <script>
+        'use strict';
+        const INVITATION_CATEGORIES = ['Wedding', 'Birthday', 'Engagement', 'Baby Shower', 'Anniversary', 'Reception', 'Housewarming', 'Naming Ceremony', 'Party', 'Other'];
+        const WEBSITE_CATEGORIES = ['Portfolio', 'Restaurants', 'Hotels', 'Business', 'E-Commerce', 'Education', 'Landing Pages', 'Other'];
+        let adminLoggedIn = false, adminUsername = '', adminActiveTab = 'branding', editingInvitationId = null, editingWebsiteId = null;
+        let siteData = { branding: {}, invitations: [], websites: [] };
+        const $ = s => document.querySelector(s);
+
+        function escapeHtml(value) { const div = document.createElement('div'); div.textContent = value == null ? '' : String(value); return div.innerHTML; }
+        function truncateText(text, maxLen = 70) { const s = String(text || ''); return s.length > maxLen ? s.slice(0, maxLen) + '...' : s; }
+        function getProjectImage(p) { return p?.image_url || p?.image || ''; }
+        function showToast(message, type = 'info') { const c = $('#toastContainer'); if (!c) return; const t = document.createElement('div'); t.className = `toast toast-${type}`; const icon = { success: '✅', error: '❌', info: 'ℹ️' }[type] || 'ℹ️'; t.innerHTML = `<span>${icon}</span><span>${escapeHtml(message)}</span>`; c.appendChild(t); setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(100%)'; setTimeout(() => t.remove(), 350) }, 3000) }
+        function showLoader(title = 'Working...', subtitle = 'Please wait') { const o = $('#loaderOverlay'); $('#loaderTitle').textContent = title; $('#loaderSubtitle').textContent = subtitle; o.classList.add('active') }
+        function hideLoader() { $('#loaderOverlay').classList.remove('active') }
+        function showPageStatus(message, type = 'error') { const e = $('#pageStatus'); if (!e) return; e.textContent = message; e.className = `status show status-${type}` }
+        function clearPageStatus() { const e = $('#pageStatus'); if (e) e.className = 'status' }
+
+        async function api(url, options = {}) { const response = await fetch(url, { credentials: 'same-origin', ...options }); let data = {}; try { data = await response.json() } catch (_e) { } if (response.status === 401) { adminLoggedIn = false; renderAdminLogin(); throw new Error(data.error || 'Authentication required') } if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`); return data }
+
+        async function checkSession() { try { const data = await api('/api/admin/me'); adminLoggedIn = Boolean(data.authenticated); adminUsername = data.username || ''; if (adminLoggedIn) { await loadSiteData(); renderAdminPanel() } else renderAdminLogin() } catch (e) { renderAdminLogin(); showPageStatus('Unable to reach the Flask backend. Open this page through http://127.0.0.1:5000/admin and make sure Flask is running.', 'error') } }
+        async function loadSiteData() { siteData = await api('/api/data'); siteData.branding = siteData.branding || {}; siteData.invitations = Array.isArray(siteData.invitations) ? siteData.invitations : []; siteData.websites = Array.isArray(siteData.websites) ? siteData.websites : []; }
+
+        function renderAdminLogin() { const c = $('#adminContainer'); c.innerHTML = `<div class="admin-header"><h2 class="admin-title">🔐 Admin Access</h2><a href="/" class="back-link">← Back to Site</a></div><div class="admin-login-form"><p style="color:var(--text-tertiary);margin-bottom:16px">Enter your admin password to manage content.</p><input type="text" id="adminUsernameInput" placeholder="Username" autocomplete="username"><input type="password" id="adminPasswordInput" placeholder="Password" autocomplete="current-password"><button class="admin-btn admin-btn-save" id="loginBtn" style="width:100%">Login</button><p class="hint" style="margin-top:12px">Your credentials are verified by the server.</p></div>`; $('#loginBtn').addEventListener('click', adminLogin); const onEnter = e => { if (e.key === 'Enter') adminLogin() }; $('#adminUsernameInput').addEventListener('keydown', onEnter); $('#adminPasswordInput').addEventListener('keydown', onEnter); setTimeout(() => $('#adminUsernameInput')?.focus(), 50) }
+
+        async function adminLogin() { clearPageStatus(); const username = $('#adminUsernameInput')?.value.trim(); const password = $('#adminPasswordInput')?.value || ''; if (!username || !password) { showToast('Username and password are required.', 'error'); return } try { showLoader('Signing in...', 'Verifying credentials'); $('#loginBtn').disabled = true; const data = await api('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password }) }); adminLoggedIn = true; adminUsername = data.username || username; adminActiveTab = 'branding'; await loadSiteData(); hideLoader(); renderAdminPanel(); showToast('Login successful!', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error'); const p = $('#adminPasswordInput'); if (p) { p.value = ''; p.focus() } } finally { const b = $('#loginBtn'); if (b) b.disabled = false } }
+
+        async function logout() { try { showLoader('Signing out...', 'Closing your admin session'); await api('/api/admin/logout', { method: 'POST' }); hideLoader(); adminLoggedIn = false; adminUsername = ''; renderAdminLogin(); showToast('Logged out successfully.', 'info') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+
+        function renderAdminPanel() { if (!adminLoggedIn) { renderAdminLogin(); return } const c = $('#adminContainer'); let content = ''; if (adminActiveTab === 'branding') content = renderAdminBrandingTab(siteData.branding); else if (adminActiveTab === 'invitations') content = renderAdminInvitationsTab(siteData.invitations); else if (adminActiveTab === 'websites') content = renderAdminWebsitesTab(siteData.websites); else content = renderAdminSettingsTab(); c.innerHTML = `<div class="admin-header"><div><h2 class="admin-title">⚙️ Admin Dashboard</h2><div class="hint" style="margin-top:4px">Signed in as ${escapeHtml(adminUsername)}</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a href="/" class="back-link">← Back to Site</a><button class="admin-btn admin-btn-delete" id="logoutBtn">Logout</button></div></div><div class="admin-tabs"><button class="admin-tab ${adminActiveTab === 'branding' ? 'active' : ''}" data-tab="branding">🎨 Branding</button><button class="admin-tab ${adminActiveTab === 'invitations' ? 'active' : ''}" data-tab="invitations">💌 Invitations (${siteData.invitations.length})</button><button class="admin-tab ${adminActiveTab === 'websites' ? 'active' : ''}" data-tab="websites">🌐 Websites (${siteData.websites.length})</button><button class="admin-tab ${adminActiveTab === 'settings' ? 'active' : ''}" data-tab="settings">🔧 Settings</button></div><div class="admin-content-area">${content}</div>`; c.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => switchAdminTab(b.dataset.tab))); $('#logoutBtn').addEventListener('click', logout); bindDynamicHandlers() }
+        function switchAdminTab(tab) { adminActiveTab = tab; editingInvitationId = null; editingWebsiteId = null; renderAdminPanel() }
+        function bindFileHandlers() { const fileIds = [['logoFileInput', handleLogoUpload], ['invImageFile', e => handleProjectImageUpload(e, 'inv')], ['webImageFile', e => handleProjectImageUpload(e, 'web')]]; fileIds.forEach(([id, fn]) => { const el = document.getElementById(id); if (el) el.addEventListener('change', fn) }) }
+
+        function renderAdminBrandingTab(b) { const logo = b.logo_url || ''; return `<div style="max-width:600px;margin:0 auto"><div class="admin-form-group"><label>Logo Upload</label><div class="logo-upload-preview" id="logoUploadTrigger" title="Click to upload logo">${logo ? `<img src="${escapeHtml(logo)}" alt="Logo">` : '<span style="color:var(--text-tertiary)">📷</span>'}</div><input type="file" id="logoFileInput" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none"><small class="hint">Upload a logo image. It is saved on the server.</small></div><div class="admin-form-group"><label>Logo URL</label><input type="url" id="brandLogoUrl" value="${escapeHtml(b.logo_url || '')}" placeholder="https://example.com/logo.png"></div><div class="admin-form-group"><label>Brand Name</label><input type="text" id="brandNameInput" value="${escapeHtml(b.brand_name || '')}"></div><div class="admin-form-group"><label>Tagline</label><input type="text" id="brandTaglineInput" value="${escapeHtml(b.tagline || '')}"></div><div class="admin-form-group"><label>Hero Title</label><input type="text" id="brandHeroTitleInput" value="${escapeHtml(b.hero_title || '')}"></div><div class="admin-form-group"><label>Hero Description</label><textarea id="brandHeroDescInput" rows="3">${escapeHtml(b.hero_description || '')}</textarea></div><div class="admin-form-group"><label>Instagram URL</label><input type="url" id="brandInstagramInput" value="${escapeHtml(b.instagram_url || '')}" placeholder="https://ig.me/m/websbyakhil"></div><div style="display:flex;gap:10px;margin-top:20px"><button class="admin-btn admin-btn-save" id="saveBrandingBtn" style="flex:1">💾 Save Branding</button></div></div>` }
+
+        function renderAdminInvitationsTab(items) { const editing = editingInvitationId ? items.find(i => i.id === editingInvitationId) : null; let html = renderInvitationForm(editing); html += items.length ? `<div class="admin-project-list">${items.map(i => `<div class="admin-project-item"><div class="admin-project-item-info"><h4>${escapeHtml(i.title)} ${i.featured ? '⭐' : ''}</h4><p>${escapeHtml(i.category)} — ${escapeHtml(truncateText(i.description))}</p>${i.price ? `<p>💰 ${escapeHtml(i.price)}</p>` : ''}</div><div class="admin-project-item-actions"><button class="admin-btn admin-btn-edit" data-action="edit-inv" data-id="${escapeHtml(i.id)}">✏️ Edit</button><button class="admin-btn admin-btn-delete" data-action="delete-inv" data-id="${escapeHtml(i.id)}">🗑️ Delete</button></div></div>`).join('')}</div>` : '<p style="text-align:center;color:var(--text-tertiary);margin-top:24px">No invitations yet.</p>'; return html }
+        function renderInvitationForm(editing) { const isEdit = Boolean(editing); const img = getProjectImage(editing || {}); return `<div style="max-width:600px;margin:0 auto 24px;padding:20px;background:rgba(255,255,255,.03);border:1px solid var(--border-glass);border-radius:12px"><h3 style="font-size:1.1rem;font-weight:600;margin-bottom:16px">${isEdit ? '✏️ Edit Invitation' : '➕ Add New Invitation'}</h3><div class="admin-form-group"><label>Title *</label><input type="text" id="invTitle" value="${escapeHtml(editing?.title || '')}" placeholder="e.g., Royal Wedding Invitation" maxlength="160"></div><div class="admin-form-group"><label>Description</label><textarea id="invDesc" rows="3" maxlength="1000" placeholder="Describe this invitation...">${escapeHtml(editing?.description || '')}</textarea></div><div class="admin-form-row"><div class="admin-form-group"><label>Category *</label><select id="invCategory">${INVITATION_CATEGORIES.map(c => `<option value="${escapeHtml(c)}" ${editing?.category === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}</select></div><div class="admin-form-group"><label>Featured</label><select id="invFeatured"><option value="false" ${!editing?.featured ? 'selected' : ''}>No</option><option value="true" ${editing?.featured ? 'selected' : ''}>Yes ⭐</option></select></div></div><div class="admin-form-group"><label>Price</label><input type="text" id="invPrice" value="${escapeHtml(editing?.price || '')}" placeholder="e.g., ₹499" maxlength="60"></div><div class="admin-form-group"><label>Image Upload</label><input type="file" id="invImageFile" accept="image/png,image/jpeg,image/webp,image/gif">${img ? `<img src="${escapeHtml(img)}" alt="Current image" style="max-width:160px;max-height:100px;border-radius:8px;margin-top:8px;display:block">` : ''}</div><div class="admin-form-group"><label>Image URL</label><input type="url" id="invImageUrl" value="${escapeHtml(editing?.image_url || '')}" placeholder="https://example.com/image.jpg"></div><div style="display:flex;gap:10px;margin-top:16px"><button class="admin-btn admin-btn-save" id="${isEdit ? 'saveEditInvitationBtn' : 'addInvitationBtn'}" data-id="${isEdit ? escapeHtml(editing.id) : ''}" style="flex:1">${isEdit ? '💾 Save Changes' : '➕ Add Invitation'}</button>${isEdit ? '<button class="admin-btn admin-btn-delete" id="cancelInvitationBtn">Cancel</button>' : ''}</div></div>` }
+
+        function renderAdminWebsitesTab(items) { const editing = editingWebsiteId ? items.find(i => i.id === editingWebsiteId) : null; let html = renderWebsiteForm(editing); html += items.length ? `<div class="admin-project-list">${items.map(i => `<div class="admin-project-item"><div class="admin-project-item-info"><h4>${escapeHtml(i.title)} ${i.featured ? '⭐' : ''}</h4><p>${escapeHtml(i.category)} — ${escapeHtml(truncateText(i.description))}</p>${i.live_url ? `<p>🔗 ${escapeHtml(i.live_url)}</p>` : ''}${i.price ? `<p>💰 ${escapeHtml(i.price)}</p>` : ''}</div><div class="admin-project-item-actions"><button class="admin-btn admin-btn-edit" data-action="edit-web" data-id="${escapeHtml(i.id)}">✏️ Edit</button><button class="admin-btn admin-btn-delete" data-action="delete-web" data-id="${escapeHtml(i.id)}">🗑️ Delete</button></div></div>`).join('')}</div>` : '<p style="text-align:center;color:var(--text-tertiary);margin-top:24px">No websites yet.</p>'; return html }
+        function renderWebsiteForm(editing) { const isEdit = Boolean(editing); const img = getProjectImage(editing || {}); return `<div style="max-width:600px;margin:0 auto 24px;padding:20px;background:rgba(255,255,255,.03);border:1px solid var(--border-glass);border-radius:12px"><h3 style="font-size:1.1rem;font-weight:600;margin-bottom:16px">${isEdit ? '✏️ Edit Website' : '➕ Add New Website'}</h3><div class="admin-form-group"><label>Title *</label><input type="text" id="webTitle" value="${escapeHtml(editing?.title || '')}" placeholder="e.g., Foodies Restaurant" maxlength="160"></div><div class="admin-form-group"><label>Description</label><textarea id="webDesc" rows="3" maxlength="1000" placeholder="Describe this website...">${escapeHtml(editing?.description || '')}</textarea></div><div class="admin-form-row"><div class="admin-form-group"><label>Category *</label><select id="webCategory">${WEBSITE_CATEGORIES.map(c => `<option value="${escapeHtml(c)}" ${editing?.category === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}</select></div><div class="admin-form-group"><label>Featured</label><select id="webFeatured"><option value="false" ${!editing?.featured ? 'selected' : ''}>No</option><option value="true" ${editing?.featured ? 'selected' : ''}>Yes ⭐</option></select></div></div><div class="admin-form-group"><label>Live Website URL *</label><input type="url" id="webLiveUrl" value="${escapeHtml(editing?.live_url || '')}" placeholder="https://example.com"></div><div class="admin-form-group"><label>Tech Stack</label><input type="text" id="webTechStack" value="${escapeHtml(editing?.tech_stack || '')}" placeholder="HTML, CSS, JavaScript, Flask"></div><div class="admin-form-group"><label>Price</label><input type="text" id="webPrice" value="${escapeHtml(editing?.price || '')}" placeholder="e.g., Starting ₹5,000" maxlength="60"></div><div class="admin-form-group"><label>Image Upload</label><input type="file" id="webImageFile" accept="image/png,image/jpeg,image/webp,image/gif">${img ? `<img src="${escapeHtml(img)}" alt="Current image" style="max-width:160px;max-height:100px;border-radius:8px;margin-top:8px;display:block">` : ''}</div><div class="admin-form-group"><label>Image URL</label><input type="url" id="webImageUrl" value="${escapeHtml(editing?.image_url || '')}" placeholder="https://example.com/image.jpg"></div><div style="display:flex;gap:10px;margin-top:16px"><button class="admin-btn admin-btn-save" id="${isEdit ? 'saveEditWebsiteBtn' : 'addWebsiteBtn'}" data-id="${isEdit ? escapeHtml(editing.id) : ''}" style="flex:1">${isEdit ? '💾 Save Changes' : '➕ Add Website'}</button>${isEdit ? '<button class="admin-btn admin-btn-delete" id="cancelWebsiteBtn">Cancel</button>' : ''}</div></div>` }
+
+        function renderAdminSettingsTab() { return `<div style="max-width:420px;margin:0 auto"><h3 style="font-size:1.1rem;font-weight:600;margin-bottom:16px">🔧 Settings</h3><div class="admin-form-group"><label>Current Password</label><input type="password" id="currentAdminPassword" autocomplete="current-password"></div><div class="admin-form-group"><label>New Password</label><input type="password" id="newAdminPassword" autocomplete="new-password" minlength="8"></div><div class="admin-form-group"><label>Confirm New Password</label><input type="password" id="confirmAdminPassword" autocomplete="new-password" minlength="8"></div><button class="admin-btn admin-btn-save" id="changePasswordBtn" style="width:100%;margin-bottom:16px">🔑 Update Password</button><hr style="border-color:var(--border-glass);margin:24px 0"><p class="hint">Content reset is intentionally disabled because the current Flask backend has no reset endpoint. Use the database if you need a full reset.</p></div>` }
+
+        async function handleLogoUpload(e) { const file = e.target.files?.[0]; if (!file) return; try { showLoader('Uploading logo...', 'Saving image on server'); const uploaded = await uploadImage('websites', file); $('#brandLogoUrl').value = uploaded.url; hideLoader(); showToast('Logo uploaded. Save Branding to apply it.', 'success') } catch (err) { hideLoader(); showToast(err.message, 'error') } }
+        async function handleProjectImageUpload(e, type) { const file = e.target.files?.[0]; if (!file) return; try { showLoader('Uploading image...', 'Saving image on server'); const kind = type === 'inv' ? 'invitations' : 'websites'; const uploaded = await uploadImage(kind, file); const field = type === 'inv' ? 'invImageUrl' : 'webImageUrl'; $('#' + field).value = uploaded.url; hideLoader(); showToast('Image uploaded. Save the item to apply it.', 'success') } catch (err) { hideLoader(); showToast(err.message, 'error') } }
+        async function uploadImage(kind, file) { const form = new FormData(); form.append('file', file); return api(`/api/uploads/${kind}`, { method: 'POST', body: form }) }
+
+        async function saveBranding() { const payload = { brand_name: $('#brandNameInput').value.trim(), tagline: $('#brandTaglineInput').value.trim(), hero_title: $('#brandHeroTitleInput').value.trim(), hero_description: $('#brandHeroDescInput').value.trim(), logo_url: $('#brandLogoUrl').value.trim(), instagram_url: $('#brandInstagramInput').value.trim() }; if (!payload.brand_name) { showToast('Brand name is required.', 'error'); return } try { showLoader('Saving branding...', 'Updating your public site'); await api('/api/branding', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); await loadSiteData(); hideLoader(); renderAdminPanel(); showToast('Branding updated successfully!', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+
+        function invitationPayload() { return { title: $('#invTitle').value.trim(), description: $('#invDesc').value.trim(), category: $('#invCategory').value, price: $('#invPrice').value.trim(), image_url: $('#invImageUrl').value.trim(), featured: $('#invFeatured').value === 'true' } }
+        async function addNewInvitation() { const p = invitationPayload(); if (!p.title) { showToast('Title is required!', 'error'); return } try { showLoader('Adding invitation...', 'Saving to database'); await api('/api/invitations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p) }); await loadSiteData(); hideLoader(); renderAdminPanel(); showToast('Invitation added!', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+        async function saveEditInvitation(id) { const p = invitationPayload(); if (!p.title) { showToast('Title is required!', 'error'); return } try { showLoader('Updating invitation...', 'Saving changes'); await api(`/api/invitations/${encodeURIComponent(id)}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p) }); editingInvitationId = null; await loadSiteData(); hideLoader(); renderAdminPanel(); showToast('Invitation updated!', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+        async function deleteInvitation(id) { if (!confirm('Are you sure you want to delete this invitation?')) return; try { showLoader('Deleting invitation...', 'Removing from database'); await api(`/api/invitations/${encodeURIComponent(id)}`, { method: 'DELETE' }); await loadSiteData(); hideLoader(); renderAdminPanel(); showToast('Invitation deleted.', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+        function websitePayload() { return { title: $('#webTitle').value.trim(), description: $('#webDesc').value.trim(), category: $('#webCategory').value, live_url: $('#webLiveUrl').value.trim(), tech_stack: $('#webTechStack').value.trim(), price: $('#webPrice').value.trim(), image_url: $('#webImageUrl').value.trim(), featured: $('#webFeatured').value === 'true' } }
+        async function addNewWebsite() { const p = websitePayload(); if (!p.title) { showToast('Title is required!', 'error'); return } if (!p.live_url) { showToast('Live Website URL is required.', 'error'); return } try { showLoader('Adding website...', 'Saving to database'); await api('/api/websites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p) }); await loadSiteData(); hideLoader(); renderAdminPanel(); showToast('Website added!', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+        async function saveEditWebsite(id) { const p = websitePayload(); if (!p.title) { showToast('Title is required!', 'error'); return } if (!p.live_url) { showToast('Live Website URL is required.', 'error'); return } try { showLoader('Updating website...', 'Saving changes'); await api(`/api/websites/${encodeURIComponent(id)}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p) }); editingWebsiteId = null; await loadSiteData(); hideLoader(); renderAdminPanel(); showToast('Website updated!', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+        async function deleteWebsite(id) { if (!confirm('Are you sure you want to delete this website?')) return; try { showLoader('Deleting website...', 'Removing from database'); await api(`/api/websites/${encodeURIComponent(id)}`, { method: 'DELETE' }); await loadSiteData(); hideLoader(); renderAdminPanel(); showToast('Website deleted.', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+        async function changeAdminPassword() { const current = $('#currentAdminPassword').value; const next = $('#newAdminPassword').value; const confirmPass = $('#confirmAdminPassword').value; if (next.length < 8) { showToast('New password must be at least 8 characters.', 'error'); return } if (next !== confirmPass) { showToast('Passwords do not match.', 'error'); return } try { showLoader('Updating password...', 'Securing your admin account'); await api('/api/admin/password', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ current_password: current, new_password: next }) }); hideLoader(); renderAdminPanel(); showToast('Password updated successfully.', 'success') } catch (e) { hideLoader(); showToast(e.message, 'error') } }
+
+        function bindContentEvents() { const c = $('#adminContainer'); const saveB = $('#saveBrandingBtn'); if (saveB) saveB.addEventListener('click', saveBranding); const logoTrigger = $('#logoUploadTrigger'); const logoInput = $('#logoFileInput'); if (logoTrigger && logoInput) logoTrigger.addEventListener('click', () => logoInput.click()); const addI = $('#addInvitationBtn'); if (addI) addI.addEventListener('click', addNewInvitation); const editI = $('#saveEditInvitationBtn'); if (editI) editI.addEventListener('click', () => saveEditInvitation(editI.dataset.id)); const cancelI = $('#cancelInvitationBtn'); if (cancelI) cancelI.addEventListener('click', () => { editingInvitationId = null; renderAdminPanel() }); const addW = $('#addWebsiteBtn'); if (addW) addW.addEventListener('click', addNewWebsite); const editW = $('#saveEditWebsiteBtn'); if (editW) editW.addEventListener('click', () => saveEditWebsite(editW.dataset.id)); const cancelW = $('#cancelWebsiteBtn'); if (cancelW) cancelW.addEventListener('click', () => { editingWebsiteId = null; renderAdminPanel() }); c.querySelectorAll('[data-action]').forEach(btn => { btn.addEventListener('click', () => { const id = btn.dataset.id; const action = btn.dataset.action; if (action === 'edit-inv') { editingInvitationId = id; renderAdminPanel() } else if (action === 'delete-inv') deleteInvitation(id); else if (action === 'edit-web') { editingWebsiteId = id; renderAdminPanel() } else if (action === 'delete-web') deleteWebsite(id) }) }); const change = $('#changePasswordBtn'); if (change) change.addEventListener('click', changeAdminPassword) }
+        function bindDynamicHandlers() { bindFileHandlers(); bindContentEvents() }
+
+        window.addEventListener('pageshow', () => { if (!adminLoggedIn) checkSession() });
+    </script>
+</body>
+
+</html>

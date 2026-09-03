@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AkhilWebInvites — premium digital invitations and modern websites crafted by Akhil.">
+    <meta name="theme-color" content="#0a0a12">
+    <title>AkhilWebInvites — Invitations & Websites</title>
+    <link rel="icon" id="siteFavicon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a12;
+            --bg-secondary: #12121e;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.72);
+            --text-tertiary: rgba(255, 255, 255, 0.45);
+            --gradient-1: #6366f1;
+            --gradient-2: #a855f7;
+            --gradient-3: #ec4899;
+            --gradient-accent: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 60px rgba(168, 85, 247, 0.15);
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-display: 'Playfair Display', 'Inter', serif;
+            --header-height: 72px;
+            --max-width: 1280px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        body.is-loading {
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(168, 85, 247, 0.4);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(168, 85, 247, 0.6);
+        }
+
+        .orbs-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: .35;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, .4), transparent 70%);
+            top: -10%;
+            left: -5%;
+        }
+
+        .orb-2 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(168, 85, 247, .35), transparent 70%);
+            top: 30%;
+            right: -8%;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(236, 72, 153, .3), transparent 70%);
+            bottom: -10%;
+            left: 20%;
+            animation-delay: -14s;
+        }
+
+        .orb-4 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(168, 85, 247, .25), transparent 70%);
+            top: 50%;
+            left: 40%;
+            animation-delay: -3s;
+        }
+
+        @keyframes orbFloat {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(40px, -60px) scale(1.1);
+            }
+
+            50% {
+                transform: translate(-20px, -30px) scale(.9);
+            }
+
+            75% {
+                transform: translate(30px, 40px) scale(1.05);
+            }
+        }
+
+        .mouse-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(circle, rgba(168, 85, 247, .12) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+
+        .mouse-glow.active {
+            opacity: 1;
+        }
+
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            transition: background .4s ease, box-shadow .4s ease, border-bottom .4s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .site-header.scrolled {
+            background: rgba(10, 10, 18, .85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-glass);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, .3);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .header-brand-name {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-brand-tagline {
+            font-size: .7rem;
+            color: var(--text-tertiary);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-nav-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: .9rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .header-nav-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, .06);
+        }
+
+        .header-nav-btn.active {
+            color: var(--text-primary);
+            background: rgba(168, 85, 247, .15);
+            border-color: rgba(168, 85, 247, .25);
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 2;
+            padding-top: var(--header-height);
+        }
+
+        .hero-section {
+            min-height: calc(100vh - var(--header-height));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 24px;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(168, 85, 247, .1);
+            border: 1px solid rgba(168, 85, 247, .25);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: .8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            letter-spacing: .04em;
+            animation: fadeUp .8s ease .1s both;
+        }
+
+        .hero-badge span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -.03em;
+            line-height: 1.05;
+            margin-bottom: 8px;
+            animation: fadeUp .8s ease .2s both;
+        }
+
+        .gradient-text {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title .gradient-text {
+            animation: gradientShift 3s ease-in-out infinite;
+            background-size: 200% 200%;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin-bottom: 40px;
+            animation: fadeUp .8s ease .3s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeUp .8s ease .4s both;
+        }
+
+        .cta-btn {
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
+            border: 1px solid transparent;
+            letter-spacing: .01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn:active,
+        .card-btn:active {
+            transform: scale(.97);
+        }
+
+        .cta-primary {
+            background: var(--gradient-accent);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(168, 85, 247, .35);
+            animation: buttonPulse 2.5s ease-in-out infinite;
+        }
+
+        .cta-primary:hover {
+            box-shadow: 0 12px 40px rgba(168, 85, 247, .5);
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .cta-secondary {
+            background: rgba(255, 255, 255, .06);
+            border-color: var(--border-glass);
+            color: var(--text-primary);
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, .1);
+            border-color: rgba(255, 255, 255, .2);
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .collections-section {
+            padding: 60px 32px 80px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: none;
+        }
+
+        .collections-section.active {
+            display: block;
+            animation: sectionEnter .55s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -.02em;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            color: var(--text-tertiary);
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .category-tab {
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            font-size: .85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: var(--font-body);
+            animation: staggerFade .6s ease both;
+        }
+
+        .category-tab:hover {
+            background: rgba(255, 255, 255, .08);
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, .15);
+        }
+
+        .category-tab.active {
+            background: var(--gradient-accent);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, .3);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: default;
+            transition: all var(--transition-base);
+            animation: staggerFade .6s ease both;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(168, 85, 247, .3);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+            background: rgba(255, 255, 255, .05);
+        }
+
+        .project-card.featured {
+            border: 1.5px solid rgba(168, 85, 247, .4);
+            box-shadow: 0 0 30px rgba(168, 85, 247, .15);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            z-index: 5;
+            background: var(--gradient-accent);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, .4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .project-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--bg-secondary);
+            transition: transform .5s ease;
+            display: block;
+        }
+
+        .project-card:hover .project-card-image {
+            transform: scale(1.04);
+        }
+
+        .project-card-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, .2), rgba(168, 85, 247, .2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: rgba(255, 255, 255, .3);
+        }
+
+        .project-card-body {
+            padding: 20px;
+        }
+
+        .project-card-category {
+            font-size: .7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #c084fc;
+            margin-bottom: 6px;
+        }
+
+        .project-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .project-card-desc {
+            font-size: .85rem;
+            color: var(--text-tertiary);
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 2.55em;
+        }
+
+        .project-card-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 14px;
+            color: var(--text-secondary);
+            font-size: .78rem;
+        }
+
+        .project-card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-btn {
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: var(--font-body);
+            border: 1px solid transparent;
+            letter-spacing: .02em;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-live {
+            background: rgba(99, 102, 241, .2);
+            border-color: rgba(99, 102, 241, .35);
+            color: #a5b4fc;
+        }
+
+        .btn-live:hover {
+            background: rgba(99, 102, 241, .35);
+            border-color: rgba(99, 102, 241, .5);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .btn-purchase {
+            background: var(--gradient-accent);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, .3);
+        }
+
+        .project-price {
+            color: #fbbf24;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: .02em;
+        }
+
+        .btn-purchase:hover {
+            box-shadow: 0 8px 25px rgba(168, 85, 247, .45);
+            transform: translateY(-1px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: .6;
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 40px 24px;
+            color: var(--text-tertiary);
+            font-size: .85rem;
+            border-top: 1px solid var(--border-glass);
+            position: relative;
+            z-index: 2;
+        }
+
+        .site-footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .site-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all var(--transition-fast);
+        }
+
+        .footer-social a:hover {
+            background: rgba(168, 85, 247, .2);
+            border-color: rgba(168, 85, 247, .4);
+            transform: translateY(-2px);
+        }
+
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 5, 12, .72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .3s ease, visibility .3s ease;
+        }
+
+        .page-loader.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .loader-card {
+            min-width: 240px;
+            padding: 28px 34px;
+            text-align: center;
+            border: 1px solid var(--border-glass);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .06);
+            backdrop-filter: blur(24px);
+            box-shadow: 0 20px 80px rgba(0, 0, 0, .45), 0 0 60px rgba(124, 58, 237, .12);
+            transform: translateY(12px) scale(.96);
+            transition: transform .35s ease;
+        }
+
+        .page-loader.active .loader-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .loader-spinner {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 16px;
+            border: 3px solid rgba(255, 255, 255, .15);
+            border-top-color: #a855f7;
+            border-radius: 50%;
+            animation: loaderSpin .8s linear infinite;
+        }
+
+        .loader-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .loader-subtitle {
+            margin-top: 6px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, .55);
+        }
+
+        .preview-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 900;
+            background: rgba(0, 0, 0, .84);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            opacity: 0;
+            animation: overlayIn .3s ease forwards;
+        }
+
+        .preview-panel {
+            position: relative;
+            max-width: min(900px, 95vw);
+            max-height: 90vh;
+            text-align: center;
+            animation: previewIn .45s cubic-bezier(.22, 1, .36, 1) forwards;
+        }
+
+        .preview-panel img {
+            display: block;
+            max-width: 100%;
+            max-height: 78vh;
+            margin: auto;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+        }
+
+        .preview-close {
+            position: absolute;
+            top: -48px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .2);
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .preview-title {
+            margin-top: 14px;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .preview-category {
+            color: rgba(255, 255, 255, .6);
+            font-size: .85rem;
+            margin-top: 3px;
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            padding: 14px 20px;
+            border-radius: 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            color: #fff;
+            font-size: .85rem;
+            font-weight: 500;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .4);
+            animation: slideInRight .4s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: min(420px, calc(100vw - 48px));
+        }
+
+        .toast-success {
+            border-left: 3px solid #22c55e;
+        }
+
+        .toast-error {
+            border-left: 3px solid #ef4444;
+        }
+
+        .toast-info {
+            border-left: 3px solid #6366f1;
+        }
+
+        .ripple {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .28);
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple .6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .5;
+                transform: scale(1.4)
+            }
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+        }
+
+        @keyframes buttonPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 8px 30px rgba(168, 85, 247, .35)
+            }
+
+            50% {
+                box-shadow: 0 8px 45px rgba(168, 85, 247, .55)
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes staggerFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes sectionEnter {
+            from {
+                opacity: 0;
+                transform: translateY(18px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes loaderSpin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes overlayIn {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes previewIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px) scale(.95)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1)
+            }
+        }
+
+        @keyframes ripple {
+            to {
+                transform: translate(-50%, -50%) scale(18);
+                opacity: 0
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        @media (max-width:768px) {
+            .site-header {
+                padding: 0 16px;
+            }
+
+            .header-brand-name {
+                font-size: 1rem;
+            }
+
+            .header-brand-tagline {
+                display: none;
+            }
+
+            .header-nav {
+                gap: 2px;
+            }
+
+            .header-nav-btn {
+                padding: 7px 10px;
+                font-size: .78rem;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+
+            .collections-section {
+                padding: 40px 16px 60px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+                max-width: 340px;
+            }
+
+            .cta-btn {
+                width: 100%;
+            }
+
+            .category-tabs {
+                gap: 4px;
+            }
+
+            .category-tab {
+                padding: 8px 14px;
+                font-size: .75rem;
+            }
+
+            .toast-container {
+                right: 12px;
+                bottom: 12px;
+                left: 12px;
+            }
+
+            .toast {
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="orbs-container" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <div class="mouse-glow" id="mouseGlow" aria-hidden="true"></div>
+
+    <header class="site-header" id="siteHeader">
+        <div class="header-brand" onclick="goHome()" title="Go to homepage">
+            <div class="header-logo" id="headerLogo" aria-label="AkhilWebInvites logo">✨</div>
+            <div>
+                <div class="header-brand-name" id="headerBrandName">AkhilWebInvites</div>
+                <div class="header-brand-tagline" id="headerTagline">Invitations & Websites</div>
+            </div>
+        </div>
+        <nav class="header-nav" aria-label="Primary navigation">
+            <button class="header-nav-btn active" data-view="home" type="button" onclick="goHome()">Home</button>
+            <button class="header-nav-btn" data-view="invitations" type="button"
+                onclick="showCollection('invitations')">Invitations</button>
+            <button class="header-nav-btn" data-view="websites" type="button"
+                onclick="showCollection('websites')">Websites</button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="hero-section" id="heroSection">
+            <div class="hero-badge"><span></span> Creative Studio — Invitations & Websites</div>
+            <h1 class="hero-title" id="heroTitle"><span class="gradient-text">AkhilWebInvites</span></h1>
+            <p class="hero-description" id="heroDescription">Premium invitation designs and modern websites crafted by
+                Akhil.</p>
+            <div class="hero-cta">
+                <button class="cta-btn cta-primary" type="button" onclick="showCollection('invitations')">✨
+                    Invitations</button>
+                <button class="cta-btn cta-secondary" type="button" onclick="showCollection('websites')">🌐
+                    Websites</button>
+                <button class="cta-btn cta-secondary" type="button" onclick="reserveConversation()">💬 Reserve a
+                    Conversation</button>
+            </div>
+        </section>
+
+        <section class="collections-section" id="invitationsCollection" aria-labelledby="invitationsTitle">
+            <div class="section-header">
+                <h2 class="section-title gradient-text" id="invitationsTitle">Invitation Designs</h2>
+                <p class="section-subtitle">Elegant, premium invitations for every occasion — crafted with care.</p>
+            </div>
+            <div class="category-tabs" id="invitationCategories"></div>
+            <div class="projects-grid" id="invitationsGrid"></div>
+        </section>
+
+        <section class="collections-section" id="websitesCollection" aria-labelledby="websitesTitle">
+            <div class="section-header">
+                <h2 class="section-title gradient-text" id="websitesTitle">Website Portfolio</h2>
+                <p class="section-subtitle">Modern, responsive websites built for businesses, restaurants, hotels, and
+                    more.</p>
+            </div>
+            <div class="category-tabs" id="websiteCategories"></div>
+            <div class="projects-grid" id="websitesGrid"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-social">
+            <a id="footerInstagram" href="https://www.instagram.com/websbyakhil/" target="_blank"
+                rel="noopener noreferrer" title="Instagram" aria-label="Instagram">📸</a>
+            <a href="https://foodieskodada.onrender.com/" target="_blank" rel="noopener noreferrer"
+                title="Foodies Restaurant" aria-label="Foodies Restaurant">🍽️</a>
+            <a href="https://athidhigrandhotel.onrender.com/" target="_blank" rel="noopener noreferrer"
+                title="Athidhi Grand Hotel" aria-label="Athidhi Grand Hotel">🏨</a>
+        </div>
+        <p>© 2026 <span id="footerBrandName">AkhilWebInvites</span> — Invitations & Websites. Crafted with 💜 by <a
+                id="footerAuthor" href="https://www.instagram.com/websbyakhil/" target="_blank"
+                rel="noopener noreferrer">Akhil</a>.</p>
+    </footer>
+
+    <div class="page-loader" id="pageLoader" aria-hidden="true">
+        <div class="loader-card" role="status" aria-live="polite">
+            <div class="loader-spinner" aria-hidden="true"></div>
+            <div class="loader-title" id="loaderTitle">Opening...</div>
+            <div class="loader-subtitle" id="loaderSubtitle">Please wait a moment</div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+    <script>
+        'use strict';
+
+        const INVITATION_CATEGORIES = [
+            'All', 'Wedding', 'Birthday', 'Engagement', 'Baby Shower',
+            'Anniversary', 'Reception', 'Housewarming', 'Naming Ceremony', 'Party', 'Other'
+        ];
+
+        const WEBSITE_CATEGORIES = [
+            'All', 'Portfolio', 'Restaurants', 'Hotels', 'Business',
+            'E-Commerce', 'Education', 'Landing Pages', 'Other'
+        ];
+
+        const DEFAULT_INSTAGRAM_DM_URL = 'https://ig.me/m/websbyakhil';
+        const DEFAULT_INSTAGRAM_PROFILE_URL = 'https://www.instagram.com/websbyakhil/';
+
+        const state = {
+            data: { branding: {}, invitations: [], websites: [], instagramDm: DEFAULT_INSTAGRAM_DM_URL },
+            currentView: 'home',
+            invitationCategory: 'All',
+            websiteCategory: 'All',
+            busy: false
+        };
+
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+
+        function escapeHtml(value) {
+            const div = document.createElement('div');
+            div.textContent = value == null ? '' : String(value);
+            return div.innerHTML;
+        }
+
+        function safeHttpUrl(value, fallback = '') {
+            try {
+                const parsed = new URL(value, window.location.origin);
+                if (parsed.protocol === 'https:' || parsed.protocol === 'http:') return parsed.href;
+            } catch (_) { }
+            return fallback;
+        }
+
+        function getProjectImage(project) {
+            return project?.image_url || project?.image || '';
+        }
+
+        function showToast(message, type = 'info') {
+            const container = $('#toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+            const icon = document.createElement('span');
+            icon.textContent = icons[type] || icons.info;
+            const text = document.createElement('span');
+            text.textContent = message;
+            toast.append(icon, text);
+            container.appendChild(toast);
+            window.setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all .4s ease';
+                window.setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        function setLoader(title, subtitle) {
+            $('#loaderTitle').textContent = title;
+            $('#loaderSubtitle').textContent = subtitle;
+        }
+
+        function showPageLoader(title = 'Opening...', subtitle = 'Please wait a moment') {
+            setLoader(title, subtitle);
+            $('#pageLoader').classList.add('active');
+            $('#pageLoader').setAttribute('aria-hidden', 'false');
+        }
+
+        function hidePageLoader() {
+            $('#pageLoader').classList.remove('active');
+            $('#pageLoader').setAttribute('aria-hidden', 'true');
+        }
+
+        function createRipple(event, element) {
+            if (!element) return;
+            const rect = element.getBoundingClientRect();
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.left = `${event.clientX - rect.left}px`;
+            ripple.style.top = `${event.clientY - rect.top}px`;
+            element.appendChild(ripple);
+            window.setTimeout(() => ripple.remove(), 650);
+        }
+
+        function renderBranding() {
+            const branding = state.data.branding || {};
+            const brandName = branding.brand_name || 'AkhilWebInvites';
+            const tagline = branding.tagline || 'Invitations & Websites';
+            const heroTitle = branding.hero_title || brandName;
+            const heroDescription = branding.hero_description || 'Premium invitation designs and modern websites crafted by Akhil.';
+            const instagram = safeHttpUrl(branding.instagram_url, DEFAULT_INSTAGRAM_PROFILE_URL);
+            const logo = safeHttpUrl(branding.logo_url, '');
+
+            $('#headerBrandName').textContent = brandName;
+            $('#headerTagline').textContent = tagline;
+            $('#footerBrandName').textContent = brandName;
+            $('#heroTitle').innerHTML = `<span class="gradient-text">${escapeHtml(heroTitle)}</span>`;
+            $('#heroDescription').textContent = heroDescription;
+
+            const headerLogo = $('#headerLogo');
+            headerLogo.replaceChildren();
+            if (logo) {
+                const img = document.createElement('img');
+                img.src = logo;
+                img.alt = `${brandName} logo`;
+                img.addEventListener('error', () => {
+                    headerLogo.textContent = '✨';
+                }, { once: true });
+                headerLogo.appendChild(img);
+                $('#siteFavicon').href = logo;
+            } else {
+                headerLogo.textContent = '✨';
+            }
+
+            $('#footerInstagram').href = instagram;
+            $('#footerAuthor').href = instagram;
+            document.title = `${brandName} — Invitations & Websites`;
+        }
+
+        function renderCategories(containerId, categories, current, onSelect) {
+            const container = $(containerId);
+            container.replaceChildren();
+            categories.forEach((category, index) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `category-tab ${category === current ? 'active' : ''}`;
+                button.textContent = category;
+                button.style.animationDelay = `${index * 0.05}s`;
+                button.addEventListener('click', (event) => {
+                    createRipple(event, button);
+                    onSelect(category);
+                });
+                container.appendChild(button);
+            });
+        }
+
+        function renderInvitationCategories() {
+            renderCategories('#invitationCategories', INVITATION_CATEGORIES, state.invitationCategory, (category) => {
+                state.invitationCategory = category;
+                renderInvitationCategories();
+                renderInvitationsGrid();
+            });
+        }
+
+        function renderWebsiteCategories() {
+            renderCategories('#websiteCategories', WEBSITE_CATEGORIES, state.websiteCategory, (category) => {
+                state.websiteCategory = category;
+                renderWebsiteCategories();
+                renderWebsitesGrid();
+            });
+        }
+
+        function appendPlaceholder(parent, icon) {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'project-card-image-placeholder';
+            placeholder.textContent = icon;
+            parent.appendChild(placeholder);
+        }
+
+        function makeCardImage(parent, imageUrl, alt, placeholderIcon) {
+            const safeImage = safeHttpUrl(imageUrl, '');
+            if (!safeImage) {
+                appendPlaceholder(parent, placeholderIcon);
+                return;
+            }
+            const img = document.createElement('img');
+            img.className = 'project-card-image';
+            img.src = safeImage;
+            img.alt = alt;
+            img.loading = 'lazy';
+            img.addEventListener('error', () => {
+                img.remove();
+                appendPlaceholder(parent, placeholderIcon);
+            }, { once: true });
+            parent.appendChild(img);
+        }
+
+        function createCardBase(project, placeholderIcon) {
+            const card = document.createElement('article');
+            card.className = `project-card${project.featured ? ' featured' : ''}`;
+            makeCardImage(card, getProjectImage(project), project.title || 'Project image', placeholderIcon);
+            if (project.featured) {
+                const badge = document.createElement('div');
+                badge.className = 'featured-badge';
+                badge.textContent = '⭐ Featured';
+                card.appendChild(badge);
+            }
+            const body = document.createElement('div');
+            body.className = 'project-card-body';
+            const category = document.createElement('div');
+            category.className = 'project-card-category';
+            category.textContent = project.category || 'Other';
+            const title = document.createElement('h3');
+            title.className = 'project-card-title';
+            title.textContent = project.title || 'Untitled';
+            const description = document.createElement('p');
+            description.className = 'project-card-desc';
+            description.textContent = project.description || 'Premium digital experience crafted by Akhil.';
+            body.append(category, title, description);
+            return { card, body, titleText: project.title || 'Untitled' };
+        }
+
+        function makeMeta(project, includePrice = false) {
+            const meta = document.createElement('div');
+            meta.className = 'project-card-meta';
+            if (includePrice && project.price) {
+                const price = document.createElement('span');
+                price.className = 'project-price';
+                price.textContent = project.price;
+                meta.appendChild(price);
+            } else {
+                meta.appendChild(document.createElement('span'));
+            }
+            return meta;
+        }
+
+        function makeButton(label, className, handler) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `card-btn ${className}`;
+            button.textContent = label;
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                createRipple(event, button);
+                handler();
+            });
+            return button;
+        }
+
+        function renderInvitationsGrid() {
+            const grid = $('#invitationsGrid');
+            grid.replaceChildren();
+            const invitations = Array.isArray(state.data.invitations) ? state.data.invitations : [];
+            const filtered = state.invitationCategory === 'All'
+                ? invitations
+                : invitations.filter(inv => inv.category === state.invitationCategory);
+
+            if (!filtered.length) {
+                const empty = document.createElement('div');
+                empty.className = 'empty-state';
+                empty.innerHTML = '<div class="empty-state-icon">💌</div><h3>No invitations yet</h3><p>Check back soon for new designs in this category.</p>';
+                grid.appendChild(empty);
+                return;
+            }
+
+            filtered.forEach((inv, index) => {
+                const { card, body } = createCardBase(inv, '💌');
+                card.style.animationDelay = `${index * 0.07}s`;
+                if (inv.price) body.appendChild(makeMeta(inv, true));
+                const actions = document.createElement('div');
+                actions.className = 'project-card-actions';
+                actions.appendChild(makeButton('👁️ Preview', 'btn-live', () => previewInvitation(inv)));
+                actions.appendChild(makeButton('🛒 Purchase', 'btn-purchase', () => purchaseItem(inv.title, inv.price, 'invitation')));
+                body.appendChild(actions);
+                card.appendChild(body);
+                grid.appendChild(card);
+            });
+        }
+
+        function renderWebsitesGrid() {
+            const grid = $('#websitesGrid');
+            grid.replaceChildren();
+            const websites = Array.isArray(state.data.websites) ? state.data.websites : [];
+            const filtered = state.websiteCategory === 'All'
+                ? websites
+                : websites.filter(web => web.category === state.websiteCategory);
+
+            if (!filtered.length) {
+                const empty = document.createElement('div');
+                empty.className = 'empty-state';
+                empty.innerHTML = '<div class="empty-state-icon">🌐</div><h3>No websites yet</h3><p>Check back soon for new projects in this category.</p>';
+                grid.appendChild(empty);
+                return;
+            }
+
+            filtered.forEach((web, index) => {
+                const { card, body } = createCardBase(web, '🌐');
+                card.style.animationDelay = `${index * 0.07}s`;
+                if (web.price || web.tech_stack) {
+                    const meta = document.createElement('div');
+                    meta.className = 'project-card-meta';
+                    const left = document.createElement('span');
+                    left.textContent = web.tech_stack || '';
+                    const right = document.createElement('span');
+                    right.className = 'project-price';
+                    right.textContent = web.price || '';
+                    meta.append(left, right);
+                    body.appendChild(meta);
+                }
+
+                const actions = document.createElement('div');
+                actions.className = 'project-card-actions';
+                if (safeHttpUrl(web.live_url, '')) {
+                    actions.appendChild(makeButton('🔗 Live Website', 'btn-live', () => openExternalWebsite(web.live_url, web.title)));
+                } else {
+                    actions.appendChild(makeButton('🔗 Live Website', 'btn-live', () => showToast('No live URL available.', 'info')));
+                }
+                actions.appendChild(
+                    makeButton('🛒 Purchase', 'btn-purchase', () =>
+                        purchaseItem(web.title, web.price, 'website')
+                    )
+                );
+                body.appendChild(actions);
+                card.appendChild(body);
+                grid.appendChild(card);
+            });
+        }
+
+        function previewInvitation(invitation) {
+            const imageUrl = safeHttpUrl(getProjectImage(invitation), '');
+            if (!imageUrl) {
+                showToast('No preview image available for this invitation.', 'info');
+                return;
+            }
+
+            const overlay = document.createElement('div');
+            overlay.className = 'preview-overlay';
+            overlay.setAttribute('role', 'dialog');
+            overlay.setAttribute('aria-modal', 'true');
+            overlay.setAttribute('aria-label', invitation.title || 'Invitation preview');
+
+            const panel = document.createElement('div');
+            panel.className = 'preview-panel';
+
+            const close = document.createElement('button');
+            close.type = 'button';
+            close.className = 'preview-close';
+            close.textContent = '✕';
+            close.setAttribute('aria-label', 'Close preview');
+
+            const image = document.createElement('img');
+            image.src = imageUrl;
+            image.alt = invitation.title || 'Invitation preview';
+
+            const title = document.createElement('div');
+            title.className = 'preview-title';
+            title.textContent = invitation.title || 'Invitation';
+
+            const category = document.createElement('div');
+            category.className = 'preview-category';
+            category.textContent = invitation.category || 'Invitation';
+
+            panel.append(close, image, title, category);
+            overlay.appendChild(panel);
+            document.body.appendChild(overlay);
+
+            const closePreview = () => {
+                overlay.remove();
+                document.removeEventListener('keydown', keyHandler);
+            };
+            const keyHandler = (event) => {
+                if (event.key === 'Escape') closePreview();
+            };
+
+            close.addEventListener('click', closePreview);
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) closePreview();
+            });
+            document.addEventListener('keydown', keyHandler);
+        }
+
+        function purchaseItem(projectTitle = '', price = '', projectType = '') {
+            const baseUrl = safeHttpUrl(
+                state.data.instagramDm,
+                DEFAULT_INSTAGRAM_DM_URL
+            );
+
+            // Fallback if baseUrl is empty/invalid
+            if (!baseUrl) {
+                showToast('Instagram URL is not available.', 'error');
+                return;
+            }
+
+            const typeName = projectType === 'website' ? 'website' : 'invitation card';
+
+            const message = `Hi Akhil! 👋
+
+            I am interested in purchasing this ${typeName}.
+
+            📌 Name: ${projectTitle}
+            💰 Price: ${price || 'Please confirm'}
+
+            Please share the purchase details and next steps. Thank you!`;
+
+            showPageLoader(
+                'Opening Instagram...',
+                `Preparing your purchase request for ${projectTitle}`
+            );
+
+            window.setTimeout(() => {
+                const separator = baseUrl.includes('?') ? '&' : '?';
+                const target = `${baseUrl}${separator}text=${encodeURIComponent(message)}`;
+
+                window.open(target, '_blank', 'noopener,noreferrer');
+
+                hidePageLoader();
+                showToast(`Opening Instagram for ${projectTitle}.`, 'success');
+            }, 650);
+        }
+
+        function openExternalWebsite(url, title = 'Website') {
+            const target = safeHttpUrl(url, '');
+            if (!target) {
+                showToast('This website URL is invalid.', 'error');
+                return;
+            }
+            showPageLoader('Opening Website...', `Loading ${title}`);
+            window.setTimeout(() => {
+                window.open(target, '_blank', 'noopener,noreferrer');
+                hidePageLoader();
+            }, 650);
+        }
+
+        function goHome() {
+            state.currentView = 'home';
+            $('#heroSection').style.display = 'flex';
+            $('#invitationsCollection').classList.remove('active');
+            $('#websitesCollection').classList.remove('active');
+            updateNavButtons('home');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showCollection(type) {
+            if (type !== 'invitations' && type !== 'websites') return;
+            state.currentView = type;
+            $('#heroSection').style.display = 'none';
+            $('#invitationsCollection').classList.remove('active');
+            $('#websitesCollection').classList.remove('active');
+
+            if (type === 'invitations') {
+                $('#invitationsCollection').classList.add('active');
+                renderInvitationCategories();
+                renderInvitationsGrid();
+            } else {
+                $('#websitesCollection').classList.add('active');
+                renderWebsiteCategories();
+                renderWebsitesGrid();
+            }
+
+            updateNavButtons(type);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateNavButtons(activeView) {
+            $$('.header-nav-btn').forEach(button => button.classList.toggle('active', button.dataset.view === activeView));
+        }
+
+        async function fetchSiteData() {
+            const response = await fetch('/api/data', {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' },
+                cache: 'no-store'
+            });
+            if (!response.ok) throw new Error(`Server returned ${response.status}`);
+            return response.json();
+        }
+
+        async function init() {
+            try {
+                showPageLoader('Loading AkhilWebInvites...', 'Preparing the latest collection');
+                const data = await fetchSiteData();
+                state.data = {
+                    branding: data.branding || {},
+                    invitations: Array.isArray(data.invitations) ? data.invitations : [],
+                    websites: Array.isArray(data.websites) ? data.websites : [],
+                    instagramDm: data.instagramDm || DEFAULT_INSTAGRAM_DM_URL
+                };
+                renderBranding();
+                renderInvitationCategories();
+                renderInvitationsGrid();
+                renderWebsiteCategories();
+                renderWebsitesGrid();
+                goHome();
+            } catch (error) {
+                console.error('Failed to load site data:', error);
+                $('#heroDescription').textContent = 'Unable to load the latest content right now. Please refresh the page or try again shortly.';
+                showToast('Could not load website data from the server.', 'error');
+            } finally {
+                hidePageLoader();
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            $('#siteHeader').classList.toggle('scrolled', window.scrollY > 30);
+        }, { passive: true });
+
+        document.addEventListener('mousemove', (event) => {
+            const glow = $('#mouseGlow');
+            glow.style.left = `${event.clientX}px`;
+            glow.style.top = `${event.clientY}px`;
+            glow.classList.add('active');
+        }, { passive: true });
+
+        document.addEventListener('mouseleave', () => $('#mouseGlow').classList.remove('active'));
+
+        document.addEventListener('click', (event) => {
+            const clickable = event.target.closest('.cta-btn, .card-btn, .category-tab');
+            if (clickable && clickable instanceof HTMLElement) createRipple(event, clickable);
+        });
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+
+</html>
