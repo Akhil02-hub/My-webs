@@ -11,15 +11,6 @@ from werkzeug.utils import secure_filename
 
 from dotenv import load_dotenv
 load_dotenv()
-
-app = Flask(__name__)
-
-@app.route("/googlec6fca3da7b3d490f.html")
-def google_verification():
-    return send_from_directory(
-        Path(__file__).parent,
-        "googlec6fca3da7b3d490f.html"
-    )
     
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_INITIAL_PASSWORD = os.getenv("ADMIN_INITIAL_PASSWORD")
@@ -39,6 +30,13 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=os.getenv("COOKIE_SECURE", "0") == "1",
 )
+
+@app.route("/googlec6fca3da7b3d490f.html")
+def google_verification():
+    return send_from_directory(
+        Path(__file__).parent,
+        "googlec6fca3da7b3d490f.html"
+    )
 
 for p in [DB_PATH.parent, UPLOAD_ROOT / "invitations", UPLOAD_ROOT / "websites"]:
     p.mkdir(parents=True, exist_ok=True)
