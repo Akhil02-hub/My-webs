@@ -14,13 +14,13 @@ load_dotenv()
 
 app = Flask(__name__)
 
-@app.route("/googleabc123456789.html")
+@app.route("/googlec6fca3da7b3d490f.html")
 def google_verification():
     return send_from_directory(
         Path(__file__).parent,
-        "googleabc123456789.html"
+        "googlec6fca3da7b3d490f.html"
     )
-
+    
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_INITIAL_PASSWORD = os.getenv("ADMIN_INITIAL_PASSWORD")
 
