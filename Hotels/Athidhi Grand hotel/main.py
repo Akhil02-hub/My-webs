@@ -7,7 +7,7 @@ import uuid
 from datetime import date, datetime, timedelta
 from functools import wraps
 
-from flask import Flask, abort, jsonify, request, send_from_directory, session
+from flask import Flask, abort, jsonify, request, send_from_directory, session, Response
 from flask_cors import CORS
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -45,6 +45,25 @@ app.config.update(
     PERMANENT_SESSION_LIFETIME=timedelta(days=7),
     MAX_CONTENT_LENGTH=5 * 1024 * 1024,
 )
+
+@app.route("/googlec6fca3da7b3d490f.html")
+def google_verification():
+    return send_from_directory(
+        BASE_DIR,
+        "googlec6fca3da7b3d490f.html"
+    )
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return Response(
+        """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://athidhigrandhotel.onrender.com/</loc>
+    </url>
+</urlset>""",
+        mimetype="application/xml"
+    )
 
 frontend_url = os.environ.get(
     "FRONTEND_URL",

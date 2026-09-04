@@ -7,9 +7,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, Response, send_from_directory
 from werkzeug.exceptions import RequestEntityTooLarge
-
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "nova.db"
 
@@ -18,6 +17,28 @@ app.config.update(
     JSON_SORT_KEYS=False,
     MAX_CONTENT_LENGTH=2 * 1024 * 1024,
 )
+
+@app.route("/googlec6fca3da7b3d490f.html")
+def google_verification():
+    return send_from_directory(
+        Path(__file__).parent,
+        "googlec6fca3da7b3d490f.html"
+    )
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return Response(
+        """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://nova-isq6.onrender.com/</loc>
+    </url>
+    <url>
+        <loc>https://https://nova-isq6.onrender.com/admin</loc>
+    </url>
+</urlset>""",
+        mimetype="application/xml"
+    )
 
 DEFAULT_PRODUCTS = [
     (1, "Relaxed Linen Shirt", "Apparel", 78, None, 4.9, 124, "Bestseller", "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&q=85"),

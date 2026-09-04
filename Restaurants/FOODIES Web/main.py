@@ -8,6 +8,7 @@ from datetime import date, datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Header, Depends, Request
+from fastapi.responses import PlainTextResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, validator
@@ -19,6 +20,22 @@ from jose import JWTError, jwt
 # ============================================================
 
 app = FastAPI(title="Foodies API", version="2.1")
+
+@app.get("/googlec6fca3da7b3d490f.html", include_in_schema=False)
+async def google_verification():
+    return PlainTextResponse(
+        "google-site-verification: googlec6fca3da7b3d490f.html"
+    )
+
+@app.get("/sitemap.xml", include_in_schema=False)
+async def sitemap():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://foodieskodada.onrender.com/</loc>
+    </url>
+</urlset>"""
+    return Response(content=xml, media_type="application/xml")
 
 IS_PRODUCTION = os.getenv("ENVIRONMENT", "development").strip().lower() == "production"
 
