@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRONFORGE | Premium Fitness & Gym</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        body: ['Roboto', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#E50914', // Aggressive gym red
+                            dark: '#0f0f11', // Deep background
+                            gray: '#1a1a1d', // Card background
+                            light: '#f5f5f5'
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to right bottom, rgba(15, 15, 17, 0.9), rgba(15, 15, 17, 0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop')",
+                        'class-yoga': "linear-gradient(to top, rgba(15, 15, 17, 1), rgba(15, 15, 17, 0)), url('https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=2070&auto=format&fit=crop')",
+                        'class-crossfit': "linear-gradient(to top, rgba(15, 15, 17, 1), rgba(15, 15, 17, 0)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop')",
+                        'class-boxing': "linear-gradient(to top, rgba(15, 15, 17, 1), rgba(15, 15, 17, 0)), url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=2070&auto=format&fit=crop')",
+                        'class-cardio': "linear-gradient(to top, rgba(15, 15, 17, 1), rgba(15, 15, 17, 0)), url('https://images.unsplash.com/photo-1534258936925-c58bed479fcb?q=80&w=2062&auto=format&fit=crop')"
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body {
+            background-color: #0f0f11;
+            color: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #E50914, #ff5e62);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hamburger Menu Animation */
+        .hamburger-line {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-scrolled {
+            background-color: rgba(15, 15, 17, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Clip path for slanted section */
+        .slant-section {
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+        }
+
+        @media (max-width: 768px) {
+            .slant-section {
+                clip-path: polygon(0 2%, 100% 0, 100% 98%, 0 100%);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-body antialiased selection:bg-brand-red selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <i
+                    class="fa-solid fa-dumbbell text-brand-red text-3xl transform group-hover:rotate-12 transition-transform"></i>
+                <span class="font-heading font-black text-2xl tracking-tighter uppercase text-white">Iron<span
+                        class="text-brand-red">Forge</span></span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home"
+                    class="font-heading font-bold text-sm tracking-widest uppercase hover:text-brand-red transition-colors">Home</a>
+                <a href="#about"
+                    class="font-heading font-bold text-sm tracking-widest uppercase hover:text-brand-red transition-colors">About</a>
+                <a href="#classes"
+                    class="font-heading font-bold text-sm tracking-widest uppercase hover:text-brand-red transition-colors">Classes</a>
+                <a href="#pricing"
+                    class="font-heading font-bold text-sm tracking-widest uppercase hover:text-brand-red transition-colors">Pricing</a>
+                <a href="#join"
+                    class="bg-brand-red hover:bg-red-700 text-white font-heading font-bold text-sm tracking-widest uppercase py-3 px-6 rounded-none skew-x-[-10deg] transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(229,9,20,0.5)]">
+                    <div class="skew-x-[10deg]">Join Now</div>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn"
+                class="md:hidden flex flex-col justify-center items-center w-8 h-8 z-50 focus:outline-none">
+                <span class="hamburger-line w-full h-1 bg-white rounded block mb-1"></span>
+                <span class="hamburger-line w-full h-1 bg-white rounded block mb-1"></span>
+                <span class="hamburger-line w-full h-1 bg-white rounded block"></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-brand-dark flex flex-col justify-center items-center space-y-8 transform translate-x-full transition-transform duration-300 ease-in-out z-40">
+            <a href="#home"
+                class="mobile-link font-heading font-black text-3xl uppercase tracking-widest hover:text-brand-red transition-colors">Home</a>
+            <a href="#about"
+                class="mobile-link font-heading font-black text-3xl uppercase tracking-widest hover:text-brand-red transition-colors">About</a>
+            <a href="#classes"
+                class="mobile-link font-heading font-black text-3xl uppercase tracking-widest hover:text-brand-red transition-colors">Classes</a>
+            <a href="#pricing"
+                class="mobile-link font-heading font-black text-3xl uppercase tracking-widest hover:text-brand-red transition-colors">Pricing</a>
+            <a href="#join"
+                class="mobile-link bg-brand-red text-white font-heading font-black text-xl uppercase py-4 px-10 rounded-none skew-x-[-10deg] mt-4">
+                <div class="skew-x-[10deg]">Join Now</div>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home"
+        class="relative min-h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-fixed bg-no-repeat pt-20">
+        <div
+            class="max-w-7xl mx-auto px-6 lg:px-12 w-full z-10 text-center md:text-left flex flex-col md:flex-row items-center">
+            <div class="md:w-2/3 reveal active">
+                <h2 class="text-brand-red font-heading font-bold tracking-[0.2em] uppercase mb-4 text-sm md:text-base">
+                    Forging Champions Since 2010</h2>
+                <h1
+                    class="font-heading font-black text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter uppercase mb-6">
+                    Build Your <br />
+                    <span class="text-gradient">Legacy</span>
+                </h1>
+                <p class="text-gray-300 text-lg md:text-xl max-w-xl mb-10 font-light leading-relaxed mx-auto md:mx-0">
+                    Push past your limits in a state-of-the-art facility designed for those who refuse to be average.
+                    Your transformation begins here.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#pricing"
+                        class="bg-brand-red hover:bg-red-700 text-white font-heading font-bold text-base tracking-widest uppercase py-4 px-8 skew-x-[-10deg] transition-all transform hover:scale-105 inline-block text-center shadow-[0_0_20px_rgba(229,9,20,0.4)]">
+                        <div class="skew-x-[10deg]">Start Free Trial</div>
+                    </a>
+                    <a href="#classes"
+                        class="border border-white hover:bg-white hover:text-brand-dark text-white font-heading font-bold text-base tracking-widest uppercase py-4 px-8 skew-x-[-10deg] transition-all inline-block text-center">
+                        <div class="skew-x-[10deg]">Explore Classes</div>
+                    </a>
+                </div>
+            </div>
+            <!-- Empty div for layout balance on large screens, or add an interactive 3D element here if desired -->
+            <div class="md:w-1/3 mt-12 md:mt-0 hidden md:block"></div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <a href="#about"
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/50 hover:text-white transition-colors">
+            <i class="fa-solid fa-chevron-down text-2xl"></i>
+        </a>
+    </header>
+
+    <!-- Stats/Features Section -->
+    <section id="about" class="py-20 bg-brand-dark relative z-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div
+                    class="bg-brand-gray p-8 rounded-xl border border-white/5 hover:border-brand-red/50 transition-all duration-300 transform hover:-translate-y-2 group reveal">
+                    <div
+                        class="w-16 h-16 bg-brand-dark rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-red transition-colors duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                        <i
+                            class="fa-solid fa-dumbbell text-2xl text-brand-red group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl uppercase mb-3">Modern Equipment</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Access to the latest biomechanically designed
+                        machines and extensive free weights.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="bg-brand-gray p-8 rounded-xl border border-white/5 hover:border-brand-red/50 transition-all duration-300 transform hover:-translate-y-2 group reveal"
+                    style="transition-delay: 100ms;">
+                    <div
+                        class="w-16 h-16 bg-brand-dark rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-red transition-colors duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                        <i
+                            class="fa-solid fa-clock text-2xl text-brand-red group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl uppercase mb-3">24/7 Access</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Train on your schedule. Our doors never close for
+                        members with premium access.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="bg-brand-gray p-8 rounded-xl border border-white/5 hover:border-brand-red/50 transition-all duration-300 transform hover:-translate-y-2 group reveal"
+                    style="transition-delay: 200ms;">
+                    <div
+                        class="w-16 h-16 bg-brand-dark rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-red transition-colors duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                        <i
+                            class="fa-solid fa-users text-2xl text-brand-red group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl uppercase mb-3">Expert Trainers</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Certified professionals dedicated to helping you
+                        crush your personal fitness goals.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="bg-brand-gray p-8 rounded-xl border border-white/5 hover:border-brand-red/50 transition-all duration-300 transform hover:-translate-y-2 group reveal"
+                    style="transition-delay: 300ms;">
+                    <div
+                        class="w-16 h-16 bg-brand-dark rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-red transition-colors duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                        <i
+                            class="fa-solid fa-fire text-2xl text-brand-red group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl uppercase mb-3">Diverse Classes</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">From high-intensity interval training to
+                        restorative yoga, find your perfect workout.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes Section -->
+    <section id="classes" class="py-24 bg-brand-gray slant-section relative z-10 mt-[-50px] pb-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-brand-red font-heading font-bold tracking-[0.2em] uppercase mb-2">Our Programs</h2>
+                <h3 class="font-heading font-black text-4xl md:text-5xl uppercase tracking-tighter">Featured <span
+                        class="text-white">Classes</span></h3>
+                <div class="w-24 h-1 bg-brand-red mx-auto mt-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Class 1 -->
+                <div class="group relative h-96 overflow-hidden rounded-lg cursor-pointer reveal">
+                    <div
+                        class="absolute inset-0 bg-class-crossfit bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h4 class="font-heading font-black text-2xl uppercase mb-1">CrossFit</h4>
+                        <p
+                            class="text-brand-red font-bold text-sm tracking-widest uppercase mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            High Intensity</p>
+                        <p
+                            class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 line-clamp-2">
+                            Constantly varied functional movements performed at high intensity to build ultimate
+                            fitness.</p>
+                    </div>
+                </div>
+
+                <!-- Class 2 -->
+                <div class="group relative h-96 overflow-hidden rounded-lg cursor-pointer reveal"
+                    style="transition-delay: 100ms;">
+                    <div
+                        class="absolute inset-0 bg-class-boxing bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h4 class="font-heading font-black text-2xl uppercase mb-1">Combat Arts</h4>
+                        <p
+                            class="text-brand-red font-bold text-sm tracking-widest uppercase mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Boxing & MMA</p>
+                        <p
+                            class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 line-clamp-2">
+                            Learn striking and grappling techniques while getting an incredible cardiovascular workout.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Class 3 -->
+                <div class="group relative h-96 overflow-hidden rounded-lg cursor-pointer reveal"
+                    style="transition-delay: 200ms;">
+                    <div
+                        class="absolute inset-0 bg-class-cardio bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h4 class="font-heading font-black text-2xl uppercase mb-1">Spin & Cardio</h4>
+                        <p
+                            class="text-brand-red font-bold text-sm tracking-widest uppercase mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Endurance</p>
+                        <p
+                            class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 line-clamp-2">
+                            Rhythm-based cycling classes designed to torch calories and build stamina.</p>
+                    </div>
+                </div>
+
+                <!-- Class 4 -->
+                <div class="group relative h-96 overflow-hidden rounded-lg cursor-pointer reveal"
+                    style="transition-delay: 300ms;">
+                    <div
+                        class="absolute inset-0 bg-class-yoga bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h4 class="font-heading font-black text-2xl uppercase mb-1">Power Yoga</h4>
+                        <p
+                            class="text-brand-red font-bold text-sm tracking-widest uppercase mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Flexibility & Core</p>
+                        <p
+                            class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 line-clamp-2">
+                            Improve mobility, balance, and core strength to complement your heavy lifting.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 reveal">
+                <a href="#"
+                    class="inline-block border-b-2 border-brand-red text-white font-heading font-bold tracking-widest uppercase hover:text-brand-red transition-colors pb-1">View
+                    Full Schedule</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-brand-red font-heading font-bold tracking-[0.2em] uppercase mb-2">Memberships</h2>
+                <h3 class="font-heading font-black text-4xl md:text-5xl uppercase tracking-tighter">Choose Your <span
+                        class="text-white">Path</span></h3>
+                <div class="w-24 h-1 bg-brand-red mx-auto mt-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <!-- Basic Plan -->
+                <div class="bg-brand-gray border border-white/10 p-8 rounded-2xl reveal">
+                    <h4 class="font-heading font-bold text-xl uppercase mb-2">Standard</h4>
+                    <div class="flex items-baseline mb-6">
+                        <span class="text-4xl font-heading font-black">$39</span>
+                        <span class="text-gray-400 ml-2">/ month</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6 pb-6 border-b border-white/10">Perfect for those getting
+                        started on their fitness journey.</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i>
+                            Access to gym floor</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i> Free
+                            weights & machines</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i>
+                            Locker room access</li>
+                        <li class="flex items-center text-sm text-gray-500"><i class="fa-solid fa-xmark mr-3"></i> Group
+                            classes</li>
+                        <li class="flex items-center text-sm text-gray-500"><i class="fa-solid fa-xmark mr-3"></i> 24/7
+                            Access</li>
+                    </ul>
+                    <button
+                        class="w-full border border-white/20 hover:border-brand-red hover:bg-brand-red text-white font-heading font-bold uppercase py-3 skew-x-[-10deg] transition-all">
+                        <div class="skew-x-[10deg]">Select Plan</div>
+                    </button>
+                </div>
+
+                <!-- Pro Plan (Highlighted) -->
+                <div class="bg-gradient-to-b from-brand-gray to-brand-dark border-2 border-brand-red p-10 rounded-2xl transform md:scale-105 shadow-[0_0_30px_rgba(229,9,20,0.15)] relative z-10 reveal"
+                    style="transition-delay: 100ms;">
+                    <div
+                        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-red text-white font-heading font-bold text-xs tracking-widest uppercase py-1 px-4 rounded-full">
+                        Most Popular</div>
+                    <h4 class="font-heading font-bold text-2xl uppercase mb-2">Premium</h4>
+                    <div class="flex items-baseline mb-6">
+                        <span class="text-5xl font-heading font-black text-brand-red">$69</span>
+                        <span class="text-gray-400 ml-2">/ month</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6 pb-6 border-b border-white/10">Everything you need to take your
+                        training to the next level.</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i> All
+                            Standard features</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i>
+                            Unlimited group classes</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i> 24/7
+                            Keycard access</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i> 1 PT
+                            session per month</li>
+                        <li class="flex items-center text-sm text-gray-500"><i class="fa-solid fa-xmark mr-3"></i> Sauna
+                            & Recovery area</li>
+                    </ul>
+                    <button
+                        class="w-full bg-brand-red hover:bg-red-700 text-white font-heading font-bold uppercase py-4 skew-x-[-10deg] transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(229,9,20,0.5)]">
+                        <div class="skew-x-[10deg]">Get Premium</div>
+                    </button>
+                </div>
+
+                <!-- Elite Plan -->
+                <div class="bg-brand-gray border border-white/10 p-8 rounded-2xl reveal"
+                    style="transition-delay: 200ms;">
+                    <h4 class="font-heading font-bold text-xl uppercase mb-2">Elite</h4>
+                    <div class="flex items-baseline mb-6">
+                        <span class="text-4xl font-heading font-black">$99</span>
+                        <span class="text-gray-400 ml-2">/ month</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6 pb-6 border-b border-white/10">The ultimate package for serious
+                        athletes and competitors.</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i> All
+                            Premium features</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i>
+                            Sauna & Recovery access</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i>
+                            Custom nutrition plan</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i>
+                            Guest pass (4/month)</li>
+                        <li class="flex items-center text-sm"><i class="fa-solid fa-check text-brand-red mr-3"></i> Free
+                            pre-workout drinks</li>
+                    </ul>
+                    <button
+                        class="w-full border border-white/20 hover:border-brand-red hover:bg-brand-red text-white font-heading font-bold uppercase py-3 skew-x-[-10deg] transition-all">
+                        <div class="skew-x-[10deg]">Select Plan</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="py-20 relative bg-brand-red overflow-hidden">
+        <div
+            class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20">
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-8 md:mb-0 text-center md:text-left reveal">
+                <h2 class="font-heading font-black text-3xl md:text-5xl uppercase tracking-tighter mb-2 text-white">
+                    Ready to make a change?</h2>
+                <p class="text-white/80 text-lg font-medium">Join today and get your first month for only $10.</p>
+            </div>
+            <div class="reveal" style="transition-delay: 200ms;">
+                <a href="#pricing"
+                    class="bg-brand-dark hover:bg-black text-white font-heading font-bold text-lg tracking-widest uppercase py-4 px-10 skew-x-[-10deg] transition-all transform hover:scale-105 inline-block shadow-lg">
+                    <div class="skew-x-[10deg]">Claim Offer</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black pt-20 pb-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Info -->
+                <div class="col-span-1 lg:col-span-1">
+                    <a href="#" class="flex items-center gap-2 mb-6">
+                        <i class="fa-solid fa-dumbbell text-brand-red text-3xl"></i>
+                        <span class="font-heading font-black text-2xl tracking-tighter uppercase text-white">Iron<span
+                                class="text-brand-red">Forge</span></span>
+                    </a>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        More than just a gym. A community of dedicated individuals forging their best selves through
+                        sweat, discipline, and hard work.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-brand-gray flex items-center justify-center text-white hover:bg-brand-red transition-colors"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-brand-gray flex items-center justify-center text-white hover:bg-brand-red transition-colors"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-brand-gray flex items-center justify-center text-white hover:bg-brand-red transition-colors"><i
+                                class="fa-brands fa-twitter"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-brand-gray flex items-center justify-center text-white hover:bg-brand-red transition-colors"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-heading font-bold text-lg uppercase mb-6 tracking-wider">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home"
+                                class="text-gray-400 hover:text-brand-red transition-colors text-sm">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-brand-red transition-colors text-sm">About
+                                Us</a></li>
+                        <li><a href="#classes"
+                                class="text-gray-400 hover:text-brand-red transition-colors text-sm">Classes &
+                                Schedule</a></li>
+                        <li><a href="#trainers" class="text-gray-400 hover:text-brand-red transition-colors text-sm">Our
+                                Trainers</a></li>
+                        <li><a href="#pricing"
+                                class="text-gray-400 hover:text-brand-red transition-colors text-sm">Membership
+                                Plans</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-heading font-bold text-lg uppercase mb-6 tracking-wider">Contact Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-location-dot text-brand-red mt-1 mr-3"></i>
+                            <span class="text-gray-400 text-sm">123 Iron Street, Muscle Beach<br>Los Angeles, CA
+                                90001</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-phone text-brand-red mr-3"></i>
+                            <span class="text-gray-400 text-sm">+1 (555) 123-4567</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-envelope text-brand-red mr-3"></i>
+                            <span class="text-gray-400 text-sm">info@ironforgegym.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="font-heading font-bold text-lg uppercase mb-6 tracking-wider">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4">Subscribe for workout tips, news, and special offers.</p>
+                    <form class="flex flex-col gap-3">
+                        <input type="email" placeholder="Email Address"
+                            class="bg-brand-gray border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-brand-red rounded-none w-full text-sm">
+                        <button type="submit"
+                            class="bg-brand-red hover:bg-red-700 text-white font-heading font-bold text-sm tracking-widest uppercase py-3 px-6 skew-x-[-10deg] transition-all">
+                            <div class="skew-x-[10deg]">Subscribe</div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-xs text-center md:text-left">&copy; 2023 IronForge Gym. All rights
+                    reserved.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-white text-xs transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-white text-xs transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar Scroll Effect
+            const navbar = document.getElementById('navbar');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                }
+            });
+
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const lines = document.querySelectorAll('.hamburger-line');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            let isMenuOpen = false;
+
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+
+                if (isMenuOpen) {
+                    menu.classList.remove('translate-x-full');
+                    // Animate Hamburger to X
+                    lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                    lines[1].style.opacity = '0';
+                    lines[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                } else {
+                    menu.classList.add('translate-x-full');
+                    // Reset Hamburger
+                    lines[0].style.transform = 'none';
+                    lines[1].style.opacity = '1';
+                    lines[2].style.transform = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+
+            btn.addEventListener('click', toggleMenu);
+
+            // Close mobile menu when clicking a link
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // Scroll Reveal Animation via Intersection Observer
+            const revealElements = document.querySelectorAll('.reveal');
+
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealObserver = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Stop observing once revealed
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+
+</html>
