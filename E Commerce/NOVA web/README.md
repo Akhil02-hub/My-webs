@@ -11,6 +11,8 @@ This package turns the supplied NOVA storefront HTML into a Flask application ba
 - `.env.example` — environment variables
 - `nova.db` — SQLite database (created automatically if deleted)
 
+##Live web link :- https://nova-isq6.onrender.com
+
 ## Setup on Windows
 ```powershell
 cd path\to\nova_backend
@@ -51,6 +53,3 @@ Admin routes require `X-Admin-Key` matching `NOVA_ADMIN_KEY`:
 - `GET /api/admin/orders`
 - `PATCH /api/admin/orders/<id>`
 - `GET /api/admin/subscribers`
-
-## Important
-This does **not** process card payments. `/api/orders` creates an order and reserves stock. A real payment gateway such as Stripe can be added later without rebuilding the product database.
