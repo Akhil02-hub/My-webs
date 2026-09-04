@@ -1,8 +1,10 @@
 import os
+from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, EmailStr, field_validator
 from dotenv import load_dotenv
 
@@ -10,13 +12,16 @@ from email_service import send_apply_email, send_newsletter_email
 
 load_dotenv()
 
+BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_DIR = BASE_DIR / "frontend"
+INDEX_FILE = FRONTEND_DIR / "index.html"
+
 app = FastAPI(title="Meridian API")
 
-# Comma-separated list of frontend origins allowed to call this API.
-# Set in .env, e.g. ALLOWED_ORIGINS=http://localhost:5500,https://meridian.com
+# CORS
 ALLOWED_ORIGINS = os.getenv(
     "ALLOWED_ORIGINS",
-    "http://127.0.0.1:5500,http://localhost:5500"
+    "*"
 ).split(",")
 
 app.add_middleware(
@@ -26,14 +31,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class ApplyForm(BaseModel):
     name: str
     email: EmailStr
     phone: Optional[str] = None
     position: Optional[str] = None
     message: Optional[str] = None
-    # Hidden field, invisible to real users via CSS. If a bot fills it,
-    # we silently drop the submission instead of emailing it.
     website: Optional[str] = ""
 
     @field_validator("name")
@@ -49,17 +53,32 @@ class NewsletterForm(BaseModel):
     website: Optional[str] = ""
 
 
+# =========================
+# FRONTEND
+# =========================
+
+@app.get("/")
+async def serve_home():
+    return FileResponse(INDEX_FILE)
+
+
+# =========================
+# API
+# =========================
+
 @app.post("/api/apply")
 async def apply(form: ApplyForm):
     if form.website:
-        # Honeypot tripped — pretend success, send nothing.
         return {"status": "ok"}
+
     try:
         send_apply_email(form)
     except Exception as exc:
         raise HTTPException(
-            status_code=500, detail="Could not send your application right now."
+            status_code=500,
+            detail="Could not send your application right now."
         ) from exc
+
     return {"status": "ok"}
 
 
@@ -67,12 +86,15 @@ async def apply(form: ApplyForm):
 async def newsletter(form: NewsletterForm):
     if form.website:
         return {"status": "ok"}
+
     try:
         send_newsletter_email(form)
     except Exception as exc:
         raise HTTPException(
-            status_code=500, detail="Could not subscribe right now."
+            status_code=500,
+            detail="Could not subscribe right now."
         ) from exc
+
     return {"status": "ok"}
 
 
