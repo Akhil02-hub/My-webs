@@ -1,95 +1,200 @@
-# Meridian Website
+# Meridian University
 
-Static frontend with two forms (Apply, Newsletter) that POST to a FastAPI
-backend. The backend emails each submission via SMTP — there is no database
-or file storage. Your inbox is the record of submissions.
+A modern, responsive university website built with **HTML, Tailwind CSS, JavaScript, GSAP, Lenis, FastAPI, and Python**.
 
-## Project structure
+Meridian University is presented as a premium private research university website with an elegant academic design, animated interactions, admissions functionality, newsletter subscription, and email integration.
 
-```
-meridian/
+## ✨ Features
+
+* 🎓 Premium university landing page
+* 📱 Fully responsive design
+* 🎨 Tailwind CSS styling
+* ✨ GSAP animations and ScrollTrigger effects
+* 🖱️ Custom animated cursor
+* 🌀 Smooth scrolling with Lenis
+* 🏫 Academics and school information
+* 🔬 Research & impact section
+* 🏀 Campus life section
+* 📰 News and events section
+* ❓ Interactive FAQ
+* 📝 Online application form
+* 📧 Application email notifications
+* 📬 Newsletter subscription
+* ⚡ FastAPI backend
+* ❤️ Responsive mobile navigation
+* 🎞️ Animated preloader and page transitions
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* HTML5
+* Tailwind CSS
+* JavaScript
+* GSAP
+* GSAP ScrollTrigger
+* Lenis
+* Google Fonts
+
+### Backend
+
+* Python
+* FastAPI
+* Pydantic
+* Uvicorn
+* Python-dotenv
+
+### Email
+
+* Custom Python email service
+* SMTP-based email delivery
+
+## 📁 Project Structure
+
+```text
+Meridian University/
+│
 ├── frontend/
-│   └── index.html        ← your HTML, unchanged (forms wired to fetch())
-├── backend/
-│   ├── main.py            ← FastAPI app, form endpoints, validation
-│   ├── email_service.py   ← builds and sends the emails over SMTP
-│   └── requirements.txt
-├── .env                   ← SMTP credentials & allowed origins (never commit)
-├── .gitignore
-└── README.md
+│   └── index.html
+│
+├── main.py
+├── email_service.py
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
-## Requirements
+## 🚀 Run Locally
 
-- Python 3.9+
-- An SMTP account to send from (Gmail, SendGrid SMTP relay, your host's SMTP, etc.)
+### 1. Clone the repository
 
-## Setup
+```bash
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
+cd "Meridian University"
+```
 
-1. Create a virtual environment and install dependencies:
+### 2. Install dependencies
 
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate      # Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-2. Fill in `.env` (in the project root) with real values:
+### 3. Configure environment variables
 
-   ```
-   SMTP_HOST=smtp.gmail.com
-   SMTP_PORT=587
-   SMTP_USER=your-email@gmail.com
-   SMTP_PASSWORD=your-16-char-app-password
-   TO_EMAIL=your-email@gmail.com
-   ALLOWED_ORIGINS=http://localhost:5500,https://your-production-domain.com
-   ```
+Create a `.env` file if your email service requires environment variables.
 
-   **Gmail users:** you need an "App Password", not your normal login
-   password. Turn on 2-Step Verification, then generate one at
-   Google Account → Security → App passwords.
+Example:
 
-3. Run the backend:
+```env
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USERNAME=your-email@example.com
+SMTP_PASSWORD=your-password
+SMTP_FROM=your-email@example.com
+```
 
-   ```bash
-   uvicorn main:app --reload
-   ```
+Do **not** commit your `.env` file to GitHub.
 
-   The API is now available at `http://localhost:8000`.
+### 4. Start the server
 
-4. Open `frontend/index.html` (e.g. with the VS Code "Live Server"
-   extension, usually on `http://localhost:5500`) and submit a form to
-   test end to end.
+```bash
+uvicorn main:app --reload
+```
 
-## API endpoints
+### 5. Open the website
 
-| Method | Path              | Body                                                        |
-|--------|-------------------|--------------------------------------------------------------|
-| POST   | `/api/apply`      | `name`, `email`, `phone?`, `position?`, `message?`, `website?` (honeypot) |
-| POST   | `/api/newsletter` | `email`, `website?` (honeypot)                                |
-| GET    | `/api/health`     | —                                                              |
+```text
+http://127.0.0.1:8000/
+```
 
-A successful call returns `{"status": "ok"}`. Validation errors return
-`422`; email-sending failures return `500`.
+## 🔌 API Endpoints
 
-## Spam protection
+### Health Check
 
-Both forms include a hidden `website` field. Real visitors never fill it
-in (it's hidden via CSS); if it arrives non-empty, the backend silently
-discards the submission instead of emailing it. No extra service or
-database needed.
+```http
+GET /api/health
+```
 
-## Deploying
+Response:
 
-- Host the backend anywhere that runs Python (Render, Railway, a VPS, etc.).
-- Update `ALLOWED_ORIGINS` in `.env` to your live frontend domain.
-- Update the `fetch()` URLs in `index.html` to point at your deployed
-  backend URL instead of `localhost:8000`.
-- Never commit `.env` — it's already in `.gitignore`.
+```json
+{
+  "status": "ok"
+}
+```
 
-## Notes
+### Application
 
-- There is no database: submissions exist only as emails in `TO_EMAIL`'s
-  inbox. If you ever need a searchable record, look at storing to
-  something like Google Sheets via a webhook, or add SQLite later.
+```http
+POST /api/apply
+```
+
+Accepts applicant information and sends the application through the configured email service.
+
+### Newsletter
+
+```http
+POST /api/newsletter
+```
+
+Accepts an email address for newsletter subscription.
+
+## 🌐 Deployment
+
+The project can be deployed on platforms that support Python/FastAPI applications, such as **Render**.
+
+### Render Configuration
+
+```text
+Build Command:
+pip install -r requirements.txt
+```
+
+```text
+Start Command:
+uvicorn main:app --host 0.0.0.0 --port $PORT
+```
+
+The application serves the frontend from:
+
+```text
+/frontend/index.html
+```
+
+through the FastAPI root route:
+
+```text
+GET /
+```
+
+## 🔐 Security
+
+* Environment variables are used for sensitive configuration.
+* `.env` should not be committed.
+* Form honeypot fields help reduce automated spam submissions.
+* Email credentials should remain server-side.
+
+## 📸 Design
+
+The design uses a refined academic aesthetic with:
+
+* Deep green tones
+* Warm parchment backgrounds
+* Gold accent colors
+* Serif typography
+* Large editorial-style headings
+* Smooth motion and transitions
+
+## 📜 Disclaimer
+
+Meridian University is a fictional university created as a web-development project. University names, statistics, people, events, locations, and other institutional information shown on the website are fictional/demo content.
+
+## 👨‍💻 Author
+
+**Akhil**
+
+Built as a full-stack web development project combining a modern frontend experience with a Python FastAPI backend.
+
+---
+
+⭐ If you like the project, consider giving the repository a star.
