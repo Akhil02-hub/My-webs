@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meridian University — Veritas et Virtus</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D1F16'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='%23C6A15B' font-family='Georgia'>M</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#0D1F16',
+                        pine: '#12291D',
+                        moss: '#1E3A2A',
+                        fern: '#2E5240',
+                        cream: '#F4EFE6',
+                        parchment: '#EAE2D2',
+                        gold: '#C6A15B',
+                        golddeep: '#A8843C',
+                        oxblood: '#7A2E2E'
+                    },
+                    fontFamily: {
+                        serif: ['Fraunces', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html {
+            scroll-behavior: auto;
+        }
+
+        body {
+            background: #F4EFE6;
+            color: #0D1F16;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: #C6A15B;
+            color: #0D1F16;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #EAE2D2;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #12291D;
+            border-radius: 6px;
+            border: 2px solid #EAE2D2;
+        }
+
+        .font-serif {
+            font-family: 'Fraunces', Georgia, serif;
+        }
+
+        /* ---------- Grain overlay ---------- */
+        .grain::after {
+            content: '';
+            position: fixed;
+            inset: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: .045;
+            pointer-events: none;
+            z-index: 9990;
+            animation: grainShift 8s steps(10) infinite;
+        }
+
+        @keyframes grainShift {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            20% {
+                transform: translate(-2%, 2%)
+            }
+
+            40% {
+                transform: translate(2%, -1%)
+            }
+
+            60% {
+                transform: translate(-1%, -2%)
+            }
+
+            80% {
+                transform: translate(1%, 2%)
+            }
+        }
+
+        /* ---------- Preloader ---------- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pre-panel {
+            position: absolute;
+            inset: 0;
+            background: #0D1F16;
+        }
+
+        .pre-panel.gold {
+            background: #C6A15B;
+            transform: scaleY(1);
+        }
+
+        /* ---------- Custom cursor ---------- */
+        #cursor-ring,
+        #cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 50%;
+        }
+
+        #cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: #C6A15B;
+            transform: translate(-50%, -50%);
+        }
+
+        #cursor-ring {
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(198, 161, 91, .7);
+            transform: translate(-50%, -50%);
+            transition: width .3s, height .3s, background .3s, border .3s;
+        }
+
+        #cursor-ring.grow {
+            width: 70px;
+            height: 70px;
+            background: rgba(198, 161, 91, .12);
+            border-color: rgba(198, 161, 91, .9);
+        }
+
+        @media (pointer: coarse) {
+
+            #cursor-ring,
+            #cursor-dot {
+                display: none;
+            }
+        }
+
+        /* ---------- Split text ---------- */
+        .sw {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            padding-bottom: .12em;
+            margin-bottom: -.12em;
+        }
+
+        .swi {
+            display: inline-block;
+            transform: translateY(130%);
+            will-change: transform;
+        }
+
+        .hline {
+            display: block;
+            overflow: hidden;
+            padding-bottom: .08em;
+            margin-bottom: -.08em;
+        }
+
+        .hline>span {
+            display: block;
+            transform: translateY(115%);
+            will-change: transform;
+        }
+
+        /* ---------- Nav ---------- */
+        #nav {
+            transition: background .45s ease, color .45s ease, box-shadow .45s ease, transform .45s ease, padding .45s ease;
+        }
+
+        #nav.scrolled {
+            background: rgba(244, 239, 230, .92);
+            backdrop-filter: blur(14px);
+            color: #0D1F16;
+            box-shadow: 0 1px 0 rgba(13, 31, 22, .08), 0 12px 40px -20px rgba(13, 31, 22, .25);
+        }
+
+        #nav.hidden-nav {
+            transform: translateY(-110%);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 100%;
+            height: 1px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform .4s cubic-bezier(.65, 0, .35, 1);
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* ---------- Marquee ---------- */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 32s linear infinite;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #C6A15B;
+            transform: translateY(101%);
+            transition: transform .5s cubic-bezier(.65, 0, .35, 1);
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            transform: translateY(0);
+        }
+
+        .btn-primary:hover {
+            color: #0D1F16 !important;
+        }
+
+        .btn-ghost {
+            position: relative;
+        }
+
+        .btn-ghost .btn-line {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 1px;
+            width: 100%;
+            background: currentColor;
+            transform-origin: left;
+            transition: transform .4s;
+        }
+
+        .btn-ghost:hover .btn-line {
+            transform: scaleX(.4);
+        }
+
+        /* ---------- Cards / images ---------- */
+        .img-zoom {
+            overflow: hidden;
+        }
+
+        .img-zoom img {
+            transition: transform 1.1s cubic-bezier(.22, 1, .36, 1), filter .8s;
+            will-change: transform;
+        }
+
+        .img-zoom:hover img {
+            transform: scale(1.07);
+        }
+
+        .campus-card .cap-arrow {
+            transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .4s;
+            opacity: 0;
+            transform: translate(-8px, 8px);
+        }
+
+        .campus-card:hover .cap-arrow {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .campus-card .cap-bar {
+            transition: transform .6s cubic-bezier(.65, 0, .35, 1);
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        .campus-card:hover .cap-bar {
+            transform: scaleX(1);
+        }
+
+        .research-card {
+            transition: transform .55s cubic-bezier(.22, 1, .36, 1), box-shadow .55s;
+        }
+
+        .research-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 40px 60px -30px rgba(0, 0, 0, .55);
+        }
+
+        .news-card {
+            transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .event-row {
+            transition: background .4s, padding .4s;
+        }
+
+        .event-row:hover {
+            background: rgba(198, 161, 91, .1);
+        }
+
+        .event-row:hover .event-arrow {
+            transform: translateX(6px) rotate(-45deg);
+            border-color: #C6A15B;
+            color: #C6A15B;
+        }
+
+        .event-arrow {
+            transition: transform .4s, border-color .4s, color .4s;
+        }
+
+        /* ---------- Tabs ---------- */
+        .tab-btn {
+            transition: padding .4s cubic-bezier(.22, 1, .36, 1), color .3s, border-color .3s;
+        }
+
+        .tab-btn .tab-num {
+            transition: color .3s;
+        }
+
+        .tab-btn.active {
+            color: #0D1F16;
+            padding-left: 1.75rem;
+        }
+
+        .tab-btn.active .tab-num {
+            color: #C6A15B;
+        }
+
+        .tab-btn.active .tab-fill {
+            transform: scaleX(1);
+        }
+
+        .tab-fill {
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            height: 2px;
+            width: 100%;
+            background: #C6A15B;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .5s cubic-bezier(.65, 0, .35, 1);
+        }
+
+        .chip {
+            transition: background .3s, color .3s, border-color .3s;
+        }
+
+        .chip:hover {
+            background: #0D1F16;
+            color: #F4EFE6;
+            border-color: #0D1F16;
+        }
+
+        /* ---------- FAQ ---------- */
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .55s cubic-bezier(.65, 0, .35, 1);
+        }
+
+        .faq-item .faq-icon {
+            transition: transform .45s cubic-bezier(.65, 0, .35, 1);
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-item.open .faq-q-text {
+            color: #A8843C;
+        }
+
+        /* ---------- Modal ---------- */
+        #apply-modal {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .4s, visibility .4s;
+        }
+
+        #apply-modal.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #apply-modal .modal-card {
+            transform: translateY(40px) scale(.97);
+            transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        #apply-modal.open .modal-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .field input,
+        .field select {
+            transition: border-color .3s, box-shadow .3s;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            outline: none;
+            border-color: #C6A15B;
+            box-shadow: 0 0 0 3px rgba(198, 161, 91, .18);
+        }
+
+        .check-path {
+            stroke-dasharray: 60;
+            stroke-dashoffset: 60;
+        }
+
+        .success-anim .check-path {
+            animation: drawCheck .7s .2s cubic-bezier(.65, 0, .35, 1) forwards;
+        }
+
+        .success-anim .check-circle {
+            animation: popCircle .5s cubic-bezier(.22, 1, .36, 1) forwards;
+        }
+
+        @keyframes drawCheck {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes popCircle {
+            from {
+                transform: scale(.6);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ---------- Misc ---------- */
+        .eyebrow {
+            letter-spacing: .32em;
+        }
+
+        .vert-text {
+            writing-mode: vertical-rl;
+            letter-spacing: .35em;
+        }
+
+        .gold-rule {
+            height: 1px;
+            background: linear-gradient(90deg, #C6A15B, transparent);
+        }
+
+        .dot-sep::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #C6A15B;
+            margin: 0 1.1rem;
+            vertical-align: middle;
+        }
+
+        .ticker-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(244, 239, 230, .25);
+            transition: background .3s, transform .3s;
+            cursor: pointer;
+        }
+
+        .ticker-dot.active {
+            background: #C6A15B;
+            transform: scale(1.3);
+        }
+
+        .step-card {
+            transition: transform .5s cubic-bezier(.22, 1, .36, 1), background .4s;
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+            background: rgba(198, 161, 91, .08);
+        }
+
+        input[type="email"].news-input:focus {
+            outline: none;
+            border-color: #C6A15B;
+        }
+
+        .social-btn {
+            transition: background .35s, color .35s, transform .35s;
+        }
+
+        .social-btn:hover {
+            background: #C6A15B;
+            color: #0D1F16;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+
+<body class="grain antialiased">
+
+    <!-- ==================== CURSOR ==================== -->
+    <div id="cursor-ring"></div>
+    <div id="cursor-dot"></div>
+
+    <!-- ==================== PRELOADER ==================== -->
+    <div id="preloader">
+        <div class="pre-panel gold" id="pre-gold"></div>
+        <div class="pre-panel" id="pre-dark"></div>
+        <div class="relative z-10 text-center text-cream" id="pre-content">
+            <svg class="w-14 h-16 mx-auto mb-5 text-gold" viewBox="0 0 48 56" fill="none">
+                <path d="M24 2 L44 8 V28 C44 42 36 50 24 54 C12 50 4 42 4 28 V8 Z" stroke="currentColor"
+                    stroke-width="2" />
+                <text x="24" y="34" text-anchor="middle" fill="currentColor" font-family="Georgia"
+                    font-size="22">M</text>
+            </svg>
+            <p class="font-serif text-2xl md:text-3xl tracking-wide">Meridian University</p>
+            <p class="eyebrow text-[10px] uppercase text-gold mt-3">Veritas et Virtus · Est. 1887</p>
+            <p class="font-serif text-6xl mt-8 text-cream/90"><span id="pre-count">0</span><span
+                    class="text-gold text-3xl align-top">%</span></p>
+        </div>
+    </div>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <header id="nav" class="fixed top-0 left-0 w-full z-[900] text-cream py-5 px-6 md:px-12">
+        <div class="max-w-[1500px] mx-auto flex items-center justify-between">
+            <a href="#hero" class="flex items-center gap-3 group" data-hover>
+                <svg class="w-9 h-11 text-gold transition-transform duration-500 group-hover:rotate-[8deg]"
+                    viewBox="0 0 48 56" fill="none">
+                    <path d="M24 2 L44 8 V28 C44 42 36 50 24 54 C12 50 4 42 4 28 V8 Z" stroke="currentColor"
+                        stroke-width="2.5" />
+                    <text x="24" y="34" text-anchor="middle" fill="currentColor" font-family="Georgia"
+                        font-size="20">M</text>
+                </svg>
+                <span class="leading-tight">
+                    <span class="font-serif text-xl block tracking-wide">Meridian</span>
+                    <span class="text-[9px] uppercase tracking-[.3em] opacity-70 block">University · 1887</span>
+                </span>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-9 text-[13px] uppercase tracking-[.18em] font-medium">
+                <a href="#about" class="nav-link" data-hover>About</a>
+                <a href="#academics" class="nav-link" data-hover>Academics</a>
+                <a href="#campus" class="nav-link" data-hover>Campus Life</a>
+                <a href="#research" class="nav-link" data-hover>Research</a>
+                <a href="#admissions" class="nav-link" data-hover>Admissions</a>
+                <a href="#news" class="nav-link" data-hover>News</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button
+                    class="open-apply magnetic btn-primary hidden sm:inline-flex items-center gap-2 bg-gold text-ink text-[12px] uppercase tracking-[.2em] font-semibold px-6 py-3"
+                    data-hover>
+                    Apply Now
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <button id="menu-btn"
+                    class="lg:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-[6px]" data-hover
+                    aria-label="Menu">
+                    <span class="menu-line block w-7 h-[2px] bg-current transition-all duration-400"></span>
+                    <span class="menu-line block w-7 h-[2px] bg-current transition-all duration-400"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu"
+        class="fixed inset-0 z-[950] bg-ink text-cream flex flex-col justify-between px-8 py-10 opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="flex items-center justify-between">
+            <span class="font-serif text-xl">Meridian</span>
+            <button id="menu-close"
+                class="w-11 h-11 border border-cream/30 rounded-full flex items-center justify-center"
+                aria-label="Close">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
+        <nav class="flex flex-col gap-2">
+            <a href="#about"
+                class="mm-link font-serif text-5xl py-2 border-b border-cream/10 flex justify-between items-center">About
+                <span class="text-gold text-lg">01</span></a>
+            <a href="#academics"
+                class="mm-link font-serif text-5xl py-2 border-b border-cream/10 flex justify-between items-center">Academics
+                <span class="text-gold text-lg">02</span></a>
+            <a href="#campus"
+                class="mm-link font-serif text-5xl py-2 border-b border-cream/10 flex justify-between items-center">Campus
+                Life <span class="text-gold text-lg">03</span></a>
+            <a href="#research"
+                class="mm-link font-serif text-5xl py-2 border-b border-cream/10 flex justify-between items-center">Research
+                <span class="text-gold text-lg">04</span></a>
+            <a href="#admissions"
+                class="mm-link font-serif text-5xl py-2 border-b border-cream/10 flex justify-between items-center">Admissions
+                <span class="text-gold text-lg">05</span></a>
+        </nav>
+        <button class="open-apply bg-gold text-ink uppercase tracking-[.2em] text-sm font-semibold py-4 w-full">Apply
+            Now</button>
+    </div>
+
+    <!-- ==================== HERO ==================== -->
+    <section id="hero" class="relative min-h-screen flex flex-col justify-end overflow-hidden bg-ink text-cream">
+        <div class="absolute inset-0">
+            <img id="hero-bg"
+                src="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=2000&auto=format&fit=crop"
+                alt="Meridian University historic campus hall" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/30"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-ink/70 via-transparent to-transparent"></div>
+        </div>
+
+        <div class="vert-text hidden xl:block absolute right-10 top-1/2 -translate-y-1/2 text-[10px] uppercase text-cream/50 z-10"
+            data-hero-fade>Veritas et Virtus — Since 1887</div>
+
+        <div class="relative z-10 max-w-[1500px] mx-auto w-full px-6 md:px-12 pb-14 pt-40">
+            <div class="flex items-center gap-4 mb-8" data-hero-fade>
+                <span class="w-12 h-[1px] bg-gold"></span>
+                <p class="eyebrow text-[11px] uppercase text-gold">A Private Research University · New England</p>
+            </div>
+
+            <h1 class="font-serif font-light leading-[0.98] text-[clamp(3rem,9vw,8.5rem)] max-w-6xl">
+                <span class="hline"><span>Where Ambition</span></span>
+                <span class="hline"><span>Takes <em class="italic text-gold font-normal">Root.</em></span></span>
+            </h1>
+
+            <div class="mt-10 flex flex-col md:flex-row md:items-end justify-between gap-10">
+                <p class="max-w-md text-cream/75 leading-relaxed text-[15px]" data-hero-fade>
+                    For 138 years, Meridian has cultivated the minds that shape tomorrow — scholars, founders, artists,
+                    and leaders united by rigorous curiosity.
+                </p>
+                <div class="flex flex-wrap items-center gap-5" data-hero-fade>
+                    <button
+                        class="open-apply magnetic btn-primary bg-cream text-ink px-8 py-4 text-[12px] uppercase tracking-[.2em] font-semibold"
+                        data-hover>Begin Your Application</button>
+                    <a href="#academics"
+                        class="btn-ghost magnetic text-[12px] uppercase tracking-[.2em] font-semibold pb-2 inline-flex items-center gap-3"
+                        data-hover>
+                        Explore Programs
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="btn-line"></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-14 pt-7 border-t border-cream/15 flex flex-wrap items-center justify-between gap-6 text-[11px] uppercase tracking-[.22em] text-cream/60"
+                data-hero-fade>
+                <span class="flex items-center gap-3">
+                    <span class="relative flex h-2.5 w-2.5"><span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-60"></span><span
+                            class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gold"></span></span>
+                    Fall 2026 Applications Open
+                </span>
+                <span class="hidden md:inline">12,400 Students · 96 Countries · 6 Schools</span>
+                <span class="flex items-center gap-3">Scroll <svg class="w-4 h-4 animate-bounce" viewBox="0 0 24 24"
+                        fill="none">
+                        <path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MARQUEE ==================== -->
+    <div class="bg-gold text-ink py-4 overflow-hidden border-y border-ink/10">
+        <div class="marquee-track font-serif text-lg md:text-xl">
+            <div class="flex items-center whitespace-nowrap">
+                <span class="mx-6">138 Years of Academic Excellence</span><span class="text-oxblood">✦</span>
+                <span class="mx-6 italic">Veritas et Virtus</span><span class="text-oxblood">✦</span>
+                <span class="mx-6">7 Nobel Laureates</span><span class="text-oxblood">✦</span>
+                <span class="mx-6">41 Rhodes Scholars</span><span class="text-oxblood">✦</span>
+                <span class="mx-6">$214M Annual Research Funding</span><span class="text-oxblood">✦</span>
+                <span class="mx-6 italic">Top 20 National University</span><span class="text-oxblood">✦</span>
+            </div>
+            <div class="flex items-center whitespace-nowrap" aria-hidden="true">
+                <span class="mx-6">138 Years of Academic Excellence</span><span class="text-oxblood">✦</span>
+                <span class="mx-6 italic">Veritas et Virtus</span><span class="text-oxblood">✦</span>
+                <span class="mx-6">7 Nobel Laureates</span><span class="text-oxblood">✦</span>
+                <span class="mx-6">41 Rhodes Scholars</span><span class="text-oxblood">✦</span>
+                <span class="mx-6">$214M Annual Research Funding</span><span class="text-oxblood">✦</span>
+                <span class="mx-6 italic">Top 20 National University</span><span class="text-oxblood">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ABOUT ==================== -->
+    <section id="about" class="relative py-28 md:py-40 px-6 md:px-12 overflow-hidden">
+        <div class="max-w-[1500px] mx-auto grid lg:grid-cols-12 gap-14 lg:gap-10 items-start">
+            <div class="lg:col-span-5 relative">
+                <div class="img-zoom relative aspect-[3/4] max-w-md" data-fade>
+                    <img id="about-img-1"
+                        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200&auto=format&fit=crop"
+                        alt="Historic stone architecture of Whitmore Hall" class="w-full h-full object-cover">
+                </div>
+                <div class="img-zoom absolute -bottom-14 -right-2 md:right-0 w-48 md:w-64 aspect-square border-8 border-cream shadow-2xl"
+                    data-fade data-delay="0.15">
+                    <img id="about-img-2"
+                        src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop"
+                        alt="Students collaborating on the quad" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -top-8 -left-4 md:-left-8 bg-ink text-cream px-6 py-5 shadow-xl" data-fade
+                    data-delay="0.25">
+                    <p class="font-serif text-4xl text-gold">1887</p>
+                    <p class="text-[10px] uppercase tracking-[.25em] mt-1 text-cream/70">Founded</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 lg:col-start-7 lg:pt-8">
+                <p class="eyebrow text-[11px] uppercase text-golddeep mb-6 flex items-center gap-4" data-fade><span
+                        class="w-10 h-[1px] bg-gold"></span>Our Heritage</p>
+                <h2 class="font-serif font-light text-[clamp(2.2rem,4.5vw,4rem)] leading-[1.05]" data-split>A Legacy of
+                    Rigorous Curiosity</h2>
+                <p class="mt-8 text-ink/70 leading-relaxed max-w-xl" data-fade>
+                    Founded in 1887 on three hundred acres of New England woodland, Meridian University began with a
+                    single hall, eleven students, and an audacious belief: that education should transform not just what
+                    you know, but who you become.
+                </p>
+                <p class="mt-5 text-ink/70 leading-relaxed max-w-xl" data-fade>
+                    Today, that founding conviction animates six schools, 140+ programs of study, and a community of
+                    scholars drawn from 96 countries — all bound by the pursuit of <em
+                        class="font-serif italic text-ink">veritas et virtus</em>, truth and character.
+                </p>
+
+                <div class="mt-10 grid sm:grid-cols-2 gap-6 max-w-xl" data-fade>
+                    <div class="border-l-2 border-gold pl-5">
+                        <p class="font-serif text-lg">Need-Blind Admission</p>
+                        <p class="text-sm text-ink/60 mt-1">We meet 100% of demonstrated financial need for every
+                            admitted student.</p>
+                    </div>
+                    <div class="border-l-2 border-gold pl-5">
+                        <p class="font-serif text-lg">Residential by Design</p>
+                        <p class="text-sm text-ink/60 mt-1">Four years of guaranteed housing across twelve historic
+                            residential colleges.</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 flex items-center gap-6" data-fade>
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop"
+                        alt="President of Meridian University"
+                        class="w-14 h-14 rounded-full object-cover border-2 border-gold">
+                    <div>
+                        <p class="font-serif italic text-xl">Dr. Edmund Calloway</p>
+                        <p class="text-[11px] uppercase tracking-[.2em] text-ink/50 mt-1">21st President of Meridian
+                            University</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== STATS ==================== -->
+    <section class="bg-ink text-cream py-20 md:py-28 px-6 md:px-12 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.06] pointer-events-none">
+            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1600&auto=format&fit=crop"
+                alt="" class="w-full h-full object-cover">
+        </div>
+        <div class="max-w-[1500px] mx-auto relative">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-8">
+                <div class="text-center lg:border-r border-cream/10" data-fade>
+                    <p class="font-serif text-5xl md:text-6xl text-gold"><span data-count="12400">0</span></p>
+                    <p class="eyebrow text-[10px] uppercase mt-4 text-cream/60">Enrolled Students</p>
+                </div>
+                <div class="text-center lg:border-r border-cream/10" data-fade data-delay="0.1">
+                    <p class="font-serif text-5xl md:text-6xl text-gold"><span data-count="9">0</span><span
+                            class="text-3xl">:1</span></p>
+                    <p class="eyebrow text-[10px] uppercase mt-4 text-cream/60">Student–Faculty Ratio</p>
+                </div>
+                <div class="text-center lg:border-r border-cream/10" data-fade data-delay="0.2">
+                    <p class="font-serif text-5xl md:text-6xl text-gold"><span data-count="96">0</span><span
+                            class="text-3xl">%</span></p>
+                    <p class="eyebrow text-[10px] uppercase mt-4 text-cream/60">Career Outcomes Rate</p>
+                </div>
+                <div class="text-center" data-fade data-delay="0.3">
+                    <p class="font-serif text-5xl md:text-6xl text-gold"><span class="text-3xl">$</span><span
+                            data-count="68">0</span><span class="text-3xl">M</span></p>
+                    <p class="eyebrow text-[10px] uppercase mt-4 text-cream/60">Annual Financial Aid</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ACADEMICS ==================== -->
+    <section id="academics" class="py-28 md:py-40 px-6 md:px-12 bg-parchment/60">
+        <div class="max-w-[1500px] mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-20">
+                <div>
+                    <p class="eyebrow text-[11px] uppercase text-golddeep mb-6 flex items-center gap-4" data-fade><span
+                            class="w-10 h-[1px] bg-gold"></span>Academics</p>
+                    <h2 class="font-serif font-light text-[clamp(2.2rem,4.5vw,4rem)] leading-[1.05] max-w-2xl"
+                        data-split>Six Schools. One Standard: Excellence.</h2>
+                </div>
+                <p class="max-w-sm text-ink/60 text-[15px] leading-relaxed" data-fade>From the liberal arts core to
+                    frontier research, every Meridian program is built on small classes, world-class faculty, and
+                    uncompromising depth.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
+                <!-- Tab list -->
+                <div class="lg:col-span-4">
+                    <div class="lg:sticky lg:top-32 flex flex-col" id="tab-list" role="tablist"
+                        aria-label="Schools of Meridian University"></div>
+                </div>
+
+                <!-- Panel -->
+                <div class="lg:col-span-8">
+                    <div id="school-panel">
+                        <div class="img-zoom relative aspect-[16/9] shadow-2xl">
+                            <img id="sp-img" src="" alt="" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent"></div>
+                            <div class="absolute bottom-5 left-6 flex items-baseline gap-4 text-cream">
+                                <span id="sp-index" class="font-serif text-gold text-lg"></span>
+                                <span id="sp-stat-overlay"
+                                    class="text-[11px] uppercase tracking-[.22em] text-cream/85"></span>
+                            </div>
+                        </div>
+                        <div class="mt-9" id="sp-body">
+                            <h3 id="sp-name" class="font-serif text-3xl md:text-4xl"></h3>
+                            <p id="sp-desc" class="mt-4 text-ink/65 leading-relaxed max-w-2xl"></p>
+                            <div id="sp-programs" class="mt-7 flex flex-wrap gap-3"></div>
+                            <div class="mt-9 flex items-center gap-8">
+                                <button
+                                    class="open-apply magnetic btn-primary bg-ink text-cream px-7 py-3.5 text-[11px] uppercase tracking-[.2em] font-semibold"
+                                    data-hover>Request Information</button>
+                                <div class="text-sm"><span id="sp-stat"
+                                        class="font-serif text-2xl text-golddeep"></span> <span id="sp-stat-label"
+                                        class="text-ink/55"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CAMPUS LIFE ==================== -->
+    <section id="campus" class="py-28 md:py-40 px-6 md:px-12">
+        <div class="max-w-[1500px] mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div>
+                    <p class="eyebrow text-[11px] uppercase text-golddeep mb-6 flex items-center gap-4" data-fade><span
+                            class="w-10 h-[1px] bg-gold"></span>Campus Life</p>
+                    <h2 class="font-serif font-light text-[clamp(2.2rem,4.5vw,4rem)] leading-[1.05]" data-split>Life
+                        Beyond the Lecture Hall</h2>
+                </div>
+                <p class="max-w-sm text-ink/60 text-[15px] leading-relaxed" data-fade>300+ student organizations, 26
+                    varsity teams, and a 300-acre campus designed for living as much as learning.</p>
+            </div>
+
+            <div class="grid grid-cols-12 gap-4 md:gap-5">
+                <a href="#admissions"
+                    class="campus-card img-zoom group relative col-span-12 md:col-span-7 aspect-[16/10] block" data-fade
+                    data-hover>
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1400&auto=format&fit=crop"
+                        alt="Students studying together on the great lawn" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-cream">
+                        <span class="cap-bar block h-[2px] w-full bg-gold mb-4"></span>
+                        <div class="flex items-end justify-between">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-[.25em] text-gold mb-2">01 — Community</p>
+                                <p class="font-serif text-2xl md:text-3xl">The Residential Colleges</p>
+                            </div>
+                            <svg class="cap-arrow w-7 h-7 text-gold shrink-0" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#admissions"
+                    class="campus-card img-zoom group relative col-span-12 md:col-span-5 aspect-[16/10] md:aspect-auto block"
+                    data-fade data-delay="0.1" data-hover>
+                    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=1200&auto=format&fit=crop"
+                        alt="Meridian athletics basketball game" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-cream">
+                        <span class="cap-bar block h-[2px] w-full bg-gold mb-4"></span>
+                        <div class="flex items-end justify-between">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-[.25em] text-gold mb-2">02 — Athletics</p>
+                                <p class="font-serif text-2xl md:text-3xl">26 Varsity Teams</p>
+                            </div>
+                            <svg class="cap-arrow w-7 h-7 text-gold shrink-0" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#admissions"
+                    class="campus-card img-zoom group relative col-span-12 sm:col-span-6 md:col-span-4 aspect-square block"
+                    data-fade data-hover>
+                    <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?q=80&w=1000&auto=format&fit=crop"
+                        alt="Student orchestra performance" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-cream">
+                        <span class="cap-bar block h-[2px] w-full bg-gold mb-4"></span>
+                        <div class="flex items-end justify-between">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-[.25em] text-gold mb-2">03 — Arts</p>
+                                <p class="font-serif text-xl md:text-2xl">Music & Performance</p>
+                            </div>
+                            <svg class="cap-arrow w-6 h-6 text-gold shrink-0" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#admissions"
+                    class="campus-card img-zoom group relative col-span-12 sm:col-span-6 md:col-span-4 aspect-square block"
+                    data-fade data-delay="0.08" data-hover>
+                    <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1000&auto=format&fit=crop"
+                        alt="Whitmore Library reading room" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-cream">
+                        <span class="cap-bar block h-[2px] w-full bg-gold mb-4"></span>
+                        <div class="flex items-end justify-between">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-[.25em] text-gold mb-2">04 — Study</p>
+                                <p class="font-serif text-xl md:text-2xl">Whitmore Library</p>
+                            </div>
+                            <svg class="cap-arrow w-6 h-6 text-gold shrink-0" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#admissions"
+                    class="campus-card img-zoom group relative col-span-12 md:col-span-4 aspect-square block" data-fade
+                    data-delay="0.16" data-hover>
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1000&auto=format&fit=crop"
+                        alt="Commencement celebration on the quad" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-cream">
+                        <span class="cap-bar block h-[2px] w-full bg-gold mb-4"></span>
+                        <div class="flex items-end justify-between">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-[.25em] text-gold mb-2">05 — Tradition</p>
+                                <p class="font-serif text-xl md:text-2xl">Commencement on the Quad</p>
+                            </div>
+                            <svg class="cap-arrow w-6 h-6 text-gold shrink-0" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== RESEARCH ==================== -->
+    <section id="research" class="bg-ink text-cream py-28 md:py-40 px-6 md:px-12 relative overflow-hidden">
+        <div
+            class="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-fern/30 blur-[140px] pointer-events-none">
+        </div>
+        <div class="max-w-[1500px] mx-auto relative">
+            <div class="grid lg:grid-cols-12 gap-12 items-end mb-16 md:mb-20">
+                <div class="lg:col-span-7">
+                    <p class="eyebrow text-[11px] uppercase text-gold mb-6 flex items-center gap-4" data-fade><span
+                            class="w-10 h-[1px] bg-gold"></span>Research & Impact</p>
+                    <h2 class="font-serif font-light text-[clamp(2.2rem,4.5vw,4rem)] leading-[1.05]" data-split>Inquiry
+                        That Moves the World</h2>
+                </div>
+                <div class="lg:col-span-5 flex gap-12" data-fade>
+                    <div>
+                        <p class="font-serif text-4xl text-gold">$<span data-count="214">0</span>M</p>
+                        <p class="text-[10px] uppercase tracking-[.22em] text-cream/55 mt-2">Annual Funding</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-4xl text-gold"><span data-count="380">0</span>+</p>
+                        <p class="text-[10px] uppercase tracking-[.22em] text-cream/55 mt-2">Active Projects</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-4xl text-gold"><span data-count="29">0</span></p>
+                        <p class="text-[10px] uppercase tracking-[.22em] text-cream/55 mt-2">Patents in 2025</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <article class="research-card bg-pine border border-cream/10 group" data-fade data-hover>
+                    <div class="img-zoom aspect-[16/10]">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=1000&auto=format&fit=crop"
+                            alt="Climate research laboratory" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-7">
+                        <p class="text-[10px] uppercase tracking-[.25em] text-gold mb-3">Climate & Environment</p>
+                        <h3 class="font-serif text-2xl leading-snug">Climate Resilience Lab</h3>
+                        <p class="text-cream/60 text-sm leading-relaxed mt-3">Modeling coastal adaptation strategies now
+                            adopted by fourteen national governments and the UN Environment Programme.</p>
+                        <span
+                            class="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[.2em] text-gold group-hover:gap-4 transition-all">Explore
+                            Center <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></span>
+                    </div>
+                </article>
+
+                <article class="research-card bg-pine border border-cream/10 group" data-fade data-delay="0.1"
+                    data-hover>
+                    <div class="img-zoom aspect-[16/10]">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop"
+                            alt="Researcher working on ethical AI systems" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-7">
+                        <p class="text-[10px] uppercase tracking-[.25em] text-gold mb-3">Technology & Society</p>
+                        <h3 class="font-serif text-2xl leading-snug">Center for Ethical AI</h3>
+                        <p class="text-cream/60 text-sm leading-relaxed mt-3">A $40M initiative pairing computer
+                            scientists with philosophers to build accountable, transparent machine intelligence.</p>
+                        <span
+                            class="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[.2em] text-gold group-hover:gap-4 transition-all">Explore
+                            Center <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></span>
+                    </div>
+                </article>
+
+                <article class="research-card bg-pine border border-cream/10 group" data-fade data-delay="0.2"
+                    data-hover>
+                    <div class="img-zoom aspect-[16/10]">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000&auto=format&fit=crop"
+                            alt="Genomic medicine research" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-7">
+                        <p class="text-[10px] uppercase tracking-[.25em] text-gold mb-3">Health & Medicine</p>
+                        <h3 class="font-serif text-2xl leading-snug">Genomic Medicine Institute</h3>
+                        <p class="text-cream/60 text-sm leading-relaxed mt-3">Pioneering personalized therapies for rare
+                            diseases, with three treatments currently in Phase II clinical trials.</p>
+                        <span
+                            class="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[.2em] text-gold group-hover:gap-4 transition-all">Explore
+                            Center <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="py-28 md:py-40 px-6 md:px-12 bg-parchment/60 overflow-hidden">
+        <div class="max-w-[1100px] mx-auto text-center">
+            <p class="eyebrow text-[11px] uppercase text-golddeep mb-10 flex items-center justify-center gap-4"
+                data-fade><span class="w-10 h-[1px] bg-gold"></span>Voices of Meridian<span
+                    class="w-10 h-[1px] bg-gold"></span></p>
+
+            <div id="quote-box" data-fade>
+                <svg class="w-10 h-10 mx-auto mb-8 text-gold" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M9.6 5C6 7 4 10 4 13.6 4 16.6 5.9 19 9 19c2.4 0 4-1.7 4-4s-1.6-3.8-3.8-3.8c.3-1.7 1.5-3.2 3.2-4.2L9.6 5zm10 0c-3.6 2-5.6 5-5.6 8.6 0 3 1.9 5.4 5 5.4 2.4 0 4-1.7 4-4s-1.6-3.8-3.8-3.8c.3-1.7 1.5-3.2 3.2-4.2L19.6 5z" />
+                </svg>
+                <p id="t-quote"
+                    class="font-serif font-light text-[clamp(1.5rem,3.4vw,2.6rem)] leading-[1.3] min-h-[7rem]"></p>
+                <div class="mt-10 flex items-center justify-center gap-4">
+                    <img id="t-img" src="" alt="" class="w-14 h-14 rounded-full object-cover border-2 border-gold">
+                    <div class="text-left">
+                        <p id="t-name" class="font-serif text-lg"></p>
+                        <p id="t-role" class="text-[11px] uppercase tracking-[.2em] text-ink/50"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 flex items-center justify-center gap-8" data-fade>
+                <button id="t-prev"
+                    class="w-12 h-12 rounded-full border border-ink/25 flex items-center justify-center hover:bg-ink hover:text-cream transition-colors"
+                    data-hover aria-label="Previous testimonial">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div class="flex gap-3" id="t-dots"></div>
+                <button id="t-next"
+                    class="w-12 h-12 rounded-full border border-ink/25 flex items-center justify-center hover:bg-ink hover:text-cream transition-colors"
+                    data-hover aria-label="Next testimonial">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== NEWS & EVENTS ==================== -->
+    <section id="news" class="py-28 md:py-40 px-6 md:px-12">
+        <div class="max-w-[1500px] mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div>
+                    <p class="eyebrow text-[11px] uppercase text-golddeep mb-6 flex items-center gap-4" data-fade><span
+                            class="w-10 h-[1px] bg-gold"></span>News & Events</p>
+                    <h2 class="font-serif font-light text-[clamp(2.2rem,4.5vw,4rem)] leading-[1.05]" data-split>The
+                        Meridian Chronicle</h2>
+                </div>
+                <a href="#"
+                    class="btn-ghost magnetic text-[12px] uppercase tracking-[.2em] font-semibold pb-2 inline-flex items-center gap-3 self-start md:self-auto"
+                    data-hover>All Stories
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span class="btn-line"></span>
+                </a>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12">
+                <!-- News cards -->
+                <div class="lg:col-span-7 grid sm:grid-cols-2 gap-6">
+                    <article class="news-card group sm:col-span-2" data-fade data-hover>
+                        <div class="img-zoom aspect-[16/8]">
+                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1400&auto=format&fit=crop"
+                                alt="Students and faculty at the AI center announcement"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="pt-6">
+                            <p class="text-[10px] uppercase tracking-[.25em] text-golddeep">Research <span
+                                    class="dot-sep"></span> October 28, 2025</p>
+                            <h3
+                                class="font-serif text-2xl md:text-3xl mt-3 leading-snug group-hover:text-golddeep transition-colors">
+                                Meridian Receives $40M Gift to Establish Center for Ethical Artificial Intelligence</h3>
+                            <p class="text-ink/60 text-sm leading-relaxed mt-3 max-w-2xl">The largest single gift in
+                                university history will fund forty new faculty lines, graduate fellowships, and a public
+                                policy institute focused on responsible machine intelligence.</p>
+                        </div>
+                    </article>
+
+                    <article class="news-card group" data-fade data-delay="0.1" data-hover>
+                        <div class="img-zoom aspect-[16/10]">
+                            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=900&auto=format&fit=crop"
+                                alt="Graduates celebrating" class="w-full h-full object-cover">
+                        </div>
+                        <div class="pt-5">
+                            <p class="text-[10px] uppercase tracking-[.25em] text-golddeep">Admissions <span
+                                    class="dot-sep"></span> October 14, 2025</p>
+                            <h3
+                                class="font-serif text-xl mt-3 leading-snug group-hover:text-golddeep transition-colors">
+                                Class of 2030 Sets Record as Most Selective in University History</h3>
+                        </div>
+                    </article>
+
+                    <article class="news-card group" data-fade data-delay="0.2" data-hover>
+                        <div class="img-zoom aspect-[16/10]">
+                            <img src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=900&auto=format&fit=crop"
+                                alt="Robotics team in the lab" class="w-full h-full object-cover">
+                        </div>
+                        <div class="pt-5">
+                            <p class="text-[10px] uppercase tracking-[.25em] text-golddeep">Student Life <span
+                                    class="dot-sep"></span> September 30, 2025</p>
+                            <h3
+                                class="font-serif text-xl mt-3 leading-snug group-hover:text-golddeep transition-colors">
+                                Robotics Team Claims First Place at International Championship in Geneva</h3>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Events list -->
+                <div class="lg:col-span-5" data-fade data-delay="0.15">
+                    <div class="bg-ink text-cream p-8 md:p-10 h-full flex flex-col">
+                        <p class="eyebrow text-[10px] uppercase text-gold mb-8">Upcoming Events</p>
+                        <div class="flex-1 flex flex-col divide-y divide-cream/10" id="events-list"></div>
+                        <a href="#"
+                            class="mt-8 inline-flex items-center gap-3 text-[11px] uppercase tracking-[.2em] text-gold hover:gap-5 transition-all"
+                            data-hover>View Full Calendar
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ADMISSIONS ==================== -->
+    <section id="admissions" class="py-28 md:py-40 px-6 md:px-12 bg-parchment/60">
+        <div class="max-w-[1500px] mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+                <p class="eyebrow text-[11px] uppercase text-golddeep mb-6 flex items-center justify-center gap-4"
+                    data-fade><span class="w-10 h-[1px] bg-gold"></span>Admissions<span
+                        class="w-10 h-[1px] bg-gold"></span></p>
+                <h2 class="font-serif font-light text-[clamp(2.2rem,4.5vw,4rem)] leading-[1.05]" data-split>Your Path to
+                    Meridian</h2>
+                <p class="mt-6 text-ink/60 leading-relaxed" data-fade>We read every application by hand, twice. There is
+                    no formula — only a genuine search for curious, courageous minds.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">
+                <div class="step-card border border-ink/12 bg-cream p-8 relative" data-fade data-hover>
+                    <p class="font-serif text-5xl text-gold/50">01</p>
+                    <h3 class="font-serif text-xl mt-6">Inquire & Visit</h3>
+                    <p class="text-sm text-ink/60 leading-relaxed mt-3">Join us for an open house, virtual tour, or
+                        conversation with a current student ambassador.</p>
+                    <p class="text-[10px] uppercase tracking-[.2em] text-golddeep mt-5">Year-Round</p>
+                </div>
+                <div class="step-card border border-ink/12 bg-cream p-8 relative" data-fade data-delay="0.08"
+                    data-hover>
+                    <p class="font-serif text-5xl text-gold/50">02</p>
+                    <h3 class="font-serif text-xl mt-6">Apply</h3>
+                    <p class="text-sm text-ink/60 leading-relaxed mt-3">Submit the Common Application with the Meridian
+                        supplement. Early Action closes November 15.</p>
+                    <p class="text-[10px] uppercase tracking-[.2em] text-golddeep mt-5">Nov 15 / Jan 15</p>
+                </div>
+                <div class="step-card border border-ink/12 bg-cream p-8 relative" data-fade data-delay="0.16"
+                    data-hover>
+                    <p class="font-serif text-5xl text-gold/50">03</p>
+                    <h3 class="font-serif text-xl mt-6">Interview</h3>
+                    <p class="text-sm text-ink/60 leading-relaxed mt-3">An optional but recommended conversation with an
+                        alumni interviewer in your region.</p>
+                    <p class="text-[10px] uppercase tracking-[.2em] text-golddeep mt-5">Oct — Feb</p>
+                </div>
+                <div class="step-card border border-ink/12 bg-cream p-8 relative" data-fade data-delay="0.24"
+                    data-hover>
+                    <p class="font-serif text-5xl text-gold/50">04</p>
+                    <h3 class="font-serif text-xl mt-6">Enroll</h3>
+                    <p class="text-sm text-ink/60 leading-relaxed mt-3">Decisions arrive in late March. Admitted
+                        students join us for Meridian Weekend in April.</p>
+                    <p class="text-[10px] uppercase tracking-[.2em] text-golddeep mt-5">May 1 Deadline</p>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-5" data-fade>
+                    <h3 class="font-serif text-3xl md:text-4xl leading-tight">Questions, <em
+                            class="italic text-golddeep">Answered.</em></h3>
+                    <p class="mt-5 text-ink/60 text-[15px] leading-relaxed">Our admissions team responds within one
+                        business day. Prefer to talk? Call <span class="text-ink font-medium">(800) 555-1887</span>
+                        Monday through Friday.</p>
+                    <button
+                        class="open-apply magnetic btn-primary mt-8 bg-ink text-cream px-8 py-4 text-[12px] uppercase tracking-[.2em] font-semibold"
+                        data-hover>Start Application</button>
+                </div>
+
+                <div class="lg:col-span-7" data-fade data-delay="0.1">
+                    <div class="divide-y divide-ink/10 border-y border-ink/10">
+                        <div class="faq-item">
+                            <button class="faq-q w-full flex items-center justify-between gap-6 py-6 text-left"
+                                data-hover>
+                                <span class="faq-q-text font-serif text-lg md:text-xl transition-colors">What are the
+                                    application deadlines?</span>
+                                <span
+                                    class="faq-icon shrink-0 w-9 h-9 rounded-full border border-ink/25 flex items-center justify-center"><svg
+                                        class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" />
+                                    </svg></span>
+                            </button>
+                            <div class="faq-a">
+                                <p class="pb-6 text-ink/60 text-[15px] leading-relaxed pr-10">Early Action: November 15
+                                    (decisions mid-December). Regular Decision: January 15 (decisions late March).
+                                    Transfer applications close March 1. All deadlines are 11:59 PM in your local
+                                    timezone.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-q w-full flex items-center justify-between gap-6 py-6 text-left"
+                                data-hover>
+                                <span class="faq-q-text font-serif text-lg md:text-xl transition-colors">What financial
+                                    aid is available?</span>
+                                <span
+                                    class="faq-icon shrink-0 w-9 h-9 rounded-full border border-ink/25 flex items-center justify-center"><svg
+                                        class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" />
+                                    </svg></span>
+                            </button>
+                            <div class="faq-a">
+                                <p class="pb-6 text-ink/60 text-[15px] leading-relaxed pr-10">Admission is need-blind
+                                    for all applicants, and we meet 100% of demonstrated need without loans. Families
+                                    earning under $85,000 typically pay nothing. The average grant last year was
+                                    $52,400.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-q w-full flex items-center justify-between gap-6 py-6 text-left"
+                                data-hover>
+                                <span class="faq-q-text font-serif text-lg md:text-xl transition-colors">Are
+                                    standardized tests required?</span>
+                                <span
+                                    class="faq-icon shrink-0 w-9 h-9 rounded-full border border-ink/25 flex items-center justify-center"><svg
+                                        class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" />
+                                    </svg></span>
+                            </button>
+                            <div class="faq-a">
+                                <p class="pb-6 text-ink/60 text-[15px] leading-relaxed pr-10">Meridian is permanently
+                                    test-optional. SAT and ACT scores are considered only if you choose to submit them —
+                                    roughly 58% of enrolled students in the Class of 2029 did so.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-q w-full flex items-center justify-between gap-6 py-6 text-left"
+                                data-hover>
+                                <span class="faq-q-text font-serif text-lg md:text-xl transition-colors">Can I visit
+                                    campus before applying?</span>
+                                <span
+                                    class="faq-icon shrink-0 w-9 h-9 rounded-full border border-ink/25 flex items-center justify-center"><svg
+                                        class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" />
+                                    </svg></span>
+                            </button>
+                            <div class="faq-a">
+                                <p class="pb-6 text-ink/60 text-[15px] leading-relaxed pr-10">Absolutely. Student-led
+                                    tours depart from Whitmore Hall daily at 10 AM and 2 PM, and we host full open-house
+                                    weekends each fall and spring. Virtual tours and webinars run weekly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA ==================== -->
+    <section class="relative py-32 md:py-48 px-6 md:px-12 overflow-hidden">
+        <div class="absolute inset-0">
+            <img id="cta-bg"
+                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2000&auto=format&fit=crop"
+                alt="Graduates throwing caps at commencement" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-ink/80"></div>
+        </div>
+        <div class="relative max-w-4xl mx-auto text-center text-cream">
+            <p class="eyebrow text-[11px] uppercase text-gold mb-8" data-fade>Class of 2030 · Now Accepting Applications
+            </p>
+            <h2 class="font-serif font-light text-[clamp(2.6rem,6vw,5.5rem)] leading-[1.02]" data-split>Your Future
+                Starts Here.</h2>
+            <p class="mt-8 text-cream/70 max-w-xl mx-auto leading-relaxed" data-fade>Join a community where curiosity is
+                a discipline, character is a curriculum, and your ambition finds its form.</p>
+            <div class="mt-12 flex flex-wrap items-center justify-center gap-5" data-fade>
+                <button
+                    class="open-apply magnetic btn-primary bg-gold text-ink px-10 py-5 text-[12px] uppercase tracking-[.2em] font-semibold"
+                    data-hover>Apply for Fall 2026</button>
+                <a href="#admissions"
+                    class="magnetic border border-cream/40 hover:border-gold hover:text-gold transition-colors px-10 py-5 text-[12px] uppercase tracking-[.2em] font-semibold"
+                    data-hover>Plan a Visit</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-ink text-cream pt-20 pb-10 px-6 md:px-12">
+        <div class="max-w-[1500px] mx-auto">
+            <div class="grid md:grid-cols-12 gap-12 pb-16 border-b border-cream/10">
+                <div class="md:col-span-4">
+                    <div class="flex items-center gap-3 mb-6">
+                        <svg class="w-10 h-12 text-gold" viewBox="0 0 48 56" fill="none">
+                            <path d="M24 2 L44 8 V28 C44 42 36 50 24 54 C12 50 4 42 4 28 V8 Z" stroke="currentColor"
+                                stroke-width="2.5" />
+                            <text x="24" y="34" text-anchor="middle" fill="currentColor" font-family="Georgia"
+                                font-size="20">M</text>
+                        </svg>
+                        <span class="leading-tight">
+                            <span class="font-serif text-2xl block">Meridian</span>
+                            <span class="text-[9px] uppercase tracking-[.3em] text-cream/60 block">University · Est.
+                                1887</span>
+                        </span>
+                    </div>
+                    <p class="text-cream/55 text-sm leading-relaxed max-w-xs">300 Meridian Way<br>Ashford, New England
+                        03420<br>(800) 555-1887 · hello@meridian.edu</p>
+                    <div class="flex gap-3 mt-7">
+                        <a href="#"
+                            class="social-btn w-10 h-10 rounded-full border border-cream/25 flex items-center justify-center"
+                            data-hover aria-label="Instagram"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor"
+                                    stroke-width="1.8" />
+                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8" />
+                                <circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" />
+                            </svg></a>
+                        <a href="#"
+                            class="social-btn w-10 h-10 rounded-full border border-cream/25 flex items-center justify-center"
+                            data-hover aria-label="X"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1.2 2h6.4l4.4 5.9L18.9 2zm-1.1 18h1.7L7 3.7H5.2L17.8 20z" />
+                            </svg></a>
+                        <a href="#"
+                            class="social-btn w-10 h-10 rounded-full border border-cream/25 flex items-center justify-center"
+                            data-hover aria-label="LinkedIn"><svg class="w-4 h-4" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.5c0-1.3-.02-3-1.83-3-1.83 0-2.1 1.43-2.1 2.9V21H9z" />
+                            </svg></a>
+                        <a href="#"
+                            class="social-btn w-10 h-10 rounded-full border border-cream/25 flex items-center justify-center"
+                            data-hover aria-label="YouTube"><svg class="w-4 h-4" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M23 12s0-3.9-.5-5.6c-.3-1-1.1-1.8-2.1-2C18.6 4 12 4 12 4s-6.6 0-8.4.4c-1 .2-1.8 1-2.1 2C1 8.1 1 12 1 12s0 3.9.5 5.6c.3 1 1.1 1.8 2.1 2 1.8.4 8.4.4 8.4.4s6.6 0 8.4-.4c1-.2 1.8-1 2.1-2 .5-1.7.5-5.6.5-5.6zM9.8 15.5v-7l6 3.5-6 3.5z" />
+                            </svg></a>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2">
+                    <p class="eyebrow text-[10px] uppercase text-gold mb-6">Explore</p>
+                    <ul class="space-y-3 text-sm text-cream/60">
+                        <li><a href="#about" class="hover:text-gold transition-colors" data-hover>About Meridian</a>
+                        </li>
+                        <li><a href="#academics" class="hover:text-gold transition-colors" data-hover>Academics</a></li>
+                        <li><a href="#campus" class="hover:text-gold transition-colors" data-hover>Campus Life</a></li>
+                        <li><a href="#research" class="hover:text-gold transition-colors" data-hover>Research</a></li>
+                        <li><a href="#news" class="hover:text-gold transition-colors" data-hover>News & Events</a></li>
+                    </ul>
+                </div>
+
+                <div class="md:col-span-3">
+                    <p class="eyebrow text-[10px] uppercase text-gold mb-6">Schools</p>
+                    <ul class="space-y-3 text-sm text-cream/60">
+                        <li><a href="#academics" class="hover:text-gold transition-colors" data-hover>College of Arts &
+                                Sciences</a></li>
+                        <li><a href="#academics" class="hover:text-gold transition-colors" data-hover>Engineering &
+                                Computing</a></li>
+                        <li><a href="#academics" class="hover:text-gold transition-colors" data-hover>Meridian Business
+                                School</a></li>
+                        <li><a href="#academics" class="hover:text-gold transition-colors" data-hover>Health &
+                                Medicine</a></li>
+                        <li><a href="#academics" class="hover:text-gold transition-colors" data-hover>Law & Policy</a>
+                        </li>
+                        <li><a href="#academics" class="hover:text-gold transition-colors" data-hover>Architecture &
+                                Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="md:col-span-3">
+                    <p class="eyebrow text-[10px] uppercase text-gold mb-6">The Meridian Letter</p>
+                    <p class="text-sm text-cream/55 leading-relaxed mb-5">Campus news, research highlights, and event
+                        invitations — monthly, no noise.</p>
+                    <form id="news-form" class="flex">
+
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                            style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+                        <input type="email" name="email" required placeholder="Your email address"
+                            class="news-input flex-1 bg-transparent border border-cream/25 border-r-0 px-4 py-3 text-sm placeholder:text-cream/35 text-cream">
+                        <button type="submit"
+                            class="bg-gold text-ink px-5 flex items-center justify-center hover:bg-cream transition-colors"
+                            data-hover aria-label="Subscribe">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </form>
+                    <p id="news-msg" class="text-gold text-xs mt-3 opacity-0 transition-opacity">Thank you — you're on
+                        the list.</p>
+                </div>
+            </div>
+
+            <div
+                class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] uppercase tracking-[.18em] text-cream/40">
+                <p>© 2025 Meridian University · Veritas et Virtus</p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-gold transition-colors" data-hover>Privacy</a>
+                    <a href="#" class="hover:text-gold transition-colors" data-hover>Accessibility</a>
+                    <a href="#" class="hover:text-gold transition-colors" data-hover>Careers</a>
+                    <button id="to-top" class="hover:text-gold transition-colors uppercase tracking-[.18em]"
+                        data-hover>Back to Top ↑</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== APPLY MODAL ==================== -->
+    <div id="apply-modal" class="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-8">
+        <div class="absolute inset-0 bg-ink/85 backdrop-blur-sm" id="modal-backdrop"></div>
+        <div class="modal-card relative bg-cream w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+            <button id="modal-close"
+                class="absolute top-4 right-4 w-10 h-10 rounded-full border border-ink/20 flex items-center justify-center hover:bg-ink hover:text-cream transition-colors z-10"
+                data-hover aria-label="Close">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+
+            <div id="modal-form-view" class="p-8 md:p-10">
+                <p class="eyebrow text-[10px] uppercase text-golddeep mb-3">Undergraduate Application</p>
+                <h3 class="font-serif text-3xl mb-2">Begin Your Journey</h3>
+                <p class="text-sm text-ink/55 mb-8">Tell us a little about yourself and we'll create your applicant
+                    portal.</p>
+                <form id="apply-form" class="space-y-5">
+                    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                        style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="field">
+                            <label class="text-[10px] uppercase tracking-[.2em] text-ink/50 block mb-2">First
+                                Name</label>
+                            <input required type="text" name="first_name" placeholder="Eleanor"
+                                class="w-full bg-white border border-ink/15 px-4 py-3 text-sm">
+                        </div>
+                        <div class="field">
+                            <label class="text-[10px] uppercase tracking-[.2em] text-ink/50 block mb-2">Last
+                                Name</label>
+                            <input required type="text" name="last_name" placeholder="Vance"
+                                class="w-full bg-white border border-ink/15 px-4 py-3 text-sm">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="text-[10px] uppercase tracking-[.2em] text-ink/50 block mb-2">Email
+                            Address</label>
+                        <input required type="email" name="email" placeholder="you@example.com"
+                            class="w-full bg-white border border-ink/15 px-4 py-3 text-sm">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="field">
+                            <label class="text-[10px] uppercase tracking-[.2em] text-ink/50 block mb-2">Intended
+                                School</label>
+                            <select name="intended_school"
+                                class="w-full bg-white border border-ink/15 px-4 py-3 text-sm">
+                                <option>Arts & Sciences</option>
+                                <option>Engineering & Computing</option>
+                                <option>Business</option>
+                                <option>Health & Medicine</option>
+                                <option>Law & Policy</option>
+                                <option>Architecture & Design</option>
+                                <option>Undecided</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label class="text-[10px] uppercase tracking-[.2em] text-ink/50 block mb-2">Entry
+                                Term</label>
+                            <select name="entry_term" class="w-full bg-white border border-ink/15 px-4 py-3 text-sm">
+                                <option>Fall 2026 — Early Action</option>
+                                <option>Fall 2026 — Regular</option>
+                                <option>Spring 2027</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="btn-primary w-full bg-ink text-cream py-4 text-[12px] uppercase tracking-[.22em] font-semibold"
+                        data-hover>Create My Applicant Portal</button>
+                    <p class="text-[11px] text-ink/40 text-center">Need-blind admission · No application fee for 2026
+                        entry</p>
+                </form>
+            </div>
+
+            <div id="modal-success-view" class="hidden p-10 md:p-14 text-center">
+                <svg class="w-20 h-20 mx-auto mb-6" viewBox="0 0 80 80" fill="none">
+                    <circle class="check-circle" cx="40" cy="40" r="36" stroke="#C6A15B" stroke-width="3" />
+                    <path class="check-path" d="M26 41 l10 10 l18 -20" stroke="#0D1F16" stroke-width="4"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <h3 class="font-serif text-3xl mb-3">Welcome to Meridian.</h3>
+                <p class="text-sm text-ink/60 leading-relaxed max-w-xs mx-auto">
+                    Your application has been sent successfully. We’ll contact you at the email address you provided.
+                    Welcome to the Class of 2030.
+                </p>
+                <button id="modal-done"
+                    class="mt-8 bg-ink text-cream px-8 py-3.5 text-[11px] uppercase tracking-[.2em] font-semibold hover:bg-moss transition-colors"
+                    data-hover>Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* ============ SMOOTH SCROLL ============ */
+        let lenis = null;
+        if (typeof Lenis !== 'undefined') {
+            lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((t) => lenis.raf(t * 1000));
+            gsap.ticker.lagSmoothing(0);
+        }
+        function scrollToTarget(sel) {
+            const el = document.querySelector(sel);
+            if (!el) return;
+            if (lenis) lenis.scrollTo(el, { offset: -70, duration: 1.4 });
+            else el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* ============ DATA ============ */
+        const schools = [
+            {
+                name: 'College of Arts & Sciences', img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1400&auto=format&fit=crop',
+                desc: 'The intellectual heart of Meridian. Forty-two majors span the humanities, natural sciences, and social sciences — all grounded in our celebrated liberal arts core and a 9:1 student-faculty ratio.',
+                programs: ['Economics', 'Biology', 'Philosophy', 'Physics', 'English Literature', 'Psychology'], stat: '42', statLabel: 'majors offered'
+            },
+            {
+                name: 'School of Engineering & Computing', img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1400&auto=format&fit=crop',
+                desc: 'Hands-on from day one. Undergraduates join funded research in eighteen laboratories, from autonomous robotics to quantum computing, with a 96% placement rate within six months of graduation.',
+                programs: ['Computer Science', 'Mechanical Engineering', 'Data Science', 'Electrical Engineering', 'Robotics'], stat: '18', statLabel: 'research labs'
+            },
+            {
+                name: 'Meridian Business School', img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1400&auto=format&fit=crop',
+                desc: 'Where analysis meets judgment. Case-based learning, a student-run $4M investment fund, and our venture incubator have launched 120+ startups in the last decade.',
+                programs: ['Finance', 'Entrepreneurship', 'Business Analytics', 'Marketing', 'Global Business'], stat: '120+', statLabel: 'startups founded'
+            },
+            {
+                name: 'School of Health & Medicine', img: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1400&auto=format&fit=crop',
+                desc: 'Clinical immersion begins in year one through partnerships with eight teaching hospitals. Our pre-medical track places 91% of applicants into medical school on first application.',
+                programs: ['Pre-Medical Track', 'Nursing', 'Public Health', 'Biomedical Science', 'Neuroscience'], stat: '91%', statLabel: 'med-school placement'
+            },
+            {
+                name: 'School of Law & Policy', img: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1400&auto=format&fit=crop',
+                desc: 'A top-twenty moot court program, semester residencies in Washington and Geneva, and clinics where undergraduates contribute to live casework alongside faculty scholars.',
+                programs: ['Legal Studies', 'Political Science', 'International Relations', 'Public Policy'], stat: 'Top 20', statLabel: 'moot court program'
+            },
+            {
+                name: 'School of Architecture & Design', img: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=1400&auto=format&fit=crop',
+                desc: 'Twelve light-filled studios, a fabrication lab, and a mandatory studio-abroad semester in Copenhagen or Kyoto. Graduates shape cities on five continents.',
+                programs: ['Architecture', 'Urban Planning', 'Industrial Design', 'Landscape Architecture'], stat: '12', statLabel: 'design studios'
+            }
+        ];
+
+        const testimonials = [
+            { quote: 'I arrived expecting lectures. I found mentors who handed me real research in my first semester — and a community that believed in me before I believed in myself.', name: "Amara Osei '24", role: 'Computer Science · Now at DeepMind', img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=200&auto=format&fit=crop' },
+            { quote: 'The professors here know your name by week two and your ambitions by week four. Meridian turned my curiosity into a career I never imagined possible.', name: "Daniel Reyes '23", role: 'Economics · Rhodes Scholar, Oxford', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop' },
+            { quote: 'Studio culture at Meridian is unlike anywhere else — we critique, we build, we fail forward together. Copenhagen changed how I see every city.', name: "Sofia Lindqvist '25", role: 'Architecture · Studio Abroad, Copenhagen', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' },
+            { quote: 'Moot court taught me to think on my feet; the legal clinic taught me why it matters. I clerked for a federal judge at twenty-three.', name: "James Whitfield '22", role: 'Legal Studies · Federal Judicial Clerk', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop' }
+        ];
+
+        const events = [
+            { day: '08', mon: 'Nov', title: 'Fall Open House & Campus Tours', loc: 'Whitmore Hall · 9:00 AM' },
+            { day: '14', mon: 'Nov', title: 'Guest Lecture: The Future of Climate Policy', loc: 'Chapel Auditorium · 6:30 PM' },
+            { day: '21', mon: 'Nov', title: 'Autumn Symphony Orchestra Performance', loc: 'Meridian Concert Hall · 7:30 PM' },
+            { day: '02', mon: 'Dec', title: 'Career & Innovation Fair', loc: 'Athletics Complex · 10:00 AM' }
+        ];
+
+        /* ============ PRELOADER ============ */
+        (function preloader() {
+            if (lenis) lenis.stop();
+            const counter = { v: 0 };
+            const countEl = document.getElementById('pre-count');
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    document.getElementById('preloader').style.display = 'none';
+                    if (lenis) lenis.start();
+                    heroIntro();
+                    ScrollTrigger.refresh();
+                }
+            });
+            tl.to(counter, { v: 100, duration: 1.7, ease: 'power2.inOut', onUpdate: () => countEl.textContent = Math.round(counter.v) })
+                .to('#pre-content', { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, '-=0.15')
+                .to('#pre-dark', { yPercent: -100, duration: 0.9, ease: 'power4.inOut' }, '-=0.1')
+                .to('#pre-gold', { yPercent: -100, duration: 0.9, ease: 'power4.inOut' }, '-=0.75');
+        })();
+
+        /* ============ HERO INTRO ============ */
+        function heroIntro() {
+            const tl = gsap.timeline();
+            tl.fromTo('#hero-bg', { scale: 1.18 }, { scale: 1, duration: 2.2, ease: 'power2.out' }, 0)
+                .to('#hero .hline > span', { y: 0, duration: 1.2, ease: 'power4.out', stagger: 0.14 }, 0.25)
+                .fromTo('[data-hero-fade]', { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.1 }, 0.7);
+        }
+        gsap.set('[data-hero-fade]', { opacity: 0 });
+
+        /* Hero parallax */
+        gsap.to('#hero-bg', { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+        gsap.to('#cta-bg', { yPercent: -12, ease: 'none', scrollTrigger: { trigger: '#cta-bg', start: 'top bottom', end: 'bottom top', scrub: true } });
+        gsap.to('#about-img-1', { yPercent: -6, ease: 'none', scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: true } });
+        gsap.to('#about-img-2', { yPercent: 10, ease: 'none', scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+        /* ============ NAV BEHAVIOR ============ */
+        const nav = document.getElementById('nav');
+        let lastY = 0;
+        function onScrollY(y) {
+            nav.classList.toggle('scrolled', y > 60);
+            if (y > 500 && y > lastY + 4) nav.classList.add('hidden-nav');
+            else if (y < lastY - 4) nav.classList.remove('hidden-nav');
+            lastY = y;
+        }
+        if (lenis) lenis.on('scroll', ({ scroll }) => onScrollY(scroll));
+        else window.addEventListener('scroll', () => onScrollY(window.scrollY));
+
+        /* ============ MOBILE MENU ============ */
+        const mm = document.getElementById('mobile-menu');
+        function openMenu() {
+            mm.classList.remove('opacity-0', 'pointer-events-none');
+            gsap.fromTo('.mm-link', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.07, ease: 'power3.out', delay: 0.1 });
+            if (lenis) lenis.stop();
+        }
+        function closeMenu() {
+            mm.classList.add('opacity-0', 'pointer-events-none');
+            if (lenis) lenis.start();
+        }
+        document.getElementById('menu-btn').addEventListener('click', openMenu);
+        document.getElementById('menu-close').addEventListener('click', closeMenu);
+
+        /* ============ ANCHOR LINKS ============ */
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const id = a.getAttribute('href');
+                if (id.length > 1 && document.querySelector(id)) {
+                    e.preventDefault(); closeMenu(); scrollToTarget(id);
+                }
+            });
+        });
+        document.getElementById('to-top').addEventListener('click', () => { if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+        /* ============ SPLIT TEXT REVEALS ============ */
+        document.querySelectorAll('[data-split]').forEach(el => {
+            const words = el.textContent.trim().split(/\s+/);
+            el.setAttribute('aria-label', el.textContent.trim());
+            el.innerHTML = words.map(w => `<span class="sw"><span class="swi">${w}</span></span>`).join(' ');
+            gsap.to(el.querySelectorAll('.swi'), {
+                y: 0, duration: 1.1, ease: 'power4.out', stagger: 0.05,
+                scrollTrigger: { trigger: el, start: 'top 86%' }
+            });
+        });
+
+        /* ============ FADE-UP REVEALS ============ */
+        gsap.utils.toArray('[data-fade]').forEach(el => {
+            gsap.fromTo(el, { y: 44, opacity: 0 }, {
+                y: 0, opacity: 1, duration: 1.05, ease: 'power3.out',
+                delay: parseFloat(el.dataset.delay || 0),
+                scrollTrigger: { trigger: el, start: 'top 88%' }
+            });
+        });
+
+        /* ============ COUNTERS ============ */
+        document.querySelectorAll('[data-count]').forEach(el => {
+            const end = parseFloat(el.dataset.count);
+            const obj = { v: 0 };
+            gsap.to(obj, {
+                v: end, duration: 2.2, ease: 'power2.out',
+                scrollTrigger: { trigger: el, start: 'top 88%' },
+                onUpdate: () => { el.textContent = Math.round(obj.v).toLocaleString('en-US'); }
+            });
+        });
+
+        /* ============ ACADEMICS TABS ============ */
+        const tabList = document.getElementById('tab-list');
+        schools.forEach((s, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'tab-btn relative text-left py-5 border-b border-ink/15 text-ink/45 hover:text-ink';
+            btn.setAttribute('role', 'tab');
+            btn.setAttribute('data-hover', '');
+            btn.innerHTML = `<span class="tab-num font-serif text-sm mr-4 text-ink/30">0${i + 1}</span><span class="font-serif text-xl md:text-2xl">${s.name}</span><span class="tab-fill"></span>`;
+            btn.addEventListener('click', () => setTab(i));
+            tabList.appendChild(btn);
+        });
+        const tabBtns = tabList.querySelectorAll('.tab-btn');
+        let currentTab = -1, tabAnimating = false;
+
+        function renderTab(i) {
+            const s = schools[i];
+            document.getElementById('sp-img').src = s.img;
+            document.getElementById('sp-img').alt = s.name;
+            document.getElementById('sp-index').textContent = '0' + (i + 1) + ' —';
+            document.getElementById('sp-stat-overlay').textContent = s.stat + ' ' + s.statLabel;
+            document.getElementById('sp-name').textContent = s.name;
+            document.getElementById('sp-desc').textContent = s.desc;
+            document.getElementById('sp-stat').textContent = s.stat;
+            document.getElementById('sp-stat-label').textContent = s.statLabel;
+            document.getElementById('sp-programs').innerHTML = s.programs.map(p =>
+                `<span class="chip text-[11px] uppercase tracking-[.15em] border border-ink/25 px-4 py-2 cursor-default">${p}</span>`).join('');
+        }
+        function setTab(i) {
+            if (i === currentTab || tabAnimating) return;
+            tabAnimating = true;
+            tabBtns.forEach((b, j) => b.classList.toggle('active', j === i));
+            const panel = document.getElementById('school-panel');
+            if (currentTab === -1) { renderTab(i); currentTab = i; tabAnimating = false; return; }
+            gsap.timeline({ onComplete: () => { tabAnimating = false; } })
+                .to(panel, { opacity: 0, y: 24, duration: 0.32, ease: 'power2.in', onComplete: () => renderTab(i) })
+                .fromTo(panel, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' })
+                .fromTo('#sp-img', { scale: 1.08 }, { scale: 1, duration: 0.9, ease: 'power2.out' }, '<');
+        }
+        setTab(0);
+
+        /* ============ TESTIMONIALS ============ */
+        const dotsWrap = document.getElementById('t-dots');
+        testimonials.forEach((_, i) => {
+            const d = document.createElement('button');
+            d.className = 'ticker-dot'; d.setAttribute('aria-label', 'Testimonial ' + (i + 1));
+            d.addEventListener('click', () => showQuote(i, i > qi ? 1 : -1));
+            dotsWrap.appendChild(d);
+        });
+        const dots = dotsWrap.querySelectorAll('.ticker-dot');
+        let qi = 0, qTimer = null, qAnim = false;
+
+        function fillQuote(i) {
+            const t = testimonials[i];
+            document.getElementById('t-quote').textContent = t.quote;
+            document.getElementById('t-name').textContent = t.name;
+            document.getElementById('t-role').textContent = t.role;
+            document.getElementById('t-img').src = t.img;
+            document.getElementById('t-img').alt = t.name;
+            dots.forEach((d, j) => d.classList.toggle('active', j === i));
+        }
+        function showQuote(i, dir = 1) {
+            if (qAnim) return;
+            qAnim = true;
+            qi = (i + testimonials.length) % testimonials.length;
+            const box = document.getElementById('quote-box');
+            gsap.timeline({ onComplete: () => qAnim = false })
+                .to(box, { opacity: 0, x: -34 * dir, duration: 0.35, ease: 'power2.in', onComplete: () => fillQuote(qi) })
+                .fromTo(box, { opacity: 0, x: 34 * dir }, { opacity: 1, x: 0, duration: 0.55, ease: 'power3.out' });
+            restartQTimer();
+        }
+        function restartQTimer() { clearInterval(qTimer); qTimer = setInterval(() => showQuote(qi + 1, 1), 6500); }
+        document.getElementById('t-next').addEventListener('click', () => showQuote(qi + 1, 1));
+        document.getElementById('t-prev').addEventListener('click', () => showQuote(qi - 1, -1));
+        fillQuote(0); restartQTimer();
+
+        /* ============ EVENTS ============ */
+        document.getElementById('events-list').innerHTML = events.map(e => `
+  <a href="#" class="event-row flex items-center gap-5 py-5 px-2 -mx-2 group" data-hover>
+    <div class="text-center shrink-0 w-14">
+      <p class="font-serif text-3xl text-gold leading-none">${e.day}</p>
+      <p class="text-[10px] uppercase tracking-[.2em] text-cream/50 mt-1">${e.mon}</p>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="font-serif text-lg leading-snug">${e.title}</p>
+      <p class="text-[11px] uppercase tracking-[.18em] text-cream/45 mt-1.5">${e.loc}</p>
+    </div>
+    <span class="event-arrow shrink-0 w-10 h-10 rounded-full border border-cream/25 flex items-center justify-center">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </a>`).join('');
+
+        /* ============ FAQ ============ */
+        document.querySelectorAll('.faq-item').forEach(item => {
+            const btn = item.querySelector('.faq-q');
+            const body = item.querySelector('.faq-a');
+            btn.addEventListener('click', () => {
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item.open').forEach(o => { o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight = null; });
+                if (!wasOpen) { item.classList.add('open'); body.style.maxHeight = body.scrollHeight + 'px'; }
+                setTimeout(() => ScrollTrigger.refresh(), 600);
+            });
+        });
+
+        /* ============ APPLY MODAL ============ */
+        const modal = document.getElementById('apply-modal');
+        function openModal() {
+            modal.classList.add('open');
+            document.getElementById('modal-form-view').classList.remove('hidden');
+            document.getElementById('modal-success-view').classList.add('hidden');
+            document.getElementById('modal-success-view').classList.remove('success-anim');
+            if (lenis) lenis.stop();
+        }
+        function closeModal() { modal.classList.remove('open'); if (lenis) lenis.start(); }
+        document.querySelectorAll('.open-apply').forEach(b => b.addEventListener('click', () => { closeMenu(); openModal(); }));
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+        document.getElementById('modal-done').addEventListener('click', closeModal);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeMenu(); } });
+
+        document.getElementById('apply-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+
+            const firstName =
+                form.querySelector('[name="first_name"]').value.trim();
+
+            const lastName =
+                form.querySelector('[name="last_name"]').value.trim();
+
+            const email =
+                form.querySelector('[name="email"]').value.trim();
+
+            const intendedSchool =
+                form.querySelector('[name="intended_school"]').value;
+
+            const entryTerm =
+                form.querySelector('[name="entry_term"]').value;
+
+            const website =
+                form.querySelector('[name="website"]')?.value || '';
+
+            const submitBtn =
+                form.querySelector('button[type="submit"]');
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+            }
+
+            try {
+                const response = await fetch(
+                    'http://127.0.0.1:8000/api/apply',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: `${firstName} ${lastName}`,
+                            email: email,
+                            phone: null,
+                            position: intendedSchool,
+                            message: entryTerm,
+                            website: website
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.detail || 'Could not send application.'
+                    );
+                }
+
+                form.reset();
+
+                document
+                    .getElementById('modal-form-view')
+                    .classList.add('hidden');
+
+                const successView =
+                    document.getElementById('modal-success-view');
+
+                successView.classList.remove('hidden');
+
+                requestAnimationFrame(() => {
+                    successView.classList.add('success-anim');
+                });
+
+            } catch (error) {
+                alert(
+                    error.message ||
+                    'Unable to send application.'
+                );
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent =
+                        'Create My Applicant Portal';
+                }
+            }
+        });
+
+        /* ============ NEWSLETTER ============ */
+        document.getElementById('news-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const emailInput = form.querySelector('input[type="email"]');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const message = document.getElementById('news-msg');
+
+            const email = emailInput.value.trim();
+            const website = form.querySelector('[name="website"]')?.value || '';
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+            }
+
+            try {
+                const response = await fetch(
+                    'http://127.0.0.1:8000/api/newsletter',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            website: website
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.detail || 'Could not subscribe right now.'
+                    );
+                }
+
+                message.textContent =
+                    'Thank you — your request was sent.';
+
+                message.style.opacity = '1';
+
+                form.reset();
+
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                }, 3500);
+
+            } catch (error) {
+                message.textContent =
+                    error.message || 'Unable to send your request.';
+
+                message.style.opacity = '1';
+
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                }, 3500);
+
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                }
+            }
+        });
+
+        /* ============ CUSTOM CURSOR ============ */
+        if (window.matchMedia('(pointer: fine)').matches) {
+            const ring = document.getElementById('cursor-ring');
+            const dot = document.getElementById('cursor-dot');
+            let mx = -100, my = -100, rx = -100, ry = -100;
+            window.addEventListener('mousemove', e => {
+                mx = e.clientX; my = e.clientY;
+                dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+            });
+            gsap.ticker.add(() => {
+                rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+                ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+            });
+            const bindHover = () => document.querySelectorAll('a, button, [data-hover]').forEach(el => {
+                if (el.dataset.cbound) return; el.dataset.cbound = '1';
+                el.addEventListener('mouseenter', () => ring.classList.add('grow'));
+                el.addEventListener('mouseleave', () => ring.classList.remove('grow'));
+            });
+            bindHover();
+            new MutationObserver(bindHover).observe(document.body, { childList: true, subtree: true });
+        } else {
+            document.getElementById('cursor-ring').style.display = 'none';
+            document.getElementById('cursor-dot').style.display = 'none';
+        }
+
+        /* ============ MAGNETIC BUTTONS ============ */
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.querySelectorAll('.magnetic').forEach(btn => {
+                btn.addEventListener('mousemove', e => {
+                    const r = btn.getBoundingClientRect();
+                    gsap.to(btn, { x: (e.clientX - r.left - r.width / 2) * 0.22, y: (e.clientY - r.top - r.height / 2) * 0.22, duration: 0.4, ease: 'power2.out' });
+                });
+                btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' }));
+            });
+        }
+
+        window.addEventListener('load', () => ScrollTrigger.refresh());
+    </script>
+</body>
+
+</html>
