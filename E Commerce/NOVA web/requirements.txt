@@ -1,1 +1,4 @@
-Flask>=3.1,<4.0
+Flask>=3.1,<4
+Gunicorn>=23,<24
+python-dotenv>=1.0,<2
+Werkzeug>=3.1,<4
