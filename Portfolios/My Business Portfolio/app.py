@@ -5,7 +5,7 @@ from pathlib import Path
 from functools import wraps
 from urllib.parse import urlparse
 
-from flask import Flask, jsonify, request, session, redirect, url_for, render_template, send_from_directory
+from flask import Flask, jsonify, request, session, redirect, url_for, render_template, send_from_directory, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
@@ -36,6 +36,21 @@ def google_verification():
     return send_from_directory(
         Path(__file__).parent,
         "googlec6fca3da7b3d490f.html"
+    )
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return Response(
+        """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://akhilwebinvites.onrender.com/</loc>
+    </url>
+    <url>
+        <loc>https://akhilwebinvites.onrender.com/admin</loc>
+    </url>
+</urlset>""",
+        mimetype="application/xml"
     )
 
 for p in [DB_PATH.parent, UPLOAD_ROOT / "invitations", UPLOAD_ROOT / "websites"]:
