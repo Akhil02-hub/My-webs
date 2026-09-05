@@ -38,20 +38,6 @@ def google_verification():
         "googlec6fca3da7b3d490f.html"
     )
 
-@app.route("/sitemap.xml")
-def sitemap():
-    return Response(
-        """<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://akhilwebinvites.onrender.com/</loc>
-    </url>
-    <url>
-        <loc>https://akhilwebinvites.onrender.com/admin</loc>
-    </url>
-</urlset>""",
-        mimetype="application/xml"
-    )
 
 @app.route("/robots.txt")
 def robots():
@@ -60,6 +46,19 @@ Allow: /
 
 Sitemap: https://akhilwebinvites.onrender.com/sitemap.xml
 """, 200, {"Content-Type": "text/plain"}
+
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return Response(
+        """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://akhilwebinvites.onrender.com/</loc>
+    </url>
+</urlset>""",
+        mimetype="application/xml"
+    )
 
 for p in [DB_PATH.parent, UPLOAD_ROOT / "invitations", UPLOAD_ROOT / "websites"]:
     p.mkdir(parents=True, exist_ok=True)
