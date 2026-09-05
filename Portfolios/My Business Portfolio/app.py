@@ -53,6 +53,14 @@ def sitemap():
         mimetype="application/xml"
     )
 
+@app.route("/robots.txt")
+def robots():
+    return """User-agent: *
+Allow: /
+
+Sitemap: https://akhilwebinvites.onrender.com/sitemap.xml
+""", 200, {"Content-Type": "text/plain"}
+
 for p in [DB_PATH.parent, UPLOAD_ROOT / "invitations", UPLOAD_ROOT / "websites"]:
     p.mkdir(parents=True, exist_ok=True)
 
