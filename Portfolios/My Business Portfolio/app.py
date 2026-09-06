@@ -38,6 +38,9 @@ def google_verification():
         "googlec6fca3da7b3d490f.html"
     )
 
+@app.route("/robots-test")
+def robots_test():
+    return "NEW APP VERSION"
 
 @app.route("/robots.txt")
 def robots():
