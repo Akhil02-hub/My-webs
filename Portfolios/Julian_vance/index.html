@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julian Vance | Staff Creative Technologist & Full-Stack Architect</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            cyan: '#00f2fe',
+                            blue: '#4facfe',
+                            purple: '#7928ca',
+                            pink: '#ff0080',
+                            emerald: '#10b981',
+                        },
+                        dark: {
+                            900: '#05070c',
+                            800: '#0b0f19',
+                            700: '#111827',
+                            card: 'rgba(15, 23, 42, 0.65)',
+                        }
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 25px -5px rgba(0, 242, 254, 0.4)',
+                        'neon-purple': '0 0 30px -5px rgba(121, 40, 202, 0.4)',
+                        'glow': '0 0 50px -10px rgba(79, 172, 254, 0.35)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            cursor: default;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #05070c;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f2fe;
+        }
+
+        /* Mesh Gradients & Glassmorphism */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel-interactive {
+            background: rgba(13, 19, 35, 0.6);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-panel-interactive:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px -10px rgba(0, 242, 254, 0.15);
+        }
+
+        /* Mouse Follower Custom Cursor */
+        #cursor-dot {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background-color: #00f2fe;
+            border-radius: 50%;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, opacity 0.2s;
+        }
+
+        #cursor-ring {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid rgba(0, 242, 254, 0.5);
+            border-radius: 50%;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.08s ease-out, width 0.25s, height 0.25s, border-color 0.25s, background-color 0.25s;
+        }
+
+        .cursor-hover #cursor-ring {
+            width: 55px;
+            height: 55px;
+            background-color: rgba(0, 242, 254, 0.1);
+            border-color: #00f2fe;
+        }
+
+        /* Dynamic Glow Spotlight */
+        .spotlight-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: var(--mouse-y, -1000px);
+            left: var(--mouse-x, -1000px);
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, rgba(121, 40, 202, 0.04) 40%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: opacity 0.3s;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Animated Text Gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 40%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-accent {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 50%, #7928ca 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Magnetic button hover effect */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+
+        /* Background grid overlay */
+        .cyber-grid {
+            background-size: 50px 50px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+
+        /* Code block styler */
+        .code-syntax-keyword {
+            color: #f43f5e;
+        }
+
+        .code-syntax-func {
+            color: #38bdf8;
+        }
+
+        .code-syntax-string {
+            color: #34d399;
+        }
+
+        .code-syntax-comment {
+            color: #64748b;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-dark-900 text-slate-200 antialiased font-sans overflow-x-hidden selection:bg-neon-cyan selection:text-black">
+
+    <!-- Mouse Trackers -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- 3D WebGL Background Canvas -->
+    <canvas id="webgl-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Subtle Grid Pattern & Ambient Glows -->
+    <div class="fixed inset-0 cyber-grid pointer-events-none z-[1]"></div>
+    <div
+        class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-neon-purple/10 blur-[140px] pointer-events-none z-[1]">
+    </div>
+    <div
+        class="fixed bottom-[-10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-neon-cyan/10 blur-[150px] pointer-events-none z-[1]">
+    </div>
+
+    <!-- MAIN WRAPPER -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- Top Floating Navigation -->
+        <header class="fixed top-5 left-0 right-0 z-50 flex justify-center px-4">
+            <nav
+                class="glass-panel px-6 py-3 rounded-full flex items-center justify-between gap-8 max-w-4xl w-full border border-white/10 shadow-2xl transition-all duration-300">
+                <a href="#hero" class="interactive-elem flex items-center gap-3 group">
+                    <div
+                        class="relative w-9 h-9 rounded-full overflow-hidden border border-neon-cyan/40 p-0.5 bg-gradient-to-tr from-neon-purple to-neon-cyan group-hover:rotate-180 transition-transform duration-700">
+                        <div class="w-full h-full bg-dark-900 rounded-full flex items-center justify-center">
+                            <span class="font-display font-black text-sm text-neon-cyan">JV</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span
+                            class="font-display font-bold text-sm tracking-wide leading-none text-white group-hover:text-neon-cyan transition-colors">JULIAN
+                            VANCE</span>
+                        <span class="text-[10px] text-slate-400 font-mono tracking-wider">CREATIVE DEV</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center gap-7 text-xs font-mono tracking-wider text-slate-300">
+                    <a href="#about" class="interactive-elem hover:text-neon-cyan transition-colors">/ABOUT</a>
+                    <a href="#skills" class="interactive-elem hover:text-neon-cyan transition-colors">/SKILLS</a>
+                    <a href="#work" class="interactive-elem hover:text-neon-cyan transition-colors">/ARCHIVE</a>
+                    <a href="#lab" class="interactive-elem hover:text-neon-cyan transition-colors">/LAB</a>
+                    <a href="#terminal" class="interactive-elem hover:text-neon-cyan transition-colors">/CLI</a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div
+                        class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-neon-emerald/10 border border-neon-emerald/20 text-[11px] font-mono text-neon-emerald">
+                        <span class="w-1.5 h-1.5 rounded-full bg-neon-emerald animate-ping"></span>
+                        <span>AVAILABLE Q2/Q3</span>
+                    </div>
+                    <a href="#contact"
+                        class="interactive-elem px-4 py-2 rounded-full bg-gradient-to-r from-neon-cyan to-neon-blue text-dark-900 text-xs font-bold tracking-wider uppercase hover:shadow-neon-cyan hover:scale-105 transition-all">
+                        Initialize
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- HERO SECTION -->
+        <section id="hero"
+            class="min-h-screen relative flex items-center justify-center pt-28 pb-16 px-6 max-w-7xl mx-auto w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+
+                <!-- Hero Left Content -->
+                <div class="lg:col-span-7 flex flex-col items-start space-y-6">
+                    <div
+                        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-mono tracking-widest backdrop-blur-md">
+                        <i class="fa-solid fa-terminal text-xs"></i>
+                        <span>SYSTEM ARCHITECT & DESIGN ENGINEER</span>
+                    </div>
+
+                    <h1
+                        class="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.08] text-white">
+                        Crafting <span class="text-gradient">hyper-scale</span> digital realities &
+                        <span class="text-gradient-accent">bespoke web</span> experiences.
+                    </h1>
+
+                    <p class="text-slate-400 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
+                        I bridge the gap between high-frequency backend engineering and hyper-fluid frontend physics.
+                        Specializing in WebGL, React/Next architecture, and reactive 60FPS digital design.
+                    </p>
+
+                    <!-- Metrics Badges -->
+                    <div class="grid grid-cols-3 gap-4 w-full max-w-lg pt-2">
+                        <div class="glass-panel p-4 rounded-xl border-l-2 border-l-neon-cyan">
+                            <span class="block font-display text-2xl font-bold text-white tracking-tight">09+</span>
+                            <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Years Exp</span>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl border-l-2 border-l-neon-purple">
+                            <span class="block font-display text-2xl font-bold text-white tracking-tight">99.8%</span>
+                            <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Perf
+                                Score</span>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl border-l-2 border-l-neon-pink">
+                            <span class="block font-display text-2xl font-bold text-white tracking-tight">28+</span>
+                            <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Awwwards /
+                                FWA</span>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap items-center gap-4 pt-4">
+                        <a href="#work"
+                            class="interactive-elem magnetic-btn px-7 py-3.5 rounded-xl bg-white text-dark-900 font-bold text-sm tracking-wide shadow-glow hover:bg-neon-cyan hover:shadow-neon-cyan transition-all flex items-center gap-2">
+                            <span>Explore Portfolio</span>
+                            <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                        </a>
+                        <a href="#skills"
+                            class="interactive-elem px-7 py-3.5 rounded-xl glass-panel text-white font-medium text-sm tracking-wide hover:border-neon-cyan/50 hover:bg-slate-800/50 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-microchip text-neon-cyan"></i>
+                            <span>Tech Stack Radar</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Right: Holographic Tech Avatar Card -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div
+                        class="relative w-full max-w-md spotlight-card glass-panel rounded-3xl p-6 border border-white/10 shadow-2xl">
+
+                        <!-- Top HUD Bar -->
+                        <div
+                            class="flex items-center justify-between pb-4 border-b border-white/10 text-xs font-mono text-slate-400">
+                            <span class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-neon-cyan animate-ping"></span>
+                                <span>CORE_V4.8 // ONLINE</span>
+                            </span>
+                            <span>NODE: SF-01</span>
+                        </div>
+
+                        <!-- Developer Persona Portrait Simulation -->
+                        <div
+                            class="relative my-5 rounded-2xl overflow-hidden aspect-[4/5] bg-gradient-to-b from-slate-800 to-dark-900 border border-white/10 flex items-center justify-center group">
+                            <!-- Geometric stylized avatar visual -->
+                            <div
+                                class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,242,254,0.15)_0,transparent_70%)]">
+                            </div>
+
+                            <!-- Stylized vector male developer illustration -->
+                            <svg class="w-48 h-48 text-slate-300 drop-shadow-[0_10px_25px_rgba(0,242,254,0.3)] transition-transform duration-500 group-hover:scale-105"
+                                viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="100" cy="100" r="90" stroke="rgba(0,242,254,0.2)" stroke-width="2"
+                                    stroke-dasharray="6 6" />
+                                <circle cx="100" cy="75" r="32" fill="#1e293b" stroke="#00f2fe" stroke-width="2.5" />
+                                <!-- Hair / Beard Stylization for Male Developer -->
+                                <path d="M72 68C72 50 82 42 100 42C118 42 128 50 128 68V76H72V68Z" fill="#334155" />
+                                <path d="M82 82C84 94 92 98 100 98C108 98 116 94 118 82" stroke="#00f2fe"
+                                    stroke-width="2" stroke-linecap="round" />
+                                <rect x="85" y="70" width="12" height="6" rx="2" fill="#00f2fe" />
+                                <rect x="103" y="70" width="12" height="6" rx="2" fill="#00f2fe" />
+                                <line x1="97" y1="73" x2="103" y2="73" stroke="#00f2fe" stroke-width="2" />
+                                <!-- Shoulders / Jacket -->
+                                <path d="M48 160C48 128 72 116 100 116C128 116 152 128 152 160V170H48V160Z"
+                                    fill="#1e293b" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
+                                <path d="M85 118L100 148L115 118" stroke="#00f2fe" stroke-width="2"
+                                    stroke-linejoin="round" />
+                            </svg>
+
+                            <!-- Floating badge overlay -->
+                            <div
+                                class="absolute bottom-4 left-4 right-4 glass-panel p-3 rounded-xl border border-white/10 flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-xs font-bold text-white tracking-wide">Julian Vance</h4>
+                                    <p class="text-[10px] font-mono text-neon-cyan">San Francisco, CA (UTC-8)</p>
+                                </div>
+                                <div class="flex items-center gap-1.5 text-xs text-slate-300 font-mono">
+                                    <i class="fa-solid fa-code-commit text-neon-purple"></i>
+                                    <span>2.4k pushes/yr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini Spec List -->
+                        <div class="space-y-2 text-xs font-mono">
+                            <div class="flex justify-between items-center text-slate-400">
+                                <span>Specialization:</span>
+                                <span class="text-white font-medium">Full Stack & Creative 3D</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-400">
+                                <span>Preferred Stack:</span>
+                                <span class="text-neon-cyan">Next.js • Three.js • Rust/Go</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-400">
+                                <span>Deployment:</span>
+                                <span class="text-neon-purple">AWS • Vercel Edge • Docker</span>
+                            </div>
+                        </div>
+
+                        <!-- Micro Interactive Control -->
+                        <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                            <span class="text-[11px] font-mono text-slate-400">AUDIO FEEDBACK</span>
+                            <button id="sound-toggle"
+                                class="interactive-elem text-xs font-mono px-3 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:border-neon-cyan transition-colors">
+                                <i class="fa-solid fa-volume-high mr-1 text-neon-cyan"></i> 432Hz ON
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SKILLS & CAPABILITIES SECTION (CRAZY MATRIX DESIGN) -->
+        <section id="skills" class="py-24 px-6 max-w-7xl mx-auto w-full relative">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-purple/30 bg-neon-purple/5 text-neon-purple text-xs font-mono tracking-widest mb-3">
+                    <span>CAPABILITIES & ARSENAL</span>
+                </div>
+                <h2 class="font-display text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4">
+                    Precision Engineering <br>
+                    <span class="text-gradient">Engineered to Dominate.</span>
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base font-normal">
+                    From raw algorithmic memory allocation to fluid 120 FPS web experiences, each tool in my workflow is
+                    tuned for maximum fidelity and reliability.
+                </p>
+            </div>
+
+            <!-- Skills Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Skill Card 1: Frontend & Visuals -->
+                <div class="spotlight-card glass-panel-interactive p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-xl bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan text-xl mb-5">
+                            <i class="fa-brands fa-react"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-white mb-2">Creative Frontend</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6">
+                            Next.js 14, React, Three.js, WebGL/GLSL shaders, Tailwind CSS, GSAP, Framer Motion, and Web
+                            Audio APIs.
+                        </p>
+                    </div>
+                    <div class="space-y-3 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-300">WebGL & Three.js</span>
+                                <span class="text-neon-cyan">96%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-neon-blue to-neon-cyan w-[96%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-300">Next.js & React</span>
+                                <span class="text-neon-cyan">99%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-neon-blue to-neon-cyan w-[99%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Card 2: Backend Architecture -->
+                <div class="spotlight-card glass-panel-interactive p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-xl bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center text-neon-purple text-xl mb-5">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-white mb-2">Distributed Systems</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6">
+                            Node.js, Go (Golang), Rust microservices, GraphQL, tRPC, PostgreSQL, Redis caches, and
+                            message queues (Kafka).
+                        </p>
+                    </div>
+                    <div class="space-y-3 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-300">Node / Go / Rust</span>
+                                <span class="text-neon-purple">92%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-purple-500 to-neon-purple w-[92%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-300">PostgreSQL / Vector DB</span>
+                                <span class="text-neon-purple">95%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-purple-500 to-neon-purple w-[95%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Card 3: Cloud & DevOps -->
+                <div class="spotlight-card glass-panel-interactive p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-xl bg-neon-pink/10 border border-neon-pink/30 flex items-center justify-center text-neon-pink text-xl mb-5">
+                            <i class="fa-solid fa-cloud-bolt"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-white mb-2">Cloud Infrastructure</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6">
+                            Kubernetes, Docker, AWS (ECS, Lambda, S3), Terraform, CI/CD pipelines, Cloudflare Workers &
+                            Edge caching.
+                        </p>
+                    </div>
+                    <div class="space-y-3 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-300">Docker & Kubernetes</span>
+                                <span class="text-neon-pink">90%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-rose-500 to-neon-pink w-[90%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-300">AWS / Edge Deploy</span>
+                                <span class="text-neon-pink">94%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-rose-500 to-neon-pink w-[94%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Card 4: AI & Applied ML -->
+                <div class="spotlight-card glass-panel-interactive p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-xl bg-neon-emerald/10 border border-neon-emerald/30 flex items-center justify-center text-neon-emerald text-xl mb-5">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-white mb-2">Generative AI / LLMs</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6">
+                            LangChain, OpenAI API, Anthropic Claude integration, vector embeddings (Pinecone/pgvector),
+                            fine-tuning & local models.
+                        </p>
+                    </div>
+                    <div class="space-y-3 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-300">LLM Orchestration</span>
+                                <span class="text-neon-emerald">88%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 to-neon-emerald w-[88%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-300">RAG Architectures</span>
+                                <span class="text-neon-emerald">93%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 to-neon-emerald w-[93%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Deep Tech Badge Ribbon -->
+            <div
+                class="mt-12 glass-panel p-5 rounded-2xl border border-white/5 flex flex-wrap items-center justify-around gap-6 text-xs font-mono text-slate-400">
+                <span class="flex items-center gap-2 hover:text-neon-cyan transition-colors"><i
+                        class="fa-brands fa-js text-yellow-400 text-sm"></i> TYPESCRIPT 5.x</span>
+                <span class="flex items-center gap-2 hover:text-neon-cyan transition-colors"><i
+                        class="fa-brands fa-rust text-orange-400 text-sm"></i> RUST-CARGO</span>
+                <span class="flex items-center gap-2 hover:text-neon-cyan transition-colors"><i
+                        class="fa-brands fa-python text-blue-400 text-sm"></i> PYTHON 3.12</span>
+                <span class="flex items-center gap-2 hover:text-neon-cyan transition-colors"><i
+                        class="fa-solid fa-cubes text-neon-cyan text-sm"></i> WEBGPU / SHADERS</span>
+                <span class="flex items-center gap-2 hover:text-neon-cyan transition-colors"><i
+                        class="fa-brands fa-docker text-blue-500 text-sm"></i> DOCKER ENGINE</span>
+                <span class="flex items-center gap-2 hover:text-neon-cyan transition-colors"><i
+                        class="fa-solid fa-database text-teal-400 text-sm"></i> REDIS IN-MEMORY</span>
+            </div>
+        </section>
+
+        <!-- FEATURED MASTERPIECES (PROJECTS SECTION) -->
+        <section id="work" class="py-24 px-6 max-w-7xl mx-auto w-full relative">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div>
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-mono tracking-widest mb-3">
+                        <span>FLAGSHIP RELEASES</span>
+                    </div>
+                    <h2 class="font-display text-3xl sm:text-5xl font-bold tracking-tight text-white">
+                        Selected Masterpieces.
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-mono text-slate-400 mr-2">FILTER:</span>
+                    <button
+                        class="interactive-elem px-3.5 py-1.5 rounded-lg text-xs font-mono bg-neon-cyan text-dark-900 font-bold">ALL</button>
+                    <button
+                        class="interactive-elem px-3.5 py-1.5 rounded-lg text-xs font-mono glass-panel hover:text-white text-slate-400 transition-colors">WEBGL</button>
+                    <button
+                        class="interactive-elem px-3.5 py-1.5 rounded-lg text-xs font-mono glass-panel hover:text-white text-slate-400 transition-colors">FINTECH</button>
+                    <button
+                        class="interactive-elem px-3.5 py-1.5 rounded-lg text-xs font-mono glass-panel hover:text-white text-slate-400 transition-colors">AI</button>
+                </div>
+            </div>
+
+            <!-- Project Cards Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- Project 1 -->
+                <div
+                    class="spotlight-card glass-panel-interactive rounded-3xl overflow-hidden border border-white/10 group">
+                    <div
+                        class="relative h-64 bg-gradient-to-tr from-slate-900 via-indigo-950 to-slate-900 p-6 flex flex-col justify-between overflow-hidden">
+                        <!-- Decorative visual elements -->
+                        <div
+                            class="absolute inset-0 opacity-40 bg-[radial-gradient(#00f2fe_1px,transparent_1px)] [background-size:16px_16px]">
+                        </div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <span
+                                class="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white text-[11px] font-mono">01
+                                // FINTECH PLATFORM</span>
+                            <div
+                                class="w-10 h-10 rounded-full bg-dark-900/80 border border-white/20 flex items-center justify-center text-white group-hover:bg-neon-cyan group-hover:text-dark-900 transition-colors">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-10">
+                            <h3
+                                class="font-display font-bold text-2xl text-white group-hover:text-neon-cyan transition-colors">
+                                Vanguard Quantum Terminal</h3>
+                            <p class="text-xs text-slate-300 mt-1 max-w-sm">Ultra-low-latency algorithmic crypto
+                                arbitrage desktop & web interface.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-dark-900/70 border-t border-white/5 space-y-4">
+                        <div class="flex flex-wrap gap-2 text-[11px] font-mono">
+                            <span
+                                class="px-2.5 py-1 rounded bg-slate-800 text-neon-cyan border border-neon-cyan/20">Next.js
+                                14</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Rust WebAssembly</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">WebSockets</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Tailwind</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Engineered order-book virtualization executing over 50,000 tick updates per second with zero
+                            UI frame drops. Integrated custom WebGL candlestick charts and biometric session
+                            authentication.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div
+                    class="spotlight-card glass-panel-interactive rounded-3xl overflow-hidden border border-white/10 group">
+                    <div
+                        class="relative h-64 bg-gradient-to-tr from-purple-950 via-slate-900 to-dark-900 p-6 flex flex-col justify-between overflow-hidden">
+                        <div
+                            class="absolute inset-0 opacity-40 bg-[radial-gradient(#7928ca_1px,transparent_1px)] [background-size:16px_16px]">
+                        </div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <span
+                                class="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white text-[11px] font-mono">02
+                                // WEBGL IMMERSIVE</span>
+                            <div
+                                class="w-10 h-10 rounded-full bg-dark-900/80 border border-white/20 flex items-center justify-center text-white group-hover:bg-neon-purple group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-10">
+                            <h3
+                                class="font-display font-bold text-2xl text-white group-hover:text-neon-purple transition-colors">
+                                Aether Spatial Metaverse</h3>
+                            <p class="text-xs text-slate-300 mt-1 max-w-sm">3D digital showroom with real-time dynamic
+                                photorealistic ray-tracing.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-dark-900/70 border-t border-white/5 space-y-4">
+                        <div class="flex flex-wrap gap-2 text-[11px] font-mono">
+                            <span
+                                class="px-2.5 py-1 rounded bg-slate-800 text-neon-purple border border-neon-purple/20">Three.js</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">React Three Fiber</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">GLSL Post-Processing</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">WebAudio API</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Built an award-winning interactive 3D commerce stage. Optimized 3D model LOD pipeline to
+                            achieve sub-2-second load times on mobile devices across 140 countries.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div
+                    class="spotlight-card glass-panel-interactive rounded-3xl overflow-hidden border border-white/10 group">
+                    <div
+                        class="relative h-64 bg-gradient-to-tr from-emerald-950 via-slate-900 to-dark-900 p-6 flex flex-col justify-between overflow-hidden">
+                        <div
+                            class="absolute inset-0 opacity-40 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]">
+                        </div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <span
+                                class="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white text-[11px] font-mono">03
+                                // ARTIFICIAL INTELLIGENCE</span>
+                            <div
+                                class="w-10 h-10 rounded-full bg-dark-900/80 border border-white/20 flex items-center justify-center text-white group-hover:bg-neon-emerald group-hover:text-dark-900 transition-colors">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-10">
+                            <h3
+                                class="font-display font-bold text-2xl text-white group-hover:text-neon-emerald transition-colors">
+                                Synthetix Agent Co-Pilot</h3>
+                            <p class="text-xs text-slate-300 mt-1 max-w-sm">Autonomous multi-agent development sandbox
+                                for DevOps automation.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-dark-900/70 border-t border-white/5 space-y-4">
+                        <div class="flex flex-wrap gap-2 text-[11px] font-mono">
+                            <span
+                                class="px-2.5 py-1 rounded bg-slate-800 text-neon-emerald border border-neon-emerald/20">FastAPI</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">LangChain</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Vector Embeddings</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">PostgreSQL</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Reduced enterprise build failures by 74% using dynamic automated pull-request remediation.
+                            Implemented stateful context retrieval with real-time vector cosine similarity matching.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div
+                    class="spotlight-card glass-panel-interactive rounded-3xl overflow-hidden border border-white/10 group">
+                    <div
+                        class="relative h-64 bg-gradient-to-tr from-rose-950 via-slate-900 to-dark-900 p-6 flex flex-col justify-between overflow-hidden">
+                        <div
+                            class="absolute inset-0 opacity-40 bg-[radial-gradient(#ff0080_1px,transparent_1px)] [background-size:16px_16px]">
+                        </div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <span
+                                class="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white text-[11px] font-mono">04
+                                // CYBERSECURITY</span>
+                            <div
+                                class="w-10 h-10 rounded-full bg-dark-900/80 border border-white/20 flex items-center justify-center text-white group-hover:bg-neon-pink group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-10">
+                            <h3
+                                class="font-display font-bold text-2xl text-white group-hover:text-neon-pink transition-colors">
+                                Krypton Zero-Trust Mesh</h3>
+                            <p class="text-xs text-slate-300 mt-1 max-w-sm">Decentralized credential vault and
+                                micro-segmentation manager.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-dark-900/70 border-t border-white/5 space-y-4">
+                        <div class="flex flex-wrap gap-2 text-[11px] font-mono">
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-neon-pink border border-neon-pink/20">Go
+                                / Golang</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">eBPF</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">gRPC</span>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Vue 3</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Delivered military-grade peer-to-peer security protocol across 2,000+ distributed enterprise
+                            nodes. Featured on ProductHunt Top 3 and Hacker News front page.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INTERACTIVE LAB & PLAYGROUND (CRAZY MOTION LAB) -->
+        <section id="lab" class="py-24 px-6 max-w-7xl mx-auto w-full relative">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl border border-white/10 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+                    <div class="lg:col-span-5 space-y-5">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-mono tracking-widest">
+                            <i class="fa-solid fa-flask text-xs"></i>
+                            <span>EXPERIMENTAL LAB</span>
+                        </div>
+                        <h2 class="font-display text-3xl font-bold text-white">
+                            Interactive Physics & Shader Playground.
+                        </h2>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Tweak the live parameters to deform the real-time background Three.js quantum lattice. Watch
+                            mathematical geometry and custom GLSL uniforms dance in real-time.
+                        </p>
+
+                        <!-- Control Knobs -->
+                        <div class="space-y-4 pt-2 font-mono text-xs">
+                            <div>
+                                <div class="flex justify-between text-slate-300 mb-1">
+                                    <span>Tension / Speed</span>
+                                    <span id="speed-val" class="text-neon-cyan">1.2x</span>
+                                </div>
+                                <input id="slider-speed" type="range" min="0.2" max="3" step="0.1" value="1.2"
+                                    class="w-full accent-neon-cyan bg-slate-800 h-1.5 rounded-lg cursor-pointer">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-slate-300 mb-1">
+                                    <span>Lattice Density</span>
+                                    <span id="density-val" class="text-neon-purple">64 Nodes</span>
+                                </div>
+                                <input id="slider-density" type="range" min="20" max="120" step="4" value="64"
+                                    class="w-full accent-neon-purple bg-slate-800 h-1.5 rounded-lg cursor-pointer">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-slate-300 mb-1">
+                                    <span>Geometric Mode</span>
+                                    <span id="geometry-mode-name" class="text-neon-pink">Torus Knot</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 mt-2">
+                                    <button onclick="changeGeo('torus')"
+                                        class="interactive-elem px-3 py-2 rounded bg-slate-800 border border-slate-700 text-white hover:border-neon-cyan text-[11px] font-mono">Torus</button>
+                                    <button onclick="changeGeo('sphere')"
+                                        class="interactive-elem px-3 py-2 rounded bg-slate-800 border border-slate-700 text-white hover:border-neon-purple text-[11px] font-mono">Ico
+                                        Sphere</button>
+                                    <button onclick="changeGeo('dna')"
+                                        class="interactive-elem px-3 py-2 rounded bg-slate-800 border border-slate-700 text-white hover:border-neon-pink text-[11px] font-mono">Helix
+                                        DNA</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Code Sandbox Preview -->
+                    <div class="lg:col-span-7">
+                        <div
+                            class="rounded-2xl bg-dark-900 border border-white/10 overflow-hidden shadow-2xl font-mono text-xs">
+                            <!-- Window Header -->
+                            <div
+                                class="px-4 py-3 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                                    <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
+                                    <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+                                    <span class="ml-2 text-slate-400 text-[11px]">QuantumShaderKernel.glsl</span>
+                                </div>
+                                <span class="text-slate-500 text-[10px]">GLSL ES 3.0</span>
+                            </div>
+
+                            <!-- Code Content -->
+                            <div class="p-5 text-slate-300 space-y-2 overflow-x-auto">
+                                <p><span class="code-syntax-keyword">uniform float</span> u_time;</p>
+                                <p><span class="code-syntax-keyword">uniform vec2</span> u_resolution;</p>
+                                <p><span class="code-syntax-keyword">varying vec3</span> v_position;</p>
+                                <br>
+                                <p><span class="code-syntax-keyword">void</span> <span
+                                        class="code-syntax-func">main</span>() {</p>
+                                <p class="pl-4"><span class="code-syntax-comment">// Deform vertices based on mouse
+                                        tension vector</span></p>
+                                <p class="pl-4"><span class="code-syntax-keyword">vec3</span> pos = position;</p>
+                                <p class="pl-4">pos.z += <span class="code-syntax-func">sin</span>(pos.x * <span
+                                        class="text-neon-cyan">4.0</span> + u_time * <span class="text-neon-cyan"
+                                        id="code-speed-indicator">1.20</span>) * <span
+                                        class="text-neon-cyan">0.35</span>;</p>
+                                <p class="pl-4">pos.x += <span class="code-syntax-func">cos</span>(pos.y * <span
+                                        class="text-neon-purple">3.0</span> + u_time * <span
+                                        class="text-neon-purple">0.80</span>) * <span
+                                        class="text-neon-purple">0.25</span>;</p>
+                                <p class="pl-4">gl_Position = projectionMatrix * modelViewMatrix * <span
+                                        class="code-syntax-keyword">vec4</span>(pos, <span
+                                        class="text-neon-cyan">1.0</span>);</p>
+                                <p>}</p>
+                            </div>
+
+                            <div
+                                class="px-4 py-2 bg-slate-900/50 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
+                                <span>STATUS: <span class="text-neon-emerald">● REALTIME COMPILING</span></span>
+                                <span>FPS: <span id="fps-counter" class="text-white">60.0</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE CLI TERMINAL SECTION -->
+        <section id="terminal" class="py-20 px-6 max-w-5xl mx-auto w-full relative">
+            <div class="text-center mb-10">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-mono tracking-widest mb-2">
+                    <i class="fa-solid fa-code text-xs"></i>
+                    <span>DEVELOPER CLI</span>
+                </div>
+                <h3 class="font-display text-2xl font-bold text-white">Direct Terminal Access</h3>
+                <p class="text-xs text-slate-400 font-mono">Type commands like <span
+                        class="text-neon-cyan">skills</span>, <span class="text-neon-cyan">bio</span>, <span
+                        class="text-neon-cyan">contact</span>, <span class="text-neon-cyan">sudo hire</span> or <span
+                        class="text-neon-cyan">clear</span></p>
+            </div>
+
+            <!-- Shell Box -->
+            <div class="glass-panel rounded-2xl border border-white/10 shadow-2xl overflow-hidden font-mono text-xs">
+                <div class="px-4 py-3 bg-dark-900 border-b border-white/10 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500/90 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500/90 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500/90 inline-block"></span>
+                        <span class="ml-2 text-slate-300 font-medium">julian@vance-os: ~</span>
+                    </div>
+                    <span class="text-[10px] text-slate-500">zsh 5.9</span>
+                </div>
+
+                <div id="terminal-body"
+                    class="p-6 space-y-3 min-h-[260px] max-h-[380px] overflow-y-auto bg-dark-900/90 text-slate-300">
+                    <div class="text-slate-400">
+                        Julian Vance Core Terminal [Version 2.9.4-release]<br>
+                        Type <span class="text-neon-cyan font-bold">help</span> to list all interactive instructions.
+                    </div>
+                </div>
+
+                <div class="px-6 py-3.5 bg-dark-900 border-t border-white/10 flex items-center gap-3">
+                    <span class="text-neon-cyan font-bold">❯</span>
+                    <input id="terminal-input" type="text" placeholder="Type a command and press Enter..."
+                        class="w-full bg-transparent border-none outline-none text-white font-mono text-xs focus:ring-0 placeholder-slate-600">
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT & CAREER TIMELINE -->
+        <section id="about" class="py-24 px-6 max-w-7xl mx-auto w-full relative">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+                <div class="lg:col-span-5 space-y-6">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-purple/30 bg-neon-purple/5 text-neon-purple text-xs font-mono tracking-widest">
+                        <span>THE ARCHITECT BEHIND THE CODE</span>
+                    </div>
+                    <h2 class="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+                        Obsessed with computational beauty & high throughput.
+                    </h2>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        I am Julian Vance. With nearly a decade of experience across Silicon Valley unicorn startups and
+                        vanguard creative agencies, I have built systems handling tens of millions in transactional
+                        volume while designing award-winning 3D web experiments.
+                    </p>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        I approach code as both an uncompromising engineering discipline and a kinetic art medium. Every
+                        transition has meaning, every API endpoint is optimized for minimal p99 latency, and every user
+                        interaction is tuned for delight.
+                    </p>
+
+                    <div class="pt-4 flex flex-col gap-3 font-mono text-xs">
+                        <div class="flex items-center gap-3 text-slate-300">
+                            <i class="fa-solid fa-graduation-cap text-neon-cyan"></i>
+                            <span>B.S. in Computer Science & Interactive Media, Stanford Univ.</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-300">
+                            <i class="fa-solid fa-location-dot text-neon-purple"></i>
+                            <span>San Francisco, California (Open to global remote / advisory)</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-300">
+                            <i class="fa-solid fa-shield-halved text-neon-pink"></i>
+                            <span>Security Clearances & Advanced Pentesting Certified</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Stacking Timeline -->
+                <div class="lg:col-span-7 space-y-4">
+                    <h3 class="font-display font-bold text-xl text-white mb-6 flex items-center gap-3">
+                        <i class="fa-solid fa-timeline text-neon-cyan"></i>
+                        <span>Battle-Tested Career Milestones</span>
+                    </h3>
+
+                    <!-- Milestone 1 -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl border-l-4 border-l-neon-cyan transition-all hover:translate-x-2">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 class="font-display font-bold text-white text-base">Principal Solutions Architect
+                                </h4>
+                                <p class="text-xs text-neon-cyan font-mono">Hyperion Labs • 2022 - PRESENT</p>
+                            </div>
+                            <span
+                                class="px-2.5 py-1 rounded bg-slate-800 text-[10px] font-mono text-slate-300">FULL-TIME</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Leading architectural governance for 34 engineers across multi-region Kubernetes clusters.
+                            Decreased cloud spend by $420k/yr while speeding up frontend render pipelines by 300%.
+                        </p>
+                    </div>
+
+                    <!-- Milestone 2 -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl border-l-4 border-l-neon-purple transition-all hover:translate-x-2">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 class="font-display font-bold text-white text-base">Lead Creative Technologist</h4>
+                                <p class="text-xs text-neon-purple font-mono">Nexus Dynamics • 2019 - 2022</p>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-[10px] font-mono text-slate-300">CORE
+                                TEAM</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Produced over 14 international product launches featuring real-time WebGL configurations.
+                            Won 6 Awwwards Site of the Day accolades and FWA of the Month.
+                        </p>
+                    </div>
+
+                    <!-- Milestone 3 -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl border-l-4 border-l-neon-pink transition-all hover:translate-x-2">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 class="font-display font-bold text-white text-base">Senior Full-Stack Engineer</h4>
+                                <p class="text-xs text-neon-pink font-mono">Strata Fintech • 2016 - 2019</p>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-slate-800 text-[10px] font-mono text-slate-300">EXIT /
+                                ACQUIRED</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Core contributor to reactive streaming financial ledger engine. Handled automated PCI-DSS
+                            compliance and high-availability PostgreSQL sharding.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS / ENDORSEMENTS -->
+        <section class="py-20 px-6 max-w-7xl mx-auto w-full relative">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-slate-300 text-xs font-mono tracking-widest mb-3">
+                    <span>EXECUTIVE ENDORSEMENTS</span>
+                </div>
+                <h2 class="font-display text-3xl font-bold text-white">Trusted by Leaders & Visionaries.</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between">
+                    <p class="text-xs text-slate-300 italic leading-relaxed mb-6">
+                        "Julian is that rarest tier of developer: an engineer who understands complex distributed
+                        systems like Raft and Go, but can turn around and ship a mindblowing WebGL showcase the next
+                        day."
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-neon-cyan text-xs">
+                            EL</div>
+                        <div>
+                            <h5 class="text-xs font-bold text-white">Elena Rostova</h5>
+                            <p class="text-[10px] font-mono text-slate-400">VP of Engineering, Apex Robotics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between">
+                    <p class="text-xs text-slate-300 italic leading-relaxed mb-6">
+                        "Working with Julian transformed our company's entire design velocity. Our site load time
+                        plummeted from 4.8s to 0.4s and user engagement skyrocketed by 280%."
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-neon-purple text-xs">
+                            MK</div>
+                        <div>
+                            <h5 class="text-xs font-bold text-white">Marcus Sterling</h5>
+                            <p class="text-[10px] font-mono text-slate-400">Founder & CEO, Horizon Studio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between">
+                    <p class="text-xs text-slate-300 italic leading-relaxed mb-6">
+                        "He doesn't just write code; he invents experiences. Julian solved our hardest real-time
+                        graphics bottleneck in 72 hours when our internal team was stalled for two months."
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-neon-emerald text-xs">
+                            DR</div>
+                        <div>
+                            <h5 class="text-xs font-bold text-white">David Reynolds</h5>
+                            <p class="text-[10px] font-mono text-slate-400">CTO, Kinetic AI</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT & PROJECT BRIEF INITIALIZER -->
+        <section id="contact" class="py-24 px-6 max-w-5xl mx-auto w-full relative">
+            <div class="glass-panel rounded-3xl p-8 md:p-14 border border-white/10 relative overflow-hidden">
+                <div class="text-center max-w-xl mx-auto mb-12">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-mono tracking-widest mb-3">
+                        <span>INITIATE COLLABORATION</span>
+                    </div>
+                    <h2 class="font-display text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4">
+                        Ready to Build the Future?
+                    </h2>
+                    <p class="text-slate-400 text-xs sm:text-sm">
+                        Available for select advisory roles, high-impact contract architecture, and revolutionary visual
+                        tech builds.
+                    </p>
+                </div>
+
+                <!-- Interactive Form -->
+                <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-6 max-w-2xl mx-auto">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-mono text-slate-300">YOUR_NAME</label>
+                            <input required type="text" placeholder="e.g. John Doe"
+                                class="w-full px-4 py-3 rounded-xl bg-dark-900 border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-neon-cyan transition-colors">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-mono text-slate-300">CONTACT_EMAIL</label>
+                            <input required type="email" placeholder="john@enterprise.com"
+                                class="w-full px-4 py-3 rounded-xl bg-dark-900 border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-neon-cyan transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono text-slate-300">PROJECT_SCOPE</label>
+                        <select
+                            class="w-full px-4 py-3 rounded-xl bg-dark-900 border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-neon-cyan transition-colors">
+                            <option>Comprehensive WebGL / 3D Experience</option>
+                            <option>High-Scale Full Stack Application</option>
+                            <option>Systems Architecture & Technical Advisory</option>
+                            <option>Generative AI & LLM Integration</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono text-slate-300">TRANSMISSION_PAYLOAD</label>
+                        <textarea rows="4" required placeholder="Tell me about your timelines, goals, and ambition..."
+                            class="w-full px-4 py-3 rounded-xl bg-dark-900 border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-neon-cyan transition-colors"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                        <div class="flex items-center gap-3">
+                            <button type="button" onclick="copyEmail()"
+                                class="interactive-elem text-xs font-mono text-slate-400 hover:text-neon-cyan transition-colors flex items-center gap-2">
+                                <i class="fa-regular fa-copy"></i>
+                                <span id="copy-email-text">julian@julianvance.dev</span>
+                            </button>
+                        </div>
+                        <button type="submit"
+                            class="interactive-elem w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-neon-cyan to-neon-blue text-dark-900 font-bold text-xs tracking-wider uppercase hover:shadow-neon-cyan hover:scale-105 transition-all">
+                            Dispatch Transmission <i class="fa-solid fa-paper-plane ml-2"></i>
+                        </button>
+                    </div>
+
+                    <div id="form-feedback" class="hidden text-center text-xs font-mono text-neon-emerald py-2">
+                        ✔ Transmission authenticated and recorded. Julian will reply within 12 standard hours.
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer
+            class="mt-auto border-t border-white/10 py-12 px-6 max-w-7xl mx-auto w-full text-xs font-mono text-slate-500">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <span class="text-white font-bold tracking-wider">JULIAN VANCE</span>
+                    <span>//</span>
+                    <span>ALL SYSTEMS NOMINAL</span>
+                </div>
+
+                <div class="flex items-center gap-6 text-sm text-slate-400">
+                    <a href="https://github.com" target="_blank"
+                        class="interactive-elem hover:text-neon-cyan transition-colors"><i
+                            class="fa-brands fa-github"></i></a>
+                    <a href="https://x.com" target="_blank"
+                        class="interactive-elem hover:text-neon-cyan transition-colors"><i
+                            class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://linkedin.com" target="_blank"
+                        class="interactive-elem hover:text-neon-cyan transition-colors"><i
+                            class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://codepen.io" target="_blank"
+                        class="interactive-elem hover:text-neon-cyan transition-colors"><i
+                            class="fa-brands fa-codepen"></i></a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="live-utc">UTC 00:00:00</span>
+                    <span>• SF PROTOCOL</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPT ENGINE -->
+    <script>
+        /* ==========================================================
+           1. SMOOTH CUSTOM CURSOR & HOVER MAGNETICS
+           ========================================================== */
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let ringX = mouseX;
+        let ringY = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+
+            // Spotlight card coordinates
+            document.querySelectorAll('.spotlight-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+        });
+
+        function animateCursor() {
+            ringX += (mouseX - ringX) * 0.15;
+            ringY += (mouseY - ringY) * 0.15;
+            ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor hover scale bindings
+        document.querySelectorAll('a, button, input, select, textarea, .interactive-elem').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+
+        /* ==========================================================
+           2. THREE.JS 3D QUANTUM LATTICE (WebGL Background)
+           ========================================================== */
+        const canvas = document.getElementById('webgl-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 24;
+
+        // Group container for smooth pointer rotation
+        const geoGroup = new THREE.Group();
+        scene.add(geoGroup);
+
+        // Geometries cache
+        const materials = {
+            wire: new THREE.MeshBasicMaterial({
+                color: 0x00f2fe,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.18
+            }),
+            points: new THREE.PointsMaterial({
+                color: 0x7928ca,
+                size: 0.08,
+                transparent: true,
+                opacity: 0.7
+            })
+        };
+
+        let currentMesh = null;
+        let currentPoints = null;
+
+        function createGeometryMesh(type, density = 64) {
+            if (currentMesh) geoGroup.remove(currentMesh);
+            if (currentPoints) geoGroup.remove(currentPoints);
+
+            let geom;
+            if (type === 'torus') {
+                geom = new THREE.TorusKnotGeometry(7, 2.2, Math.floor(density * 1.5), Math.floor(density / 3));
+            } else if (type === 'sphere') {
+                geom = new THREE.IcosahedronGeometry(7.5, 3);
+            } else {
+                // Helix / DNA like structure
+                geom = new THREE.CylinderGeometry(4.5, 4.5, 16, 24, 32, true);
+            }
+
+            currentMesh = new THREE.Mesh(geom, materials.wire);
+            currentPoints = new THREE.Points(geom, materials.points);
+            geoGroup.add(currentMesh);
+            geoGroup.add(currentPoints);
+        }
+
+        // Initialize with default Torus
+        createGeometryMesh('torus', 64);
+
+        // Lab controls
+        let speedMultiplier = 1.2;
+        window.changeGeo = function (type) {
+            createGeometryMesh(type, parseInt(document.getElementById('slider-density').value));
+            const labels = { 'torus': 'Torus Knot', 'sphere': 'Ico Sphere', 'dna': 'Helix DNA' };
+            document.getElementById('geometry-mode-name').innerText = labels[type];
+        };
+
+        document.getElementById('slider-speed').addEventListener('input', (e) => {
+            speedMultiplier = parseFloat(e.target.value);
+            document.getElementById('speed-val').innerText = `${speedMultiplier.toFixed(1)}x`;
+            document.getElementById('code-speed-indicator').innerText = speedMultiplier.toFixed(2);
+        });
+
+        document.getElementById('slider-density').addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            document.getElementById('density-val').innerText = `${val} Nodes`;
+            createGeometryMesh(
+                document.getElementById('geometry-mode-name').innerText.toLowerCase().includes('knot') ? 'torus' :
+                    document.getElementById('geometry-mode-name').innerText.toLowerCase().includes('sphere') ? 'sphere' : 'dna',
+                val
+            );
+        });
+
+        // Track FPS and dynamic render loop
+        let lastTime = performance.now();
+        let frameCount = 0;
+        let fpsCounter = document.getElementById('fps-counter');
+
+        function renderWebGL() {
+            requestAnimationFrame(renderWebGL);
+
+            const now = performance.now();
+            frameCount++;
+            if (now - lastTime >= 1000) {
+                if (fpsCounter) fpsCounter.innerText = (frameCount * 1000 / (now - lastTime)).toFixed(1);
+                frameCount = 0;
+                lastTime = now;
+            }
+
+            // Continuous rotation
+            geoGroup.rotation.x += 0.002 * speedMultiplier;
+            geoGroup.rotation.y += 0.003 * speedMultiplier;
+
+            // Interactive mouse follow lerp
+            const targetX = (mouseX / window.innerWidth - 0.5) * 1.5;
+            const targetY = (mouseY / window.innerHeight - 0.5) * 1.5;
+            geoGroup.position.x += (targetX - geoGroup.position.x) * 0.05;
+            geoGroup.position.y += (-targetY - geoGroup.position.y) * 0.05;
+
+            renderer.render(scene, camera);
+        }
+        renderWebGL();
+
+        // Responsive Resizing
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        /* ==========================================================
+           3. GSAP SCROLL & REVEAL ANIMATIONS
+           ========================================================== */
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('section').forEach((section) => {
+            gsap.from(section, {
+                opacity: 0,
+                y: 35,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+
+        /* ==========================================================
+           4. INTERACTIVE TERMINAL ENGINE
+           ========================================================== */
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalBody = document.getElementById('terminal-body');
+
+        const cliCommands = {
+            help: `Available Commands:
+  • <span class="text-neon-cyan">skills</span>    : Prints primary system competencies
+  • <span class="text-neon-cyan">bio</span>       : Short narrative brief of Julian
+  • <span class="text-neon-cyan">contact</span>   : Retrieve direct communication links
+  • <span class="text-neon-cyan">sudo hire</span> : Initialize collaboration protocol
+  • <span class="text-neon-cyan">matrix</span>    : Engages matrix stream
+  • <span class="text-neon-cyan">clear</span>     : Clears terminal history`,
+            skills: `ARCHITECTURAL INVENTORY:
+  - Frontend: TypeScript, React, Next.js, Three.js, WebGL, WebAudio
+  - Backend:  Go, Rust, Node.js, GraphQL, Redis, Postgres
+  - Systems:  Docker, Kubernetes, AWS, Cloudflare Edge
+  - Perf:     99.8% Lighthouse standard, Sub-10ms microservice responses`,
+            bio: `Julian Vance: Staff-level Creative Technologist & Full-Stack Architect. 
+Crafting hyper-fluid, reliable applications for high-growth tech ventures worldwide.`,
+            contact: `DIRECT CHANNELS:
+  - Email: julian@julianvance.dev
+  - Twitter/X: @julianvance_dev
+  - GitHub: github.com/julianvance`,
+            'sudo hire': `[SUCCESS] Priority booking requested. Please complete transmission form below.`,
+            matrix: `WAKE UP NEO... The matrix has you.`
+        };
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = terminalInput.value.trim().toLowerCase();
+                const outputLine = document.createElement('div');
+                outputLine.className = 'mt-1';
+                outputLine.innerHTML = `<span class="text-neon-cyan font-bold">julian@vance-os:~$</span> <span class="text-white">${terminalInput.value}</span>`;
+                terminalBody.appendChild(outputLine);
+
+                const responseLine = document.createElement('div');
+                responseLine.className = 'text-slate-300 ml-2 whitespace-pre-wrap';
+
+                if (cmd === 'clear') {
+                    terminalBody.innerHTML = '';
+                    terminalInput.value = '';
+                    return;
+                } else if (cliCommands[cmd]) {
+                    responseLine.innerHTML = cliCommands[cmd];
+                } else if (cmd === '') {
+                    // Do nothing on blank enter
+                } else {
+                    responseLine.innerHTML = `<span class="text-rose-400">Command not recognized: "${cmd}". Type <span class="text-neon-cyan">help</span> for command list.</span>`;
+                }
+
+                terminalBody.appendChild(responseLine);
+                terminalInput.value = '';
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }
+        });
+
+        /* ==========================================================
+           5. AUDIO FEEDBACK SIMULATOR & CLOCK
+           ========================================================== */
+        let audioCtx;
+        let isAudioOn = true;
+        const soundBtn = document.getElementById('sound-toggle');
+
+        function playBlip(freq = 600, type = 'sine') {
+            if (!isAudioOn) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.15);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.15);
+            } catch (e) { }
+        }
+
+        soundBtn.addEventListener('click', () => {
+            isAudioOn = !isAudioOn;
+            soundBtn.innerHTML = isAudioOn
+                ? `<i class="fa-solid fa-volume-high mr-1 text-neon-cyan"></i> 432Hz ON`
+                : `<i class="fa-solid fa-volume-xmark mr-1 text-slate-500"></i> MUTED`;
+            if (isAudioOn) playBlip(880);
+        });
+
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('click', () => playBlip(540));
+        });
+
+        // Live UTC Clock updater
+        function updateClock() {
+            const now = new Date();
+            const utcString = now.toUTCString().split(' ')[4] + ' UTC';
+            document.getElementById('live-utc').innerText = utcString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        /* ==========================================================
+           6. FORM SUBMISSION & COPY UTILS
+           ========================================================== */
+        function copyEmail() {
+            navigator.clipboard.writeText('julian@julianvance.dev');
+            const copyLabel = document.getElementById('copy-email-text');
+            const original = copyLabel.innerText;
+            copyLabel.innerText = "COPIED TO CLIPBOARD!";
+            setTimeout(() => { copyLabel.innerText = original; }, 2200);
+            playBlip(750);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('form-feedback');
+            feedback.classList.remove('hidden');
+            playBlip(980);
+            e.target.reset();
+            setTimeout(() => feedback.classList.add('hidden'), 6000);
+        }
+    </script>
+</body>
+
+</html>
