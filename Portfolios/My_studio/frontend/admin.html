@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Admin</title>
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-box">
+    <h1>Studio Admin</h1>
+    <p>Sign in to manage invitations, websites, quotes and reviews.</p>
+    <div class="login-error" id="login-error"></div>
+    <input type="password" id="login-password" placeholder="Admin password" autocomplete="current-password">
+    <button id="login-btn">Sign in</button>
+  </div>
+</div>
+
+<div id="admin-app">
+  <aside class="sidebar">
+    <h2>Studio Admin</h2>
+    <a class="side-link active" data-panel="dashboard">Dashboard</a>
+    <a class="side-link" data-panel="invitations">Invitations</a>
+    <a class="side-link" data-panel="websites">Websites</a>
+    <a class="side-link" data-panel="reviews">Reviews</a>
+    <a class="side-link" data-panel="requests">Project requests</a>
+    <a class="side-link" data-panel="settings">Site settings</a>
+    <div class="spacer"></div>
+    <a class="side-link" href="/" target="_blank">View site ↗</a>
+    <button class="logout-btn" id="logout-btn">Log out</button>
+  </aside>
+
+  <main class="main">
+
+    <section class="panel active" id="panel-dashboard">
+      <div class="panel-head"><h1>Dashboard</h1></div>
+      <div class="settings-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); display:grid;">
+        <div class="data-table" style="padding:22px;"><div style="color:var(--muted); font-size:12.5px;">Invitations</div><div id="stat-invitations" style="font-size:30px; font-family:'Fraunces',serif; margin-top:6px;">—</div></div>
+        <div class="data-table" style="padding:22px;"><div style="color:var(--muted); font-size:12.5px;">Websites</div><div id="stat-websites" style="font-size:30px; font-family:'Fraunces',serif; margin-top:6px;">—</div></div>
+        <div class="data-table" style="padding:22px;"><div style="color:var(--muted); font-size:12.5px;">Pending reviews</div><div id="stat-reviews" style="font-size:30px; font-family:'Fraunces',serif; margin-top:6px;">—</div></div>
+        <div class="data-table" style="padding:22px;"><div style="color:var(--muted); font-size:12.5px;">New project requests</div><div id="stat-requests" style="font-size:30px; font-family:'Fraunces',serif; margin-top:6px;">—</div></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-invitations">
+      <div class="panel-head">
+        <h1>Invitations</h1>
+        <button class="btn btn-primary" id="add-invitation-btn">+ Add invitation</button>
+      </div>
+      <table class="data-table">
+        <thead><tr><th></th><th>Title</th><th>Type</th><th>Price</th><th></th></tr></thead>
+        <tbody id="invitations-table"></tbody>
+      </table>
+    </section>
+
+    <section class="panel" id="panel-websites">
+      <div class="panel-head">
+        <h1>Websites</h1>
+        <button class="btn btn-primary" id="add-website-btn">+ Add website</button>
+      </div>
+      <table class="data-table">
+        <thead><tr><th></th><th>Title</th><th>Category</th><th>Live URL</th><th></th></tr></thead>
+        <tbody id="websites-table"></tbody>
+      </table>
+    </section>
+
+    <section class="panel" id="panel-reviews">
+      <div class="panel-head"><h1>Reviews</h1></div>
+      <table class="data-table">
+        <thead><tr><th>Name</th><th>Rating</th><th>Comment</th><th>Status</th><th></th></tr></thead>
+        <tbody id="reviews-table"></tbody>
+      </table>
+    </section>
+
+    <section class="panel" id="panel-requests">
+      <div class="panel-head"><h1>Project requests</h1></div>
+      <table class="data-table">
+        <thead><tr><th>Name</th><th>Email</th><th>Type</th><th>Budget</th><th>Status</th><th></th></tr></thead>
+        <tbody id="requests-table"></tbody>
+      </table>
+    </section>
+
+    <section class="panel" id="panel-settings">
+      <div class="panel-head"><h1>Site settings</h1></div>
+      <div class="settings-grid">
+        <div class="field">
+          <label>Studio / site name</label>
+          <input id="set-site_name" type="text">
+        </div>
+        <div class="field">
+          <label>Logo</label>
+          <div class="upload-row">
+            <input type="file" id="set-logo-file" accept="image/*">
+            <img id="set-logo-preview" class="thumb-preview" style="width:60px;height:36px;">
+          </div>
+          <input id="set-site_logo" type="text" placeholder="/uploads/logo.svg" style="margin-top:8px;">
+        </div>
+        <div class="field">
+          <label>Hero headline</label>
+          <input id="set-hero_headline" type="text">
+        </div>
+        <div class="field">
+          <label>Hero subheadline</label>
+          <input id="set-hero_subheadline" type="text">
+        </div>
+        <div class="field">
+          <label>Invitations quote</label>
+          <textarea id="set-invitation_quote"></textarea>
+        </div>
+        <div class="field">
+          <label>Websites quote</label>
+          <textarea id="set-website_quote"></textarea>
+        </div>
+        <div class="field">
+          <label>Instagram URL (used for website "Purchase" button)</label>
+          <input id="set-instagram_url" type="text">
+        </div>
+        <div class="field">
+          <label>Contact email</label>
+          <input id="set-contact_email" type="text">
+        </div>
+        <button class="btn btn-primary" id="save-settings-btn" style="width:fit-content;">Save settings</button>
+      </div>
+
+      <h2 style="font-size:17px; margin:34px 0 14px;">Change admin password</h2>
+      <div class="settings-grid">
+        <div class="field"><label>Current password</label><input id="pw-current" type="password"></div>
+        <div class="field"><label>New password</label><input id="pw-new" type="password"></div>
+        <button class="btn btn-outline" id="change-pw-btn" style="width:fit-content;">Update password</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Invitation modal -->
+<div class="modal-overlay" id="invitation-modal">
+  <div class="modal-box">
+    <h3 id="invitation-modal-title">Add invitation</h3>
+    <input type="hidden" id="inv-id">
+    <div class="field"><label>Title</label><input id="inv-title" type="text"></div>
+    <div class="field-row">
+      <div class="field"><label>Type</label>
+        <select id="inv-type"><option value="static">Classic (no effects)</option><option value="animated">Animated</option></select>
+      </div>
+      <div class="field"><label>Price</label><input id="inv-price" type="text" placeholder="₹1,200"></div>
+    </div>
+    <div class="field"><label>Description</label><textarea id="inv-description"></textarea></div>
+    <div class="field">
+      <label>Card image</label>
+      <div class="upload-row">
+        <input type="file" id="inv-image-file" accept="image/*">
+      </div>
+      <input id="inv-image_url" type="text" placeholder="/uploads/..." style="margin-top:8px;">
+      <img id="inv-image-preview" class="thumb-preview">
+    </div>
+    <div class="field"><label>Preview image URL (optional, defaults to card image)</label><input id="inv-preview_url" type="text"></div>
+    <div class="field"><label>Purchase link (for animated: your HTML code / delivery link)</label><input id="inv-purchase_link" type="text"></div>
+    <div class="field"><label>Sort order</label><input id="inv-sort_order" type="number" value="0"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="inv-cancel">Cancel</button>
+      <button class="btn btn-primary" id="inv-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Website modal -->
+<div class="modal-overlay" id="website-modal">
+  <div class="modal-box">
+    <h3 id="website-modal-title">Add website</h3>
+    <input type="hidden" id="site-id">
+    <div class="field"><label>Title</label><input id="site-title" type="text"></div>
+    <div class="field"><label>Category</label><input id="site-category" type="text" placeholder="Portfolio, E-commerce, Editorial..."></div>
+    <div class="field"><label>Description</label><textarea id="site-description"></textarea></div>
+    <div class="field">
+      <label>Preview video</label>
+      <div class="upload-row">
+        <input type="file" id="site-video-file" accept="video/*">
+      </div>
+      <input id="site-video_url" type="text" placeholder="/uploads/..." style="margin-top:8px;">
+    </div>
+    <div class="field"><label>Live website URL</label><input id="site-live_url" type="text"></div>
+    <div class="field"><label>Sort order</label><input id="site-sort_order" type="number" value="0"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="site-cancel">Cancel</button>
+      <button class="btn btn-primary" id="site-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

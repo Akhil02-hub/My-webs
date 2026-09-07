@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Sora:wght@400;500;600;700&display=swap');
+
+:root{
+  --ink:#161019; --plum:#251A29; --plum-2:#2F2033; --paper:#F6F1E7;
+  --gold:#C9A15A; --gold-soft:#DEC08B; --muted:#B9AEC0; --ink-text:#F2EAE0;
+  --line: rgba(242,234,224,0.14); --danger:#D97C6B;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--ink); color:var(--ink-text); font-family:'Sora',sans-serif;}
+h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; margin:0;}
+button{font-family:inherit; cursor:pointer;}
+input,select,textarea{font-family:inherit;}
+
+/* ---- Login ---- */
+#login-screen{
+  min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.login-box{
+  width:100%; max-width:380px; background:var(--plum); border:1px solid var(--line);
+  border-radius:18px; padding:38px 34px;
+}
+.login-box h1{font-size:24px; margin-bottom:8px;}
+.login-box p{color:var(--muted); font-size:13.5px; margin-bottom:24px;}
+.login-box input{
+  width:100%; padding:13px 14px; border-radius:10px; border:1px solid var(--line);
+  background:rgba(0,0,0,0.25); color:var(--ink-text); margin-bottom:14px; outline:none;
+}
+.login-box input:focus{border-color:var(--gold);}
+.login-box button{
+  width:100%; padding:13px; border-radius:10px; border:none; background:var(--gold);
+  color:var(--ink); font-weight:700; font-size:14px;
+}
+.login-error{color:var(--danger); font-size:13px; margin-bottom:12px; display:none;}
+
+/* ---- App shell ---- */
+#admin-app{display:none; min-height:100vh;}
+#admin-app.visible{display:flex;}
+.sidebar{
+  width:230px; flex-shrink:0; background:var(--plum); border-right:1px solid var(--line);
+  padding:26px 18px; display:flex; flex-direction:column; gap:6px;
+}
+.sidebar h2{font-size:18px; margin-bottom:22px; padding:0 8px;}
+.side-link{
+  padding:11px 12px; border-radius:9px; color:var(--muted); font-size:14px;
+  display:flex; align-items:center; gap:10px;
+}
+.side-link.active, .side-link:hover{background:rgba(201,161,90,0.12); color:var(--ink-text);}
+.sidebar .spacer{flex:1;}
+.logout-btn{
+  background:none; border:1px solid var(--line); color:var(--muted); padding:10px; border-radius:9px; font-size:13px;
+}
+.main{flex:1; padding:34px 40px; max-width:1100px;}
+.panel{display:none;}
+.panel.active{display:block;}
+.panel-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:26px; flex-wrap:wrap; gap:12px;}
+.panel-head h1{font-size:24px;}
+
+.btn{border-radius:999px; padding:11px 20px; font-size:13.5px; font-weight:600; border:1px solid transparent; transition:.2s;}
+.btn-primary{background:var(--gold); color:var(--ink);}
+.btn-primary:hover{opacity:.9;}
+.btn-outline{border-color:var(--line); color:var(--ink-text); background:none;}
+.btn-outline:hover{border-color:var(--gold);}
+.btn-danger{background:none; border:1px solid var(--danger); color:var(--danger); padding:8px 14px; font-size:12.5px;}
+
+.data-table{width:100%; border-collapse:collapse; background:var(--plum); border-radius:14px; overflow:hidden;}
+.data-table th, .data-table td{padding:13px 16px; text-align:left; font-size:13.5px; border-bottom:1px solid var(--line);}
+.data-table th{color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.04em;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.actions{display:flex; gap:8px;}
+.data-table img, .data-table video{width:44px; height:56px; object-fit:cover; border-radius:6px;}
+.empty-row td{color:var(--muted); text-align:center; padding:30px;}
+
+.badge{padding:4px 10px; border-radius:999px; font-size:11px; border:1px solid var(--line); color:var(--muted);}
+.badge.pending{border-color:var(--gold); color:var(--gold-soft);}
+
+/* ---- Modal form ---- */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(10,7,12,0.78); display:none; align-items:center; justify-content:center;
+  padding:24px; z-index:100; backdrop-filter:blur(3px);
+}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--plum); border:1px solid var(--line); border-radius:16px; padding:28px 30px; max-width:520px; width:100%; max-height:88vh; overflow-y:auto;}
+.modal-box h3{font-size:19px; margin-bottom:18px;}
+.field{margin-bottom:14px;}
+.field label{font-size:12.5px; color:var(--muted); display:block; margin-bottom:6px;}
+.field input, .field select, .field textarea{
+  width:100%; padding:11px 13px; border-radius:9px; border:1px solid var(--line);
+  background:rgba(0,0,0,0.25); color:var(--ink-text); outline:none;
+}
+.field textarea{min-height:80px; resize:vertical;}
+.field input:focus, .field select:focus, .field textarea:focus{border-color:var(--gold);}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.upload-row{display:flex; gap:10px; align-items:center;}
+.upload-row input[type=file]{flex:1; font-size:12px;}
+.modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:20px;}
+.thumb-preview{width:70px; height:90px; object-fit:cover; border-radius:8px; margin-top:8px; display:block; background:#0006;}
+
+.settings-grid{display:grid; gap:16px; max-width:640px;}
+
+@media (max-width:820px){
+  #admin-app.visible{flex-direction:column;}
+  .sidebar{width:100%; flex-direction:row; overflow-x:auto;}
+  .sidebar h2{display:none;}
+  .spacer{display:none;}
+  .main{padding:24px 20px;}
+}

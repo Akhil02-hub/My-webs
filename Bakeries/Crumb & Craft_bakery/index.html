@@ -1,0 +1,1556 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crumb & Craft — Artisan Bakery</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Manrope:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#F4EDE2',
+                        creamd: '#EDE3D3',
+                        ink: '#241A12',
+                        espresso: '#2E2117',
+                        caramel: '#B4551F',
+                        caramelD: '#93430F',
+                        sand: '#C9B99F',
+                        paper: '#FBF7EF'
+                    },
+                    fontFamily: {
+                        display: ['Fraunces', 'serif'],
+                        body: ['Manrope', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --cream: #F4EDE2;
+            --ink: #241A12;
+            --caramel: #B4551F;
+            --paper: #FBF7EF;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: auto;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: #B4551F;
+            color: #F4EDE2;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #EDE3D3;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #B4551F;
+            border-radius: 99px;
+            border: 2px solid #EDE3D3;
+        }
+
+        /* ---------- grain ---------- */
+        .grain {
+            position: fixed;
+            inset: -50%;
+            width: 200%;
+            height: 200%;
+            pointer-events: none;
+            z-index: 200;
+            opacity: .055;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            animation: grain 8s steps(10) infinite;
+        }
+
+        @keyframes grain {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            10% {
+                transform: translate(-5%, -8%)
+            }
+
+            20% {
+                transform: translate(-12%, 4%)
+            }
+
+            30% {
+                transform: translate(6%, -14%)
+            }
+
+            40% {
+                transform: translate(-4%, 12%)
+            }
+
+            50% {
+                transform: translate(-12%, 8%)
+            }
+
+            60% {
+                transform: translate(10%, 0)
+            }
+
+            70% {
+                transform: translate(0, 12%)
+            }
+
+            80% {
+                transform: translate(3%, 14%)
+            }
+
+            90% {
+                transform: translate(-8%, 8%)
+            }
+        }
+
+        /* ---------- cursor ---------- */
+        .cursor-dot,
+        .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 300;
+            border-radius: 50%;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: #B4551F;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-ring {
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid rgba(180, 85, 31, .7);
+            transform: translate(-50%, -50%);
+            transition: width .3s, height .3s, background .3s, border .3s;
+        }
+
+        .cursor-ring.is-hover {
+            width: 64px;
+            height: 64px;
+            background: rgba(180, 85, 31, .12);
+            border-color: rgba(180, 85, 31, .35);
+        }
+
+        @media (pointer:coarse) {
+
+            .cursor-dot,
+            .cursor-ring {
+                display: none;
+            }
+        }
+
+        /* ---------- preloader ---------- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 400;
+            background: #241A12;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #preloader .loaf {
+            width: 64px;
+            height: 64px;
+        }
+
+        #preCount {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(4rem, 12vw, 9rem);
+            color: #F4EDE2;
+            line-height: 1;
+            font-weight: 300;
+        }
+
+        #preWord {
+            color: #C9B99F;
+            letter-spacing: .5em;
+            font-size: .7rem;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        /* ---------- nav ---------- */
+        #nav {
+            transition: background .4s, box-shadow .4s, backdrop-filter .4s;
+        }
+
+        #nav.scrolled {
+            background: rgba(244, 237, 226, .85);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 1px 0 rgba(36, 26, 18, .08);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 100%;
+            height: 1.5px;
+            background: #B4551F;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform .4s cubic-bezier(.65, 0, .35, 1);
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* ---------- hero ---------- */
+        .hero-line {
+            overflow: hidden;
+            display: block;
+        }
+
+        .hero-line span {
+            display: block;
+            transform: translateY(115%);
+        }
+
+        .arch {
+            border-radius: 999px 999px 24px 24px;
+        }
+
+        .outline-word {
+            -webkit-text-stroke: 1px rgba(36, 26, 18, .14);
+            color: transparent;
+            font-family: 'Fraunces', serif;
+            user-select: none;
+        }
+
+        .spin-badge {
+            animation: spin 14s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .float-slow {
+            animation: floaty 6s ease-in-out infinite;
+        }
+
+        @keyframes floaty {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-14px)
+            }
+        }
+
+        /* ---------- marquee ---------- */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 26s linear infinite;
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            padding-right: 2.5rem;
+            white-space: nowrap;
+        }
+
+        /* ---------- buttons ---------- */
+        .btn-primary {
+            background: #241A12;
+            color: #F4EDE2;
+            border-radius: 999px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: .85rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: color .4s;
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #B4551F;
+            border-radius: inherit;
+            transform: translateY(101%);
+            transition: transform .45s cubic-bezier(.65, 0, .35, 1);
+        }
+
+        .btn-primary:hover::before {
+            transform: translateY(0);
+        }
+
+        .btn-primary>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-ghost {
+            border: 1.5px solid rgba(36, 26, 18, .25);
+            border-radius: 999px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: .85rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            transition: all .35s;
+        }
+
+        .btn-ghost:hover {
+            border-color: #241A12;
+            background: #241A12;
+            color: #F4EDE2;
+        }
+
+        /* ---------- menu cards ---------- */
+        .menu-card {
+            background: var(--paper);
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid rgba(36, 26, 18, .07);
+            transition: transform .5s cubic-bezier(.22, 1, .36, 1), box-shadow .5s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -20px rgba(36, 26, 18, .25);
+        }
+
+        .menu-card .img-wrap {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/3.4;
+            background: #EDE3D3;
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .menu-card:hover img {
+            transform: scale(1.08) rotate(.5deg);
+        }
+
+        .quick-add {
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #F4EDE2;
+            color: #241A12;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(70px);
+            transition: transform .45s cubic-bezier(.22, 1, .36, 1), background .3s, color .3s;
+            box-shadow: 0 10px 25px rgba(36, 26, 18, .25);
+        }
+
+        .menu-card:hover .quick-add {
+            transform: translateY(0);
+        }
+
+        .quick-add:hover {
+            background: #B4551F;
+            color: #F4EDE2;
+        }
+
+        .cat-tab {
+            padding: .6rem 1.4rem;
+            border-radius: 999px;
+            border: 1.5px solid rgba(36, 26, 18, .18);
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            transition: all .3s;
+        }
+
+        .cat-tab:hover {
+            border-color: #241A12;
+        }
+
+        .cat-tab.active {
+            background: #241A12;
+            color: #F4EDE2;
+            border-color: #241A12;
+        }
+
+        /* ---------- horizontal signature ---------- */
+        #sigWrap {
+            overflow: hidden;
+        }
+
+        .h-track {
+            display: flex;
+            height: 100vh;
+            width: max-content;
+        }
+
+        .h-panel {
+            height: 100vh;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .sig-img {
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .sig-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ---------- craft ---------- */
+        .craft-step {
+            border-top: 1px solid rgba(244, 237, 226, .18);
+            transition: background .4s, padding .4s;
+        }
+
+        .craft-step:hover {
+            background: rgba(244, 237, 226, .05);
+        }
+
+        .craft-num {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            color: #B4551F;
+        }
+
+        /* ---------- testimonials ---------- */
+        .t-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 99px;
+            background: rgba(36, 26, 18, .2);
+            transition: all .4s;
+            cursor: pointer;
+        }
+
+        .t-dot.active {
+            width: 28px;
+            background: #B4551F;
+        }
+
+        /* ---------- cart ---------- */
+        #cartOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(36, 26, 18, .5);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .4s;
+            z-index: 250;
+        }
+
+        #cartOverlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #cartDrawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100dvh;
+            width: min(440px, 100%);
+            background: #FBF7EF;
+            z-index: 260;
+            transform: translateX(105%);
+            transition: transform .55s cubic-bezier(.22, 1, .36, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -30px 0 80px rgba(36, 26, 18, .3);
+        }
+
+        #cartDrawer.open {
+            transform: translateX(0);
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(36, 26, 18, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: all .25s;
+        }
+
+        .qty-btn:hover {
+            background: #241A12;
+            color: #F4EDE2;
+            border-color: #241A12;
+        }
+
+        /* ---------- toast ---------- */
+        #toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translate(-50%, 120px);
+            background: #241A12;
+            color: #F4EDE2;
+            padding: .9rem 1.6rem;
+            border-radius: 999px;
+            font-size: .85rem;
+            font-weight: 600;
+            z-index: 280;
+            transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            box-shadow: 0 20px 40px rgba(36, 26, 18, .35);
+        }
+
+        #toast.show {
+            transform: translate(-50%, 0);
+        }
+
+        /* ---------- misc ---------- */
+        .img-fade {
+            background: #EDE3D3;
+        }
+
+        [data-reveal] {
+            opacity: 0;
+        }
+
+        .badge-pop {
+            animation: pop .4s cubic-bezier(.22, 1.6, .36, 1);
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.5)
+            }
+
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        .divider-wave {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(36, 26, 18, .25), transparent);
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+        }
+
+        .newsletter-input {
+            background: transparent;
+            border-bottom: 1.5px solid rgba(244, 237, 226, .3);
+            transition: border .3s;
+        }
+
+        .newsletter-input:focus {
+            border-color: #B4551F;
+        }
+
+        #mobileMenu {
+            clip-path: circle(0% at calc(100% - 44px) 44px);
+            transition: clip-path .7s cubic-bezier(.65, 0, .35, 1);
+        }
+
+        #mobileMenu.open {
+            clip-path: circle(150% at calc(100% - 44px) 44px);
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            animation: stroke .6s cubic-bezier(.65, 0, .45, 1) forwards;
+        }
+
+        .checkmark-check {
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke .35s cubic-bezier(.65, 0, .45, 1) .6s forwards;
+        }
+
+        @keyframes stroke {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <div class="grain"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ================= PRELOADER ================= -->
+    <div id="preloader">
+        <svg class="loaf mb-6" viewBox="0 0 64 64" fill="none">
+            <path d="M8 40c0-10 10-18 24-18s24 8 24 18c0 6-4 10-10 10H18c-6 0-10-4-10-10Z" stroke="#B4551F"
+                stroke-width="2.5" />
+            <path d="M20 30c2-3 5-5 8-5M30 28c2-2 5-3 8-3" stroke="#F4EDE2" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <div id="preCount">0</div>
+        <div id="preWord">Preheating the ovens</div>
+    </div>
+
+    <!-- ================= NAV ================= -->
+    <header id="nav" class="fixed top-0 left-0 w-full z-[120] px-6 md:px-12 py-5 flex items-center justify-between">
+        <a href="#top" class="flex items-center gap-3 group" data-hover>
+            <svg width="34" height="34" viewBox="0 0 64 64" fill="none"
+                class="transition-transform duration-500 group-hover:rotate-12">
+                <path d="M8 40c0-10 10-18 24-18s24 8 24 18c0 6-4 10-10 10H18c-6 0-10-4-10-10Z" stroke="#B4551F"
+                    stroke-width="3" />
+                <path d="M20 30c2-3 5-5 8-5M30 28c2-2 5-3 8-3" stroke="#241A12" stroke-width="2.5"
+                    stroke-linecap="round" />
+            </svg>
+            <span class="font-display text-xl tracking-tight font-medium">Crumb <em class="text-caramel">&</em>
+                Craft</span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-9 text-[.8rem] font-bold tracking-[.12em] uppercase">
+            <a href="#story" class="nav-link" data-hover>Story</a>
+            <a href="#menu" class="nav-link" data-hover>Menu</a>
+            <a href="#signature" class="nav-link" data-hover>Signature</a>
+            <a href="#visit" class="nav-link" data-hover>Visit</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+            <button id="cartBtn" data-hover
+                class="relative flex items-center gap-2 bg-ink text-cream rounded-full px-5 py-2.5 text-[.78rem] font-bold tracking-[.1em] uppercase hover:bg-caramel transition-colors duration-300">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 7h12l1.5 13.5a1 1 0 0 1-1 1.1H5.5a1 1 0 0 1-1-1.1L6 7Z" />
+                    <path d="M9 10V6a3 3 0 0 1 6 0v4" />
+                </svg>
+                <span class="hidden sm:inline">Basket</span>
+                <span id="cartCount"
+                    class="absolute -top-2 -right-2 bg-caramel text-cream text-[.65rem] w-5 h-5 rounded-full flex items-center justify-center font-extrabold">0</span>
+            </button>
+            <button id="burger" data-hover
+                class="md:hidden w-11 h-11 rounded-full border border-ink/20 flex flex-col items-center justify-center gap-1.5">
+                <span class="w-5 h-[2px] bg-ink block"></span>
+                <span class="w-5 h-[2px] bg-ink block"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- mobile menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-espresso z-[240] flex flex-col items-center justify-center gap-8 text-cream">
+        <button id="mobileClose"
+            class="absolute top-6 right-6 w-11 h-11 rounded-full border border-cream/30 flex items-center justify-center text-2xl leading-none">&times;</button>
+        <a href="#story" class="mob-link font-display text-4xl italic">Story</a>
+        <a href="#menu" class="mob-link font-display text-4xl italic">Menu</a>
+        <a href="#signature" class="mob-link font-display text-4xl italic">Signature</a>
+        <a href="#visit" class="mob-link font-display text-4xl italic">Visit</a>
+    </div>
+
+    <main id="top">
+
+        <!-- ================= HERO ================= -->
+        <section class="relative min-h-[100svh] flex items-center pt-28 pb-16 px-6 md:px-12 overflow-hidden">
+            <div
+                class="outline-word absolute -bottom-8 left-0 text-[26vw] leading-none font-light whitespace-nowrap pointer-events-none">
+                bakery</div>
+
+            <div class="w-full max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-center relative z-10">
+                <div class="lg:col-span-7">
+                    <div class="flex items-center gap-3 mb-8" data-reveal>
+                        <span class="w-10 h-[1.5px] bg-caramel"></span>
+                        <span class="text-[.72rem] font-extrabold tracking-[.3em] uppercase text-caramel">Artisan Bakery
+                            · Est. 2012</span>
+                    </div>
+
+                    <h1 class="font-display font-light leading-[.95] tracking-tight text-[clamp(3.4rem,9vw,8rem)]">
+                        <span class="hero-line"><span>Baked at</span></span>
+                        <span class="hero-line"><span class="italic text-caramel font-normal">dawn,</span></span>
+                        <span class="hero-line"><span>gone by noon.</span></span>
+                    </h1>
+
+                    <p class="mt-8 max-w-md text-ink/70 text-lg leading-relaxed" data-reveal>
+                        Small-batch sourdough, hand-laminated croissants and cakes worth crossing town for — made
+                        slowly, sold warm, every single day.
+                    </p>
+
+                    <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal>
+                        <a href="#menu" class="btn-primary" data-hover><span>Browse the menu</span><span>→</span></a>
+                        <a href="#story" class="btn-ghost" data-hover>Our story</a>
+                    </div>
+
+                    <div class="mt-14 flex gap-10 md:gap-16" data-reveal>
+                        <div>
+                            <div class="font-display text-3xl md:text-4xl" data-count="12">0</div>
+                            <div class="text-[.7rem] tracking-[.2em] uppercase text-ink/50 font-bold mt-1">Years baking
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-display text-3xl md:text-4xl"><span data-count="400">0</span>+</div>
+                            <div class="text-[.7rem] tracking-[.2em] uppercase text-ink/50 font-bold mt-1">Loaves daily
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-display text-3xl md:text-4xl" data-count="48">0</div>
+                            <div class="text-[.7rem] tracking-[.2em] uppercase text-ink/50 font-bold mt-1">Hour ferment
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative">
+                    <div class="arch overflow-hidden img-fade aspect-[3/4] max-w-md mx-auto shadow-[0_50px_100px_-30px_rgba(36,26,18,.4)]"
+                        data-reveal>
+                        <img id="heroImg"
+                            src="https://images.unsplash.com/photo-1585478259715-876acc5be8eb?q=80&w=1200&auto=format&fit=crop"
+                            alt="Fresh sourdough" class="w-full h-full object-cover scale-110">
+                    </div>
+
+                    <div class="absolute -top-4 -left-2 md:left-6 w-28 h-28 md:w-36 md:h-36 float-slow">
+                        <svg viewBox="0 0 200 200" class="spin-badge w-full h-full">
+                            <defs>
+                                <path id="circlePath" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
+                            </defs>
+                            <circle cx="100" cy="100" r="100" fill="#241A12" />
+                            <text fill="#F4EDE2" font-size="19.5" font-weight="700" letter-spacing="4">
+                                <textPath href="#circlePath">FRESH FROM THE OVEN · SMALL BATCH ·</textPath>
+                            </text>
+                            <text x="100" y="112" text-anchor="middle" fill="#B4551F" font-size="40"
+                                font-family="Fraunces,serif" font-style="italic">7am</text>
+                        </svg>
+                    </div>
+
+                    <div class="absolute -bottom-6 -right-2 md:right-4 w-36 md:w-44 rounded-2xl overflow-hidden border-4 border-cream shadow-2xl rotate-6 float-slow img-fade"
+                        style="animation-delay:-3s">
+                        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=600&auto=format&fit=crop"
+                            alt="Croissants" class="w-full aspect-square object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MARQUEE ================= -->
+        <section class="bg-ink text-cream py-5 overflow-hidden -rotate-1 scale-[1.02]">
+            <div class="marquee-track font-display text-2xl md:text-3xl italic font-light" id="marquee"></div>
+        </section>
+
+        <!-- ================= STORY ================= -->
+        <section id="story" class="px-6 md:px-12 py-28 md:py-40 max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div class="rounded-3xl overflow-hidden img-fade aspect-[4/5] max-w-md" data-reveal>
+                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1000&auto=format&fit=crop"
+                            alt="Baker at work" class="w-full h-full object-cover parallax-img">
+                    </div>
+                    <div class="absolute -bottom-10 -right-2 md:right-6 w-48 md:w-64 rounded-3xl overflow-hidden border-8 border-cream shadow-2xl img-fade"
+                        data-reveal>
+                        <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?q=80&w=800&auto=format&fit=crop"
+                            alt="Bakery counter" class="w-full aspect-square object-cover">
+                    </div>
+                    <div
+                        class="absolute -top-8 -left-4 md:-left-8 font-display italic text-caramel text-6xl md:text-8xl opacity-30 select-none">
+                        since<br>'12</div>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-3 mb-6" data-reveal>
+                        <span class="w-10 h-[1.5px] bg-caramel"></span>
+                        <span class="text-[.72rem] font-extrabold tracking-[.3em] uppercase text-caramel">Our
+                            Story</span>
+                    </div>
+                    <h2 class="font-display font-light text-[clamp(2.4rem,5vw,4.2rem)] leading-[1.05] tracking-tight"
+                        data-reveal>
+                        Flour, water, salt —<br>and <em class="text-caramel">twelve years</em> of stubborn patience.
+                    </h2>
+                    <p class="mt-8 text-ink/70 text-lg leading-relaxed max-w-lg" data-reveal>
+                        What started as a single wood-fired oven and a folding table at the farmers' market is now the
+                        neighborhood's morning ritual. We still mill heritage grains in-house, still ferment every loaf
+                        for two full days, and still believe a croissant should shatter when you bite it.
+                    </p>
+                    <p class="mt-5 text-ink/70 text-lg leading-relaxed max-w-lg" data-reveal>
+                        No shortcuts. No preservatives. Just craft you can taste.
+                    </p>
+
+                    <div class="mt-10 grid grid-cols-2 gap-6 max-w-md" data-reveal>
+                        <div class="border-l-2 border-caramel pl-4">
+                            <div class="font-bold">Stone-milled flour</div>
+                            <div class="text-sm text-ink/55 mt-1">Heritage grains, ground fresh weekly</div>
+                        </div>
+                        <div class="border-l-2 border-caramel pl-4">
+                            <div class="font-bold">Wild yeast only</div>
+                            <div class="text-sm text-ink/55 mt-1">Our starter "Bruno" is 12 years old</div>
+                        </div>
+                        <div class="border-l-2 border-caramel pl-4">
+                            <div class="font-bold">Hearth baked</div>
+                            <div class="text-sm text-ink/55 mt-1">Stone deck ovens at 480°F</div>
+                        </div>
+                        <div class="border-l-2 border-caramel pl-4">
+                            <div class="font-bold">Zero waste</div>
+                            <div class="text-sm text-ink/55 mt-1">Day-old bread becomes tomorrow's pastry</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MENU ================= -->
+        <section id="menu" class="px-6 md:px-12 py-24 md:py-32 bg-creamd/60">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+                    <div>
+                        <div class="flex items-center gap-3 mb-6" data-reveal>
+                            <span class="w-10 h-[1.5px] bg-caramel"></span>
+                            <span class="text-[.72rem] font-extrabold tracking-[.3em] uppercase text-caramel">The Daily
+                                Case</span>
+                        </div>
+                        <h2 class="font-display font-light text-[clamp(2.4rem,5vw,4.2rem)] leading-[1.05] tracking-tight"
+                            data-reveal>What's in the oven <em class="text-caramel">today</em></h2>
+                    </div>
+                    <div class="flex flex-wrap gap-2" id="catTabs" data-reveal>
+                        <button class="cat-tab active" data-filter="all" data-hover>All</button>
+                        <button class="cat-tab" data-filter="breads" data-hover>Breads</button>
+                        <button class="cat-tab" data-filter="pastries" data-hover>Pastries</button>
+                        <button class="cat-tab" data-filter="cakes" data-hover>Cakes</button>
+                        <button class="cat-tab" data-filter="treats" data-hover>Treats</button>
+                    </div>
+                </div>
+
+                <div id="menuGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- ================= SIGNATURE (horizontal) ================= -->
+        <section id="signature" class="bg-espresso text-cream relative">
+            <div id="sigWrap">
+                <div class="h-track" id="hTrack">
+
+                    <div class="h-panel w-[88vw] md:w-[42vw] px-8 md:px-16">
+                        <div>
+                            <div class="flex items-center gap-3 mb-6">
+                                <span class="w-10 h-[1.5px] bg-caramel"></span>
+                                <span
+                                    class="text-[.72rem] font-extrabold tracking-[.3em] uppercase text-caramel">Signature
+                                    Series</span>
+                            </div>
+                            <h2
+                                class="font-display font-light text-[clamp(2.6rem,5vw,4.6rem)] leading-[1.02] tracking-tight">
+                                Three things we<br>do <em class="text-caramel">better than<br>anyone.</em></h2>
+                            <p class="mt-6 text-cream/60 max-w-xs">Keep scrolling — the counter slides sideways, just
+                                like our oven racks.</p>
+                            <div class="mt-8 text-caramel font-display italic text-2xl animate-pulse">drag the day →
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-panel w-[92vw] md:w-[62vw] px-6 md:px-12">
+                        <div class="grid md:grid-cols-2 gap-8 items-center w-full">
+                            <div class="sig-img img-fade aspect-[4/5] max-h-[70vh]"><img
+                                    src="https://images.unsplash.com/photo-1585478259715-876acc5be8eb?q=80&w=1000&auto=format&fit=crop"
+                                    alt="Country sourdough"></div>
+                            <div>
+                                <div class="font-display italic text-caramel text-xl mb-2">No. 01</div>
+                                <h3 class="font-display text-4xl md:text-5xl font-light">The Country<br>Sourdough</h3>
+                                <p class="mt-5 text-cream/60 leading-relaxed max-w-sm">Our founding loaf. A 48-hour cold
+                                    ferment over stone-milled wheat gives it a blistered, mahogany crust and a custardy,
+                                    gently sour crumb.</p>
+                                <div class="mt-6 flex items-center gap-6">
+                                    <span class="font-display text-3xl">$9.50</span>
+                                    <button class="btn-primary sig-add" data-id="1" data-hover><span>Add to
+                                            basket</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-panel w-[92vw] md:w-[62vw] px-6 md:px-12">
+                        <div class="grid md:grid-cols-2 gap-8 items-center w-full">
+                            <div class="sig-img img-fade aspect-[4/5] max-h-[70vh]"><img
+                                    src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1000&auto=format&fit=crop"
+                                    alt="Butter croissant"></div>
+                            <div>
+                                <div class="font-display italic text-caramel text-xl mb-2">No. 02</div>
+                                <h3 class="font-display text-4xl md:text-5xl font-light">The 81-Layer<br>Croissant</h3>
+                                <p class="mt-5 text-cream/60 leading-relaxed max-w-sm">Laminated by hand over three days
+                                    with cultured French butter. Shattering exterior, honeycomb interior, unapologetic
+                                    amount of butter.</p>
+                                <div class="mt-6 flex items-center gap-6">
+                                    <span class="font-display text-3xl">$4.75</span>
+                                    <button class="btn-primary sig-add" data-id="5" data-hover><span>Add to
+                                            basket</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-panel w-[92vw] md:w-[62vw] px-6 md:px-12">
+                        <div class="grid md:grid-cols-2 gap-8 items-center w-full">
+                            <div class="sig-img img-fade aspect-[4/5] max-h-[70vh]"><img
+                                    src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1000&auto=format&fit=crop"
+                                    alt="Midnight chocolate cake"></div>
+                            <div>
+                                <div class="font-display italic text-caramel text-xl mb-2">No. 03</div>
+                                <h3 class="font-display text-4xl md:text-5xl font-light">The Midnight<br>Cake</h3>
+                                <p class="mt-5 text-cream/60 leading-relaxed max-w-sm">Five layers of dark Valrhona
+                                    sponge, espresso ganache and a whisper of sea salt. Ordered for birthdays; eaten for
+                                    breakfast.</p>
+                                <div class="mt-6 flex items-center gap-6">
+                                    <span class="font-display text-3xl">$42.00</span>
+                                    <button class="btn-primary sig-add" data-id="9" data-hover><span>Add to
+                                            basket</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CRAFT ================= -->
+        <section class="bg-ink text-cream px-6 md:px-12 py-24 md:py-32">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-center gap-3 mb-6" data-reveal>
+                    <span class="w-10 h-[1.5px] bg-caramel"></span>
+                    <span class="text-[.72rem] font-extrabold tracking-[.3em] uppercase text-caramel">The Craft</span>
+                </div>
+                <h2 class="font-display font-light text-[clamp(2.4rem,5vw,4.2rem)] leading-[1.05] tracking-tight mb-16"
+                    data-reveal>Four steps. <em class="text-caramel">Two days.</em><br>One perfect loaf.</h2>
+
+                <div>
+                    <div class="craft-step py-8 grid md:grid-cols-12 gap-4 items-center px-4 rounded-xl" data-reveal>
+                        <div class="craft-num text-3xl md:col-span-1">01</div>
+                        <h3 class="font-display text-2xl md:text-3xl md:col-span-4">Mix & Autolyse</h3>
+                        <p class="text-cream/55 md:col-span-7">Flour and water rest together before anything else
+                            touches the bowl — enzymes wake up, gluten begins forming on its own.</p>
+                    </div>
+                    <div class="craft-step py-8 grid md:grid-cols-12 gap-4 items-center px-4 rounded-xl" data-reveal>
+                        <div class="craft-num text-3xl md:col-span-1">02</div>
+                        <h3 class="font-display text-2xl md:text-3xl md:col-span-4">Slow Ferment</h3>
+                        <p class="text-cream/55 md:col-span-7">Forty-eight hours in the cold. Wild yeast works slowly,
+                            building the deep, tangy flavor no commercial yeast can fake.</p>
+                    </div>
+                    <div class="craft-step py-8 grid md:grid-cols-12 gap-4 items-center px-4 rounded-xl" data-reveal>
+                        <div class="craft-num text-3xl md:col-span-1">03</div>
+                        <h3 class="font-display text-2xl md:text-3xl md:col-span-4">Hand Shape</h3>
+                        <p class="text-cream/55 md:col-span-7">Every loaf is shaped by hand — tensioned, tucked and
+                            scored with a signature ear that opens like a smile in the oven.</p>
+                    </div>
+                    <div class="craft-step py-8 grid md:grid-cols-12 gap-4 items-center px-4 rounded-xl" data-reveal>
+                        <div class="craft-num text-3xl md:col-span-1">04</div>
+                        <h3 class="font-display text-2xl md:text-3xl md:col-span-4">Hearth Bake</h3>
+                        <p class="text-cream/55 md:col-span-7">Straight onto stone at 480°F with a burst of steam. The
+                            crust crackles as it cools — bakers call it singing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TESTIMONIALS ================= -->
+        <section class="px-6 md:px-12 py-24 md:py-36 max-w-4xl mx-auto text-center">
+            <svg class="mx-auto mb-8 opacity-30" width="52" height="40" viewBox="0 0 52 40" fill="#B4551F">
+                <path
+                    d="M0 40V22.9C0 9.6 7.8 1.7 20.6 0l2.3 7.4c-6.5 1.6-9.9 5-10.2 10.4H22V40H0Zm30 0V22.9C30 9.6 37.8 1.7 50.6 0l2.3 7.4c-6.5 1.6-9.9 5-10.2 10.4H52V40H30Z"
+                    transform="scale(0.95)" />
+            </svg>
+            <div id="quoteBox" class="min-h-[180px] flex flex-col justify-center">
+                <p id="quoteText" class="font-display font-light italic text-[clamp(1.5rem,3.4vw,2.4rem)] leading-snug">
+                </p>
+                <div id="quoteAuthor" class="mt-6 text-[.75rem] font-extrabold tracking-[.25em] uppercase text-caramel">
+                </div>
+            </div>
+            <div class="flex justify-center gap-2 mt-10" id="quoteDots"></div>
+        </section>
+
+        <!-- ================= VISIT ================= -->
+        <section id="visit" class="px-6 md:px-12 pb-28 md:pb-40">
+            <div
+                class="max-w-7xl mx-auto bg-paper rounded-[2rem] border border-ink/10 overflow-hidden grid lg:grid-cols-2 shadow-[0_40px_80px_-40px_rgba(36,26,18,.25)]">
+                <div class="p-10 md:p-16">
+                    <div class="flex items-center gap-3 mb-6" data-reveal>
+                        <span class="w-10 h-[1.5px] bg-caramel"></span>
+                        <span class="text-[.72rem] font-extrabold tracking-[.3em] uppercase text-caramel">Visit
+                            Us</span>
+                    </div>
+                    <h2 class="font-display font-light text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[1.05] tracking-tight"
+                        data-reveal>Come say hi.<br><em class="text-caramel">Smell the bread.</em></h2>
+
+                    <div id="openBadge"
+                        class="mt-8 inline-flex items-center gap-2.5 rounded-full border border-ink/15 px-4 py-2 text-sm font-bold"
+                        data-reveal>
+                        <span id="openDot" class="w-2.5 h-2.5 rounded-full bg-green-600 animate-pulse"></span>
+                        <span id="openText">Checking hours…</span>
+                    </div>
+
+                    <div class="mt-10 space-y-6" data-reveal>
+                        <div class="flex gap-4">
+                            <svg class="shrink-0 mt-1" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="#B4551F" stroke-width="2">
+                                <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z" />
+                                <circle cx="12" cy="10" r="2.5" />
+                            </svg>
+                            <div>
+                                <div class="font-bold">214 Fournos Lane</div>
+                                <div class="text-ink/55 text-sm">Old Mill District, Portland, OR 97209</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <svg class="shrink-0 mt-1" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="#B4551F" stroke-width="2">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 7v5l3.5 2" />
+                            </svg>
+                            <div>
+                                <div class="font-bold">Tue – Sun · 7:00 AM – 6:00 PM</div>
+                                <div class="text-ink/55 text-sm">Closed Mondays — the ovens rest too.</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <svg class="shrink-0 mt-1" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="#B4551F" stroke-width="2">
+                                <path
+                                    d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" />
+                            </svg>
+                            <div>
+                                <div class="font-bold">(503) 555-0184</div>
+                                <div class="text-ink/55 text-sm">Call ahead — we sell out most days by 1 PM.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex flex-wrap gap-4" data-reveal>
+                        <button class="btn-primary" id="visitOrderBtn" data-hover><span>Order for pickup</span></button>
+                        <a href="#menu" class="btn-ghost" data-hover>See the menu</a>
+                    </div>
+                </div>
+                <div class="relative min-h-[380px] img-fade">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop"
+                        alt="Fresh loaves on display" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 text-cream">
+                        <div class="font-display italic text-2xl">The morning counter, 7:04 AM</div>
+                        <div class="text-cream/70 text-sm mt-1">First batch out of the hearth</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="bg-ink text-cream px-6 md:px-12 pt-20 pb-10">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12 pb-16 border-b border-cream/10">
+                    <div>
+                        <div class="font-display font-light text-[clamp(2.4rem,6vw,4.5rem)] leading-none">Get the <em
+                                class="text-caramel">fresh sheet.</em></div>
+                        <p class="mt-4 text-cream/55 max-w-md">A Sunday email with the week's bakes, seasonal specials
+                            and first dibs on limited loaves.</p>
+                    </div>
+                    <form id="newsForm" class="flex items-end gap-4 lg:justify-end">
+                        <div class="flex-1 max-w-sm">
+                            <label class="text-[.7rem] font-extrabold tracking-[.25em] uppercase text-cream/40">Email
+                                address</label>
+                            <input type="email" required placeholder="you@example.com"
+                                class="newsletter-input w-full py-3 text-lg placeholder:text-cream/30 text-cream">
+                        </div>
+                        <button type="submit" class="btn-primary !bg-caramel hover:!bg-caramelD" data-hover><span
+                                id="newsBtnText">Join</span></button>
+                    </form>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-10 py-14 text-sm">
+                    <div class="md:col-span-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg width="30" height="30" viewBox="0 0 64 64" fill="none">
+                                <path d="M8 40c0-10 10-18 24-18s24 8 24 18c0 6-4 10-10 10H18c-6 0-10-4-10-10Z"
+                                    stroke="#B4551F" stroke-width="3" />
+                                <path d="M20 30c2-3 5-5 8-5M30 28c2-2 5-3 8-3" stroke="#F4EDE2" stroke-width="2.5"
+                                    stroke-linecap="round" />
+                            </svg>
+                            <span class="font-display text-xl">Crumb <em class="text-caramel">&</em> Craft</span>
+                        </div>
+                        <p class="text-cream/45 max-w-xs leading-relaxed">An independent artisan bakery in Portland's
+                            Old Mill District. Baking slowly since 2012.</p>
+                    </div>
+                    <div>
+                        <div class="text-[.7rem] font-extrabold tracking-[.25em] uppercase text-cream/40 mb-4">Explore
+                        </div>
+                        <div class="space-y-2.5 text-cream/70">
+                            <a href="#story" class="block hover:text-caramel transition-colors" data-hover>Our Story</a>
+                            <a href="#menu" class="block hover:text-caramel transition-colors" data-hover>Daily Menu</a>
+                            <a href="#signature" class="block hover:text-caramel transition-colors" data-hover>Signature
+                                Series</a>
+                            <a href="#visit" class="block hover:text-caramel transition-colors" data-hover>Visit Us</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-[.7rem] font-extrabold tracking-[.25em] uppercase text-cream/40 mb-4">Hours
+                        </div>
+                        <div class="space-y-2.5 text-cream/70">
+                            <div>Tue – Fri · 7am – 6pm</div>
+                            <div>Sat – Sun · 8am – 4pm</div>
+                            <div>Monday · Closed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="pt-8 border-t border-cream/10 flex flex-col md:flex-row justify-between gap-4 text-xs text-cream/35">
+                    <span>© 2025 Crumb & Craft Bakery. All rights reserved.</span>
+                    <span class="font-display italic text-sm text-cream/50">"All sorrows are less with bread." —
+                        Cervantes</span>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- ================= CART ================= -->
+    <div id="cartOverlay"></div>
+    <aside id="cartDrawer" aria-label="Shopping basket">
+        <div class="flex items-center justify-between px-7 py-6 border-b border-ink/10">
+            <div class="font-display text-2xl">Your Basket <span id="drawerCount"
+                    class="text-caramel text-lg">(0)</span></div>
+            <button id="cartClose" data-hover
+                class="w-10 h-10 rounded-full border border-ink/15 flex items-center justify-center text-xl hover:bg-ink hover:text-cream transition-colors">&times;</button>
+        </div>
+
+        <div id="cartView" class="flex-1 flex flex-col overflow-hidden">
+            <div id="cartItems" class="flex-1 overflow-y-auto px-7 py-6 space-y-5"></div>
+            <div class="border-t border-ink/10 px-7 py-6 bg-cream">
+                <div class="flex justify-between mb-1 text-sm text-ink/60"><span>Subtotal</span><span
+                        id="cartSubtotal">$0.00</span></div>
+                <div class="flex justify-between mb-5 text-sm text-ink/60"><span>Pickup</span><span
+                        class="text-green-700 font-bold">Free</span></div>
+                <div class="flex justify-between font-display text-2xl mb-5"><span>Total</span><span
+                        id="cartTotal">$0.00</span></div>
+                <button id="checkoutBtn" class="btn-primary w-full justify-center" data-hover><span>Place pickup
+                        order</span></button>
+                <p class="text-center text-xs text-ink/45 mt-3">Ready in ~20 minutes · Pay at the counter</p>
+            </div>
+        </div>
+
+        <div id="confirmView" class="flex-1 hidden flex-col items-center justify-center text-center px-10">
+            <svg width="90" height="90" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="24" fill="none" stroke="#B4551F"
+                    stroke-width="2.5" />
+                <path class="checkmark-check" fill="none" stroke="#241A12" stroke-width="3" stroke-linecap="round"
+                    d="M14 27l8 8 16-17" />
+            </svg>
+            <div class="font-display text-3xl mt-6">Order confirmed</div>
+            <p class="text-ink/60 mt-3">Order <span id="orderNum" class="font-bold text-caramel">#CC-0000</span> will be
+                warm and waiting at the counter in about 20 minutes.</p>
+            <button id="confirmClose" class="btn-ghost mt-8" data-hover>Back to browsing</button>
+        </div>
+    </aside>
+
+    <!-- toast -->
+    <div id="toast">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B4551F" stroke-width="2.5">
+            <path d="M5 13l4 4L19 7" />
+        </svg>
+        <span id="toastText">Added to basket</span>
+    </div>
+
+    <script>
+        /* ============================================================
+           CRUMB & CRAFT — application logic
+        ============================================================ */
+        gsap.registerPlugin(ScrollTrigger);
+
+        const FALLBACK_IMG = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop';
+        function guardImages(scope) {
+            (scope || document).querySelectorAll('img').forEach(img => {
+                if (img.dataset.guarded) return;
+                img.dataset.guarded = '1';
+                img.addEventListener('error', () => { if (img.src !== FALLBACK_IMG) img.src = FALLBACK_IMG; });
+            });
+        }
+        guardImages();
+
+        /* ---------- smooth scroll ---------- */
+        let lenis = null;
+        if (typeof Lenis !== 'undefined') {
+            lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add(t => lenis.raf(t * 1000));
+            gsap.ticker.lagSmoothing(0);
+        }
+        function scrollToEl(el) {
+            if (lenis) lenis.scrollTo(el, { offset: -70 });
+            else el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* ---------- custom cursor ---------- */
+        const dot = document.getElementById('cursorDot');
+        const ring = document.getElementById('cursorRing');
+        let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+        addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx + 'px'; dot.style.top = my + 'px'; });
+        (function ringLoop() { rx += (mx - rx) * .16; ry += (my - ry) * .16; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(ringLoop); })();
+        function bindHovers() {
+            document.querySelectorAll('a,button,[data-hover]').forEach(el => {
+                if (el.dataset.cbound) return; el.dataset.cbound = '1';
+                el.addEventListener('mouseenter', () => ring.classList.add('is-hover'));
+                el.addEventListener('mouseleave', () => ring.classList.remove('is-hover'));
+            });
+        }
+        bindHovers();
+
+        /* ---------- preloader ---------- */
+        const preCount = document.getElementById('preCount');
+        const preObj = { v: 0 };
+        gsap.to(preObj, {
+            v: 100, duration: 1.8, ease: 'power2.inOut',
+            onUpdate: () => preCount.textContent = Math.round(preObj.v),
+            onComplete: hidePreloader
+        });
+        function hidePreloader() {
+            gsap.to('#preloader', {
+                yPercent: -100, duration: 1, ease: 'power4.inOut', delay: .2,
+                onComplete: () => { document.getElementById('preloader').style.display = 'none'; heroIntro(); }
+            });
+        }
+        setTimeout(() => { const p = document.getElementById('preloader'); if (p.style.display !== 'none' && preObj.v < 100) { gsap.killTweensOf(preObj); preCount.textContent = 100; hidePreloader(); } }, 4500);
+
+        function heroIntro() {
+            gsap.to('.hero-line span', { y: 0, duration: 1.2, stagger: .12, ease: 'power4.out' });
+            gsap.fromTo('#heroImg', { scale: 1.25 }, { scale: 1.05, duration: 2, ease: 'power2.out' });
+            document.querySelectorAll('[data-count]').forEach(el => {
+                const target = +el.dataset.count;
+                gsap.fromTo(el, { textContent: 0 }, { textContent: target, duration: 2, ease: 'power2.out', snap: { textContent: 1 }, delay: .5 });
+            });
+        }
+
+        /* ---------- generic reveals ---------- */
+        document.querySelectorAll('[data-reveal]').forEach(el => {
+            gsap.fromTo(el, { opacity: 0, y: 44 }, {
+                opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+                scrollTrigger: { trigger: el, start: 'top 88%' }
+            });
+        });
+        gsap.utils.toArray('.parallax-img').forEach(img => {
+            gsap.fromTo(img, { yPercent: -8 }, {
+                yPercent: 8, ease: 'none',
+                scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom top', scrub: true }
+            });
+        });
+
+        /* ---------- nav ---------- */
+        const nav = document.getElementById('nav');
+        addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), { passive: true });
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) { e.preventDefault(); scrollToEl(t); document.getElementById('mobileMenu').classList.remove('open'); }
+            });
+        });
+        document.getElementById('burger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+        document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+
+        /* ---------- marquee ---------- */
+        const words = ['Sourdough', 'Croissants', 'Baguettes', 'Morning Buns', 'Layer Cakes', 'Rye Cookies', 'Brioche', 'Macarons', 'Stone-Milled', 'Wild Yeast'];
+        const star = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#B4551F"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg>';
+        const half = words.map(w => `<div class="marquee-item">${star}<span>${w}</span></div>`).join('');
+        document.getElementById('marquee').innerHTML = half + half;
+
+        /* ---------- menu data & rendering ---------- */
+        const MENU = [
+            { id: 1, cat: 'breads', name: 'Country Sourdough', price: 9.50, desc: '48-hour ferment, stone-milled wheat, blistered crust.', img: 'https://images.unsplash.com/photo-1585478259715-876acc5be8eb?q=80&w=800&auto=format&fit=crop' },
+            { id: 2, cat: 'breads', name: 'Seeded Rye', price: 8.00, desc: 'Dark rye, toasted seeds, a whisper of molasses.', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop' },
+            { id: 3, cat: 'breads', name: 'Baguette Tradition', price: 4.50, desc: 'Crackling crust, open crumb — baked twice daily.', img: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?q=80&w=800&auto=format&fit=crop' },
+            { id: 4, cat: 'pastries', name: 'Butter Croissant', price: 4.75, desc: 'Laminated over three days with cultured French butter.', img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=800&auto=format&fit=crop' },
+            { id: 5, cat: 'pastries', name: 'Almond Croissant', price: 6.25, desc: 'Twice-baked with a frangipane heart and toasted almonds.', img: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?q=80&w=800&auto=format&fit=crop' },
+            { id: 6, cat: 'pastries', name: 'Cinnamon Morning Bun', price: 5.00, desc: 'Brioche swirl, Saigon cinnamon, bright orange glaze.', img: 'https://images.unsplash.com/photo-1509365465985-25d11c17e812?q=80&w=800&auto=format&fit=crop' },
+            { id: 7, cat: 'cakes', name: 'Midnight Chocolate Cake', price: 42.00, desc: 'Valrhona layers, espresso ganache, flaked sea salt.', img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop' },
+            { id: 8, cat: 'cakes', name: 'Strawberry Cloud Cake', price: 38.00, desc: 'Airy chiffon, macerated berries, chantilly cream.', img: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?q=80&w=800&auto=format&fit=crop' },
+            { id: 9, cat: 'cakes', name: 'Lemon Berry Cake', price: 36.00, desc: 'Olive oil sponge, lemon curd, fresh market berries.', img: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=800&auto=format&fit=crop' },
+            { id: 10, cat: 'treats', name: 'Brown Butter Choc Chip', price: 4.25, desc: 'Crisp edges, molten center, Maldon flakes on top.', img: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=800&auto=format&fit=crop' },
+            { id: 11, cat: 'treats', name: 'Vanilla Glazed Donut', price: 3.75, desc: 'Brioche dough, Tahitian vanilla glaze, fried at dawn.', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800&auto=format&fit=crop' },
+            { id: 12, cat: 'treats', name: 'Pistachio Macarons · 6', price: 14.00, desc: 'Sicilian pistachio ganache in a delicate almond shell.', img: 'https://images.unsplash.com/photo-1569864358642-9d1684040f43?q=80&w=800&auto=format&fit=crop' },
+        ];
+        const CAT_LABEL = { breads: 'Breads', pastries: 'Pastries', cakes: 'Cakes', treats: 'Treats' };
+        const fmt = n => '$' + n.toFixed(2);
+
+        const grid = document.getElementById('menuGrid');
+        function renderMenu(filter = 'all') {
+            const items = MENU.filter(i => filter === 'all' || i.cat === filter);
+            grid.innerHTML = items.map(i => `
+    <article class="menu-card" data-id="${i.id}">
+      <div class="img-wrap">
+        <img src="${i.img}" alt="${i.name}" loading="lazy">
+        <span class="absolute top-4 left-4 bg-cream/90 backdrop-blur text-[.65rem] font-extrabold tracking-[.15em] uppercase px-3 py-1.5 rounded-full">${CAT_LABEL[i.cat]}</span>
+        <button class="quick-add" data-add="${i.id}" aria-label="Quick add ${i.name}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+      <div class="p-5">
+        <h3 class="font-display text-xl leading-tight">${i.name}</h3>
+        <p class="text-sm text-ink/55 mt-1.5 leading-relaxed min-h-[40px]">${i.desc}</p>
+        <div class="flex items-center justify-between mt-4">
+          <span class="font-display text-2xl">${fmt(i.price)}</span>
+          <button class="add-btn text-[.72rem] font-extrabold tracking-[.12em] uppercase border-b-2 border-caramel pb-0.5 hover:text-caramel transition-colors" data-add="${i.id}">Add to basket</button>
+        </div>
+      </div>
+    </article>`).join('');
+            guardImages(grid); bindHovers();
+            gsap.fromTo(grid.children, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .6, stagger: .06, ease: 'power3.out' });
+            grid.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => addToCart(+b.dataset.add)));
+        }
+        renderMenu();
+
+        document.querySelectorAll('#catTabs .cat-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#catTabs .cat-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                gsap.to(grid.children, { opacity: 0, y: 16, duration: .22, stagger: .02, onComplete: () => renderMenu(tab.dataset.filter) });
+            });
+        });
+
+        /* ---------- signature add buttons ---------- */
+        document.querySelectorAll('.sig-add').forEach(b => b.addEventListener('click', () => addToCart(+b.dataset.id)));
+
+        /* ---------- cart ---------- */
+        let cart = {};
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartOverlay = document.getElementById('cartOverlay');
+
+        function cartQty() { return Object.values(cart).reduce((a, b) => a + b, 0); }
+        function cartSum() { return Object.entries(cart).reduce((s, [id, q]) => s + MENU.find(m => m.id == id).price * q, 0); }
+
+        function addToCart(id) {
+            cart[id] = (cart[id] || 0) + 1;
+            updateCartUI();
+            const item = MENU.find(m => m.id === id);
+            showToast(`${item.name} added to basket`);
+            const badge = document.getElementById('cartCount');
+            badge.classList.remove('badge-pop'); void badge.offsetWidth; badge.classList.add('badge-pop');
+        }
+        function changeQty(id, d) {
+            cart[id] = (cart[id] || 0) + d;
+            if (cart[id] <= 0) delete cart[id];
+            updateCartUI();
+        }
+        function updateCartUI() {
+            const n = cartQty();
+            document.getElementById('cartCount').textContent = n;
+            document.getElementById('drawerCount').textContent = `(${n})`;
+            const box = document.getElementById('cartItems');
+            if (n === 0) {
+                box.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-center py-16">
+      <svg width="60" height="60" viewBox="0 0 64 64" fill="none" class="opacity-25 mb-5"><path d="M8 40c0-10 10-18 24-18s24 8 24 18c0 6-4 10-10 10H18c-6 0-10-4-10-10Z" stroke="#241A12" stroke-width="2.5"/><path d="M20 30c2-3 5-5 8-5M30 28c2-2 5-3 8-3" stroke="#241A12" stroke-width="2" stroke-linecap="round"/></svg>
+      <div class="font-display text-2xl">Your basket is empty</div>
+      <p class="text-sm text-ink/50 mt-2 max-w-[220px]">Warm bread waits for no one. Go grab something delicious.</p></div>`;
+            } else {
+                box.innerHTML = Object.entries(cart).map(([id, q]) => {
+                    const m = MENU.find(x => x.id == id);
+                    return `<div class="flex gap-4 items-center">
+        <div class="w-20 h-20 rounded-2xl overflow-hidden img-fade shrink-0"><img src="${m.img}" alt="${m.name}" class="w-full h-full object-cover"></div>
+        <div class="flex-1 min-w-0">
+          <div class="font-bold truncate">${m.name}</div>
+          <div class="text-sm text-ink/50">${fmt(m.price)} each</div>
+          <div class="flex items-center gap-3 mt-2">
+            <button class="qty-btn" data-dec="${id}">−</button>
+            <span class="font-bold w-4 text-center">${q}</span>
+            <button class="qty-btn" data-inc="${id}">+</button>
+          </div>
+        </div>
+        <div class="text-right shrink-0">
+          <div class="font-display text-lg">${fmt(m.price * q)}</div>
+          <button class="text-xs text-ink/40 hover:text-caramel underline underline-offset-2 mt-1" data-rem="${id}">remove</button>
+        </div>
+      </div>`;
+                }).join('');
+                guardImages(box);
+                box.querySelectorAll('[data-inc]').forEach(b => b.addEventListener('click', () => changeQty(+b.dataset.inc, 1)));
+                box.querySelectorAll('[data-dec]').forEach(b => b.addEventListener('click', () => changeQty(+b.dataset.dec, -1)));
+                box.querySelectorAll('[data-rem]').forEach(b => b.addEventListener('click', () => { delete cart[+b.dataset.rem]; updateCartUI(); }));
+            }
+            document.getElementById('cartSubtotal').textContent = fmt(cartSum());
+            document.getElementById('cartTotal').textContent = fmt(cartSum());
+            bindHovers();
+        }
+        updateCartUI();
+
+        function openCart() { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); if (lenis) lenis.stop(); }
+        function closeCart() {
+            cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); if (lenis) lenis.start();
+            setTimeout(() => { document.getElementById('confirmView').classList.add('hidden'); document.getElementById('confirmView').classList.remove('flex'); document.getElementById('cartView').classList.remove('hidden'); }, 500);
+        }
+        document.getElementById('cartBtn').addEventListener('click', openCart);
+        document.getElementById('cartClose').addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+        document.getElementById('visitOrderBtn').addEventListener('click', openCart);
+        addEventListener('keydown', e => { if (e.key === 'Escape') { closeCart(); document.getElementById('mobileMenu').classList.remove('open'); } });
+
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            if (cartQty() === 0) { showToast('Your basket is empty — add something first'); return; }
+            document.getElementById('orderNum').textContent = '#CC-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('cartView').classList.add('hidden');
+            const cv = document.getElementById('confirmView');
+            cv.classList.remove('hidden'); cv.classList.add('flex');
+            const svg = cv.querySelector('svg'); const clone = svg.cloneNode(true); svg.replaceWith(clone); // restart stroke animation
+            cart = {}; updateCartUI();
+        });
+        document.getElementById('confirmClose').addEventListener('click', closeCart);
+
+        /* ---------- toast ---------- */
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastText').textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+        }
+
+        /* ---------- horizontal signature scroll ---------- */
+        const track = document.getElementById('hTrack');
+        const getDist = () => Math.max(0, track.scrollWidth - innerWidth);
+        gsap.to(track, {
+            x: () => -getDist(),
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '#signature', start: 'top top',
+                end: () => '+=' + getDist(),
+                scrub: 1, pin: true, invalidateOnRefresh: true, anticipatePin: 1
+            }
+        });
+
+        /* ---------- testimonials ---------- */
+        const QUOTES = [
+            { t: '"The sourdough here ruined every other bread for me. I plan my Saturday mornings around it — and I regret nothing."', a: 'Maya R. · Regular since 2015' },
+            { t: '"I\'ve eaten croissants in Paris. These are better. Flakier, butterier, and they don\'t judge you for ordering three."', a: 'Daniel K. · Croissant enthusiast' },
+            { t: '"Ordered the Midnight Cake for my daughter\'s birthday. Half the guests asked for the bakery\'s name before dessert was over."', a: 'Priya S. · Cake convert' },
+        ];
+        let qi = 0;
+        const qText = document.getElementById('quoteText'), qAuth = document.getElementById('quoteAuthor'), qDots = document.getElementById('quoteDots');
+        QUOTES.forEach((_, i) => {
+            const d = document.createElement('button');
+            d.className = 't-dot' + (i === 0 ? ' active' : '');
+            d.setAttribute('aria-label', 'Show testimonial ' + (i + 1));
+            d.addEventListener('click', () => showQuote(i));
+            qDots.appendChild(d);
+        });
+        function showQuote(i) {
+            qi = i;
+            gsap.to([qText, qAuth], {
+                opacity: 0, y: -14, duration: .35, ease: 'power2.in', onComplete: () => {
+                    qText.textContent = QUOTES[i].t; qAuth.textContent = QUOTES[i].a;
+                    gsap.fromTo([qText, qAuth], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .6, stagger: .08, ease: 'power3.out' });
+                }
+            });
+            qDots.querySelectorAll('.t-dot').forEach((d, j) => d.classList.toggle('active', j === i));
+        }
+        qText.textContent = QUOTES[0].t; qAuth.textContent = QUOTES[0].a;
+        setInterval(() => showQuote((qi + 1) % QUOTES.length), 6000);
+
+        /* ---------- open-now badge ---------- */
+        (function () {
+            const now = new Date(), day = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
+            const dotEl = document.getElementById('openDot'), txt = document.getElementById('openText');
+            let open = false, msg = '';
+            if (day === 1) { msg = 'Closed today · back Tuesday 7 AM'; }
+            else if (day === 0 || day === 6) { open = h >= 8 && h < 16; msg = open ? 'Open now · until 4:00 PM' : (h < 8 ? 'Opens today at 8:00 AM' : 'Closed · opens tomorrow'); }
+            else { open = h >= 7 && h < 18; msg = open ? 'Open now · until 6:00 PM' : (h < 7 ? 'Opens today at 7:00 AM' : 'Closed · opens tomorrow 7 AM'); }
+            dotEl.className = 'w-2.5 h-2.5 rounded-full ' + (open ? 'bg-green-600 animate-pulse' : 'bg-caramel');
+            txt.textContent = msg;
+        })();
+
+        /* ---------- newsletter ---------- */
+        document.getElementById('newsForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const btn = document.getElementById('newsBtnText');
+            btn.textContent = 'You\'re in ✓'.replace(' ✓', '');
+            btn.textContent = 'You\'re in';
+            showToast('Welcome to the fresh sheet — see you Sunday');
+            e.target.reset();
+            setTimeout(() => btn.textContent = 'Join', 3000);
+        });
+
+        /* ---------- refresh triggers after assets ---------- */
+        addEventListener('load', () => ScrollTrigger.refresh());
+        addEventListener('resize', () => ScrollTrigger.refresh());
+    </script>
+</body>
+
+</html>

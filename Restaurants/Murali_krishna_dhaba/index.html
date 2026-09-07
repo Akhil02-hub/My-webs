@@ -1,0 +1,1484 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premum | Premium Dum Biryani</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#FFF9E6',
+                            100: '#FFF0BF',
+                            200: '#FFE599',
+                            300: '#FFD966',
+                            400: '#FFCC33',
+                            500: '#C5A55A',
+                            600: '#D4AF37',
+                            700: '#B8860B',
+                            800: '#996515',
+                            900: '#8B6914',
+                        },
+                        dark: {
+                            50: '#2C2C2C',
+                            100: '#1A1A1A',
+                            200: '#141414',
+                            300: '#0F0F0F',
+                            400: '#0A0A0A',
+                        }
+                    },
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'elegant': ['Cormorant Garamond', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0A0A0A;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.7) 0%, rgba(10, 10, 10, 0.4) 50%, rgba(10, 10, 10, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #C5A55A 0%, #D4AF37 25%, #FFD700 50%, #D4AF37 75%, #C5A55A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gold-line {
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+        }
+
+        .card-hover {
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px rgba(212, 175, 55, 0.15);
+        }
+
+        .card-hover:hover .dish-img {
+            transform: scale(1.08);
+        }
+
+        .dish-img {
+            transition: transform 0.6s ease;
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, #C5A55A, #FFD700, #C5A55A, #FFD700, #C5A55A);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(10, 10, 10, 0.95) 100%);
+            z-index: 1;
+            border-radius: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #C5A55A, #D4AF37, #FFD700);
+            transition: all 0.4s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #D4AF37, #FFD700, #FFEA00);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline {
+            border: 1.5px solid #D4AF37;
+            transition: all 0.4s ease;
+        }
+
+        .btn-outline:hover {
+            background: linear-gradient(135deg, #C5A55A, #D4AF37);
+            transform: translateY(-2px);
+        }
+
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-12px);
+            }
+
+            60% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .divider-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .divider-ornament::before,
+        .divider-ornament::after {
+            content: '';
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+        }
+
+        .parallax-section {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(145deg, rgba(26, 26, 26, 0.8), rgba(15, 15, 15, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #C5A55A, #D4AF37);
+            border-radius: 4px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        .gallery-item img {
+            transition: transform 0.7s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .spice-rating {
+            color: #D4AF37;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #D4AF37 !important;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
+        .feature-icon {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+        }
+
+        .badge-premium {
+            background: linear-gradient(135deg, #C5A55A, #D4AF37);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 lg:h-24">
+                <a href="#hero" class="flex items-center gap-2">
+                    <div class="text-3xl lg:text-4xl font-display font-bold gold-gradient tracking-wide">Premum</div>
+                </a>
+
+                <div class="hidden lg:flex items-center gap-8 xl:gap-12">
+                    <a href="#menu"
+                        class="text-sm font-body tracking-widest uppercase text-gray-300 hover:text-gold-600 transition-colors duration-300">Menu</a>
+                    <a href="#about"
+                        class="text-sm font-body tracking-widest uppercase text-gray-300 hover:text-gold-600 transition-colors duration-300">Our
+                        Story</a>
+                    <a href="#gallery"
+                        class="text-sm font-body tracking-widest uppercase text-gray-300 hover:text-gold-600 transition-colors duration-300">Gallery</a>
+                    <a href="#testimonials"
+                        class="text-sm font-body tracking-widest uppercase text-gray-300 hover:text-gold-600 transition-colors duration-300">Reviews</a>
+                    <a href="#contact"
+                        class="btn-primary px-6 py-2.5 rounded-full text-dark-400 font-semibold text-sm tracking-wider uppercase">Reserve
+                        Table</a>
+                </div>
+
+                <button id="mobileMenuBtn" class="lg:hidden text-white p-2">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-72 bg-dark-200 z-50 p-8 flex flex-col">
+        <button id="closeMobileMenu" class="self-end text-white mb-8">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <div class="flex flex-col gap-6">
+            <a href="#menu"
+                class="text-lg font-body tracking-widest uppercase text-gray-300 hover:text-gold-600 transition-colors mobile-link">Menu</a>
+            <a href="#about"
+                class="text-lg font-body tracking-widest uppercase text-gray-300 hover:text-gold-600 transition-colors mobile-link">Our
+                Story</a>
+            <a href="#gallery"
+                class="text-lg font-body tracking-widest uppercase text-gray-300 hover:text-gold-600 transition-colors mobile-link">Gallery</a>
+            <a href="#testimonials"
+                class="text-lg font-body tracking-widest uppercase text-gray-300 hover:text-gold-600 transition-colors mobile-link">Reviews</a>
+            <a href="#contact"
+                class="btn-primary px-6 py-3 rounded-full text-dark-400 font-semibold text-sm tracking-wider uppercase text-center mt-4">Reserve
+                Table</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-bg min-h-screen flex items-center relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-dark-400/30 via-transparent to-dark-400"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
+            <div class="max-w-3xl">
+                <div class="animate-on-scroll mb-6">
+                    <span
+                        class="inline-block px-4 py-1.5 rounded-full border border-gold-600/40 text-gold-500 text-xs font-body tracking-[0.3em] uppercase">Est.
+                        2019 · Hyderabad</span>
+                </div>
+
+                <h1 class="animate-on-scroll font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.95] mb-6"
+                    style="transition-delay: 0.2s">
+                    <span class="text-white">The Art of</span><br>
+                    <span class="shimmer-text">Dum Biryani</span>
+                </h1>
+
+                <p class="animate-on-scroll font-elegant text-xl md:text-2xl text-gray-300 leading-relaxed mb-10 max-w-xl"
+                    style="transition-delay: 0.4s">
+                    Where centuries-old Mughlai recipes meet culinary excellence. Every grain tells a story of patience,
+                    passion, and perfection.
+                </p>
+
+                <div class="animate-on-scroll flex flex-wrap gap-4" style="transition-delay: 0.6s">
+                    <a href="#menu"
+                        class="btn-primary px-8 py-4 rounded-full text-dark-400 font-semibold text-sm tracking-wider uppercase">
+                        Explore Menu
+                    </a>
+                    <a href="#contact"
+                        class="btn-outline px-8 py-4 rounded-full text-gold-600 font-semibold text-sm tracking-wider uppercase">
+                        Book a Table
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 scroll-indicator">
+            <svg class="w-6 h-12 text-gold-600/60" fill="none" stroke="currentColor" viewBox="0 0 24 36">
+                <rect x="1" y="1" width="22" height="34" rx="11" stroke-width="1.5" />
+                <circle cx="12" cy="10" r="3" fill="#D4AF37">
+                    <animate attributeName="cy" values="10;22;10" dur="2s" repeatCount="indefinite" />
+                </circle>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Stats Banner -->
+    <section class="relative py-12 bg-dark-200 border-y border-gold-600/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center animate-on-scroll">
+                    <div class="text-3xl md:text-4xl font-display font-bold text-gold-600 mb-1">15K+</div>
+                    <div class="text-xs font-body tracking-widest uppercase text-gray-500">Happy Customers</div>
+                </div>
+                <div class="text-center animate-on-scroll" style="transition-delay: 0.1s">
+                    <div class="text-3xl md:text-4xl font-display font-bold text-gold-600 mb-1">12</div>
+                    <div class="text-xs font-body tracking-widest uppercase text-gray-500">Signature Biryanis</div>
+                </div>
+                <div class="text-center animate-on-scroll" style="transition-delay: 0.2s">
+                    <div class="text-3xl md:text-4xl font-display font-bold text-gold-600 mb-1">4.9</div>
+                    <div class="text-xs font-body tracking-widest uppercase text-gray-500">Google Rating</div>
+                </div>
+                <div class="text-center animate-on-scroll" style="transition-delay: 0.3s">
+                    <div class="text-3xl md:text-4xl font-display font-bold text-gold-600 mb-1">5</div>
+                    <div class="text-xs font-body tracking-widest uppercase text-gray-500">Years of Legacy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signature Dishes -->
+    <section id="menu" class="py-20 lg:py-28 bg-dark-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-gold-600 text-xs font-body tracking-[0.3em] uppercase">Curated Selection</span>
+                <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold mt-4 mb-6">
+                    <span class="gold-gradient">Signature Biryanis</span>
+                </h2>
+                <div class="divider-ornament max-w-md mx-auto">
+                    <svg class="w-5 h-5 text-gold-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                    </svg>
+                </div>
+                <p class="font-elegant text-lg text-gray-400 mt-6 max-w-2xl mx-auto">
+                    Each biryani is slow-cooked in the traditional dum style, sealed with atta dough and simmered on low
+                    fire for hours
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dish 1 -->
+                <div
+                    class="animate-on-scroll card-hover group rounded-2xl overflow-hidden bg-dark-100 border border-gold-600/10">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80"
+                            alt="Hyderabadi Dum Biryani" class="dish-img w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 z-10 badge-premium px-3 py-1 rounded-full">
+                            <span class="text-dark-400 text-xs font-bold uppercase tracking-wider">Bestseller</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3
+                                class="font-display text-xl font-bold text-white group-hover:text-gold-500 transition-colors">
+                                Hyderabadi Dum Biryani</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Tender basmati rice layered with succulent marinated meat, saffron, and aromatic spices.
+                            Slow-cooked for 4 hours.
+                        </p>
+                        <div class="flex items-center gap-1 mb-4 spice-rating text-sm">
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gray-600">🌶️</span>
+                            <span class="text-gray-600 ml-2 text-xs text-gray-500">Medium-Spicy</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="price-tag px-4 py-1.5 rounded-full text-gold-500 font-display font-bold text-lg">₹449</span>
+                            <button
+                                class="btn-outline px-4 py-2 rounded-full text-gold-600 text-xs tracking-wider uppercase font-semibold">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 2 -->
+                <div class="animate-on-scroll card-hover group rounded-2xl overflow-hidden bg-dark-100 border border-gold-600/10"
+                    style="transition-delay: 0.15s">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1631515242809-19e0b45e2993?w=800&q=80"
+                            alt="Lucknowi Chicken Biryani" class="dish-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3
+                                class="font-display text-xl font-bold text-white group-hover:text-gold-500 transition-colors">
+                                Lucknowi Chicken Biryani</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Delicate Awadhi-style biryani with fragrant rice, tender chicken, and a subtle blend of
+                            spices. Milder and aromatic.
+                        </p>
+                        <div class="flex items-center gap-1 mb-4 spice-rating text-sm">
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gray-600">🌶️</span>
+                            <span class="text-gray-600">🌶️</span>
+                            <span class="text-gray-600 ml-2 text-xs text-gray-500">Mild</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="price-tag px-4 py-1.5 rounded-full text-gold-500 font-display font-bold text-lg">₹399</span>
+                            <button
+                                class="btn-outline px-4 py-2 rounded-full text-gold-600 text-xs tracking-wider uppercase font-semibold">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 3 -->
+                <div class="animate-on-scroll card-hover group rounded-2xl overflow-hidden bg-dark-100 border border-gold-600/10"
+                    style="transition-delay: 0.3s">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1642821373181-696a54913e93?w=800&q=80"
+                            alt="Mutton Dum Biryani" class="dish-img w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 z-10 bg-red-600 px-3 py-1 rounded-full">
+                            <span class="text-white text-xs font-bold uppercase tracking-wider">Chef's Special</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3
+                                class="font-display text-xl font-bold text-white group-hover:text-gold-500 transition-colors">
+                                Mutton Dum Biryani</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Premium goat meat marinated overnight in yogurt and spices, layered with saffron rice and
+                            cooked on dum.
+                        </p>
+                        <div class="flex items-center gap-1 mb-4 spice-rating text-sm">
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gray-600 ml-2 text-xs text-gray-500">Spicy</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="price-tag px-4 py-1.5 rounded-full text-gold-500 font-display font-bold text-lg">₹549</span>
+                            <button
+                                class="btn-outline px-4 py-2 rounded-full text-gold-600 text-xs tracking-wider uppercase font-semibold">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 4 -->
+                <div class="animate-on-scroll card-hover group rounded-2xl overflow-hidden bg-dark-100 border border-gold-600/10"
+                    style="transition-delay: 0.1s">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=800&q=80"
+                            alt="Paneer Biryani" class="dish-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3
+                                class="font-display text-xl font-bold text-white group-hover:text-gold-500 transition-colors">
+                                Paneer Tikka Biryani</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Char-grilled paneer tikka layered with fragrant basmati rice, caramelized onions, and mint
+                            raita.
+                        </p>
+                        <div class="flex items-center gap-1 mb-4 spice-rating text-sm">
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gray-600">🌶️</span>
+                            <span class="text-gray-600 ml-2 text-xs text-gray-500">Medium</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="price-tag px-4 py-1.5 rounded-full text-gold-500 font-display font-bold text-lg">₹349</span>
+                            <button
+                                class="btn-outline px-4 py-2 rounded-full text-gold-600 text-xs tracking-wider uppercase font-semibold">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 5 -->
+                <div class="animate-on-scroll card-hover group rounded-2xl overflow-hidden bg-dark-100 border border-gold-600/10"
+                    style="transition-delay: 0.25s">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1631515242809-19e0b45e2993?w=800&q=80"
+                            alt="Egg Biryani" class="dish-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3
+                                class="font-display text-xl font-bold text-white group-hover:text-gold-500 transition-colors">
+                                Egg Dum Biryani</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Perfectly boiled eggs in a rich, spiced gravy layered with aromatic rice and crispy fried
+                            onions.
+                        </p>
+                        <div class="flex items-center gap-1 mb-4 spice-rating text-sm">
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gray-600">🌶️</span>
+                            <span class="text-gray-600">🌶️</span>
+                            <span class="text-gray-600 ml-2 text-xs text-gray-500">Mild-Medium</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="price-tag px-4 py-1.5 rounded-full text-gold-500 font-display font-bold text-lg">₹299</span>
+                            <button
+                                class="btn-outline px-4 py-2 rounded-full text-gold-600 text-xs tracking-wider uppercase font-semibold">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 6 -->
+                <div class="animate-on-scroll card-hover group rounded-2xl overflow-hidden bg-dark-100 border border-gold-600/10"
+                    style="transition-delay: 0.4s">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80"
+                            alt="Prawn Biryani" class="dish-img w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 z-10 bg-emerald-600 px-3 py-1 rounded-full">
+                            <span class="text-white text-xs font-bold uppercase tracking-wider">New</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3
+                                class="font-display text-xl font-bold text-white group-hover:text-gold-500 transition-colors">
+                                Prawn Dum Biryani</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Fresh jumbo prawns cooked with coconut, curry leaves, and aromatic spices in the traditional
+                            Kerala style.
+                        </p>
+                        <div class="flex items-center gap-1 mb-4 spice-rating text-sm">
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gold-600">🌶️</span>
+                            <span class="text-gray-600 ml-2 text-xs text-gray-500">Spicy</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="price-tag px-4 py-1.5 rounded-full text-gold-500 font-display font-bold text-lg">₹599</span>
+                            <button
+                                class="btn-outline px-4 py-2 rounded-full text-gold-600 text-xs tracking-wider uppercase font-semibold">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#contact"
+                    class="btn-outline px-10 py-4 rounded-full text-gold-600 font-semibold text-sm tracking-wider uppercase inline-block">
+                    View Full Menu
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="relative py-20 lg:py-28 overflow-hidden">
+        <div class="absolute inset-0 parallax-section opacity-20"
+            style="background-image: url('https://images.unsplash.com/photo-1596797038530-2c107229654b?w=1920&q=80');">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-dark-400 via-dark-400/95 to-dark-400/80"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="animate-on-scroll">
+                    <span class="text-gold-600 text-xs font-body tracking-[0.3em] uppercase">Our Heritage</span>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
+                        <span class="text-white">A Legacy of</span><br>
+                        <span class="gold-gradient">Royal Flavors</span>
+                    </h2>
+                    <div class="space-y-4 text-gray-400 leading-relaxed font-elegant text-lg">
+                        <p>
+                            Born from the kitchens of the Nizams of Hyderabad, Premum carries forward a 300-year-old
+                            tradition of dum biryani. Our master chefs, trained in the royal kitchens, bring you an
+                            experience that transcends ordinary dining.
+                        </p>
+                        <p>
+                            Every pot is sealed with hand-rolled atta dough, slow-cooked on charcoal fire for hours, and
+                            opened tableside — releasing an aroma that has enchanted royalty for generations.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 mt-10">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center text-gold-500 text-xl">
+                                🫕</div>
+                            <div>
+                                <div class="text-white font-semibold text-sm">Traditional Dum</div>
+                                <div class="text-gray-500 text-xs">Slow-cooked perfection</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center text-gold-500 text-xl">
+                                🌾</div>
+                            <div>
+                                <div class="text-white font-semibold text-sm">Aged Basmati</div>
+                                <div class="text-gray-500 text-xs">2-year aged rice</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center text-gold-500 text-xl">
+                                🧂</div>
+                            <div>
+                                <div class="text-white font-semibold text-sm">Handpicked Spices</div>
+                                <div class="text-gray-500 text-xs">23 exotic spices</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center text-gold-500 text-xl">
+                                🔥</div>
+                            <div>
+                                <div class="text-white font-semibold text-sm">Charcoal Fire</div>
+                                <div class="text-gray-500 text-xs">4-hour slow cook</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animate-on-scroll relative" style="transition-delay: 0.2s">
+                    <div class="relative rounded-2xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=800&q=80"
+                            alt="Traditional Dum Cooking" class="w-full h-[500px] object-cover rounded-2xl">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-400/60 to-transparent rounded-2xl">
+                        </div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="bg-dark-200/90 backdrop-blur-sm rounded-xl p-4 border border-gold-600/20">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-14 h-14 rounded-full bg-gold-600/20 flex items-center justify-center text-2xl">
+                                        👨‍🍳</div>
+                                    <div>
+                                        <div class="text-white font-display font-bold">Chef Mohammad Ali</div>
+                                        <div class="text-gold-500 text-sm">Head Chef · 25+ Years Experience</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Menu Preview -->
+    <section class="py-20 lg:py-28 bg-dark-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-gold-600 text-xs font-body tracking-[0.3em] uppercase">Complete Experience</span>
+                <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold mt-4 mb-6">
+                    <span class="gold-gradient">Beyond Biryani</span>
+                </h2>
+                <p class="font-elegant text-lg text-gray-400 mt-4 max-w-2xl mx-auto">
+                    Complementary dishes crafted to enhance your biryani experience
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-x-12 gap-y-6">
+                <!-- Left Column -->
+                <div>
+                    <h3 class="font-display text-2xl font-bold text-gold-600 mb-6 animate-on-scroll">Starters &
+                        Accompaniments</h3>
+
+                    <div class="space-y-6">
+                        <div
+                            class="animate-on-scroll flex items-start justify-between py-4 border-b border-gray-800 group">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h4
+                                        class="font-display font-semibold text-white text-lg group-hover:text-gold-500 transition-colors">
+                                        Mirchi Ka Salan</h4>
+                                    <span
+                                        class="text-xs bg-gold-600/20 text-gold-500 px-2 py-0.5 rounded-full">Vegetarian</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">Hyderabadi-style chili curry with roasted peanuts</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="price-tag px-3 py-1 rounded-full text-gold-500 font-bold">₹149</span>
+                            </div>
+                        </div>
+
+                        <div class="animate-on-scroll flex items-start justify-between py-4 border-b border-gray-800 group"
+                            style="transition-delay: 0.1s">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h4
+                                        class="font-display font-semibold text-white text-lg group-hover:text-gold-500 transition-colors">
+                                        Bagara Baingan</h4>
+                                    <span
+                                        class="text-xs bg-green-600/20 text-green-400 px-2 py-0.5 rounded-full">Vegan</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">Stuffed eggplant in rich sesame-peanut gravy</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="price-tag px-3 py-1 rounded-full text-gold-500 font-bold">₹179</span>
+                            </div>
+                        </div>
+
+                        <div class="animate-on-scroll flex items-start justify-between py-4 border-b border-gray-800 group"
+                            style="transition-delay: 0.2s">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h4
+                                        class="font-display font-semibold text-white text-lg group-hover:text-gold-500 transition-colors">
+                                        Chicken 65</h4>
+                                    <span
+                                        class="text-xs bg-red-600/20 text-red-400 px-2 py-0.5 rounded-full">Spicy</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">Crispy fried chicken with curry leaves and chilies</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="price-tag px-3 py-1 rounded-full text-gold-500 font-bold">₹249</span>
+                            </div>
+                        </div>
+
+                        <div class="animate-on-scroll flex items-start justify-between py-4 border-b border-gray-800 group"
+                            style="transition-delay: 0.3s">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h4
+                                        class="font-display font-semibold text-white text-lg group-hover:text-gold-500 transition-colors">
+                                        Double Ka Meetha</h4>
+                                    <span
+                                        class="text-xs bg-gold-600/20 text-gold-500 px-2 py-0.5 rounded-full">Sweet</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">Traditional Hyderabadi bread pudding with saffron</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="price-tag px-3 py-1 rounded-full text-gold-500 font-bold">₹199</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div>
+                    <h3 class="font-display text-2xl font-bold text-gold-600 mb-6 animate-on-scroll">Beverages &
+                        Desserts</h3>
+
+                    <div class="space-y-6">
+                        <div
+                            class="animate-on-scroll flex items-start justify-between py-4 border-b border-gray-800 group">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h4
+                                        class="font-display font-semibold text-white text-lg group-hover:text-gold-500 transition-colors">
+                                        Irani Chai</h4>
+                                    <span
+                                        class="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded-full">Signature</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">Creamy milk tea with cardamom, served with osmania
+                                    biscuits</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="price-tag px-3 py-1 rounded-full text-gold-500 font-bold">₹79</span>
+                            </div>
+                        </div>
+
+                        <div class="animate-on-scroll flex items-start justify-between py-4 border-b border-gray-800 group"
+                            style="transition-delay: 0.1s">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h4
+                                        class="font-display font-semibold text-white text-lg group-hover:text-gold-500 transition-colors">
+                                        Mango Lassi</h4>
+                                    <span
+                                        class="text-xs bg-gold-600/20 text-gold-500 px-2 py-0.5 rounded-full">Refreshing</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">Thick yogurt blended with Alphonso mango pulp</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="price-tag px-3 py-1 rounded-full text-gold-500 font-bold">₹129</span>
+                            </div>
+                        </div>
+
+                        <div class="animate-on-scroll flex items-start justify-between py-4 border-b border-gray-800 group"
+                            style="transition-delay: 0.2s">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h4
+                                        class="font-display font-semibold text-white text-lg group-hover:text-gold-500 transition-colors">
+                                        Qubani Ka Meetha</h4>
+                                    <span
+                                        class="text-xs bg-gold-600/20 text-gold-500 px-2 py-0.5 rounded-full">Royal</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">Apricot dessert with fresh cream and almonds</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="price-tag px-3 py-1 rounded-full text-gold-500 font-bold">₹229</span>
+                            </div>
+                        </div>
+
+                        <div class="animate-on-scroll flex items-start justify-between py-4 border-b border-gray-800 group"
+                            style="transition-delay: 0.3s">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h4
+                                        class="font-display font-semibold text-white text-lg group-hover:text-gold-500 transition-colors">
+                                        Phirni</h4>
+                                    <span
+                                        class="text-xs bg-gold-600/20 text-gold-500 px-2 py-0.5 rounded-full">Classic</span>
+                                </div>
+                                <p class="text-gray-500 text-sm">Ground rice pudding set in earthen pots with pistachios
+                                </p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="price-tag px-3 py-1 rounded-full text-gold-500 font-bold">₹169</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Quote Section -->
+    <section class="parallax-section py-28 relative"
+        style="background-image: url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1920&q=80');">
+        <div class="absolute inset-0 bg-dark-400/85"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+            <svg class="w-12 h-12 text-gold-600 mx-auto mb-8 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+            </svg>
+            <blockquote
+                class="font-elegant text-2xl md:text-3xl lg:text-4xl text-white leading-relaxed italic mb-8 animate-on-scroll">
+                "Biryani is not just a dish, it's an emotion. At Premum, we don't just cook — we craft memories that
+                linger on your palate long after the last grain is savored."
+            </blockquote>
+            <div class="animate-on-scroll" style="transition-delay: 0.2s">
+                <div class="w-16 h-0.5 gold-line mx-auto mb-4"></div>
+                <div class="text-gold-600 font-display font-bold text-lg">Premum Kitchen</div>
+                <div class="text-gray-500 text-sm mt-1">Since 2019</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 lg:py-28 bg-dark-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-gold-600 text-xs font-body tracking-[0.3em] uppercase">Visual Feast</span>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
+                    <span class="gold-gradient">Our Gallery</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="gallery-item col-span-2 row-span-2 animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80"
+                        alt="Biryani Platter" class="w-full h-full object-cover">
+                </div>
+                <div class="gallery-item animate-on-scroll" style="transition-delay: 0.1s">
+                    <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&q=80" alt="Dum Cooking"
+                        class="w-full h-48 md:h-64 object-cover">
+                </div>
+                <div class="gallery-item animate-on-scroll" style="transition-delay: 0.2s">
+                    <img src="https://images.unsplash.com/photo-1631515242809-19e0b45e2993?w=600&q=80" alt="Spices"
+                        class="w-full h-48 md:h-64 object-cover">
+                </div>
+                <div class="gallery-item animate-on-scroll" style="transition-delay: 0.3s">
+                    <img src="https://images.unsplash.com/photo-1642821373181-696a54913e93?w=600&q=80"
+                        alt="Biryani Close" class="w-full h-48 md:h-64 object-cover">
+                </div>
+                <div class="gallery-item animate-on-scroll" style="transition-delay: 0.4s">
+                    <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&q=80"
+                        alt="Indian Spices" class="w-full h-48 md:h-64 object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-20 lg:py-28 bg-dark-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-gold-600 text-xs font-body tracking-[0.3em] uppercase">What People Say</span>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
+                    <span class="gold-gradient">Reviews & Praise</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="testimonial-card rounded-2xl p-8 animate-on-scroll">
+                    <div class="flex items-center gap-1 mb-4">
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed mb-6 font-elegant text-lg">
+                        "The best biryani I've ever had outside of Hyderabad. The flavors are authentic, the meat melts
+                        in your mouth, and the saffron rice is perfectly cooked. A true gem!"
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gold-600/20 flex items-center justify-center text-gold-500 font-display font-bold text-lg">
+                            R</div>
+                        <div>
+                            <div class="text-white font-semibold">Rahul Sharma</div>
+                            <div class="text-gray-500 text-sm">Food Blogger</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card rounded-2xl p-8 animate-on-scroll" style="transition-delay: 0.15s">
+                    <div class="flex items-center gap-1 mb-4">
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed mb-6 font-elegant text-lg">
+                        "Premum's dum biryani transported me back to the royal kitchens of Lucknow. The aroma, the
+                        presentation, the taste — everything is world-class. Simply outstanding!"
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gold-600/20 flex items-center justify-center text-gold-500 font-display font-bold text-lg">
+                            P</div>
+                        <div>
+                            <div class="text-white font-semibold">Priya Nair</div>
+                            <div class="text-gray-500 text-sm">Restaurant Critic</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card rounded-2xl p-8 animate-on-scroll" style="transition-delay: 0.3s">
+                    <div class="flex items-center gap-1 mb-4">
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                        <span class="text-gold-500 text-lg">★</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed mb-6 font-elegant text-lg">
+                        "I've been coming here every week for 2 years. The consistency is remarkable. Their mutton
+                        biryani is the gold standard — nothing else comes close. Period."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gold-600/20 flex items-center justify-center text-gold-500 font-display font-bold text-lg">
+                            A</div>
+                        <div>
+                            <div class="text-white font-semibold">Arjun Reddy</div>
+                            <div class="text-gray-500 text-sm">Regular Customer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation / Contact Section -->
+    <section id="contact" class="relative py-20 lg:py-28 overflow-hidden">
+        <div class="absolute inset-0 parallax-section opacity-15"
+            style="background-image: url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1920&q=80');">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-dark-300 via-dark-400 to-dark-400"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="animate-on-scroll">
+                    <span class="text-gold-600 text-xs font-body tracking-[0.3em] uppercase">Reservations</span>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
+                        <span class="text-white">Book Your</span><br>
+                        <span class="gold-gradient">Royal Experience</span>
+                    </h2>
+                    <p class="text-gray-400 leading-relaxed font-elegant text-lg mb-8">
+                        Reserve your table for an unforgettable dum biryani experience. For parties larger than 8,
+                        please call us directly.
+                    </p>
+
+                    <div class="space-y-6 mb-10">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-xl feature-icon flex items-center justify-center text-gold-500 text-xl">
+                                📍</div>
+                            <div>
+                                <div class="text-white font-semibold">Address</div>
+                                <div class="text-gray-500 text-sm">42 Banjara Hills Road No. 3, Hyderabad, Telangana
+                                    500034</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-xl feature-icon flex items-center justify-center text-gold-500 text-xl">
+                                📞</div>
+                            <div>
+                                <div class="text-white font-semibold">Phone</div>
+                                <div class="text-gray-500 text-sm">+91 40 2345 6789</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-xl feature-icon flex items-center justify-center text-gold-500 text-xl">
+                                🕐</div>
+                            <div>
+                                <div class="text-white font-semibold">Hours</div>
+                                <div class="text-gray-500 text-sm">Tue - Sun: 12:00 PM - 3:00 PM, 7:00 PM - 11:00 PM
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-xl feature-icon flex items-center justify-center text-gold-500 text-xl">
+                                ✉️</div>
+                            <div>
+                                <div class="text-white font-semibold">Email</div>
+                                <div class="text-gray-500 text-sm">reserve@prebiryani.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animate-on-scroll" style="transition-delay: 0.2s">
+                    <form id="reservationForm"
+                        class="bg-dark-100/80 backdrop-blur-sm rounded-2xl p-8 border border-gold-600/10">
+                        <h3 class="font-display text-2xl font-bold text-white mb-6">Make a Reservation</h3>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="text-gray-400 text-xs uppercase tracking-wider mb-2 block">Full
+                                    Name</label>
+                                <input type="text" placeholder="Your Name" required
+                                    class="w-full bg-dark-200 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-600 text-sm transition-all">
+                            </div>
+                            <div>
+                                <label class="text-gray-400 text-xs uppercase tracking-wider mb-2 block">Phone</label>
+                                <input type="tel" placeholder="+91 XXXXX XXXXX" required
+                                    class="w-full bg-dark-200 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-600 text-sm transition-all">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="text-gray-400 text-xs uppercase tracking-wider mb-2 block">Email</label>
+                            <input type="email" placeholder="your@email.com" required
+                                class="w-full bg-dark-200 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-600 text-sm transition-all">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="text-gray-400 text-xs uppercase tracking-wider mb-2 block">Date</label>
+                                <input type="date" required
+                                    class="w-full bg-dark-200 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-600 text-sm transition-all">
+                            </div>
+                            <div>
+                                <label class="text-gray-400 text-xs uppercase tracking-wider mb-2 block">Time</label>
+                                <select required
+                                    class="w-full bg-dark-200 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm transition-all">
+                                    <option value="" class="bg-dark-200">Select Time</option>
+                                    <option value="12:00" class="bg-dark-200">12:00 PM</option>
+                                    <option value="12:30" class="bg-dark-200">12:30 PM</option>
+                                    <option value="13:00" class="bg-dark-200">1:00 PM</option>
+                                    <option value="13:30" class="bg-dark-200">1:30 PM</option>
+                                    <option value="19:00" class="bg-dark-200">7:00 PM</option>
+                                    <option value="19:30" class="bg-dark-200">7:30 PM</option>
+                                    <option value="20:00" class="bg-dark-200">8:00 PM</option>
+                                    <option value="20:30" class="bg-dark-200">8:30 PM</option>
+                                    <option value="21:00" class="bg-dark-200">9:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="text-gray-400 text-xs uppercase tracking-wider mb-2 block">Number of
+                                Guests</label>
+                            <select required
+                                class="w-full bg-dark-200 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm transition-all">
+                                <option value="" class="bg-dark-200">Select Guests</option>
+                                <option value="1" class="bg-dark-200">1 Guest</option>
+                                <option value="2" class="bg-dark-200">2 Guests</option>
+                                <option value="3" class="bg-dark-200">3 Guests</option>
+                                <option value="4" class="bg-dark-200">4 Guests</option>
+                                <option value="5" class="bg-dark-200">5 Guests</option>
+                                <option value="6" class="bg-dark-200">6 Guests</option>
+                                <option value="7" class="bg-dark-200">7 Guests</option>
+                                <option value="8" class="bg-dark-200">8 Guests</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="text-gray-400 text-xs uppercase tracking-wider mb-2 block">Special
+                                Requests</label>
+                            <textarea rows="3" placeholder="Any dietary requirements or special requests..."
+                                class="w-full bg-dark-200 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-600 text-sm transition-all resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" id="submitBtn"
+                            class="btn-primary w-full py-4 rounded-xl text-dark-400 font-semibold text-sm tracking-wider uppercase">
+                            Confirm Reservation
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-400 border-t border-gold-600/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="lg:col-span-1">
+                    <div class="text-3xl font-display font-bold gold-gradient mb-4">Premum</div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                        Premium dum biryani crafted with love, tradition, and the finest ingredients since 2019.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-dark-200 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-gold-500 hover:border-gold-600 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-dark-200 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-gold-500 hover:border-gold-600 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-dark-200 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-gold-500 hover:border-gold-600 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-dark-200 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-gold-500 hover:border-gold-600 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-bold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#menu" class="text-gray-500 hover:text-gold-500 transition-colors text-sm">Our
+                                Menu</a></li>
+                        <li><a href="#about" class="text-gray-500 hover:text-gold-500 transition-colors text-sm">Our
+                                Story</a></li>
+                        <li><a href="#gallery"
+                                class="text-gray-500 hover:text-gold-500 transition-colors text-sm">Gallery</a></li>
+                        <li><a href="#testimonials"
+                                class="text-gray-500 hover:text-gold-500 transition-colors text-sm">Reviews</a></li>
+                        <li><a href="#contact"
+                                class="text-gray-500 hover:text-gold-500 transition-colors text-sm">Reservations</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-bold text-white mb-4">Opening Hours</h4>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between text-sm">
+                            <span class="text-gray-500">Monday</span>
+                            <span class="text-red-400">Closed</span>
+                        </li>
+                        <li class="flex justify-between text-sm">
+                            <span class="text-gray-500">Tuesday - Friday</span>
+                            <span class="text-gray-400">12 PM - 11 PM</span>
+                        </li>
+                        <li class="flex justify-between text-sm">
+                            <span class="text-gray-500">Saturday</span>
+                            <span class="text-gray-400">12 PM - 11:30 PM</span>
+                        </li>
+                        <li class="flex justify-between text-sm">
+                            <span class="text-gray-500">Sunday</span>
+                            <span class="text-gray-400">12 PM - 11 PM</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-bold text-white mb-4">Newsletter</h4>
+                    <p class="text-gray-500 text-sm mb-4">Subscribe for exclusive offers and new menu updates.</p>
+                    <form class="flex gap-2"
+                        onsubmit="event.preventDefault(); this.reset(); alert('Thank you for subscribing!');">
+                        <input type="email" placeholder="Your email" required
+                            class="flex-1 bg-dark-200 border border-gray-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-600 text-sm transition-all">
+                        <button type="submit"
+                            class="btn-primary px-4 py-2.5 rounded-xl text-dark-400 font-semibold text-sm">
+                            →
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div
+                class="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-gray-600 text-sm">
+                    © 2024 Premum. All rights reserved. Crafted with ❤️ in Hyderabad.
+                </p>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="text-gray-600 hover:text-gold-500 transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-600 hover:text-gold-500 transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 50) {
+                navbar.classList.add('nav-blur', 'bg-dark-400/90', 'shadow-lg', 'shadow-black/20');
+            } else {
+                navbar.classList.remove('nav-blur', 'bg-dark-400/90', 'shadow-lg', 'shadow-black/20');
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Form submission
+        document.getElementById('reservationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.textContent;
+
+            btn.textContent = 'Reserving...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.textContent = '✓ Reservation Confirmed!';
+                btn.style.background = 'linear-gradient(135deg, #059669, #10B981)';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                    this.reset();
+                }, 3000);
+            }, 1500);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add to order button interaction
+        document.querySelectorAll('.btn-outline').forEach(btn => {
+            if (btn.textContent.includes('Add to Order')) {
+                btn.addEventListener('click', function () {
+                    const originalText = this.textContent;
+                    this.textContent = '✓ Added!';
+                    this.style.borderColor = '#10B981';
+                    this.style.color = '#10B981';
+
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.borderColor = '';
+                        this.style.color = '';
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

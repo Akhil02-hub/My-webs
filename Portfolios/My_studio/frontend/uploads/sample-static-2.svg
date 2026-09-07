@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" width="400" height="520">
+  <rect width="400" height="520" fill="#241726"/>
+  <rect x="18" y="18" width="364" height="484" fill="none" stroke="#C9A15A" stroke-width="1"/>
+  <circle cx="200" cy="200" r="60" fill="none" stroke="#C9A15A" stroke-width="2"/>
+  <text x="200" y="212" text-anchor="middle" font-family="Georgia, serif" font-size="46" fill="#C9A15A">EJ</text>
+  <text x="200" y="320" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#F4EFE6" letter-spacing="2">EMMA &amp; JAMES</text>
+  <text x="200" y="350" text-anchor="middle" font-family="Georgia, serif" font-size="12" letter-spacing="4" fill="#C9A15A">SAVE THE DATE</text>
+</svg>

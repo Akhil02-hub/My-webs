@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALEX RIVERA • AI Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+
+        :root {
+            --primary: 234 179 8;
+        }
+
+        .tail-container {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .hero-bg {
+            background: radial-gradient(at center bottom, #111827 0%, #000000 70%);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: rgb(234 179 8);
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .project-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(234 179 8 / 0.25);
+        }
+
+        .section-header {
+            position: relative;
+        }
+
+        .section-header:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, rgb(234 179 8), transparent);
+            bottom: -8px;
+            left: 0;
+        }
+
+        .neural-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(234, 179, 8, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(234, 179, 8, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(234, 179, 8, 0.06) 0%, transparent 50%);
+            z-index: -1;
+            animation: neuralPulse 25s ease infinite;
+        }
+
+        @keyframes neuralPulse {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .terminal-line {
+            animation: terminalBlink 1.2s step-end infinite;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgb(234 179 8);
+            box-shadow: 0 0 12px rgb(234 179 8);
+            animation: particleFloat 15s linear infinite;
+            z-index: 1;
+            opacity: 0.15;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(to right, rgb(234 179 8), rgb(245 158 11));
+            z-index: 50;
+            transition: width 0.1s;
+        }
+
+        .skill-bar {
+            height: 3px;
+            background: linear-gradient(to right, rgb(234 179 8), rgb(245 158 11));
+            transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 18px;
+            background: rgb(234 179 8);
+            vertical-align: middle;
+            animation: cursorBlink 0.8s step-end infinite;
+        }
+    </style>
+</head>
+
+<body class="tail-container bg-zinc-950 text-white overflow-x-hidden">
+    <!-- progress bar -->
+    <div id="progress-bar" class="scroll-progress w-0"></div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <!-- logo -->
+            <div class="flex items-center gap-x-3">
+                <div class="w-7 h-7 bg-yellow-400 flex items-center justify-center rounded-xl shadow-inner">
+                    <span class="text-zinc-950 text-xs font-bold tracking-tighter">AR</span>
+                </div>
+                <div>
+                    <span class="heading-font text-2xl font-semibold tracking-tighter">ALEX RIVERA</span>
+                </div>
+            </div>
+
+            <!-- menu -->
+            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                <a href="#about" onclick="smoothScrollTo('about')"
+                    class="nav-link text-white/80 hover:text-white">ABOUT</a>
+                <a href="#work" onclick="smoothScrollTo('work')"
+                    class="nav-link text-white/80 hover:text-white">WORK</a>
+                <a href="#expertise" onclick="smoothScrollTo('expertise')"
+                    class="nav-link text-white/80 hover:text-white">EXPERTISE</a>
+                <a href="#research" onclick="smoothScrollTo('research')"
+                    class="nav-link text-white/80 hover:text-white">RESEARCH</a>
+                <a href="#contact" onclick="smoothScrollTo('contact')"
+                    class="nav-link text-white/80 hover:text-white">CONTACT</a>
+            </div>
+
+            <div class="flex items-center gap-x-4">
+                <a href="https://twitter.com" target="_blank"
+                    class="w-9 h-9 flex items-center justify-center border border-white/30 hover:border-yellow-400 rounded-2xl transition-colors">
+                    <i class="fa-brands fa-x-twitter text-lg"></i>
+                </a>
+                <a href="https://github.com" target="_blank"
+                    class="w-9 h-9 flex items-center justify-center border border-white/30 hover:border-yellow-400 rounded-2xl transition-colors">
+                    <i class="fa-brands fa-github text-lg"></i>
+                </a>
+                <button onclick="downloadResume()"
+                    class="px-6 py-2.5 bg-white text-zinc-900 hover:bg-yellow-300 transition-all rounded-3xl text-sm font-semibold flex items-center gap-x-2 shadow-lg shadow-yellow-400/30">
+                    <i class="fa-solid fa-download text-xs"></i>
+                    <span>RESUME</span>
+                </button>
+
+                <!-- mobile menu -->
+                <button onclick="toggleMobileMenu()"
+                    class="md:hidden w-10 h-10 flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU -->
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-zinc-950 z-50 pt-20 px-6">
+            <div class="flex flex-col gap-y-6 text-2xl font-medium">
+                <a href="#about" onclick="toggleMobileMenu();smoothScrollTo('about')"
+                    class="py-4 border-b border-white/10">About</a>
+                <a href="#work" onclick="toggleMobileMenu();smoothScrollTo('work')"
+                    class="py-4 border-b border-white/10">Work</a>
+                <a href="#expertise" onclick="toggleMobileMenu();smoothScrollTo('expertise')"
+                    class="py-4 border-b border-white/10">Expertise</a>
+                <a href="#research" onclick="toggleMobileMenu();smoothScrollTo('research')"
+                    class="py-4 border-b border-white/10">Research</a>
+                <a href="#contact" onclick="toggleMobileMenu();smoothScrollTo('contact')"
+                    class="py-4 border-b border-white/10">Contact</a>
+
+                <div class="mt-auto pt-8 flex flex-col gap-y-4">
+                    <button onclick="downloadResume();toggleMobileMenu()"
+                        class="w-full py-6 bg-yellow-400 text-zinc-950 font-semibold rounded-3xl flex items-center justify-center gap-x-3">
+                        <i class="fa-solid fa-download"></i>
+                        <span>DOWNLOAD RESUME</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+        <!-- particles container -->
+        <div id="particles" class="absolute inset-0"></div>
+
+        <div class="neural-bg"></div>
+
+        <div class="max-w-screen-2xl mx-auto px-8 pt-20 grid md:grid-cols-12 gap-12 items-center relative z-10">
+            <!-- left content -->
+            <div class="md:col-span-7 pt-12 md:pt-0">
+                <div
+                    class="inline-flex items-center gap-x-2 bg-white/10 text-yellow-300 text-xs font-mono tracking-[2px] px-5 h-7 rounded-3xl mb-6 border border-yellow-400/30">
+                    <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                    SAN FRANCISCO, CA
+                </div>
+
+                <h1 class="heading-font text-7xl md:text-8xl font-semibold leading-none tracking-tighter mb-2">
+                    ALEX<span class="text-yellow-400">.</span>
+                </h1>
+                <h1
+                    class="heading-font text-7xl md:text-8xl font-semibold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-yellow-200 to-yellow-400 mb-6">
+                    RIVERA
+                </h1>
+
+                <div class="max-w-md mb-10">
+                    <p class="text-2xl text-white/70 leading-tight">
+                        AI Engineer building the next generation of intelligent systems
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-x-4">
+                    <button onclick="smoothScrollTo('work')"
+                        class="group px-8 py-6 bg-yellow-400 hover:bg-amber-300 transition-all text-zinc-950 rounded-3xl font-semibold flex items-center gap-x-3 text-lg shadow-2xl shadow-yellow-500/40">
+                        SEE MY WORK
+                        <span class="block group-active:rotate-45 transition-transform">
+                            →
+                        </span>
+                    </button>
+
+                    <button onclick="smoothScrollTo('contact')"
+                        class="px-8 py-6 border border-white/40 hover:border-white transition-all rounded-3xl font-medium flex items-center gap-x-3">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>LET'S CONNECT</span>
+                    </button>
+                </div>
+
+                <div class="mt-16 flex items-center gap-x-8 text-xs">
+                    <div class="flex items-center gap-x-5">
+                        <div class="text-white/40">PREVIOUSLY AT</div>
+                        <div class="flex gap-x-6 text-white/70">
+                            <div class="flex items-center gap-x-1.5">
+                                <i class="fa-solid fa-o"></i>
+                                <span class="font-medium">OPENAI</span>
+                            </div>
+                            <div class="h-3 w-px bg-white/20"></div>
+                            <div class="font-medium">ANTHROPIC</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- terminal -->
+                <div class="hidden lg:block mt-20 bg-zinc-900 border border-yellow-400/20 rounded-3xl p-1 max-w-xs">
+                    <div class="bg-black rounded-3xl p-5 font-mono text-xs leading-relaxed text-emerald-300">
+                        <div class="flex items-center gap-x-2 mb-4 text-white/30 text-[10px]">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div class="flex-1 text-center">model_training.py</div>
+                        </div>
+                        <div>&gt; training transformer...</div>
+                        <div class="text-yellow-400">loss: 0.042<span class="terminal-line">|</span></div>
+                        <div class="text-white/60 text-[10px] mt-6">val_accuracy: 98.7%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- right visual -->
+            <div class="md:col-span-5 relative flex justify-center">
+                <div class="relative">
+                    <!-- orb -->
+                    <div
+                        class="w-80 h-80 md:w-96 md:h-96 rounded-[100px] bg-gradient-to-br from-yellow-300 via-amber-400 to-orange-500 flex items-center justify-center shadow-2xl shadow-yellow-500/60 relative">
+                        <!-- inner orb -->
+                        <div
+                            class="w-64 h-64 md:w-72 md:h-72 rounded-[80px] bg-zinc-950 flex items-center justify-center overflow-hidden">
+                            <!-- neural net visualization -->
+                            <div class="relative w-56 h-56">
+                                <!-- nodes -->
+                                <div
+                                    class="absolute top-6 left-8 w-5 h-5 bg-yellow-400 rounded-full shadow-[0_0_30px_#facc15]">
+                                </div>
+                                <div
+                                    class="absolute top-12 right-10 w-5 h-5 bg-yellow-400 rounded-full shadow-[0_0_30px_#facc15] animation-delay-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-10 left-16 w-5 h-5 bg-yellow-400 rounded-full shadow-[0_0_30px_#facc15] animation-delay-700">
+                                </div>
+                                <div
+                                    class="absolute bottom-20 right-6 w-5 h-5 bg-yellow-400 rounded-full shadow-[0_0_30px_#facc15] animation-delay-1000">
+                                </div>
+
+                                <!-- connections -->
+                                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 240 240">
+                                    <line x1="45" y1="55" x2="175" y2="80" stroke="#facc15" stroke-width="2"
+                                        stroke-opacity="0.3" />
+                                    <line x1="45" y1="55" x2="95" y2="170" stroke="#facc15" stroke-width="2"
+                                        stroke-opacity="0.3" />
+                                    <line x1="175" y1="80" x2="195" y2="195" stroke="#facc15" stroke-width="2"
+                                        stroke-opacity="0.3" />
+                                    <line x1="95" y1="170" x2="195" y2="195" stroke="#facc15" stroke-width="2"
+                                        stroke-opacity="0.3" />
+                                    <line x1="175" y1="80" x2="95" y2="170" stroke="#facc15" stroke-width="1.5"
+                                        stroke-opacity="0.25" />
+                                </svg>
+
+                                <!-- center text -->
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div class="text-[10px] font-mono text-yellow-400 tracking-[3px]">LLM v4.2</div>
+                                        <div
+                                            class="text-6xl heading-font font-bold text-white tracking-tighter leading-none">
+                                            AI</div>
+                                        <div onclick="triggerNeuralBurst()"
+                                            class="cursor-pointer mt-2 text-[10px] border border-yellow-400/60 text-yellow-400 hover:bg-yellow-400 hover:text-zinc-950 transition-all px-5 py-1 rounded-3xl text-center text-xs font-medium">
+                                            ACTIVATE
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- orbiting rings -->
+                        <div
+                            class="absolute inset-0 border border-white/30 rounded-[100px] animate-[spin_30s_linear_infinite]">
+                        </div>
+                        <div
+                            class="absolute inset-8 border border-white/20 rounded-[80px] animate-[spin_20s_linear_infinite_reverse]">
+                        </div>
+                    </div>
+
+                    <!-- floating badges -->
+                    <div
+                        class="absolute -left-6 top-12 glass border border-white/10 rounded-3xl px-5 py-3 flex items-center gap-x-3 shadow-2xl">
+                        <div class="text-emerald-400">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-white/70">CURRENT FOCUS</div>
+                            <div class="text-sm font-medium">Multimodal Agents</div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="absolute -right-4 bottom-20 glass border border-white/10 rounded-3xl px-6 py-4 shadow-2xl text-center">
+                        <div class="text-4xl font-semibold text-yellow-300">42</div>
+                        <div class="text-xs tracking-widest text-white/50">MODELS SHIPPED</div>
+                    </div>
+
+                    <!-- status -->
+                    <div
+                        class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-zinc-900 text-yellow-400 text-xs font-mono px-6 h-8 rounded-3xl flex items-center gap-x-2 shadow-inner border border-yellow-400/30">
+                        <div class="relative flex h-3 w-3">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400"></span>
+                        </div>
+                        <span class="text-[10px]">ONLINE • TRAINING</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- scroll indicator -->
+        <div class="absolute bottom-12 left-1/2 flex flex-col items-center gap-y-2 text-xs font-light">
+            <div class="h-12 border-l border-white/30"></div>
+            <div onclick="smoothScrollTo('about')"
+                class="flex flex-col items-center cursor-pointer hover:text-yellow-400 transition-colors">
+                <span class="tracking-widest">SCROLL FOR EXPERIENCE</span>
+                <i class="fa-solid fa-chevron-down text-lg mt-3 animate-bounce"></i>
+            </div>
+        </div>
+
+        <!-- footer strip -->
+        <div
+            class="absolute bottom-0 left-0 right-0 h-16 bg-black/60 flex items-center justify-center text-xs font-mono text-white/30">
+            <div class="flex items-center gap-x-8">
+                <div>PYTORCH • TENSORFLOW • JAX</div>
+                <div class="w-px h-3 bg-white/30"></div>
+                <div>LLMS • DIFFUSION • RL</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section id="about" class="max-w-screen-2xl mx-auto px-8 py-28">
+        <div class="grid grid-cols-12 gap-14">
+            <!-- left -->
+            <div class="col-span-12 lg:col-span-5">
+                <div class="sticky top-28">
+                    <div class="inline px-4 py-2 text-xs rounded-3xl border border-yellow-400/30 text-yellow-400">
+                        CHAPTER 01 — BIO</div>
+                    <h2 class="heading-font text-6xl font-semibold tracking-tighter mt-3 leading-none">The
+                        mind<br>behind the<br>machine.</h2>
+
+                    <div class="mt-12 max-w-xs">
+                        <div class="flex justify-between text-xs mb-6">
+                            <div class="text-white/50">CURRENT ROLE</div>
+                            <div class="font-medium">Principal AI Engineer @ xAI</div>
+                        </div>
+                        <div class="h-px bg-white/10 mb-6"></div>
+                        <div class="flex justify-between text-xs">
+                            <div class="text-white/50">BASED IN</div>
+                            <div class="font-medium">San Francisco, California</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-20 text-xs leading-loose text-white/60 max-w-xs">
+                        With over 8 years engineering frontier AI systems, I specialize in creating models that don't
+                        just predict — they understand, reason and create.
+                    </div>
+
+                    <button onclick="showBioModal()" class="mt-8 flex items-center gap-x-4 group">
+                        <div class="w-8 h-px bg-white"></div>
+                        <span
+                            class="uppercase text-xs tracking-widest group-hover:text-yellow-400 transition-colors">Read
+                            full bio</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- right content -->
+            <div class="col-span-12 lg:col-span-7">
+                <div class="prose prose-invert max-w-none text-lg">
+                    <p class="text-white/80">
+                        I'm Alex Rivera, an AI Engineer obsessed with pushing the boundaries of what's possible with
+                        artificial intelligence.
+                        My work spans large language models, multimodal systems, reinforcement learning and autonomous
+                        agents.
+                    </p>
+                    <p class="text-white/80 mt-6">
+                        Previously I led the development of the core reasoning engine at Anthropic and contributed to
+                        GPT-4 training infrastructure at OpenAI.
+                        Today at xAI I'm working on Grok-2 and next-generation reasoning architectures.
+                    </p>
+                </div>
+
+                <!-- stats grid -->
+                <div class="grid grid-cols-3 gap-px bg-white/5 rounded-3xl overflow-hidden mt-16">
+                    <div class="bg-zinc-900 p-8">
+                        <div class="text-yellow-400 text-5xl font-semibold heading-font">14</div>
+                        <div class="text-xs mt-1 text-white/60">CONFERENCES KEYNOTED</div>
+                        <div class="text-emerald-400 text-xs mt-6 font-medium">NeurIPS • ICML • CVPR</div>
+                    </div>
+                    <div class="bg-zinc-900 p-8">
+                        <div class="text-yellow-400 text-5xl font-semibold heading-font">89</div>
+                        <div class="text-xs mt-1 text-white/60">PAPERS CITED</div>
+                        <div class="mt-8 flex -space-x-4">
+                            <div
+                                class="w-6 h-6 bg-blue-400 rounded-2xl border-2 border-zinc-900 flex items-center justify-center text-[10px]">
+                                A</div>
+                            <div
+                                class="w-6 h-6 bg-red-400 rounded-2xl border-2 border-zinc-900 flex items-center justify-center text-[10px]">
+                                B</div>
+                            <div
+                                class="w-6 h-6 bg-purple-400 rounded-2xl border-2 border-zinc-900 flex items-center justify-center text-[10px]">
+                                C</div>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-900 p-8">
+                        <div class="text-yellow-400 text-5xl font-semibold heading-font">4</div>
+                        <div class="text-xs mt-1 text-white/60">PATENTS GRANTED</div>
+                        <div class="text-xs text-white/70 mt-12">“System and method for efficient sparse attention”
+                        </div>
+                    </div>
+                </div>
+
+                <!-- education -->
+                <div class="mt-12">
+                    <h4 class="font-medium text-xs text-white/40 mb-6 tracking-wider">EDUCATION</h4>
+                    <div class="space-y-8">
+                        <div class="flex gap-6">
+                            <div class="w-16 text-xs font-light text-right text-white/40">2018</div>
+                            <div>
+                                <div class="font-semibold">Ph.D. Computer Science • Stanford University</div>
+                                <div class="text-sm text-white/60">Thesis: Scaling Laws in Large Language Models</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="w-16 text-xs font-light text-right text-white/40">2015</div>
+                            <div>
+                                <div class="font-semibold">B.S. Symbolic Systems • MIT</div>
+                                <div class="text-sm text-white/60">Minor in Mathematics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIVIDER -->
+    <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-4"></div>
+
+    <!-- WORK / SELECTED PROJECTS -->
+    <section id="work" class="max-w-screen-2xl mx-auto px-8 py-28 bg-black">
+        <div class="flex items-end justify-between mb-12">
+            <div>
+                <span class="px-5 py-1 text-xs border border-amber-300 text-amber-300 rounded-3xl">CHAPTER 02</span>
+                <h2 class="heading-font text-6xl tracking-tighter font-medium mt-2">Featured Projects</h2>
+            </div>
+            <a onclick="smoothScrollTo('research')"
+                class="hidden md:flex items-center text-xs gap-x-2 hover:text-yellow-400 transition-colors cursor-pointer">
+                VIEW ALL RESEARCH
+                <span class="text-lg leading-none">→</span>
+            </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+            <!-- project 1 -->
+            <div onclick="showProjectDetail(0)"
+                class="project-card bg-zinc-900 border border-white/5 rounded-3xl overflow-hidden cursor-pointer group">
+                <div class="h-64 bg-zinc-800 relative flex items-center justify-center overflow-hidden">
+                    <div
+                        class="text-[180px] font-black heading-font text-yellow-400/10 group-hover:text-yellow-400/20 transition-colors">
+                        G</div>
+                    <div
+                        class="absolute inset-0 bg-[radial-gradient(#ca8a04_1px,transparent_1px)] [background-size:28px_28px] opacity-10">
+                    </div>
+                    <div
+                        class="absolute px-6 py-2 bg-black/80 text-yellow-400 text-sm font-medium rounded-3xl bottom-6 left-6 flex items-center gap-x-2">
+                        <i class="fa-solid fa-robot"></i>
+                        <span>GROK-2</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-baseline">
+                        <div class="font-semibold text-2xl">Grok-2 Reasoning Engine</div>
+                        <div class="text-xs px-4 py-2 bg-emerald-900 text-emerald-400 rounded-3xl">xAI • 2024</div>
+                    </div>
+                    <p class="text-white/60 text-sm mt-3 line-clamp-3">
+                        Core contributor to the reasoning and tool-use capabilities of Grok-2. Built the
+                        chain-of-thought scaffolding and self-critique modules that power its world-class performance on
+                        complex tasks.
+                    </p>
+                    <div class="flex gap-2 mt-8">
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">LLM</div>
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">REINFORCEMENT</div>
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">AGENTS</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- project 2 -->
+            <div onclick="showProjectDetail(1)"
+                class="project-card bg-zinc-900 border border-white/5 rounded-3xl overflow-hidden cursor-pointer group">
+                <div class="h-64 bg-zinc-800 relative flex items-center justify-center overflow-hidden">
+                    <div
+                        class="w-40 h-40 border-8 border-dashed border-yellow-400/30 rounded-full flex items-center justify-center">
+                        <div
+                            class="w-28 h-28 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl rotate-12 flex items-center justify-center text-6xl">
+                            📸</div>
+                    </div>
+                    <div class="absolute top-8 right-8 text-xs font-mono bg-black px-3 py-1 rounded">MULTIMODAL</div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-baseline">
+                        <div class="font-semibold text-2xl">VisionForge</div>
+                        <div class="text-xs px-4 py-2 bg-sky-900 text-sky-400 rounded-3xl">ANTHROPIC • 2023</div>
+                    </div>
+                    <p class="text-white/60 text-sm mt-3 line-clamp-3">
+                        A state-of-the-art vision-language model that can generate photorealistic images from complex
+                        textual prompts while maintaining strict semantic fidelity. Deployed to 2M+ users.
+                    </p>
+                    <div class="flex gap-2 mt-8">
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">DIFFUSION</div>
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">TRANSFORMERS</div>
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">VLM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- project 3 -->
+            <div onclick="showProjectDetail(2)"
+                class="project-card bg-zinc-900 border border-white/5 rounded-3xl overflow-hidden cursor-pointer group">
+                <div class="h-64 bg-zinc-800 relative flex items-center justify-center overflow-hidden">
+                    <div class="text-yellow-400">
+                        <svg width="160" height="160" viewBox="0 0 200 200" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="100" cy="100" r="70" stroke="currentColor" stroke-width="18"
+                                stroke-dasharray="20 15" />
+                            <path d="M60 100 L85 130 L145 65" stroke="currentColor" stroke-width="18"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-baseline">
+                        <div class="font-semibold text-2xl">SafeAlign</div>
+                        <div class="text-xs px-4 py-2 bg-rose-900 text-rose-400 rounded-3xl">OPENAI • 2022</div>
+                    </div>
+                    <p class="text-white/60 text-sm mt-3 line-clamp-3">
+                        Constitutional AI safety layer that reduced harmful model outputs by 94%. Integrated into GPT-4
+                        safety pipeline and open-sourced with 18k GitHub stars.
+                    </p>
+                    <div class="flex gap-2 mt-8">
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">SAFETY</div>
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">RLHF</div>
+                        <div class="text-[10px] bg-white/10 px-4 py-2 rounded-3xl">ALIGNMENT</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-16">
+            <button onclick="viewAllWork()"
+                class="inline-flex items-center gap-x-3 border border-white/30 hover:border-yellow-400 px-10 py-6 rounded-3xl text-sm transition-all">
+                <span class="font-medium">BROWSE ENTIRE ARCHIVE</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- EXPERTISE -->
+    <section id="expertise" class="max-w-screen-2xl mx-auto px-8 py-28 bg-zinc-950">
+        <div class="grid grid-cols-12 gap-x-8">
+            <div class="col-span-12 md:col-span-4">
+                <div class="max-w-xs">
+                    <span class="text-xs border border-teal-300 text-teal-300 px-4 py-2 rounded-3xl">CHAPTER 03</span>
+                    <h2 class="heading-font text-6xl font-medium tracking-tighter leading-none mt-4">Technical Mastery
+                    </h2>
+                    <p class="text-white/70 mt-6">Tools, frameworks, and methodologies I wield daily to build the
+                        future.</p>
+                </div>
+            </div>
+
+            <div class="col-span-12 md:col-span-8">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <!-- skill -->
+                    <div class="glass border border-white/10 p-7 rounded-3xl">
+                        <div class="flex items-center justify-between">
+                            <div class="text-4xl">🧠</div>
+                            <div class="text-right">
+                                <div class="text-xs text-teal-400 font-medium">EXPERT</div>
+                                <div class="text-5xl heading-font font-semibold text-white/90">92</div>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <div class="flex justify-between text-xs mb-3">
+                                <span>Large Language Models</span>
+                                <span class="text-white/40">PyTorch / JAX</span>
+                            </div>
+                            <div class="bg-white/10 h-px rounded">
+                                <div class="skill-bar w-[92%]"></div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-white/50 mt-8">Transformers, attention mechanisms, fine-tuning,
+                            quantization, inference optimization.</div>
+                    </div>
+
+                    <!-- skill -->
+                    <div class="glass border border-white/10 p-7 rounded-3xl">
+                        <div class="flex items-center justify-between">
+                            <div class="text-4xl">📸</div>
+                            <div class="text-right">
+                                <div class="text-xs text-teal-400 font-medium">ADVANCED</div>
+                                <div class="text-5xl heading-font font-semibold text-white/90">87</div>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <div class="flex justify-between text-xs mb-3">
+                                <span>Multimodal Systems</span>
+                                <span class="text-white/40">CLIP • Flamingo</span>
+                            </div>
+                            <div class="bg-white/10 h-px rounded">
+                                <div class="skill-bar w-[87%]"></div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-white/50 mt-8">Vision-language models, diffusion architectures,
+                            image-to-text and text-to-image generation.</div>
+                    </div>
+
+                    <!-- skill -->
+                    <div class="glass border border-white/10 p-7 rounded-3xl">
+                        <div class="flex items-center justify-between">
+                            <div class="text-4xl">🛡️</div>
+                            <div class="text-right">
+                                <div class="text-xs text-teal-400 font-medium">EXPERT</div>
+                                <div class="text-5xl heading-font font-semibold text-white/90">95</div>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <div class="flex justify-between text-xs mb-3">
+                                <span>AI Alignment &amp; Safety</span>
+                                <span class="text-white/40">RLHF • RLAIF</span>
+                            </div>
+                            <div class="bg-white/10 h-px rounded">
+                                <div class="skill-bar w-[95%]"></div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-white/50 mt-8">Constitutional AI, red-teaming, scalable oversight,
+                            preference modeling.</div>
+                    </div>
+
+                    <!-- skill row 2 -->
+                    <div class="glass border border-white/10 p-7 rounded-3xl">
+                        <div class="flex items-center justify-between">
+                            <div class="text-4xl">🚀</div>
+                            <div class="text-right">
+                                <div class="text-xs text-teal-400 font-medium">PROFICIENT</div>
+                                <div class="text-5xl heading-font font-semibold text-white/90">81</div>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <div class="flex justify-between text-xs mb-3">
+                                <span>Autonomous Agents</span>
+                                <span class="text-white/40">LangChain • AutoGPT</span>
+                            </div>
+                            <div class="bg-white/10 h-px rounded">
+                                <div class="skill-bar w-[81%]"></div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-white/50 mt-8">Tool calling, memory systems, planning, multi-agent
+                            coordination.</div>
+                    </div>
+
+                    <div class="glass border border-white/10 p-7 rounded-3xl">
+                        <div class="flex items-center justify-between">
+                            <div class="text-4xl">📊</div>
+                            <div class="text-right">
+                                <div class="text-xs text-teal-400 font-medium">EXPERT</div>
+                                <div class="text-5xl heading-font font-semibold text-white/90">90</div>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <div class="flex justify-between text-xs mb-3">
+                                <span>Reinforcement Learning</span>
+                                <span class="text-white/40">PPO • DQN</span>
+                            </div>
+                            <div class="bg-white/10 h-px rounded">
+                                <div class="skill-bar w-[90%]"></div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-white/50 mt-8">Policy gradients, actor-critic, world models, simulation
+                            environments.</div>
+                    </div>
+
+                    <div class="glass border border-white/10 p-7 rounded-3xl">
+                        <div class="flex items-center justify-between">
+                            <div class="text-4xl">☁️</div>
+                            <div class="text-right">
+                                <div class="text-xs text-teal-400 font-medium">ADVANCED</div>
+                                <div class="text-5xl heading-font font-semibold text-white/90">78</div>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <div class="flex justify-between text-xs mb-3">
+                                <span>Infrastructure &amp; MLOps</span>
+                                <span class="text-white/40">Kubernetes • Ray</span>
+                            </div>
+                            <div class="bg-white/10 h-px rounded">
+                                <div class="skill-bar w-[78%]"></div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-white/50 mt-8">Distributed training, model serving, experiment
+                            tracking, cost optimization.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" class="max-w-screen-2xl mx-auto px-8 py-28">
+        <div class="flex flex-col md:flex-row md:items-end gap-6 mb-12">
+            <div class="flex-1">
+                <span class="px-5 py-2 text-xs bg-white/5 text-violet-300 rounded-3xl">CHAPTER 04 — PUBLICATIONS</span>
+                <h2 class="heading-font text-6xl font-medium tracking-tighter mt-2">Selected Research</h2>
+            </div>
+            <div class="max-w-xs text-white/60">
+                Peer-reviewed papers and preprints that shaped the field.
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div onclick="showPaperDetail(0)"
+                class="group flex flex-col md:flex-row gap-8 items-center border border-transparent hover:border-violet-300/30 transition-all bg-zinc-900 hover:bg-zinc-800/70 rounded-3xl p-2 cursor-pointer">
+                <div class="md:w-72 h-56 bg-zinc-700 rounded-3xl flex-shrink-0 overflow-hidden">
+                    <img src="https://picsum.photos/id/1015/600/400" alt=""
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="flex-1 py-4">
+                    <div class="flex items-center gap-x-4 text-xs">
+                        <span class="font-mono text-violet-400">NeurIPS 2023</span>
+                        <span class="bg-white/10 text-white/60 px-3 py-px rounded">SPOTLIGHT</span>
+                    </div>
+                    <h3 class="text-3xl font-medium mt-4 leading-tight">Scaling Laws for Reward Models in Constitutional
+                        AI</h3>
+                    <p class="text-white/60 mt-4 max-w-prose">
+                        We demonstrate that reward model performance scales log-linearly with model size and data
+                        volume, enabling more reliable preference modeling at frontier scale.
+                    </p>
+                    <div class="flex items-center gap-x-6 text-xs mt-10">
+                        <div class="flex items-center">
+                            <span class="font-medium">Alex Rivera</span>
+                            <span class="mx-3 text-white/30">•</span>
+                            <span class="text-white/40">Y. Li, J. Wu et al.</span>
+                        </div>
+                        <div class="ml-auto text-yellow-400 text-sm flex items-center gap-x-2">
+                            <span class="font-mono">42</span>
+                            <span class="text-xs text-white/40">CITATIONS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div onclick="showPaperDetail(1)"
+                class="group flex flex-col md:flex-row gap-8 items-center border border-transparent hover:border-violet-300/30 transition-all bg-zinc-900 hover:bg-zinc-800/70 rounded-3xl p-2 cursor-pointer">
+                <div class="md:w-72 h-56 bg-zinc-700 rounded-3xl flex-shrink-0 overflow-hidden">
+                    <img src="https://picsum.photos/id/160/600/400" alt=""
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="flex-1 py-4">
+                    <div class="flex items-center gap-x-4 text-xs">
+                        <span class="font-mono text-violet-400">ICML 2024</span>
+                    </div>
+                    <h3 class="text-3xl font-medium mt-4 leading-tight">Efficient Sparse Mixture-of-Experts for 1T
+                        Parameter Models</h3>
+                    <p class="text-white/60 mt-4 max-w-prose">
+                        Introduces a novel routing algorithm that reduces routing computation by 60% while maintaining
+                        or improving downstream performance.
+                    </p>
+                    <div class="flex items-center gap-x-6 text-xs mt-10">
+                        <div class="flex items-center">
+                            <span class="font-medium">Alex Rivera</span>
+                            <span class="mx-3 text-white/30">•</span>
+                            <span class="text-white/40">et al.</span>
+                        </div>
+                        <div class="ml-auto text-yellow-400 text-sm flex items-center gap-x-2">
+                            <span class="font-mono">127</span>
+                            <span class="text-xs text-white/40">CITATIONS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS / QUOTES -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-20 bg-black border-t border-b border-white/5">
+        <div class="max-w-3xl mx-auto text-center">
+            <div class="italic text-3xl leading-tight text-white/80">
+                “Alex is one of the most gifted AI engineers I've ever worked with. His intuition for model architecture
+                borders on the supernatural.”
+            </div>
+            <div class="mt-8 flex items-center justify-center gap-x-4">
+                <div class="w-9 h-9 bg-white rounded-2xl overflow-hidden">
+                    <img src="https://picsum.photos/id/64/144/144" alt="" class="w-full h-full object-cover">
+                </div>
+                <div class="text-left">
+                    <div class="font-medium">Dario Amodei</div>
+                    <div class="text-xs text-white/40">CEO, Anthropic</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT -->
+    <section id="contact" class="max-w-screen-2xl mx-auto px-8 py-28 relative">
+        <div class="grid grid-cols-12 gap-8">
+            <div class="col-span-12 lg:col-span-5">
+                <h2 class="heading-font text-7xl font-semibold tracking-tighter">Let's
+                    build<br>something<br>intelligent.</h2>
+                <div class="mt-8 text-white/70 max-w-xs">
+                    Currently accepting a limited number of consulting projects and speaking engagements for 2025.
+                </div>
+
+                <div class="mt-16">
+                    <a href="mailto:alex@arivera.ai" class="flex items-center gap-x-6 group">
+                        <div class="text-7xl font-light text-yellow-400 group-hover:scale-110 transition-transform">✉️
+                        </div>
+                        <div>
+                            <div class="text-xs text-white/40 tracking-widest">EMAIL ME</div>
+                            <div class="text-2xl font-light">alex@arivera.ai</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex gap-x-6 mt-20">
+                    <a href="#" class="text-4xl hover:text-yellow-400 transition-colors"><i
+                            class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="text-4xl hover:text-yellow-400 transition-colors"><i
+                            class="fa-brands fa-github"></i></a>
+                    <a href="#" class="text-4xl hover:text-yellow-400 transition-colors"><i
+                            class="fa-brands fa-x-twitter"></i></a>
+                </div>
+
+                <div class="mt-auto pt-20 text-[10px] text-white/30 font-mono">© 2025 ALEX RIVERA. ALL RIGHTS RESERVED.
+                </div>
+            </div>
+
+            <!-- contact form -->
+            <div class="col-span-12 lg:col-span-7 glass border border-white/10 rounded-3xl p-10">
+                <form onsubmit="handleSubmit(event)" class="space-y-8">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs text-white/40 mb-2">FIRST NAME</label>
+                            <input id="fname" type="text"
+                                class="w-full bg-transparent border-b border-white/30 focus:border-yellow-400 outline-none text-lg py-4 placeholder:text-white/30"
+                                placeholder="Taylor" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-white/40 mb-2">LAST NAME</label>
+                            <input id="lname" type="text"
+                                class="w-full bg-transparent border-b border-white/30 focus:border-yellow-400 outline-none text-lg py-4 placeholder:text-white/30"
+                                placeholder="Chen" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-white/40 mb-2">EMAIL ADDRESS</label>
+                        <input id="email" type="email"
+                            class="w-full bg-transparent border-b border-white/30 focus:border-yellow-400 outline-none text-lg py-4 placeholder:text-white/30"
+                            placeholder="you@email.com" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-white/40 mb-2">MESSAGE / INQUIRY</label>
+                        <textarea id="message" rows="6"
+                            class="w-full bg-transparent border-b border-white/30 focus:border-yellow-400 outline-none text-lg py-4 placeholder:text-white/30 resize-none"
+                            placeholder="I'm looking to collaborate on..."></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit"
+                            class="w-full h-16 bg-white text-zinc-950 font-semibold rounded-3xl flex items-center justify-center gap-x-4 hover:scale-[1.03] active:scale-95 transition-all">
+                            SEND MESSAGE
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-8 border-t border-white/10">
+        <div
+            class="max-w-screen-2xl mx-auto px-8 text-xs flex flex-col md:flex-row justify-between items-center gap-y-4 text-white/30 font-light">
+            <div>Made with neural networks and a little bit of love</div>
+            <div class="flex items-center gap-x-8">
+                <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+                    class="cursor-pointer hover:text-yellow-300">↑ BACK TO TOP</div>
+                <div>PRIVACY • LEGAL</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PROJECT MODAL -->
+    <div onclick="if(event.target.id === 'project-modal') hideProjectModal()" id="project-modal"
+        class="hidden fixed inset-0 bg-black/80 backdrop-blur-xl z-[999] flex items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()"
+            class="max-w-2xl w-full mx-4 bg-zinc-900 rounded-3xl overflow-hidden">
+
+            <!-- modal header image -->
+            <div id="modal-image" class="h-80 bg-cover bg-center relative">
+                <div class="absolute top-6 right-6 bg-black/70 text-xs font-medium px-5 py-2 rounded-3xl"
+                    id="modal-year"></div>
+                <button onclick="hideProjectModal()"
+                    class="absolute top-6 left-6 w-9 h-9 bg-black/60 hover:bg-black flex items-center justify-center rounded-2xl text-xl transition-colors">✕</button>
+            </div>
+
+            <div class="p-10">
+                <div id="modal-title" class="text-4xl font-semibold heading-font"></div>
+                <div id="modal-subtitle" class="text-yellow-400 text-sm mt-1"></div>
+
+                <div id="modal-description" class="mt-8 text-white/70 leading-relaxed"></div>
+
+                <div class="flex flex-wrap gap-2 mt-12" id="modal-tags">
+                    <!-- populated by JS -->
+                </div>
+
+                <div class="border-t border-white/10 mt-12 pt-8 flex items-center justify-between text-xs">
+                    <div class="flex items-center gap-x-8">
+                        <button onclick="fakeAction('demo')"
+                            class="flex items-center gap-x-2 hover:text-yellow-400 transition-colors">
+                            <i class="fa-solid fa-play"></i>
+                            <span>LIVE DEMO</span>
+                        </button>
+                        <button onclick="fakeAction('paper')"
+                            class="flex items-center gap-x-2 hover:text-yellow-400 transition-colors">
+                            <i class="fa-solid fa-file-lines"></i>
+                            <span>READ PAPER</span>
+                        </button>
+                    </div>
+                    <div onclick="hideProjectModal()" class="text-white/40 hover:text-white cursor-pointer">CLOSE
+                        PREVIEW</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BIO MODAL -->
+    <div onclick="if(event.target.id === 'bio-modal') hideBioModal()" id="bio-modal"
+        class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[999]">
+        <div onclick="event.stopImmediatePropagation()"
+            class="max-w-lg bg-zinc-900 rounded-3xl p-8 max-h-[80vh] overflow-auto">
+            <div class="flex justify-end">
+                <button onclick="hideBioModal()" class="text-4xl leading-none text-white/60 hover:text-white">×</button>
+            </div>
+
+            <h2 class="heading-font text-5xl">Full Biography</h2>
+
+            <div class="prose prose-invert mt-8 text-base">
+                <p>Alex Rivera is a Principal AI Engineer at xAI where he leads the development of advanced reasoning
+                    systems for Grok. Previously he spent three years at Anthropic building the Claude family of models
+                    and two years at OpenAI contributing to the GPT-4 training cluster and alignment research.</p>
+                <p>His research interests include scalable oversight, synthetic data generation, and emergent
+                    capabilities in frontier models. He holds a PhD from Stanford where he studied under Prof.
+                    Christopher Manning and was awarded the Best Thesis in AI award in 2018.</p>
+                <p>When not training models, Alex can be found trail running in Marin, playing jazz piano, or
+                    experimenting with generative music systems.</p>
+            </div>
+
+            <div class="mt-12 text-xs flex items-center justify-between text-white/30">
+                <div>LAST UPDATED 2 DAYS AGO</div>
+                <div class="flex items-center gap-x-1">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    VERIFIED
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script run
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--tw-ring-color', 'rgb(234 179 8)');
+        }
+
+        function runTailwind() {
+            const script = document.createElement('script');
+            // Tailwind already initialized via CDN
+        }
+
+        // Smooth scroll
+        function smoothScrollTo(section) {
+            let el;
+
+            switch (section) {
+                case 'about':
+                    el = document.getElementById('about');
+                    break;
+                case 'work':
+                    el = document.getElementById('work');
+                    break;
+                case 'expertise':
+                    el = document.getElementById('expertise');
+                    break;
+                case 'research':
+                    el = document.getElementById('research');
+                    break;
+                case 'contact':
+                    el = document.getElementById('contact');
+                    break;
+                default:
+                    el = document.getElementById(section);
+            }
+
+            if (el) {
+                const navHeight = 80;
+                const topPos = el.getBoundingClientRect().top + window.scrollY - navHeight;
+                window.scrollTo({ top: topPos, behavior: 'smooth' });
+            }
+
+            // close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Progress bar
+        function setupProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercent = scrollTop / docHeight * 100;
+                progressBar.style.width = `${scrollPercent}%`;
+            });
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#facc15', '#eab308', '#ca8a04'];
+
+            for (let i = 0; i < 65; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+
+                particle.style.animationDuration = `${Math.random() * 22000 + 18000}ms`;
+                particle.style.animationDelay = `-${Math.random() * 15000}ms`;
+
+                particle.style.opacity = Math.random() * 0.25 + 0.1;
+
+                container.appendChild(particle);
+
+                // occasionally remove and recreate for infinite feel
+                setTimeout(() => {
+                    if (particle.parentNode) particle.parentNode.removeChild(particle);
+                }, 45000);
+            }
+        }
+
+        // Neural orb animation trigger
+        function triggerNeuralBurst() {
+            const orb = document.querySelector('.w-80');
+            if (!orb) return;
+
+            orb.style.transitionDuration = '120ms';
+            orb.style.transform = 'scale(1.15)';
+
+            setTimeout(() => {
+                orb.style.transitionDuration = '800ms';
+                orb.style.transform = 'scale(1)';
+            }, 180);
+
+            // flash the particles
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((p, index) => {
+                if (index % 5 === 0) {
+                    p.style.transitionDuration = '80ms';
+                    p.style.opacity = '0.9';
+                    setTimeout(() => {
+                        p.style.transitionDuration = '1200ms';
+                        p.style.opacity = '0.15';
+                    }, 120);
+                }
+            });
+
+            // brief toast
+            showToast("NEURAL BURST ACTIVATED");
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.position = 'fixed';
+            toast.style.bottom = '40px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.backgroundColor = 'rgb(234 179 8)';
+            toast.style.color = '#18181b';
+            toast.style.padding = '14px 28px';
+            toast.style.borderRadius = '9999px';
+            toast.style.boxShadow = '0 10px 15px -3px rgb(0 0 0)';
+            toast.style.fontSize = '13px';
+            toast.style.fontWeight = '600';
+            toast.style.zIndex = '9999';
+            toast.style.whiteSpace = 'nowrap';
+            toast.style.opacity = '0';
+            toast.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            // trigger animation
+            setTimeout(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateX(-50%) translateY(-10px)';
+            }, 10);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%)';
+
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 400);
+            }, 2200);
+        }
+
+        // Project modal
+        let currentProject = 0;
+
+        const projects = [
+            {
+                title: "Grok-2 Reasoning Engine",
+                subtitle: "xAI • 2024",
+                year: "2024",
+                description: "Led the design and implementation of the advanced reasoning stack behind Grok-2. The architecture introduces a novel self-refinement loop that allows the model to iteratively critique and improve its own answers. Achieved a 31% improvement on the GPQA benchmark over previous iterations.",
+                image: "https://picsum.photos/id/201/1200/800",
+                tags: ["LLM", "REASONING", "AGENTS", "SCALING"]
+            },
+            {
+                title: "VisionForge",
+                subtitle: "Anthropic • 2023",
+                year: "2023",
+                description: "Multimodal foundation model capable of both generating images from text and answering complex questions about uploaded images. The model uses a hybrid architecture combining a 7B parameter vision encoder with a 70B language model and novel cross-attention fusion layers.",
+                image: "https://picsum.photos/id/160/1200/800",
+                tags: ["VISION", "DIFFUSION", "MULTIMODAL", "GENERATION"]
+            },
+            {
+                title: "SafeAlign",
+                subtitle: "OpenAI • 2022",
+                year: "2022",
+                description: "A scalable alignment framework that uses AI-generated critiques to align language models with human values. The technique reduced the incidence of harmful outputs by 94% in internal benchmarks and became part of the official GPT-4 safety training pipeline.",
+                image: "https://picsum.photos/id/29/1200/800",
+                tags: ["SAFETY", "ALIGNMENT", "RLHF", "CRITIQUES"]
+            }
+        ];
+
+        function showProjectDetail(index) {
+            currentProject = index;
+            const project = projects[index];
+
+            document.getElementById('modal-image').style.backgroundImage = `url('${project.image}')`;
+            document.getElementById('modal-title').textContent = project.title;
+            document.getElementById('modal-subtitle').innerHTML = `<span class='font-light'>${project.subtitle}</span>`;
+            document.getElementById('modal-year').textContent = project.year;
+            document.getElementById('modal-description').innerHTML = `<p class='leading-relaxed'>${project.description}</p>`;
+
+            const tagContainer = document.getElementById('modal-tags');
+            tagContainer.innerHTML = '';
+
+            project.tags.forEach(tag => {
+                const pill = document.createElement('div');
+                pill.className = "text-xs border border-yellow-400/40 text-yellow-300 px-5 py-3 rounded-3xl";
+                pill.textContent = tag;
+                tagContainer.appendChild(pill);
+            });
+
+            document.getElementById('project-modal').classList.remove('hidden');
+            document.getElementById('project-modal').classList.add('flex');
+
+            // disable background scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'visible';
+        }
+
+        function fakeAction(type) {
+            hideProjectModal();
+
+            setTimeout(() => {
+                if (type === 'demo') {
+                    showToast("🚀 OPENING LIVE DEMO IN NEW TAB...");
+                } else {
+                    showToast("📄 PAPER PDF DOWNLOADED");
+                }
+            }, 700);
+        }
+
+        // Bio modal
+        function showBioModal() {
+            document.getElementById('bio-modal').classList.remove('hidden');
+            document.getElementById('bio-modal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideBioModal() {
+            const modal = document.getElementById('bio-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'visible';
+        }
+
+        // Form handler
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            const fname = document.getElementById('fname').value;
+
+            // simple animation
+            const btns = document.querySelectorAll('button[type="submit"]');
+            if (btns.length > 0) {
+                const btn = btns[0];
+                const originalText = btn.innerHTML;
+                btn.style.transitionDuration = '200ms';
+                btn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                `;
+
+                setTimeout(() => {
+                    btn.innerHTML = `✅ MESSAGE SENT`;
+                    btn.style.backgroundColor = '#22c55e';
+
+                    setTimeout(() => {
+                        // reset form
+                        e.target.reset();
+                        btn.style.backgroundColor = '';
+                        btn.innerHTML = originalText;
+
+                        // show final toast
+                        showToast(`THANK YOU, ${fname.toUpperCase()}! SPEAKING SOON.`);
+                    }, 1650);
+                }, 1350);
+            }
+        }
+
+        function downloadResume() {
+            showToast("RESUME.PDF DOWNLOADED (DEMO)");
+
+            // In a real site this would trigger a download
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.href = '#';
+                link.download = 'alex-rivera-resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }, 1200);
+        }
+
+        function viewAllWork() {
+            showToast("ENTIRE PORTFOLIO ARCHIVE OPENED");
+            // could scroll to another section but for demo we show toast
+        }
+
+        function showPaperDetail(n) {
+            const messages = [
+                "PAPER LOADED • 38 PAGES",
+                "OPENING ICML PAPER IN VIEWER..."
+            ];
+            showToast(messages[n]);
+        }
+
+        // Keyboard shortcuts
+        function handleKeys(e) {
+            if (e.metaKey && e.key === "k") {
+                e.preventDefault();
+                showToast("⌘K COMMAND PALETTE OPENED (demo)");
+            }
+
+            if (e.key === "Escape") {
+                const projectModal = document.getElementById('project-modal');
+                const bioModal = document.getElementById('bio-modal');
+
+                if (!projectModal.classList.contains('hidden')) {
+                    hideProjectModal();
+                } else if (!bioModal.classList.contains('hidden')) {
+                    hideBioModal();
+                }
+            }
+        }
+
+        // Animate skill bars when scrolled into view
+        function animateSkills() {
+            const skillBars = document.querySelectorAll('.skill-bar');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // reset and replay animation
+                        skillBars.forEach(bar => {
+                            const width = bar.style.width;
+                            bar.style.width = '0%';
+                            setTimeout(() => {
+                                bar.style.width = width;
+                            }, 120);
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.6
+            });
+
+            const expertiseSection = document.getElementById('expertise');
+            if (expertiseSection) observer.observe(expertiseSection);
+        }
+
+        // Main initialization
+        function initialize() {
+            // Tailwind ready
+            initializeTailwind();
+
+            // Particles
+            createParticles();
+
+            // Progress
+            setupProgressBar();
+
+            // Animate skill bars
+            animateSkills();
+
+            // Keyboard
+            document.addEventListener('keydown', handleKeys);
+
+            // Click anywhere on hero orb to trigger burst
+            const hero = document.querySelector('header');
+            if (hero) {
+                hero.addEventListener('click', function (e) {
+                    if (e.target.tagName === 'HEADER' || e.target.closest('header')) {
+                        // only if click is near orb
+                        const orbRect = document.querySelector('.w-80');
+                        if (orbRect) {
+                            const rect = orbRect.getBoundingClientRect();
+                            if (e.clientX > rect.left && e.clientX < rect.right &&
+                                e.clientY > rect.top && e.clientY < rect.bottom) {
+                                triggerNeuralBurst();
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Demo: animate the first skill bars immediately
+            setTimeout(() => {
+                const bars = document.querySelectorAll('.skill-bar');
+                bars.forEach((bar, i) => {
+                    const finalWidth = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = finalWidth;
+                    }, 300 + i * 120);
+                });
+            }, 2100);
+
+            // Demo toast on load
+            setTimeout(() => {
+                showToast("WELCOME TO THE FUTURE OF AI");
+            }, 2100);
+
+            // Make sure mobile menu is hidden
+            console.log('%c✅ Alex Rivera AI Portfolio ready. All systems operational.', 'color:#facc15; font-family:monospace');
+        }
+
+        // Boot app
+        window.onload = initialize;
+    </script>
+</body>
+
+</html>

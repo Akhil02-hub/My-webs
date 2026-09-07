@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier & Co. — Invitations &amp; Websites</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <div id="loader">
+    <div class="loader-mark"></div>
+    <div class="loader-text" id="loader-text">ATELIER &amp; CO.</div>
+  </div>
+
+  <header class="site-header" id="site-header">
+    <a href="#top" class="logo"><img id="site-logo" src="/uploads/default-logo.svg" alt="Studio logo"></a>
+    <nav class="nav-links">
+      <a href="#invitations" data-nav="invitations">Invitations</a>
+      <a href="#websites" data-nav="websites">Websites</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#project" class="nav-cta">Start a project</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <canvas id="hero-canvas"></canvas>
+      <div class="container hero-inner">
+        <div>
+          <span class="hero-eyebrow">STUDIO FOR INVITATIONS &amp; WEBSITES</span>
+          <h1 id="hero-headline">Invitations and websites, designed like keepsakes.</h1>
+          <p class="sub" id="hero-subheadline">Every card, every page, made to be kept.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-scroll="invitations">Invitations</button>
+            <button class="btn btn-outline" data-scroll="websites">Websites</button>
+            <button class="btn btn-outline" data-scroll="project">Do a project</button>
+          </div>
+        </div>
+        <div class="hero-card-float">
+          <span>You're<br>Invited</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- INVITATIONS -->
+    <section class="section" id="invitations">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">01 — INVITATIONS</span>
+          <h2>Cards worth opening twice.</h2>
+          <div class="quote-box" id="invitation-quote"></div>
+        </div>
+
+        <div class="type-tabs" id="invite-type-tabs">
+          <button class="type-tab active" data-type="static">Classic Cards — no effects</button>
+          <button class="type-tab" data-type="animated">Animated Invitations</button>
+        </div>
+
+        <div class="card-grid" id="invitation-grid">
+          <!-- injected -->
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- WEBSITES -->
+    <section class="section" id="websites">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">02 — WEBSITES</span>
+          <h2>Sites built around what you actually do.</h2>
+          <div class="quote-box" id="website-quote"></div>
+        </div>
+
+        <div class="category-rail" id="category-rail">
+          <!-- injected category pills, drag to browse -->
+        </div>
+
+        <div class="website-grid" id="website-grid">
+          <!-- injected -->
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- DO A PROJECT -->
+    <section class="section" id="project">
+      <div class="container">
+        <div class="project-section">
+          <div>
+            <span class="section-kicker">03 — START SOMETHING</span>
+            <h2>Tell us what you're building.</h2>
+            <p class="lede" style="margin-top:16px;">Whether it's one card or a full website, send the brief and we'll
+              follow up with a scope and a quote — usually within a day.</p>
+          </div>
+          <form class="project-form" id="project-form">
+            <div class="two-col">
+              <div class="field">
+                <label for="pf-name">Name</label>
+                <input id="pf-name" name="name" type="text" required>
+              </div>
+              <div class="field">
+                <label for="pf-email">Email</label>
+                <input id="pf-email" name="email" type="email" required>
+              </div>
+            </div>
+            <div class="two-col">
+              <div class="field">
+                <label for="pf-type">Project type</label>
+                <select id="pf-type" name="project_type">
+                  <option value="Invitation — Classic">Invitation — Classic</option>
+                  <option value="Invitation — Animated">Invitation — Animated</option>
+                  <option value="Website">Website</option>
+                  <option value="Something else">Something else</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="pf-budget">Rough budget</label>
+                <input id="pf-budget" name="budget" type="text" placeholder="e.g. ₹15,000">
+              </div>
+            </div>
+            <div class="field">
+              <label for="pf-message">Tell us about it</label>
+              <textarea id="pf-message" name="message" placeholder="Occasion, date, style, references..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="justify-content:center; margin-top:6px;">Send
+              brief</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- REVIEWS -->
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">04 — REVIEWS</span>
+          <h2>What clients keep.</h2>
+        </div>
+
+        <div class="rating-summary">
+          <div class="rating-number" id="avg-rating">—</div>
+          <div>
+            <div class="stars" id="avg-stars">☆☆☆☆☆</div>
+            <div class="rating-meta" id="rating-count">No reviews yet</div>
+          </div>
+        </div>
+
+        <div class="review-grid" id="review-grid"></div>
+
+        <div class="review-form">
+          <h3 style="font-size:18px; margin-bottom:18px;">Leave a review</h3>
+          <form id="review-form">
+            <div class="field" style="margin-bottom:14px;">
+              <label for="rf-name">Name</label>
+              <input id="rf-name" name="name" type="text" required>
+            </div>
+            <div class="field" style="margin-bottom:14px;">
+              <label>Rating</label>
+              <div class="star-picker" id="star-picker">
+                <button type="button" data-val="1">★</button>
+                <button type="button" data-val="2">★</button>
+                <button type="button" data-val="3">★</button>
+                <button type="button" data-val="4">★</button>
+                <button type="button" data-val="5">★</button>
+              </div>
+              <input type="hidden" id="rf-rating" name="rating" value="0">
+            </div>
+            <div class="field" style="margin-bottom:18px;">
+              <label for="rf-comment">Comment</label>
+              <textarea id="rf-comment" name="comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline">Submit review</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-row">
+        <img id="footer-logo" src="/uploads/default-logo.svg" alt="Studio logo" style="height:26px;">
+        <div class="footer-links">
+          <a href="#invitations">Invitations</a>
+          <a href="#websites">Websites</a>
+          <a href="#project">Start a project</a>
+          <a id="footer-instagram" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="footer-year"></span> <span id="footer-name">Atelier &amp; Co.</span></span>
+        <a class="admin-link" href="/admin">Studio admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Preview Modal -->
+  <div class="modal-overlay" id="preview-modal">
+    <div class="modal-box" style="position:relative;">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="modal-media"><img id="modal-image" src="" alt=""></div>
+      <div class="modal-body">
+        <h3 id="modal-title"></h3>
+        <p id="modal-desc"></p>
+        <button class="btn btn-primary" id="modal-purchase"
+          style="width:100%; justify-content:center;">Purchase</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/js/hero3d.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+
+</html>

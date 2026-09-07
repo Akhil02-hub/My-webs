@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" width="400" height="520">
+  <rect width="400" height="520" fill="#16121c"/>
+  <g>
+    <rect x="60" y="80" width="10" height="24" fill="#C9A15A" transform="rotate(15 65 92)"/>
+    <rect x="320" y="110" width="10" height="24" fill="#E8B4BC" transform="rotate(-25 325 122)"/>
+    <rect x="120" y="380" width="10" height="24" fill="#8A9A6E" transform="rotate(40 125 392)"/>
+    <rect x="260" y="360" width="10" height="24" fill="#C9A15A" transform="rotate(-10 265 372)"/>
+    <rect x="200" y="60" width="10" height="24" fill="#E8B4BC" transform="rotate(5 205 72)"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#F4EFE6">Confetti Reveal</text>
+  <text x="200" y="300" text-anchor="middle" font-family="Georgia, serif" font-size="12" letter-spacing="3" fill="#C9A15A">ANIMATED INVITATION</text>
+</svg>

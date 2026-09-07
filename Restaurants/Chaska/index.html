@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaska — Chatpata Street Khana · Est. 1998</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F6EEDB;
+            --paper2: #FBF4E4;
+            --ink: #221509;
+            --red: #C8371D;
+            --red-d: #A32A14;
+            --tur: #EBA51F;
+            --tur-d: #D18E0F;
+            --grn: #2F6B3A;
+            --wheat: #EBD08A;
+            --patty: #C9822F;
+            --cream: #FBF4E4;
+            --bord: 3px solid var(--ink);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Instrument Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            overflow-x: clip;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5
+        }
+
+        img {
+            max-width: 100%;
+            display: block
+        }
+
+        button {
+            font-family: inherit;
+            color: inherit
+        }
+
+        ::selection {
+            background: var(--tur);
+            color: var(--ink)
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--red);
+            outline-offset: 2px
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Anton', sans-serif;
+            font-weight: 400;
+            letter-spacing: .015em;
+            text-transform: uppercase
+        }
+
+        .wrap {
+            width: min(1180px, 92%);
+            margin-inline: auto
+        }
+
+        .hi {
+            font-family: 'Tiro Devanagari Hindi', serif;
+            text-transform: none
+        }
+
+        section {
+            scroll-margin-top: 96px
+        }
+
+        .sec {
+            padding: clamp(70px, 9vw, 120px) 0;
+            position: relative;
+            overflow: hidden
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity .7s ease, transform .7s ease
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none
+        }
+
+        /* grain */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1300;
+            opacity: .05;
+            mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.55'/></svg>")
+        }
+
+        /* buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: .85rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            padding: 15px 22px;
+            border: var(--bord);
+            background: var(--paper2);
+            color: var(--ink);
+            cursor: pointer;
+            box-shadow: 4px 4px 0 var(--ink);
+            transition: transform .15s ease, box-shadow .15s ease;
+            text-decoration: none
+        }
+
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--ink)
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0 var(--ink)
+        }
+
+        .btn.pri {
+            background: var(--red);
+            color: var(--cream)
+        }
+
+        .btn.sun {
+            background: var(--tur)
+        }
+
+        .btn svg {
+            width: 17px;
+            height: 17px
+        }
+
+        .btn.wide {
+            width: 100%;
+            justify-content: center
+        }
+
+        /* kicker + section heads */
+        .kick {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: .78rem;
+            letter-spacing: .22em;
+            color: var(--red);
+            text-transform: uppercase;
+            margin-bottom: 16px
+        }
+
+        .kick::before {
+            content: '';
+            width: 34px;
+            height: 3px;
+            background: var(--red);
+            flex: none
+        }
+
+        .shead {
+            margin-bottom: clamp(30px, 4vw, 52px);
+            position: relative;
+            z-index: 2
+        }
+
+        .shead h2 {
+            font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+            line-height: 1.02
+        }
+
+        .ssub {
+            max-width: 560px;
+            margin-top: 14px;
+            font-size: 1rem;
+            opacity: .8
+        }
+
+        .hl {
+            box-shadow: inset 0 -14px 0 rgba(235, 165, 31, .55)
+        }
+
+        .wm {
+            position: absolute;
+            font-family: 'Tiro Devanagari Hindi', serif;
+            font-weight: 400;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(34, 21, 9, .09);
+            font-size: clamp(7rem, 18vw, 15rem);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            z-index: 0
+        }
+
+        /* ticker */
+        .ticker {
+            overflow: hidden;
+            background: var(--red);
+            color: var(--cream);
+            border-bottom: var(--bord);
+            padding: 9px 0;
+            white-space: nowrap
+        }
+
+        .tk-track {
+            display: flex;
+            width: max-content;
+            animation: slide var(--tick, 18s) linear infinite
+        }
+
+        .tk-seg {
+            font-weight: 700;
+            font-size: .78rem;
+            letter-spacing: .16em;
+            padding-right: 20px
+        }
+
+        @keyframes slide {
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        .names {
+            overflow: hidden;
+            background: var(--ink);
+            color: var(--tur);
+            border-bottom: var(--bord);
+            padding: 14px 0;
+            white-space: nowrap
+        }
+
+        .nm-track {
+            display: flex;
+            width: max-content;
+            animation: slide 42s linear infinite reverse
+        }
+
+        .nm-seg {
+            font-family: 'Anton';
+            font-size: clamp(1.1rem, 2.4vw, 1.55rem);
+            letter-spacing: .06em;
+            padding-right: 18px
+        }
+
+        /* nav */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 600;
+            background: var(--paper);
+            border-bottom: var(--bord)
+        }
+
+        .nav-in {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            gap: 18px
+        }
+
+        .brand {
+            font-family: 'Anton';
+            font-size: 1.55rem;
+            letter-spacing: .03em;
+            text-decoration: none;
+            color: var(--ink);
+            text-transform: uppercase
+        }
+
+        .brand b {
+            color: var(--red);
+            font-weight: 400
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 26px
+        }
+
+        .nav-links a {
+            font-weight: 700;
+            font-size: .8rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--ink);
+            position: relative
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 3px;
+            background: var(--red);
+            transition: width .25s
+        }
+
+        .nav-links a:hover::after {
+            width: 100%
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .bagbtn {
+            position: relative;
+            width: 47px;
+            height: 47px;
+            display: grid;
+            place-items: center;
+            border: var(--bord);
+            background: var(--red);
+            color: var(--cream);
+            cursor: pointer;
+            box-shadow: 3px 3px 0 var(--ink);
+            transition: transform .15s
+        }
+
+        .bagbtn:hover {
+            transform: translate(-1px, -1px)
+        }
+
+        .bagbtn svg {
+            width: 20px;
+            height: 20px
+        }
+
+        #bagCount {
+            position: absolute;
+            top: -9px;
+            right: -9px;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 4px;
+            border-radius: 50%;
+            background: var(--tur);
+            color: var(--ink);
+            border: 2px solid var(--ink);
+            font-size: .7rem;
+            font-weight: 800;
+            display: grid;
+            place-items: center
+        }
+
+        #bagCount.bump {
+            animation: bump .4s
+        }
+
+        @keyframes bump {
+            30% {
+                transform: scale(1.45)
+            }
+        }
+
+        .burger {
+            display: none;
+            width: 47px;
+            height: 47px;
+            place-items: center;
+            border: var(--bord);
+            background: var(--paper2);
+            cursor: pointer;
+            box-shadow: 3px 3px 0 var(--ink)
+        }
+
+        .burger svg {
+            width: 20px;
+            height: 20px
+        }
+
+        /* hero */
+        .hero {
+            padding: clamp(48px, 6vw, 84px) 0 clamp(64px, 7vw, 100px);
+            border-bottom: var(--bord);
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero .wm {
+            right: -3%;
+            top: 4%
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.12fr .88fr;
+            gap: 4vw;
+            align-items: center;
+            position: relative;
+            z-index: 2
+        }
+
+        .hero h1 {
+            font-size: clamp(3.1rem, 7vw, 6.2rem);
+            line-height: .96;
+            margin: 6px 0 18px
+        }
+
+        .hred {
+            color: var(--red);
+            text-shadow: 6px 6px 0 var(--tur)
+        }
+
+        .outline {
+            color: transparent;
+            -webkit-text-stroke: 3px var(--ink)
+        }
+
+        @supports not (-webkit-text-stroke:1px black) {
+            .outline {
+                color: var(--ink)
+            }
+        }
+
+        .hsub {
+            font-size: 1.1rem;
+            color: var(--red);
+            margin-bottom: 14px
+        }
+
+        .hpara {
+            max-width: 520px;
+            font-size: 1rem;
+            opacity: .85
+        }
+
+        .hcta {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 28px
+        }
+
+        .hstats {
+            display: flex;
+            gap: 0;
+            margin-top: 36px;
+            flex-wrap: wrap
+        }
+
+        .hstat {
+            padding: 2px 26px;
+            border-left: 3px solid var(--ink)
+        }
+
+        .hstat:first-child {
+            padding-left: 0;
+            border-left: 0
+        }
+
+        .hstat b {
+            display: block;
+            font-family: 'Anton';
+            font-weight: 400;
+            font-size: 1.9rem;
+            line-height: 1.1
+        }
+
+        .hstat span {
+            font-size: .68rem;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            opacity: .6
+        }
+
+        /* plate cycler */
+        .plate {
+            width: min(430px, 82vw);
+            aspect-ratio: 1;
+            position: relative;
+            margin-inline: auto
+        }
+
+        .plate-ring {
+            position: absolute;
+            inset: -6px;
+            border: 3px dashed var(--ink);
+            border-radius: 50%;
+            animation: rot 46s linear infinite
+        }
+
+        @keyframes rot {
+            to {
+                transform: rotate(1turn)
+            }
+        }
+
+        .ringtext {
+            position: absolute;
+            inset: -1px;
+            width: 102%;
+            height: 102%
+        }
+
+        .ringtext text {
+            font-family: 'Anton';
+            font-size: 17px;
+            fill: var(--ink);
+            opacity: .55;
+            letter-spacing: .25em
+        }
+
+        .spin {
+            transform-box: view-box;
+            transform-origin: 50% 50%;
+            animation: rot 28s linear infinite
+        }
+
+        .spin.slow {
+            animation-duration: 36s;
+            animation-direction: reverse
+        }
+
+        .plate-core {
+            position: absolute;
+            inset: 11.5%;
+            background: var(--cream);
+            border: var(--bord);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 9%;
+            gap: 4px;
+            box-shadow: 8px 8px 0 rgba(34, 21, 9, .14)
+        }
+
+        .plate-core.swap {
+            animation: pop .5s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(.88);
+                opacity: .25
+            }
+        }
+
+        .dish-ic {
+            width: clamp(66px, 9vw, 86px);
+            height: clamp(66px, 9vw, 86px)
+        }
+
+        .plate-core h3 {
+            font-size: clamp(1.5rem, 3.4vw, 2.15rem);
+            line-height: 1;
+            margin-top: 6px
+        }
+
+        .dhindi {
+            font-size: .98rem;
+            opacity: .65
+        }
+
+        .dblurb {
+            font-size: .82rem;
+            opacity: .75;
+            max-width: 210px;
+            margin-top: 2px
+        }
+
+        .plate-add {
+            margin-top: 10px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: var(--bord);
+            background: var(--red);
+            color: var(--cream);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 var(--ink);
+            transition: transform .15s
+        }
+
+        .plate-add:hover {
+            transform: scale(1.1) rotate(90deg)
+        }
+
+        .plate-add svg {
+            width: 19px;
+            height: 19px
+        }
+
+        .tstick {
+            position: absolute;
+            left: 1%;
+            top: 7%;
+            background: var(--tur);
+            border: var(--bord);
+            padding: 9px 13px;
+            font-family: 'Anton';
+            font-size: .86rem;
+            letter-spacing: .05em;
+            transform: rotate(-8deg);
+            box-shadow: 4px 4px 0 var(--ink)
+        }
+
+        .pstick {
+            position: absolute;
+            right: 3%;
+            bottom: 7%;
+            width: 98px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--red);
+            color: var(--cream);
+            display: grid;
+            place-content: center;
+            text-align: center;
+            border: var(--bord);
+            transform: rotate(10deg);
+            box-shadow: 4px 4px 0 var(--ink);
+            font-family: 'Anton';
+            font-size: 1.45rem;
+            line-height: 1
+        }
+
+        .pstick small {
+            display: block;
+            font-size: .62rem;
+            letter-spacing: .2em;
+            margin-top: 3px
+        }
+
+        .hnav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 47px;
+            height: 47px;
+            border-radius: 50%;
+            border: var(--bord);
+            background: var(--paper2);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            box-shadow: 3px 3px 0 var(--ink);
+            transition: transform .15s;
+            z-index: 3
+        }
+
+        .hnav:hover {
+            transform: translateY(-50%) scale(1.1);
+            background: var(--tur)
+        }
+
+        .hnav svg {
+            width: 19px;
+            height: 19px
+        }
+
+        .hprev {
+            left: -14px
+        }
+
+        .hnext {
+            right: -14px
+        }
+
+        .hdots {
+            position: absolute;
+            left: 50%;
+            bottom: -24px;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 9px
+        }
+
+        .hdots button {
+            width: 13px;
+            height: 13px;
+            border: 2px solid var(--ink);
+            background: var(--paper);
+            cursor: pointer;
+            transition: background .2s
+        }
+
+        .hdots button.on {
+            background: var(--ink)
+        }
+
+        /* menu */
+        .mhead {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .tab {
+            border: var(--bord);
+            background: var(--paper2);
+            padding: 12px 18px;
+            font-weight: 800;
+            font-size: .78rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 var(--ink);
+            transition: all .15s
+        }
+
+        .tab:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0 var(--ink)
+        }
+
+        .tab.on {
+            background: var(--ink);
+            color: var(--tur)
+        }
+
+        #menuList {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 56px;
+            margin-top: 10px;
+            position: relative;
+            z-index: 2
+        }
+
+        .mrow {
+            display: grid;
+            grid-template-columns: 46px 1fr auto;
+            gap: 14px;
+            padding: 20px 4px;
+            border-bottom: 2px dotted rgba(34, 21, 9, .35);
+            align-items: start;
+            transition: background .2s
+        }
+
+        .mrow:hover {
+            background: var(--paper2)
+        }
+
+        .mic {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--paper2);
+            border: 2px solid var(--ink);
+            display: grid;
+            place-items: center;
+            transition: transform .25s
+        }
+
+        .mrow:hover .mic {
+            transform: rotate(-9deg) scale(1.07)
+        }
+
+        .micon {
+            width: 27px;
+            height: 27px
+        }
+
+        .mline {
+            display: flex;
+            align-items: baseline;
+            gap: 10px
+        }
+
+        .mline h4 {
+            font-size: 1.02rem;
+            line-height: 1.2;
+            display: inline
+        }
+
+        .vd {
+            width: 13px;
+            height: 13px;
+            border: 2px solid #2F7D3B;
+            display: inline-block;
+            position: relative;
+            flex: none;
+            transform: translateY(1px);
+            margin-right: 4px
+        }
+
+        .vd::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: #2F7D3B;
+            border-radius: 50%
+        }
+
+        .vd.non {
+            border-color: #A63A1E
+        }
+
+        .vd.non::after {
+            background: #A63A1E;
+            border-radius: 0
+        }
+
+        .hmini {
+            font-size: .86rem;
+            opacity: .55;
+            margin-left: 6px
+        }
+
+        .dots {
+            flex: 1;
+            border-bottom: 3px dotted rgba(34, 21, 9, .4);
+            transform: translateY(-4px);
+            min-width: 20px
+        }
+
+        .price {
+            font-family: 'Anton';
+            font-size: 1.08rem
+        }
+
+        .mrow p {
+            font-size: .85rem;
+            opacity: .75;
+            margin-top: 3px
+        }
+
+        .mtags {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 8px
+        }
+
+        .chl {
+            width: 16px;
+            height: 16px;
+            opacity: .22
+        }
+
+        .chl.on {
+            opacity: 1
+        }
+
+        .mtag {
+            background: var(--tur);
+            border: 2px solid var(--ink);
+            padding: 2px 8px;
+            font-family: 'Anton';
+            font-size: .64rem;
+            letter-spacing: .08em;
+            transform: rotate(-2deg)
+        }
+
+        .add {
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+            border: var(--bord);
+            background: var(--paper2);
+            padding: 10px 13px;
+            font-weight: 800;
+            font-size: .72rem;
+            letter-spacing: .1em;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 var(--ink);
+            transition: all .15s;
+            margin-top: 4px
+        }
+
+        .add:hover {
+            background: var(--red);
+            color: var(--cream);
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0 var(--ink)
+        }
+
+        .add svg {
+            width: 14px;
+            height: 14px
+        }
+
+        /* builder */
+        .builder {
+            background: var(--paper2);
+            border-top: var(--bord);
+            border-bottom: var(--bord)
+        }
+
+        .builder .wm {
+            left: -4%;
+            bottom: -6%
+        }
+
+        .bgrid {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: clamp(30px, 4vw, 64px);
+            position: relative;
+            z-index: 2
+        }
+
+        .step {
+            margin-bottom: 28px
+        }
+
+        .slab {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 13px
+        }
+
+        .snum {
+            font-family: 'Anton';
+            color: var(--red);
+            font-size: 1rem
+        }
+
+        .slab h4 {
+            font-size: 1.05rem
+        }
+
+        .slab small {
+            font-size: .72rem;
+            opacity: .55;
+            margin-left: auto
+        }
+
+        .bases {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px
+        }
+
+        .base {
+            border: 2px solid var(--ink);
+            background: var(--paper);
+            padding: 13px 8px 11px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all .18s;
+            font-weight: 700;
+            font-size: .7rem;
+            text-align: center
+        }
+
+        .base svg {
+            width: 32px;
+            height: 32px
+        }
+
+        .base em {
+            font-style: normal;
+            font-size: .68rem;
+            opacity: .55;
+            font-weight: 600
+        }
+
+        .base.sel {
+            background: var(--tur);
+            box-shadow: 4px 4px 0 var(--ink);
+            transform: translate(-2px, -2px)
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px
+        }
+
+        .chip {
+            border: 2px solid var(--ink);
+            background: var(--paper);
+            padding: 9px 13px;
+            font-weight: 700;
+            font-size: .76rem;
+            cursor: pointer;
+            display: inline-flex;
+            gap: 7px;
+            align-items: baseline;
+            box-shadow: 2px 2px 0 var(--ink);
+            transition: all .15s
+        }
+
+        .chip em {
+            font-style: normal;
+            font-size: .66rem;
+            opacity: .55
+        }
+
+        .chip.sel {
+            background: var(--ink);
+            color: var(--tur)
+        }
+
+        .chip.sel em {
+            opacity: .7
+        }
+
+        .slirow {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap
+        }
+
+        .range {
+            -webkit-appearance: none;
+            appearance: none;
+            flex: 1;
+            min-width: 180px;
+            height: 15px;
+            border: var(--bord);
+            background: var(--paper2);
+            cursor: pointer;
+            border-radius: 0
+        }
+
+        .range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
+            background: var(--tur);
+            border: var(--bord);
+            box-shadow: 3px 3px 0 var(--ink);
+            cursor: grab;
+            border-radius: 0
+        }
+
+        .range::-moz-range-thumb {
+            width: 26px;
+            height: 26px;
+            background: var(--tur);
+            border: var(--bord);
+            box-shadow: 3px 3px 0 var(--ink);
+            cursor: grab;
+            border-radius: 0
+        }
+
+        .range.onred {
+            --fillc: var(--cream);
+            --trackc: rgba(251, 244, 228, .28)
+        }
+
+        .scales {
+            display: flex;
+            justify-content: space-between;
+            font-size: .64rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            opacity: .55;
+            margin-top: 8px
+        }
+
+        .bprev {
+            position: sticky;
+            top: 100px;
+            align-self: start
+        }
+
+        .bowlwrap {
+            max-width: 440px;
+            margin-inline: auto
+        }
+
+        .bowlcap {
+            text-align: center;
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .16em;
+            opacity: .5;
+            margin-top: 6px;
+            text-transform: uppercase
+        }
+
+        .tp {
+            opacity: 0;
+            transform: scale(.4);
+            transform-box: fill-box;
+            transform-origin: center;
+            transition: opacity .25s, transform .35s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        .tp.on {
+            opacity: 1;
+            transform: scale(1)
+        }
+
+        .heatg {
+            transition: opacity .35s
+        }
+
+        .heatg.go {
+            animation: steam 1.6s ease-in-out infinite
+        }
+
+        @keyframes steam {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-5px)
+            }
+        }
+
+        .tkt {
+            border: 2.5px dashed var(--ink);
+            background: var(--paper);
+            padding: 18px 20px;
+            margin-top: 14px;
+            max-width: 440px;
+            margin-inline: auto
+        }
+
+        .tkt-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: .66rem;
+            font-weight: 800;
+            letter-spacing: .18em;
+            opacity: .6;
+            margin-bottom: 8px
+        }
+
+        .tkt h4 {
+            font-size: 1.55rem;
+            line-height: 1.05
+        }
+
+        .tkt-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 6px 0 14px
+        }
+
+        .tkt-bottom .hi {
+            font-size: .92rem;
+            opacity: .6
+        }
+
+        .tkt-bottom strong {
+            font-family: 'Anton';
+            font-weight: 400;
+            font-size: 1.6rem;
+            color: var(--red)
+        }
+
+        /* heat band */
+        .heatband {
+            background: var(--red);
+            color: var(--cream);
+            border-bottom: var(--bord);
+            text-align: center
+        }
+
+        .heatband .wm {
+            -webkit-text-stroke: 2px rgba(251, 244, 228, .14);
+            left: 50%;
+            top: 2%;
+            transform: translateX(-50%)
+        }
+
+        .heatband .kick {
+            color: var(--tur)
+        }
+
+        .heatband .kick::before {
+            background: var(--tur)
+        }
+
+        .heatband .shead h2 {
+            margin-inline: auto
+        }
+
+        .hword {
+            font-family: 'Anton';
+            font-size: clamp(2.6rem, 8vw, 5.4rem);
+            line-height: 1;
+            margin: 8px 0 14px;
+            min-height: 1em
+        }
+
+        .hword.max {
+            color: var(--tur);
+            animation: jig .45s
+        }
+
+        @keyframes jig {
+            25% {
+                transform: rotate(-2deg) scale(1.04)
+            }
+
+            60% {
+                transform: rotate(2deg)
+            }
+        }
+
+        .hchilis {
+            display: flex;
+            gap: 7px;
+            justify-content: center;
+            margin-bottom: 14px
+        }
+
+        .hchilis .chl {
+            width: 27px;
+            height: 27px;
+            --red: var(--cream)
+        }
+
+        .hchilis .chl.on {
+            --red: var(--tur)
+        }
+
+        .hdesc {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            max-width: 480px;
+            margin: 0 auto 26px;
+            min-height: 2.2em
+        }
+
+        .hscale {
+            display: flex;
+            justify-content: space-between;
+            max-width: 520px;
+            margin: 10px auto 0;
+            font-size: .66rem;
+            font-weight: 800;
+            letter-spacing: .16em;
+            opacity: .7
+        }
+
+        /* story */
+        .sgrid {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: clamp(36px, 5vw, 80px);
+            align-items: center
+        }
+
+        .scopy p {
+            margin-bottom: 14px;
+            font-size: .98rem;
+            opacity: .85;
+            max-width: 520px
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 26px
+        }
+
+        .stat {
+            border: var(--bord);
+            background: var(--paper2);
+            padding: 14px 18px;
+            box-shadow: 5px 5px 0 var(--ink);
+            transform: rotate(-1.5deg)
+        }
+
+        .stat:nth-child(2n) {
+            transform: rotate(1.6deg)
+        }
+
+        .stat:nth-child(2) {
+            background: var(--tur)
+        }
+
+        .stat:nth-child(3) {
+            background: var(--red);
+            color: var(--cream)
+        }
+
+        .stat b {
+            display: block;
+            font-family: 'Anton';
+            font-weight: 400;
+            font-size: 1.7rem;
+            line-height: 1
+        }
+
+        .stat span {
+            font-size: .62rem;
+            font-weight: 800;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            opacity: .75
+        }
+
+        .photos {
+            position: relative;
+            height: clamp(360px, 44vw, 540px)
+        }
+
+        .photos img {
+            position: absolute;
+            border: var(--bord);
+            box-shadow: 9px 9px 0 var(--ink);
+            object-fit: cover;
+            background: var(--paper2)
+        }
+
+        .ph1 {
+            top: 0;
+            left: 0;
+            width: 72%;
+            aspect-ratio: 4/3;
+            transform: rotate(-3deg)
+        }
+
+        .ph2 {
+            right: 0;
+            bottom: 0;
+            width: 52%;
+            aspect-ratio: 4/5;
+            transform: rotate(3.5deg);
+            z-index: 2
+        }
+
+        .badge {
+            position: absolute;
+            left: 2%;
+            bottom: 4%;
+            width: 114px;
+            height: 114px;
+            background: var(--cream);
+            border: var(--bord);
+            border-radius: 50%;
+            box-shadow: 5px 5px 0 var(--ink);
+            display: grid;
+            place-items: center;
+            transform: rotate(8deg);
+            z-index: 3
+        }
+
+        .badge svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .badge text {
+            font-family: 'Anton';
+            font-size: 12.5px;
+            fill: var(--ink);
+            letter-spacing: .2em;
+            opacity: .7
+        }
+
+        .badge span {
+            font-family: 'Anton';
+            color: var(--red);
+            font-size: 1.35rem;
+            position: relative
+        }
+
+        /* reviews */
+        .revsec {
+            background: var(--paper2);
+            border-top: var(--bord)
+        }
+
+        .draghint {
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .2em;
+            opacity: .5;
+            text-transform: uppercase
+        }
+
+        .strip {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            padding: 16px 4px 30px;
+            cursor: grab;
+            scrollbar-width: none;
+            scroll-snap-type: x proximity;
+            position: relative;
+            z-index: 2
+        }
+
+        .strip::-webkit-scrollbar {
+            display: none
+        }
+
+        .strip.drag {
+            cursor: grabbing
+        }
+
+        .chit {
+            flex: 0 0 auto;
+            width: 280px;
+            background: var(--paper);
+            border: var(--bord);
+            box-shadow: 6px 6px 0 var(--ink);
+            padding: 26px 20px 18px;
+            position: relative;
+            transform: rotate(-1.2deg);
+            scroll-snap-align: start;
+            user-select: none
+        }
+
+        .chit:nth-child(3n) {
+            width: 318px;
+            transform: rotate(1.4deg)
+        }
+
+        .chit:nth-child(3n+1) {
+            width: 266px
+        }
+
+        .chit:nth-child(4n) {
+            background: var(--cream)
+        }
+
+        .chit::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 90px;
+            height: 22px;
+            background: var(--tur);
+            border: 2px solid var(--ink);
+            opacity: .92
+        }
+
+        .chit:nth-child(even)::before {
+            transform: translateX(-50%) rotate(2.5deg);
+            background: var(--red)
+        }
+
+        .chit q {
+            font-family: 'Caveat', cursive;
+            font-size: 1.42rem;
+            line-height: 1.3;
+            quotes: '“' '”';
+            display: block;
+            margin-bottom: 16px
+        }
+
+        .chit footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px
+        }
+
+        .chit footer b {
+            font-size: .8rem;
+            letter-spacing: .04em
+        }
+
+        .stars {
+            display: flex;
+            gap: 2px
+        }
+
+        .stars svg {
+            width: 15px;
+            height: 15px;
+            color: var(--tur);
+            fill: var(--tur)
+        }
+
+        .stars svg.dim {
+            opacity: .28
+        }
+
+        /* visit */
+        .vgrid {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: clamp(30px, 4vw, 60px);
+            align-items: start;
+            position: relative;
+            z-index: 2
+        }
+
+        .board {
+            background: var(--ink);
+            color: var(--cream);
+            border: var(--bord);
+            box-shadow: 9px 9px 0 var(--red);
+            padding: clamp(24px, 3vw, 36px)
+        }
+
+        .board-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 8px;
+            flex-wrap: wrap
+        }
+
+        .board h3 {
+            font-size: 1.5rem
+        }
+
+        .stamp {
+            border: 3px solid #7CC98A;
+            color: #7CC98A;
+            padding: 7px 14px;
+            font-family: 'Anton';
+            font-size: 1rem;
+            letter-spacing: .06em;
+            transform: rotate(-3deg)
+        }
+
+        .stamp.no {
+            border-color: #FF7B5C;
+            color: #FF7B5C
+        }
+
+        .nowline {
+            font-size: .74rem;
+            opacity: .55;
+            margin-bottom: 18px;
+            letter-spacing: .06em
+        }
+
+        .hrow {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 11px 0;
+            font-size: .92rem
+        }
+
+        .hrow i {
+            flex: 1;
+            border-bottom: 2px dotted rgba(251, 244, 228, .35)
+        }
+
+        .hrow span:last-child {
+            font-family: 'Anton';
+            letter-spacing: .04em
+        }
+
+        .vcard {
+            border: var(--bord);
+            background: var(--paper2);
+            box-shadow: 9px 9px 0 var(--ink);
+            padding: clamp(22px, 3vw, 30px)
+        }
+
+        .vcard h3 {
+            font-size: 1.4rem;
+            margin-bottom: 6px
+        }
+
+        .addr {
+            font-size: .95rem;
+            opacity: .85;
+            margin-bottom: 6px
+        }
+
+        .tel {
+            font-family: 'Anton';
+            font-size: 1.25rem;
+            color: var(--red);
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 0 18px;
+            letter-spacing: .04em
+        }
+
+        .map {
+            width: 100%;
+            border: 2px solid var(--ink);
+            background: var(--paper);
+            margin-bottom: 20px
+        }
+
+        .vbtns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        /* footer */
+        footer {
+            background: var(--ink);
+            color: var(--cream);
+            border-top: var(--bord)
+        }
+
+        .fmark {
+            font-family: 'Anton';
+            font-size: clamp(3rem, 9vw, 6.5rem);
+            line-height: 1;
+            padding: clamp(48px, 7vw, 80px) 0 10px
+        }
+
+        .fmark b {
+            color: var(--red);
+            font-weight: 400
+        }
+
+        .ftag {
+            font-size: .95rem;
+            opacity: .65;
+            margin-bottom: 40px
+        }
+
+        .fgrid {
+            display: flex;
+            gap: clamp(30px, 6vw, 100px);
+            flex-wrap: wrap;
+            padding-bottom: 44px
+        }
+
+        .fcol h5 {
+            font-family: 'Anton';
+            font-weight: 400;
+            letter-spacing: .12em;
+            font-size: .85rem;
+            color: var(--tur);
+            margin-bottom: 14px
+        }
+
+        .fcol a {
+            display: block;
+            color: var(--cream);
+            opacity: .75;
+            text-decoration: none;
+            font-size: .9rem;
+            margin-bottom: 9px
+        }
+
+        .fcol a:hover {
+            opacity: 1;
+            color: var(--tur)
+        }
+
+        .fbot {
+            border-top: 1px solid rgba(251, 244, 228, .2);
+            padding: 18px 0;
+            font-size: .76rem;
+            opacity: .55;
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap
+        }
+
+        /* cart drawer */
+        .scrim {
+            position: fixed;
+            inset: 0;
+            background: rgba(34, 21, 9, .5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+            z-index: 900
+        }
+
+        .scrim.on {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(440px, 100%);
+            background: var(--paper);
+            border-left: var(--bord);
+            transform: translateX(103%);
+            transition: transform .45s cubic-bezier(.7, 0, .2, 1);
+            z-index: 950;
+            display: flex;
+            flex-direction: column
+        }
+
+        .drawer.open {
+            transform: none
+        }
+
+        .dhead {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            border-bottom: var(--bord)
+        }
+
+        .dhead h3 {
+            font-size: 1.35rem
+        }
+
+        .dhead .hi {
+            font-size: 1rem;
+            opacity: .55;
+            margin-left: 6px
+        }
+
+        .dclose {
+            width: 40px;
+            height: 40px;
+            border: var(--bord);
+            background: var(--paper2);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            box-shadow: 3px 3px 0 var(--ink)
+        }
+
+        .dclose svg {
+            width: 17px;
+            height: 17px
+        }
+
+        .dbody {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 22px
+        }
+
+        .cempty {
+            text-align: center;
+            padding: 52px 10px
+        }
+
+        .cempty svg {
+            width: 54px;
+            height: 54px;
+            opacity: .35;
+            margin-bottom: 12px
+        }
+
+        .cempty p {
+            font-weight: 700;
+            line-height: 1.5;
+            opacity: .7
+        }
+
+        .crow {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 12px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 2px dotted rgba(34, 21, 9, .3)
+        }
+
+        .cinfo strong {
+            display: block;
+            font-family: 'Anton';
+            font-weight: 400;
+            font-size: .95rem;
+            letter-spacing: .03em
+        }
+
+        .cinfo .hi {
+            display: block;
+            font-size: .78rem;
+            opacity: .55
+        }
+
+        .cinfo em {
+            font-style: normal;
+            font-size: .72rem;
+            opacity: .5
+        }
+
+        .cqty {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--ink);
+            background: var(--paper2)
+        }
+
+        .cqty button {
+            width: 27px;
+            height: 28px;
+            background: none;
+            border: 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .cqty button:hover {
+            background: var(--tur)
+        }
+
+        .cqty b {
+            min-width: 22px;
+            text-align: center;
+            font-size: .85rem
+        }
+
+        .cline {
+            font-family: 'Anton';
+            font-weight: 400
+        }
+
+        .dfoot {
+            border-top: var(--bord);
+            padding: 18px 22px;
+            background: var(--paper2)
+        }
+
+        .drow {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            margin-bottom: 4px
+        }
+
+        .drow strong {
+            font-family: 'Anton';
+            font-weight: 400;
+            font-size: 1.25rem
+        }
+
+        .dnote {
+            font-size: .72rem;
+            opacity: .55;
+            margin-bottom: 14px
+        }
+
+        .done {
+            padding: 48px 26px;
+            text-align: center
+        }
+
+        .done-ic {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--grn);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 20px;
+            border: var(--bord);
+            box-shadow: 4px 4px 0 var(--ink)
+        }
+
+        .done-ic svg {
+            width: 34px;
+            height: 34px
+        }
+
+        .done h4 {
+            font-size: 1.7rem
+        }
+
+        .done .onum {
+            font-family: 'Anton';
+            color: var(--red);
+            font-size: 1.2rem;
+            margin: 8px 0 6px
+        }
+
+        .done p {
+            opacity: .75;
+            font-size: .9rem;
+            margin-bottom: 24px
+        }
+
+        /* toasts */
+        .toasts {
+            position: fixed;
+            left: 18px;
+            bottom: 18px;
+            z-index: 980;
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .toast-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: var(--ink);
+            color: var(--cream);
+            padding: 13px 17px;
+            font-weight: 600;
+            font-size: .86rem;
+            box-shadow: 4px 4px 0 rgba(34, 21, 9, .25);
+            animation: tin .35s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        .toast-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--tur);
+            flex: none
+        }
+
+        .toast-item.out {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: .3s
+        }
+
+        @keyframes tin {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(.95)
+            }
+        }
+
+        /* responsive */
+        @media (max-width:1000px) {
+
+            .hero-grid,
+            .bgrid,
+            .sgrid,
+            .vgrid {
+                grid-template-columns: 1fr
+            }
+
+            #menuList {
+                grid-template-columns: 1fr;
+                gap: 0
+            }
+
+            .plate {
+                margin-top: 44px;
+                margin-bottom: 30px
+            }
+
+            .hero .wm {
+                top: auto;
+                bottom: 0
+            }
+
+            .bprev {
+                position: static
+            }
+        }
+
+        @media (max-width:860px) {
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--paper);
+                border-bottom: var(--bord);
+                display: none;
+                flex-direction: column;
+                gap: 0;
+                padding: 8px 0
+            }
+
+            .nav-links a {
+                padding: 15px 24px;
+                font-size: .9rem
+            }
+
+            .nav-links a::after {
+                display: none
+            }
+
+            .nav.open .nav-links {
+                display: flex
+            }
+
+            .burger {
+                display: grid
+            }
+        }
+
+        @media (max-width:560px) {
+            .bases {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .hstat {
+                padding: 2px 16px
+            }
+
+            .hprev {
+                left: -4px
+            }
+
+            .hnext {
+                right: -4px
+            }
+
+            .mrow {
+                grid-template-columns: 40px 1fr;
+                grid-template-areas: "ic body" "ic buy"
+            }
+
+            .mic {
+                grid-area: ic;
+                width: 40px;
+                height: 40px
+            }
+
+            .mbody {
+                grid-area: body
+            }
+
+            .add {
+                grid-area: buy;
+                justify-self: start
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none
+            }
+        }
+    </style>
+</head>
+
+<body id="top">
+
+    <!-- food icon sprite -->
+    <svg style="display:none" aria-hidden="true">
+        <symbol id="i-samosa" viewBox="0 0 24 24">
+            <path d="M12 3.5 21 20H3Z" fill="var(--tur,#EBA51F)" stroke="var(--ink,#221509)" stroke-width="1.6"
+                stroke-linejoin="round" />
+            <path d="M8.5 9.5 12 20M15.5 9.5 12 20" stroke="var(--ink,#221509)" stroke-width="1.3" fill="none"
+                stroke-linecap="round" />
+        </symbol>
+        <symbol id="i-puri" viewBox="0 0 24 24">
+            <circle cx="12" cy="13" r="8" fill="var(--wheat,#EBD08A)" stroke="var(--ink,#221509)" stroke-width="1.6" />
+            <path d="M9.5 6.3c1.5 1.8 3.5 1.8 5 0" stroke="var(--ink,#221509)" stroke-width="1.4" fill="none"
+                stroke-linecap="round" />
+            <circle cx="10" cy="13.5" r="1.1" fill="var(--ink,#221509)" opacity=".3" />
+            <circle cx="14.2" cy="15" r="1.1" fill="var(--ink,#221509)" opacity=".3" />
+        </symbol>
+        <symbol id="i-chai" viewBox="0 0 24 24">
+            <path d="M7.5 7h9l-1.1 12.3a2 2 0 0 1-2 1.7h-2.8a2 2 0 0 1-2-1.7Z" fill="var(--cream,#FBF4E4)"
+                stroke="var(--ink,#221509)" stroke-width="1.6" stroke-linejoin="round" />
+            <path d="M8.3 12.5h7.4l-.65 6.9a1.7 1.7 0 0 1-1.7 1.6h-2.7a1.7 1.7 0 0 1-1.7-1.6Z"
+                fill="var(--patty,#8A4B1F)" />
+            <path d="M10.5 4.6c-.9-.9.9-1.7 0-2.8M13.5 4.6c-.9-.9.9-1.7 0-2.8" stroke="var(--ink,#221509)"
+                stroke-width="1.4" fill="none" stroke-linecap="round" />
+        </symbol>
+        <symbol id="i-jalebi" viewBox="0 0 24 24">
+            <path
+                d="M12.5 11.8c.9-.9 2.3.1 1.9 1.3-.5 1.6-2.7 1.7-3.7.4-1.3-1.7.2-4 2.2-4.3 2.6-.4 4.6 1.9 4.2 4.4-.5 3-3.6 4.6-6.4 3.7-3.3-1-4.9-4.7-3.6-7.9C8.5 5.6 12.8 4 16.3 5.8c3.8 2 5.2 6.9 3 10.6"
+                fill="none" stroke="var(--tur,#EBA51F)" stroke-width="2.6" stroke-linecap="round" />
+        </symbol>
+        <symbol id="i-tikki" viewBox="0 0 24 24">
+            <ellipse cx="12" cy="12" rx="9" ry="6.5" fill="var(--patty,#C9822F)" stroke="var(--ink,#221509)"
+                stroke-width="1.6" />
+            <path d="M7 10.5h10M6.5 13.5h11" stroke="var(--ink,#221509)" stroke-width="1.3" opacity=".45" fill="none"
+                stroke-linecap="round" />
+        </symbol>
+        <symbol id="i-roll" viewBox="0 0 24 24">
+            <rect x="3" y="8.5" width="15" height="7" rx="3.5" fill="var(--cream,#FBF4E4)" stroke="var(--ink,#221509)"
+                stroke-width="1.6" />
+            <path d="M7 8.5v7M11 8.5v7M14.6 8.5v7" stroke="var(--ink,#221509)" stroke-width="1.1" opacity=".35" />
+            <circle cx="19.6" cy="12" r="3.1" fill="var(--grn,#2F6B3A)" stroke="var(--ink,#221509)"
+                stroke-width="1.6" />
+        </symbol>
+        <symbol id="i-lassi" viewBox="0 0 24 24">
+            <path d="M7 3.5h10l-1.2 16a2 2 0 0 1-2 1.5h-3.6a2 2 0 0 1-2-1.5Z" fill="var(--cream,#FBF4E4)"
+                stroke="var(--ink,#221509)" stroke-width="1.6" stroke-linejoin="round" />
+            <path d="M7.4 3.5h9.2l-.3 4.5H7.7Z" fill="var(--tur,#EBA51F)" stroke="var(--ink,#221509)" stroke-width="1.6"
+                stroke-linejoin="round" />
+            <path d="M7.6 8h8.8" stroke="var(--ink,#221509)" stroke-width="1.3" opacity=".5" />
+        </symbol>
+        <symbol id="i-kulfi" viewBox="0 0 24 24">
+            <path d="M9 3h6v10.5a3 3 0 0 1-6 0Z" fill="var(--cream,#FBF4E4)" stroke="var(--ink,#221509)"
+                stroke-width="1.6" stroke-linejoin="round" />
+            <path d="M9 8c1 1.6 2-1 3 .5s2-.6 3 1" stroke="var(--tur,#EBA51F)" stroke-width="1.5" fill="none"
+                stroke-linecap="round" />
+            <rect x="10.9" y="16.2" width="2.2" height="4.8" rx="1.1" fill="#D9A05B" stroke="var(--ink,#221509)"
+                stroke-width="1.3" />
+        </symbol>
+        <symbol id="i-laddoo" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8.5" fill="var(--tur,#EBA51F)" stroke="var(--ink,#221509)" stroke-width="1.6" />
+            <g fill="none" stroke="var(--ink,#221509)" stroke-width="1.1" opacity=".4">
+                <circle cx="9" cy="10" r=".9" />
+                <circle cx="13" cy="8.5" r=".9" />
+                <circle cx="15" cy="13" r=".9" />
+                <circle cx="10.5" cy="15" r=".9" />
+                <circle cx="12.5" cy="12" r=".9" />
+                <circle cx="8.5" cy="13.2" r=".9" />
+            </g>
+        </symbol>
+        <symbol id="i-papdi" viewBox="0 0 24 24">
+            <rect x="5.5" y="5.5" width="13" height="13" rx="2.5" transform="rotate(45 12 12)" fill="#E7BC4F"
+                stroke="var(--ink,#221509)" stroke-width="1.6" />
+            <g fill="var(--ink,#221509)" opacity=".35">
+                <circle cx="10" cy="11" r=".9" />
+                <circle cx="14" cy="13" r=".9" />
+            </g>
+        </symbol>
+        <symbol id="i-leaf" viewBox="0 0 24 24">
+            <path d="M5 19C5 9 12 4 20 4c0 8-5 15-15 15Z" fill="var(--grn,#2F6B3A)" stroke="var(--ink,#221509)"
+                stroke-width="1.6" stroke-linejoin="round" />
+            <path d="M5 19C8 14 12 10 17 7" stroke="var(--ink,#221509)" stroke-width="1.3" opacity=".5" fill="none"
+                stroke-linecap="round" />
+        </symbol>
+        <symbol id="i-chili" viewBox="0 0 24 24">
+            <path d="M14.5 8.5C13 14 9.5 18 4.5 20c6.5 1 12-3.5 13.5-11Z" fill="var(--red,#C8371D)"
+                stroke="var(--ink,#221509)" stroke-width="1.3" stroke-linejoin="round" />
+            <path d="M14.5 8.5c-.5-2 .8-3.5 2.8-3.5" stroke="var(--grn,#2F6B3A)" stroke-width="2" fill="none"
+                stroke-linecap="round" />
+        </symbol>
+    </svg>
+
+    <!-- top ticker -->
+    <div class="ticker" id="ticker" aria-hidden="true">
+        <div class="tk-track"><span class="tk-seg"></span><span class="tk-seg"></span></div>
+    </div>
+
+    <!-- nav -->
+    <header class="nav" id="nav">
+        <div class="wrap nav-in">
+            <a class="brand" href="#top">CHASKA<b>✦</b></a>
+            <nav class="nav-links">
+                <a href="#menu">Menu</a>
+                <a href="#builder">Chaat Builder</a>
+                <a href="#heat">Teekha Meter</a>
+                <a href="#story">Kahani</a>
+                <a href="#visit">Aa Jao</a>
+            </nav>
+            <div class="nav-right">
+                <button class="bagbtn" id="bagBtn" aria-label="Open bag"><i data-lucide="shopping-bag"></i><span
+                        id="bagCount">0</span></button>
+                <button class="burger" id="burger" aria-label="Menu"><i data-lucide="menu"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- hero -->
+        <section class="hero">
+            <div class="wm hi" aria-hidden="true">चटपट</div>
+            <div class="wrap hero-grid">
+                <div class="reveal in">
+                    <p class="kick">Chandni Chowk style · Est. 1998</p>
+                    <h1><span class="hred">CHATPATA</span><br>KHANA.<br><span class="outline">ZERO BAKWAAS.</span></h1>
+                    <p class="hi hsub">गरमा गरम · तीखा · ईमानदार — 1998 से</p>
+                    <p class="hpara">Pani puri ka paani roz ka, chutney ghar ki, tel roz naya. Ek thela, ek secret
+                        masala, aur wohi kasam: jo hum khud nahi khaate, woh hum bechte nahi.</p>
+                    <div class="hcta">
+                        <a class="btn pri" href="#menu">Menu Dekho <i data-lucide="arrow-right"></i></a>
+                        <a class="btn" href="#builder">Apni Chaat Banao</a>
+                    </div>
+                    <div class="hstats">
+                        <div class="hstat"><b>26</b><span>saal ka bharosa</span></div>
+                        <div class="hstat"><b>1.2M+</b><span>plates serve hue</span></div>
+                        <div class="hstat"><b>4.9/5</b><span>mohalle ki rating</span></div>
+                    </div>
+                </div>
+
+                <div class="plate reveal in" aria-live="polite">
+                    <div class="plate-ring"></div>
+                    <svg class="ringtext" viewBox="0 0 320 320" aria-hidden="true">
+                        <defs>
+                            <path id="circ" d="M160 160 m-127 0 a127 127 0 1 1 254 0 a127 127 0 1 1 -254 0" />
+                        </defs>
+                        <g class="spin"><text>
+                                <textPath href="#circ" textLength="790" lengthAdjust="spacingAndGlyphs">GARMA GARAM ✦
+                                    CHASKA ✦ SINCE 1998 ✦ 100% DESI ✦</textPath>
+                            </text></g>
+                    </svg>
+                    <div class="plate-core">
+                        <svg class="dish-ic" aria-hidden="true">
+                            <use id="plateIconUse" href="#i-puri" />
+                        </svg>
+                        <h3 id="dishName">PANI PURIS</h3>
+                        <p class="hi dhindi" id="dishHi">पानी पुरी</p>
+                        <p class="dblurb" id="dishBlurb"></p>
+                        <button class="plate-add" id="plateAdd" data-add="chaat-0" aria-label="Add to bag"><i
+                                data-lucide="plus"></i></button>
+                    </div>
+                    <div class="tstick" id="plateTag">BESTSELLER</div>
+                    <div class="pstick" id="platePrice">₹60<small>ONLY</small></div>
+                    <button class="hnav hprev" id="hprev" aria-label="Previous dish"><i
+                            data-lucide="arrow-left"></i></button>
+                    <button class="hnav hnext" id="hnext" aria-label="Next dish"><i
+                            data-lucide="arrow-right"></i></button>
+                    <div class="hdots" id="hdots"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- names marquee -->
+        <div class="names" aria-hidden="true">
+            <div class="nm-track"><span class="nm-seg"></span><span class="nm-seg"></span></div>
+        </div>
+
+        <!-- menu -->
+        <section class="sec" id="menu">
+            <div class="wm" style="left:-3%;bottom:-8%;font-family:'Anton'" aria-hidden="true">TEEKHA</div>
+            <div class="wrap">
+                <div class="shead reveal">
+                    <p class="kick">Aaj ka menu</p>
+                    <h2>SAB TAAZA,<br>SAB <span class="hl">TEEKHA.</span></h2>
+                    <p class="ssub">Roz subah 7 baje masala pista jaata hai. Shaam 4 baje jalebi ka batch. Menu saalon
+                        se same hai — kyunki perfection ko tweak nahi karte.</p>
+                </div>
+                <div class="mhead reveal">
+                    <div class="tabs" role="tablist">
+                        <button class="tab on" data-cat="chaat" role="tab">Chaat</button>
+                        <button class="tab" data-cat="rolls" role="tab">Rolls &amp; Breads</button>
+                        <button class="tab" data-cat="chai" role="tab">Chai &amp; Thanda</button>
+                        <button class="tab" data-cat="mithai" role="tab">Mithai</button>
+                    </div>
+                    <p class="draghint">Green dot = veg · Mirch = spice level</p>
+                </div>
+                <div id="menuList"></div>
+            </div>
+        </section>
+
+        <!-- chaat builder -->
+        <section class="sec builder" id="builder">
+            <div class="wm hi" aria-hidden="true">बनाओ</div>
+            <div class="wrap">
+                <div class="shead reveal">
+                    <p class="kick">Khud banao</p>
+                    <h2>APNI CHAAT,<br>APNE <span class="hl">RULES.</span></h2>
+                    <p class="ssub">Base chuno, chutney lagao, mirch ka level set karo. Live preview dekho, ticket
+                        generate karo — bas jhole me daalo.</p>
+                </div>
+                <div class="bgrid">
+                    <div class="reveal">
+                        <div class="step">
+                            <div class="slab"><span class="snum">01</span>
+                                <h4>Base chuno</h4><small>Ek hi, dil se</small>
+                            </div>
+                            <div class="bases">
+                                <button class="base" data-base="papdi"><svg>
+                                        <use href="#i-papdi" />
+                                    </svg>Papdi<em>8 pc</em></button>
+                                <button class="base" data-base="samosa"><svg>
+                                        <use href="#i-samosa" />
+                                    </svg>Samosa<em>crush</em></button>
+                                <button class="base" data-base="puri"><svg>
+                                        <use href="#i-puri" />
+                                    </svg>Puri<em>6 shots</em></button>
+                                <button class="base" data-base="tikki"><svg>
+                                        <use href="#i-tikki" />
+                                    </svg>Tikki<em>1 badi</em></button>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="slab"><span class="snum">02</span>
+                                <h4>Chutney &amp; toppers</h4><small>Utna hi, jitna sahoge</small>
+                            </div>
+                            <div class="chips">
+                                <button class="chip" data-top="dahi">Dahi Drizzle <em>+₹15</em></button>
+                                <button class="chip" data-top="saunth">Saunth (Imli) <em>+₹10</em></button>
+                                <button class="chip" data-top="pudina">Pudina Chutney <em>+₹10</em></button>
+                                <button class="chip" data-top="teekha">Teekha Chutney <em>+₹10</em></button>
+                                <button class="chip" data-top="sev">Sev Ka Pahad <em>+₹10</em></button>
+                                <button class="chip" data-top="anar">Anar Dana <em>+₹20</em></button>
+                                <button class="chip" data-top="chole">Chole <em>+₹20</em></button>
+                                <button class="chip" data-top="peanut">Masala Peanuts <em>+₹15</em></button>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="slab"><span class="snum">03</span>
+                                <h4>Mirch ka level</h4>
+                            </div>
+                            <input type="range" class="range" id="bspice" min="0" max="3" step="1" value="2"
+                                aria-label="Spice level">
+                            <div class="scales"><span>BINA
+                                    MIRCH</span><span>HALKA</span><span>SAHI</span><span>AAG</span></div>
+                        </div>
+                    </div>
+
+                    <div class="bprev reveal">
+                        <div class="bowlwrap">
+                            <svg viewBox="0 0 360 300" role="img" aria-label="Live chaat preview">
+                                <defs>
+                                    <clipPath id="mouthClip">
+                                        <ellipse cx="180" cy="170" rx="106" ry="30" />
+                                    </clipPath>
+                                </defs>
+                                <g id="bowlHeat" class="tp heatg">
+                                    <path d="M152 142c-9-11 9-17 0-30M182 138c-9-11 9-17 0-30M212 142c-9-11 9-17 0-30"
+                                        stroke="var(--red)" stroke-width="5.5" fill="none" stroke-linecap="round" />
+                                </g>
+                                <ellipse cx="180" cy="260" rx="150" ry="24" fill="var(--paper)" stroke="var(--ink)"
+                                    stroke-width="3" />
+                                <path d="M64 168h232v6c0 46-52 78-116 78S64 220 64 174Z" fill="var(--red)"
+                                    stroke="var(--ink)" stroke-width="3" stroke-linejoin="round" />
+                                <path d="M92 224c24 18 54 26 87 27" stroke="var(--cream)" stroke-width="6" fill="none"
+                                    stroke-linecap="round" opacity=".5" />
+                                <g clip-path="url(#mouthClip)">
+                                    <ellipse cx="180" cy="172" rx="104" ry="30" fill="var(--wheat)" stroke="var(--ink)"
+                                        stroke-width="3" />
+                                    <g id="bs-papdi" class="tp">
+                                        <rect x="120" y="146" width="30" height="30" rx="5"
+                                            transform="rotate(45 135 161)" fill="#E7BC4F" stroke="var(--ink)"
+                                            stroke-width="2.5" />
+                                        <rect x="165" y="138" width="30" height="30" rx="5"
+                                            transform="rotate(45 180 153)" fill="#E7BC4F" stroke="var(--ink)"
+                                            stroke-width="2.5" />
+                                        <rect x="208" y="148" width="30" height="30" rx="5"
+                                            transform="rotate(45 223 163)" fill="#E7BC4F" stroke="var(--ink)"
+                                            stroke-width="2.5" />
+                                        <rect x="142" y="160" width="26" height="26" rx="5"
+                                            transform="rotate(45 155 173)" fill="#DFAF3F" stroke="var(--ink)"
+                                            stroke-width="2.5" />
+                                    </g>
+                                    <g id="bs-samosa" class="tp" fill="var(--tur)" stroke="var(--ink)"
+                                        stroke-width="2.5" stroke-linejoin="round">
+                                        <path d="M112 176 130 142 148 176Z" />
+                                        <path d="M156 172 174 138 192 172Z" />
+                                        <path d="M200 176 218 144 236 176Z" />
+                                    </g>
+                                    <g id="bs-puri" class="tp">
+                                        <circle cx="128" cy="162" r="15" fill="#EFD79A" stroke="var(--ink)"
+                                            stroke-width="2.5" />
+                                        <circle cx="163" cy="152" r="15" fill="#EFD79A" stroke="var(--ink)"
+                                            stroke-width="2.5" />
+                                        <circle cx="198" cy="152" r="15" fill="#EFD79A" stroke="var(--ink)"
+                                            stroke-width="2.5" />
+                                        <circle cx="232" cy="162" r="15" fill="#EFD79A" stroke="var(--ink)"
+                                            stroke-width="2.5" />
+                                        <path
+                                            d="M122 155c4 4 8 4 12 0M157 145c4 4 8 4 12 0M192 145c4 4 8 4 12 0M226 155c4 4 8 4 12 0"
+                                            fill="none" stroke="var(--ink)" stroke-width="2" />
+                                    </g>
+                                    <g id="bs-tikki" class="tp">
+                                        <rect x="112" y="146" width="136" height="36" rx="17" fill="var(--patty)"
+                                            stroke="var(--ink)" stroke-width="2.5" />
+                                        <path d="M132 158h96M128 170h104" stroke="var(--ink)" stroke-width="2"
+                                            opacity=".35" stroke-linecap="round" />
+                                    </g>
+                                    <g id="tp-dahi" class="tp">
+                                        <path d="M96 162q20-16 42-3t42-3 42-3 42 7" stroke="#F7ECD4" stroke-width="13"
+                                            fill="none" stroke-linecap="round" />
+                                        <path d="M104 172q24-12 46-1t46-2 40 6" stroke="#F7ECD4" stroke-width="10"
+                                            fill="none" stroke-linecap="round" opacity=".85" />
+                                    </g>
+                                    <g id="tp-saunth" class="tp">
+                                        <path d="M100 164q18-12 34-2t34-3 34-2 34 5 24-2" stroke="#7A3B12"
+                                            stroke-width="5" fill="none" stroke-linecap="round" />
+                                    </g>
+                                    <g id="tp-pudina" class="tp" fill="var(--grn)">
+                                        <circle cx="132" cy="156" r="5" />
+                                        <circle cx="163" cy="147" r="5" />
+                                        <circle cx="199" cy="150" r="5" />
+                                        <circle cx="228" cy="157" r="5" />
+                                        <circle cx="150" cy="170" r="5" />
+                                        <circle cx="212" cy="168" r="5" />
+                                    </g>
+                                    <g id="tp-teekha" class="tp" fill="var(--red)">
+                                        <circle cx="146" cy="154" r="3.6" />
+                                        <circle cx="182" cy="147" r="3.6" />
+                                        <circle cx="214" cy="158" r="3.6" />
+                                        <circle cx="124" cy="166" r="3.6" />
+                                        <circle cx="196" cy="170" r="3.6" />
+                                        <path d="M150 162q12-8 24 0t24-1" stroke="var(--red)" stroke-width="4"
+                                            fill="none" stroke-linecap="round" />
+                                    </g>
+                                    <g id="tp-sev" class="tp">
+                                        <path d="M98 168q20-14 42-3t42-3 42-3 40 8" stroke="var(--tur)"
+                                            stroke-width="4.5" stroke-dasharray="7 8" fill="none"
+                                            stroke-linecap="round" />
+                                        <path d="M108 176q22-12 44-2t44-2 38 6" stroke="var(--tur)" stroke-width="4.5"
+                                            stroke-dasharray="6 9" fill="none" stroke-linecap="round" />
+                                        <path d="M116 156q20-12 42-3t42-2 36 4" stroke="#D18E0F" stroke-width="4"
+                                            stroke-dasharray="5 9" fill="none" stroke-linecap="round" />
+                                    </g>
+                                    <g id="tp-anar" class="tp">
+                                        <g fill="#D9486E" stroke="var(--ink)" stroke-width="1.6">
+                                            <circle cx="138" cy="160" r="5" />
+                                            <circle cx="170" cy="150" r="5" />
+                                            <circle cx="204" cy="153" r="5" />
+                                            <circle cx="230" cy="163" r="5" />
+                                            <circle cx="156" cy="172" r="5" />
+                                        </g>
+                                        <g fill="#F3B7C6">
+                                            <circle cx="136.5" cy="158.5" r="1.4" />
+                                            <circle cx="168.5" cy="148.5" r="1.4" />
+                                            <circle cx="202.5" cy="151.5" r="1.4" />
+                                        </g>
+                                    </g>
+                                    <g id="tp-chole" class="tp" fill="#5E3315" stroke="var(--ink)" stroke-width="1.8">
+                                        <circle cx="134" cy="168" r="6.5" />
+                                        <circle cx="149" cy="161" r="6" />
+                                        <circle cx="160" cy="171" r="6.5" />
+                                        <circle cx="174" cy="164" r="6" />
+                                        <circle cx="188" cy="172" r="6" />
+                                    </g>
+                                    <g id="tp-peanut" class="tp" fill="#D9A05B" stroke="var(--ink)" stroke-width="1.6">
+                                        <ellipse cx="140" cy="158" rx="6" ry="3.4" transform="rotate(-18 140 158)" />
+                                        <ellipse cx="172" cy="150" rx="6" ry="3.4" transform="rotate(14 172 150)" />
+                                        <ellipse cx="205" cy="157" rx="6" ry="3.4" transform="rotate(-10 205 157)" />
+                                        <ellipse cx="160" cy="170" rx="6" ry="3.4" transform="rotate(22 160 170)" />
+                                        <ellipse cx="228" cy="166" rx="6" ry="3.4" transform="rotate(-24 228 166)" />
+                                    </g>
+                                </g>
+                                <rect x="58" y="160" width="244" height="16" rx="8" fill="var(--paper2)"
+                                    stroke="var(--ink)" stroke-width="3" />
+                            </svg>
+                            <p class="bowlcap">Live preview — har topping sach me dikhta hai</p>
+                        </div>
+                        <div class="tkt">
+                            <div class="tkt-top"><span>KHANE WALI TICKET</span><span id="tktSpice">SAHI TEEKHA</span>
+                            </div>
+                            <h4 id="tktName">Samose Wali Loaded Chaat</h4>
+                            <div class="tkt-bottom"><span class="hi" id="tktHi">समोसा</span><strong
+                                    id="tktPrice">₹105</strong></div>
+                            <button class="btn pri wide" id="tktAdd"><i data-lucide="shopping-bag"></i> Jhole me
+                                daalo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- heat band -->
+        <section class="sec heatband" id="heat">
+            <div class="wm" aria-hidden="true">AAG</div>
+            <div class="wrap shead" style="text-align:center">
+                <p class="kick" style="justify-content:center">Teekha meter</p>
+                <h2>KITNA TEEKH CHALEGA?</h2>
+                <div class="hword" id="hword">SAHI LEVEL</div>
+                <div class="hchilis" id="hchilis"></div>
+                <p class="hdesc" id="hdesc"></p>
+                <input type="range" class="range onred" id="hrange" min="1" max="5" step="1" value="3"
+                    aria-label="Global spice level">
+                <div class="hscale"><span>BACCHA</span><span>DESI</span><span>AAG</span></div>
+                <p class="bowlcap" style="margin-top:20px;opacity:.6">Hint: meter ghumao — upar wali ticker ki raftaar
+                    bhi badalti hai</p>
+            </div>
+        </section>
+
+        <!-- story -->
+        <section class="sec" id="story">
+            <div class="wrap sgrid">
+                <div class="scopy reveal">
+                    <p class="kick">Hamari kahani</p>
+                    <h2 style="font-size:clamp(2.2rem,4.6vw,3.6rem);line-height:1.02">EK THELA. EK MASALA.<br><span
+                            class="hl">26 SAAL.</span></h2>
+                    <p style="margin-top:18px">1998 me Dada ji ne gali no. 4 me ek chhota thela lagaya. Aaj do sahelog
+                        aur teen chulhe hain — par masala wahi hai, haath se pista, roz naya.</p>
+                    <p>Tel roz badalta hai. Dahi pados wali dairy se aati hai. Chutney teen tarah ki, teeno ghar ki
+                        recipe. Shortcut ka naam is gali me suna nahi jaata.</p>
+                    <div class="stats">
+                        <div class="stat"><b>26</b><span>saal</span></div>
+                        <div class="stat"><b>1.2M+</b><span>plates</span></div>
+                        <div class="stat"><b>1</b><span>secret masala</span></div>
+                        <div class="stat"><b>0</b><span>shortcuts</span></div>
+                    </div>
+                </div>
+                <div class="photos reveal">
+                    <img class="ph1" src="https://picsum.photos/seed/chaska-thela/560/420.jpg"
+                        alt="Purana thela, gali no. 4" loading="lazy">
+                    <img class="ph2" src="https://picsum.photos/seed/chaska-gali/420/520.jpg"
+                        alt="Gali ki subah, masala taiyaar" loading="lazy">
+                    <div class="badge">
+                        <svg viewBox="0 0 120 120" aria-hidden="true">
+                            <defs>
+                                <path id="bc" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0" />
+                            </defs>
+                            <g class="spin slow"><text>
+                                    <textPath href="#bc" textLength="272" lengthAdjust="spacingAndGlyphs">CHASKA ✦ SINCE
+                                        1998 ✦ DESI GHEE ✦</textPath>
+                                </text></g>
+                        </svg>
+                        <span>1998</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- reviews -->
+        <section class="sec revsec" id="reviews">
+            <div class="wrap">
+                <div class="shead reveal"
+                    style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+                    <div>
+                        <p class="kick">Log kya kehte</p>
+                        <h2>MOHALLE KI <span class="hl">ZUBAANI.</span></h2>
+                    </div>
+                    <p class="draghint">← Drag karo →</p>
+                </div>
+                <div class="strip" id="strip">
+                    <article class="chit"><q>Pani puri itna crisp ki mohalle wale do gali door se aate hain. Paani ka
+                            kick alag hi level ka hai.</q>
+                        <footer><b>Ritika S.</b><span class="stars"><i data-lucide="star"></i><i
+                                    data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
+                                    data-lucide="star"></i></span></footer>
+                    </article>
+                    <article class="chit"><q>Maine volcano spice maanga. Unhone respect kiya. Aankhon se aansu, dil se
+                            khushi.</q>
+                        <footer><b>Arjun M.</b><span class="stars"><i data-lucide="star"></i><i
+                                    data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
+                                    data-lucide="star"></i></span></footer>
+                    </article>
+                    <article class="chit"><q>Kulhad chai + garam jalebi = mera har Friday sorted. Bas yehi组合 kaafi hai
+                            zindagi ke liye.</q>
+                        <footer><b>Zoya K.</b><span class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i
+                                    data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"
+                                    class="dim"></i></span></footer>
+                    </article>
+                    <article class="chit"><q>Vada pav Mumbai se bhi behtar hai yahan ka. Mat ladna, bas maan lo.</q>
+                        <footer><b>Prateek</b><span class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i
+                                    data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></span>
+                        </footer>
+                    </article>
+                    <article class="chit"><q>Bacchon ko mild diya, khud ko aag. Sab khush, sab shaant. Legend log hain
+                            ye.</q>
+                        <footer><b>Neha A.</b><span class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i
+                                    data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></span>
+                        </footer>
+                    </article>
+                    <article class="chit"><q>Sev ka mountain dekh ke hi pet khush ho jaata hai. Phir chaat to upar se
+                            mili hi.</q>
+                        <footer><b>Kabir</b><span class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i
+                                    data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"
+                                    class="dim"></i></span></footer>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- visit -->
+        <section class="sec" id="visit">
+            <div class="wrap">
+                <div class="shead reveal">
+                    <p class="kick">Aa jao</p>
+                    <h2>GALI NO. 4,<br><span class="hl">MAIN MARKET.</span></h2>
+                </div>
+                <div class="vgrid">
+                    <div class="board reveal">
+                        <div class="board-top">
+                            <h3>AAJ KA TIME</h3>
+                            <div class="stamp" id="openStamp">KHULA HAI</div>
+                        </div>
+                        <p class="nowline" id="nowLine"></p>
+                        <div class="hrow"><span>Somvaar – Guruvaar</span><i></i><span>11 AM – 11 PM</span></div>
+                        <div class="hrow"><span>Shukra – Shaniwaar</span><i></i><span>11 AM – 12 AM</span></div>
+                        <div class="hrow"><span>Raviwaar</span><i></i><span>12 PM – 10 PM</span></div>
+                        <p class="nowline" style="margin:16px 0 0">Jalebi ka batch: roz shaam 4 baje, jab tak khatam na
+                            ho.</p>
+                    </div>
+                    <div class="vcard reveal">
+                        <h3>THELA KAHAN HAI?</h3>
+                        <p class="addr">44, Gali No. 4, Main Market — nile darwaze ke bagal wala thela. Bhookh (aur
+                            khushboo) dono raasta dikha dengi.</p>
+                        <a class="tel" href="tel:+919810012345">+91 98100 12345</a>
+                        <svg class="map" viewBox="0 0 320 190" role="img" aria-label="Naksha">
+                            <rect x="1.5" y="1.5" width="317" height="187" fill="var(--paper2)" stroke="var(--ink)"
+                                stroke-width="3" />
+                            <g stroke="#E7DCC2" stroke-width="13">
+                                <path d="M0 62H320M0 132H320M82 0V190M204 0V190" />
+                            </g>
+                            <g stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="6 7" opacity=".4">
+                                <path d="M0 62H320M0 132H320M82 0V190M204 0V190" />
+                            </g>
+                            <path d="M22 172C80 158 130 152 212 102" stroke="var(--red)" stroke-width="3"
+                                stroke-dasharray="7 7" fill="none" />
+                            <circle cx="22" cy="172" r="5" fill="var(--ink)" />
+                            <rect x="216" y="74" width="58" height="42" fill="var(--tur)" stroke="var(--ink)"
+                                stroke-width="3" transform="rotate(-2 245 95)" />
+                            <text x="245" y="99" text-anchor="middle" font-family="Anton" font-size="12"
+                                fill="var(--ink)">CHASKA</text>
+                            <circle cx="245" cy="95" r="6.5" fill="var(--red)" stroke="var(--ink)" stroke-width="2" />
+                            <text x="24" y="52" font-family="Instrument Sans" font-weight="700" font-size="10"
+                                fill="var(--ink)" opacity=".55">AAP YAHAN THELE PE AA RAHE HO</text>
+                            <text x="262" y="178" font-family="Instrument Sans" font-weight="700" font-size="10"
+                                fill="var(--ink)" opacity=".55">GALI NO. 4 ↗</text>
+                        </svg>
+                        <div class="vbtns">
+                            <a class="btn pri" href="https://maps.google.com/?q=Main+Market+Gali+No+4" target="_blank"
+                                rel="noopener"><i data-lucide="map-pin"></i> Raasta dikhao</a>
+                            <a class="btn" href="tel:+919810012345"><i data-lucide="phone"></i> Call karo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <div class="wrap">
+            <div class="fmark">CHASKA<b>✦</b></div>
+            <p class="ftag">Chatpata khana, imandaari se. 1998 se, 1998 tak — aur aage bhi.</p>
+            <div class="fgrid">
+                <div class="fcol">
+                    <h5>EXPLORE</h5>
+                    <a href="#menu">Menu</a><a href="#builder">Chaat Builder</a><a href="#heat">Teekha Meter</a><a
+                        href="#story">Kahani</a><a href="#visit">Aa Jao</a>
+                </div>
+                <div class="fcol">
+                    <h5>SAMPARK</h5>
+                    <a href="tel:+919810012345">+91 98100 12345</a>
+                    <a href="https://maps.google.com/?q=Main+Market+Gali+No+4" target="_blank" rel="noopener">44, Gali
+                        No. 4, Main Market</a>
+                    <a href="#top">Wapas upar ↖</a>
+                </div>
+                <div class="fcol">
+                    <h5>AAJ KA VAADA</h5>
+                    <a href="#menu">Tel roz naya</a><a href="#menu">Masala roz pista</a><a href="#menu">Chutney ghar
+                        ki</a><a href="#menu">Bakwaas zero</a>
+                </div>
+            </div>
+            <div class="fbot">
+                <span>© 2025 Chaska Chaat Co.</span>
+                <span>Gali No. 4 se pyaar aur imli ke saath banaya gaya.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- cart drawer -->
+    <div class="scrim" id="scrim"></div>
+    <aside class="drawer" id="drawer" aria-label="Shopping bag">
+        <div class="dhead">
+            <h3>AAKA JHOLA<span class="hi">— झोला</span></h3>
+            <button class="dclose" id="dclose" aria-label="Close bag"><i data-lucide="x"></i></button>
+        </div>
+        <div class="dbody" id="cartView">
+            <div id="cartItems"></div>
+        </div>
+        <div class="dbody done" id="doneView" hidden>
+            <div class="done-ic"><i data-lucide="check"></i></div>
+            <h4>ORDER PAKKA!</h4>
+            <p class="onum" id="orderNo">CS-0000</p>
+            <p>~12 minute me ready. Token number yaad rakhna, ya na bhi — hum chehra yaad rakh lenge.</p>
+            <button class="btn sun" id="doneBtn">THEEK HAI</button>
+        </div>
+        <div class="dfoot" id="cartFoot">
+            <div class="drow"><span>Subtotal</span><strong id="dtotal">₹0</strong></div>
+            <p class="dnote">Pickup ~12 min · Packing ₹0 (mitti ka dil, mitti ka kulhad)</p>
+            <button class="btn pri wide" id="checkout">ORDER PAKKA KARO <i data-lucide="arrow-right"></i></button>
+        </div>
+    </aside>
+
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>
+        const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+        function refreshIcons() { try { lucide.createIcons() } catch (e) { } }
+
+        /* ---------- ticker content ---------- */
+        $$('.tk-seg').forEach(s => s.textContent = 'GARMA GARAM ✦ DESI GHEE ✦ FRESH MASALA ROZ ✦ CHUTNEY GHAR KI ✦ NO SHORTCUTS ✦ SINCE 1998 ✦ '.repeat(2));
+        $$('.nm-seg').forEach(s => s.textContent = 'PANI PURI ✦ SAMOSA CHAAT ✦ VADA PAV ✦ KULHAD CHAI ✦ JALEBI RABRI ✦ KATHI ROLL ✦ RAJ KACHORI ✦ '.repeat(2));
+
+        /* ---------- data ---------- */
+        const MENU = {
+            chaat: [
+                { n: 'Pani Puris (6)', h: 'पानी पुरी', d: 'Crisp puris, spiced aloo, do paani — heeng aur pudina.', p: 60, v: 1, s: 3, i: 'puri', t: 'BESTSELLER' },
+                { n: 'Samosa Chaat', h: 'समोसा चाट', d: 'Crushed samosa, garam chole, dahi, saunth, sev ka pahad.', p: 90, v: 1, s: 2, i: 'samosa' },
+                { n: 'Aloo Tikki Chole', h: 'अलू टिक्की', d: 'Crisp bahar, narm andar. Imli ka jaal upar se.', p: 80, v: 1, s: 2, i: 'tikki' },
+                { n: 'Raj Kachori', h: 'राज कचौड़ी', d: 'The big boss — sprouts, dahi, anar, sab kuch andar.', p: 110, v: 1, s: 3, i: 'puri', t: 'HEAVY' },
+                { n: 'Papdi Chaat', h: 'पपड़ी चाट', d: 'Khasta papdi, aloo, pyaaz, triple chutney.', p: 70, v: 1, s: 1, i: 'papdi' },
+                { n: 'Dahi Bhalla', h: 'दही भल्ला', d: 'Soft bhalle, garam dahi, bhuna jeera powder.', p: 80, v: 1, s: 1, i: 'laddoo' },
+                { n: 'Palak Patta Chaat', h: 'पालक पत्ता चाट', d: 'Crisp fried spinach, dahi, saunth drizzle.', p: 90, v: 1, s: 1, i: 'leaf', t: 'NAYA' }
+            ],
+            rolls: [
+                { n: 'Kathi Chicken Roll', h: 'चिकन कठी रोल', d: 'Char-grilled chicken, pyaaz, pudina chutney, flaky paratha.', p: 140, v: 0, s: 3, i: 'roll', t: 'BESTSELLER' },
+                { n: 'Paneer Tikka Roll', h: 'पनीर टिक्का रोल', d: 'Smoky paneer, capsicum, tikka masala.', p: 130, v: 1, s: 2, i: 'roll' },
+                { n: 'Anda Egg Roll', h: 'अंडा रोल', d: 'Double anda, shezwan chutney, extra crisp.', p: 100, v: 0, s: 2, i: 'roll' },
+                { n: 'Vada Pav (2)', h: 'वड़ा पाव', d: 'Bombay classic — lasun chutney, fried mirchi ke saath.', p: 60, v: 1, s: 3, i: 'tikki', t: 'TEEKHA' },
+                { n: 'Masala Dosa', h: 'मसाला डोसा', d: 'Paper-thin, aloo masala, teen chatni.', p: 110, v: 1, s: 1, i: 'roll' },
+                { n: 'Amritsari Kulcha', h: 'अमृतसरी कुलचा', d: 'Tandoor-fresh, aloo-pyaaz stuffing, white makkhan.', p: 90, v: 1, s: 1, i: 'puri' }
+            ],
+            chai: [
+                { n: 'Kulhad Chai', h: 'कुल्हड़ चाय', d: 'Matka-boiled, mitti ka khushboo, cutting size.', p: 20, v: 1, s: 0, i: 'chai', t: 'BESTSELLER' },
+                { n: 'Masala Chai', h: 'मसाला चाय', d: 'Adrak, elaichi, garam masala — utha de murdon ko.', p: 25, v: 1, s: 1, i: 'chai' },
+                { n: 'Filter Coffee', h: 'फ़िल्टर कॉफ़ी', d: 'South Indian style, davara-tumbler froth.', p: 40, v: 1, s: 0, i: 'lassi' },
+                { n: 'Sweet Lassi (Matka)', h: 'मीठी लस्सी', d: 'Mota malai layer, kesar drizzle, matka free.', p: 70, v: 1, s: 0, i: 'lassi' },
+                { n: 'Jaljeera Soda', h: 'जलजीरा सोडा', d: 'Fizzy, tangy, jeera kick — turant refresh.', p: 50, v: 1, s: 2, i: 'lassi', t: 'COOL' },
+                { n: 'Masala Chaas', h: 'मसाला छाछ', d: 'Bhuna jeera, kadi patta, thanda-thanda.', p: 40, v: 1, s: 1, i: 'lassi' }
+            ],
+            mithai: [
+                { n: 'Jalebi Rabri', h: 'जलेबी रबड़ी', d: 'Garam crisp jalebi, thandi rabri me doobi hui.', p: 120, v: 1, s: 0, i: 'jalebi', t: 'BESTSELLER' },
+                { n: 'Motichoor Laddoo (4)', h: 'मोतीचूर लड्डू', d: 'Fine boondi, pure ghee — muh me ghul jaaye.', p: 80, v: 1, s: 0, i: 'laddoo' },
+                { n: 'Gulab Jamun (2)', h: 'गुलाब जामुन', d: 'Khoya dumplings, gulab syrup, elaichi seeds.', p: 60, v: 1, s: 0, i: 'laddoo' },
+                { n: 'Kulfi Falooda', h: 'कुल्फ़ी फालूदा', d: 'Malai kulfi, falooda sev, rose syrup, pista.', p: 130, v: 1, s: 0, i: 'kulfi', t: 'HEAVY' },
+                { n: 'Rasmalai (2)', h: 'रस मलाई', d: 'Soft chenna, kesar-doodh, pista dust.', p: 90, v: 1, s: 0, i: 'kulfi' }
+            ]
+        };
+        const ALL = {};
+        for (const c in MENU) MENU[c].forEach((m, i) => ALL[c + '-' + i] = m);
+
+        const HERO = [
+            { n: 'PANI PURIS', h: 'पानी पुरी', p: 60, icon: 'puri', mid: 'chaat-0', tag: 'BESTSELLER', blurb: 'Crack. Stuff. Slurp. Repeat till regret is zero.' },
+            { n: 'SAMOSA CHAAT', h: 'समोसा चाट', p: 90, icon: 'samosa', mid: 'chaat-1', tag: 'MOST LOVED', blurb: 'Crushed samosa, upar dahi-chole aur sev ki barish.' },
+            { n: 'VADA PAV', h: 'वड़ा पाव', p: 60, icon: 'tikki', mid: 'rolls-3', tag: 'TEEKHA', blurb: 'Bombay ka asli energy drink. Lasun chutney included.' },
+            { n: 'JALEBI RABRI', h: 'जलेबी रबड़ी', p: 120, icon: 'jalebi', mid: 'mithai-0', tag: 'SWEET', blurb: 'Garam jalebi, thandi rabri — opposites that click.' }
+        ];
+
+        /* ---------- menu render ---------- */
+        const chilis = s => Array.from({ length: 3 }, (_, k) => `<svg class="chl${k < s ? ' on' : ''}" aria-hidden="true"><use href="#i-chili"/></svg>`).join('');
+        function renderMenu(cat) {
+            $('#menuList').innerHTML = MENU[cat].map((m, i) => {
+                const id = cat + '-' + i;
+                return `<article class="mrow">
+      <div class="mic"><svg class="micon" aria-hidden="true"><use href="#i-${m.i}"/></svg></div>
+      <div class="mbody">
+        <div class="mline">
+          <span class="vd ${m.v ? '' : 'non'}" title="${m.v ? 'Veg' : 'Non-veg'}"></span>
+          <h4>${m.n}<span class="hmini hi">${m.h}</span></h4>
+          <span class="dots"></span>
+          <span class="price">₹${m.p}</span>
+        </div>
+        <p>${m.d}</p>
+        <div class="mtags">${m.s ? chilis(m.s) : ''}${m.t ? `<span class="mtag">${m.t}</span>` : ''}</div>
+      </div>
+      <button class="add" data-add="${id}"><i data-lucide="plus"></i>ADD</button>
+    </article>`;
+            }).join('');
+            refreshIcons(); observeReveals();
+        }
+        $$('.tab').forEach(t => t.addEventListener('click', () => {
+            $$('.tab').forEach(x => x.classList.remove('on')); t.classList.add('on'); renderMenu(t.dataset.cat);
+        }));
+
+        /* ---------- cart ---------- */
+        const cart = new Map();
+        const qtyTotal = () => [...cart.values()].reduce((a, b) => a + b.qty, 0);
+        function toast(msg, icon = 'check') {
+            const t = document.createElement('div'); t.className = 'toast-item';
+            t.innerHTML = `<i data-lucide="${icon}"></i><span>${msg}</span>`;
+            $('#toasts').appendChild(t); refreshIcons();
+            setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350) }, 2400);
+        }
+        function bump() { const b = $('#bagCount'); b.textContent = qtyTotal(); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump') }
+        function addItem(o) {
+            const e = cart.get(o.id);
+            if (e) e.qty++; else cart.set(o.id, { item: o, qty: 1 });
+            renderCart(); bump(); toast(o.n + ' jhole me daal diya!', 'shopping-bag');
+        }
+        function renderCart() {
+            const w = $('#cartItems'); let tot = 0;
+            if (!cart.size) {
+                w.innerHTML = `<div class="cempty"><svg aria-hidden="true"><use href="#i-chai"/></svg><p>Jhola khaali hai.<br>Kuch chatpata daalo.</p></div>`;
+            } else {
+                w.innerHTML = [...cart.entries()].map(([id, { item, qty }]) => {
+                    tot += item.p * qty;
+                    return `<div class="crow">
+        <div class="cinfo"><strong>${item.n}</strong>${item.h ? `<span class="hi">${item.h}</span>` : ''}<em>₹${item.p} each</em></div>
+        <div class="cqty"><button data-q="-1" data-cid="${id}" aria-label="Kam karo">−</button><b>${qty}</b><button data-q="1" data-cid="${id}" aria-label="Zyada karo">+</button></div>
+        <b class="cline">₹${item.p * qty}</b></div>`;
+                }).join('');
+            }
+            $('#dtotal').textContent = '₹' + tot; $('#bagCount').textContent = qtyTotal();
+        }
+        document.addEventListener('click', e => {
+            const a = e.target.closest('[data-add]');
+            if (a) { const it = ALL[a.dataset.add]; if (it) addItem({ id: a.dataset.add, n: it.n, p: it.p, h: it.h }); return }
+            const q = e.target.closest('[data-q]');
+            if (q) { const cur = cart.get(q.dataset.cid); if (!cur) return; cur.qty += +q.dataset.q; if (cur.qty < 1) cart.delete(q.dataset.cid); renderCart() }
+        });
+
+        /* drawer */
+        const drawer = $('#drawer'), scrim = $('#scrim');
+        function openDrawer() { drawer.classList.add('open'); scrim.classList.add('on'); document.body.style.overflow = 'hidden' }
+        function closeDrawer() { drawer.classList.remove('open'); scrim.classList.remove('on'); document.body.style.overflow = '' }
+        $('#bagBtn').addEventListener('click', openDrawer);
+        $('#dclose').addEventListener('click', closeDrawer);
+        scrim.addEventListener('click', closeDrawer);
+        $('#checkout').addEventListener('click', () => {
+            if (!cart.size) { toast('Pehle kuch daalo, bhai!', 'flame'); return }
+            $('#orderNo').textContent = 'CS-' + (1000 + Math.floor(Math.random() * 9000));
+            $('#cartView').hidden = true; $('#cartFoot').hidden = true; $('#doneView').hidden = false;
+        });
+        $('#doneBtn').addEventListener('click', () => {
+            cart.clear(); renderCart();
+            $('#doneView').hidden = true; $('#cartView').hidden = false; $('#cartFoot').hidden = false;
+            closeDrawer(); toast('Jhola khaali. Phir aana!');
+        });
+
+        /* ---------- hero cycler ---------- */
+        let hix = 0, htimer = null;
+        function renderHero(i) {
+            hix = (i + HERO.length) % HERO.length; const d = HERO[hix];
+            $('#plateIconUse').setAttribute('href', '#i-' + d.icon);
+            $('#dishName').textContent = d.n; $('#dishHi').textContent = d.h; $('#dishBlurb').textContent = d.blurb;
+            $('#platePrice').innerHTML = '₹' + d.p + '<small>ONLY</small>';
+            $('#plateTag').textContent = d.tag; $('#plateAdd').dataset.add = d.mid;
+            $$('#hdots button').forEach((b, k) => b.classList.toggle('on', k === hix));
+            const c = $('.plate-core'); c.classList.remove('swap'); void c.offsetWidth; c.classList.add('swap');
+        }
+        function startHero() { clearInterval(htimer); htimer = setInterval(() => renderHero(hix + 1), 4600) }
+        $('#hdots').innerHTML = HERO.map((_, i) => `<button data-i="${i}" aria-label="Dish ${i + 1}"></button>`).join('');
+        $('#hprev').addEventListener('click', () => { renderHero(hix - 1); startHero() });
+        $('#hnext').addEventListener('click', () => { renderHero(hix + 1); startHero() });
+        $('#hdots').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { renderHero(+b.dataset.i); startHero() } });
+        $('.plate').addEventListener('mouseenter', () => clearInterval(htimer));
+        $('.plate').addEventListener('mouseleave', startHero);
+
+        /* ---------- builder ---------- */
+        const BASES = {
+            papdi: { n: 'Papdi', p: 50, h: 'कुरकुरी पपड़ी' },
+            samosa: { n: 'Samosa', p: 70, h: 'समोसा' },
+            puri: { n: 'Puri', p: 60, h: 'फुच्चा' },
+            tikki: { n: 'Tikki', p: 65, h: 'आलू टिक्की' }
+        };
+        const TOPS = { dahi: { n: 'Dahi', p: 15 }, saunth: { n: 'Saunth', p: 10 }, pudina: { n: 'Pudina', p: 10 }, teekha: { n: 'Teekha', p: 10 }, sev: { n: 'Sev', p: 10 }, anar: { n: 'Anar', p: 20 }, chole: { n: 'Chole', p: 20 }, peanut: { n: 'Peanuts', p: 15 } };
+        let bBase = 'samosa', bTops = new Set(['dahi', 'saunth', 'sev']), bSpice = 2;
+        const BSPICE = ['BINA MIRCH', 'HALKA TEEKHA', 'SAHI TEEKHA', 'VOLCANO'];
+        function paint(el) {
+            const p = (el.value - el.min) / (el.max - el.min) * 100;
+            el.style.background = `linear-gradient(90deg,var(--fillc,var(--tur)) ${p}%,var(--trackc,var(--paper2)) ${p}%)`;
+        }
+        function build() {
+            $$('.base').forEach(b => b.classList.toggle('sel', b.dataset.base === bBase));
+            $$('.chip').forEach(c => c.classList.toggle('sel', bTops.has(c.dataset.top)));
+            Object.keys(BASES).forEach(k => $('#bs-' + k).classList.toggle('on', k === bBase));
+            Object.keys(TOPS).forEach(k => $('#tp-' + k).classList.toggle('on', bTops.has(k)));
+            const heat = $('#bowlHeat'); heat.style.opacity = [0, .3, .6, 1][bSpice];
+            heat.classList.toggle('go', bSpice >= 2);
+            $('#tktSpice').textContent = BSPICE[bSpice];
+            let p = BASES[bBase].p; bTops.forEach(t => p += TOPS[t].p);
+            const nm = (bBase === 'samosa' ? 'Samose Wali' : BASES[bBase].n) + (bTops.size >= 3 ? ' Loaded' : '') + ' Chaat';
+            $('#tktName').textContent = nm; $('#tktHi').textContent = BASES[bBase].h; $('#tktPrice').textContent = '₹' + p;
+        }
+        $$('.base').forEach(b => b.addEventListener('click', () => { bBase = b.dataset.base; build() }));
+        $$('.chip').forEach(c => c.addEventListener('click', () => {
+            const t = c.dataset.top; bTops.has(t) ? bTops.delete(t) : bTops.add(t); build();
+        }));
+        $('#bspice').addEventListener('input', e => { paint(e.target); bSpice = +e.target.value; build() });
+        $('#tktAdd').addEventListener('click', () => {
+            addItem({ id: 'c' + Date.now(), n: $('#tktName').textContent, p: parseInt($('#tktPrice').textContent.slice(1)), h: $('#tktHi').textContent });
+        });
+
+        /* ---------- heat band ---------- */
+        const HEAT = [
+            ['BACCHA', 'Dada ji bhi muskura denge. Bachchon ke liye perfect.'],
+            ['THODA TEEKH', 'Ek chhota kick. Aankh nahi phegi, promise.'],
+            ['SAHI LEVEL', 'Humari personal recommendation. Swaad + aag, dono.'],
+            ['TEEKHA!', 'Dahi side me rakhna. Paani bhi saath me.'],
+            ['AAG LAGA DI', 'Hum zimmedari nahi lete. Kal ka nashta ready rakhna.']
+        ];
+        let warned = false;
+        function setHeat(v) {
+            $('#hword').textContent = HEAT[v - 1][0];
+            $('#hword').classList.toggle('max', v === 5);
+            $('#hdesc').textContent = '“' + HEAT[v - 1][1] + '”';
+            $('#hchilis').innerHTML = Array.from({ length: 5 }, (_, k) => `<svg class="chl${k < v ? ' on' : ''}"><use href="#i-chili"/></svg>`).join('');
+            $('#ticker').style.setProperty('--tick', (27.6 - v * 4.4) + 's');
+            if (v === 5 && !warned) { warned = true; toast('Sirf paani peene ke liye taiyaar raho.', 'flame') }
+        }
+        $('#hrange').addEventListener('input', e => { paint(e.target); setHeat(+e.target.value) });
+
+        /* ---------- reviews drag ---------- */
+        const strip = $('#strip'); let down = false, sx = 0, sl = 0;
+        strip.addEventListener('pointerdown', e => { down = true; sx = e.clientX; sl = strip.scrollLeft; strip.setPointerCapture(e.pointerId); strip.style.scrollSnapType = 'none'; strip.classList.add('drag') });
+        strip.addEventListener('pointermove', e => { if (down) strip.scrollLeft = sl - (e.clientX - sx) });
+        ['pointerup', 'pointercancel'].forEach(ev => strip.addEventListener(ev, () => { down = false; strip.classList.remove('drag'); strip.style.scrollSnapType = 'x proximity' }));
+
+        /* ---------- open-now ---------- */
+        (function () {
+            const H = [[12, 22], [11, 23], [11, 23], [11, 23], [11, 23], [11, 24], [11, 24]];
+            const D = ['Raviwaar', 'Somvaar', 'Mangalvaar', 'Budhvaar', 'Guruvaar', 'Shukravaar', 'Shaniwaar'];
+            const n = new Date(), d = n.getDay(), t = n.getHours() + n.getMinutes() / 60, [o, c] = H[d], open = t >= o && t < c;
+            const f = h => { const x = Math.floor(h % 12) || 12; return x + ' ' + (h % 24 >= 12 ? 'PM' : 'AM') };
+            const st = $('#openStamp'); st.textContent = open ? 'KHULA HAI' : 'BAND HAI';
+            st.classList.add(open ? 'ok' : 'no');
+            $('#nowLine').textContent = D[d] + ' · abhi ' + f(t) + (open ? (' · ' + f(c) + ' tak khaas mehmaan') : ' · ' + f(o) + ' se milte hain');
+        })();
+
+        /* ---------- reveal ---------- */
+        const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => {
+            es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target) } })
+        }, { threshold: .1 }) : null;
+        function observeReveals() { $$('.reveal:not(.in)').forEach(el => io ? io.observe(el) : el.classList.add('in')) }
+
+        /* ---------- nav ---------- */
+        $('#burger').addEventListener('click', () => $('#nav').classList.toggle('open'));
+        $$('.nav-links a').forEach(a => a.addEventListener('click', () => $('#nav').classList.remove('open')));
+
+        /* ---------- init ---------- */
+        renderMenu('chaat');
+        renderCart();
+        build();
+        paint($('#bspice'));
+        paint($('#hrange'));
+        setHeat(3);
+        renderHero(0);
+        startHero();
+        observeReveals();
+        refreshIcons();
+    </script>
+</body>
+
+</html>
