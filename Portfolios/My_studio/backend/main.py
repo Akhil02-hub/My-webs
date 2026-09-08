@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException, Depends, Header, UploadFile, File, Form
+from fastapi import FastAPI, HTTPException, Depends, Header, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -47,9 +47,28 @@ def hash_password(raw: str) -> str:
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
 
+def add_column_if_missing(conn, table: str, column: str, definition: str):
+    """
+    Safely add a column to an existing SQLite database.
+    """
+    columns = conn.execute(f"PRAGMA table_info({table})").fetchall()
+
+    existing_columns = {
+        row["name"]
+        for row in columns
+    }
+
+    if column not in existing_columns:
+        conn.execute(
+            f"ALTER TABLE {table} ADD COLUMN {column} {definition}"
+        )
+
+
 def init_db():
+
     conn = get_db()
     cur = conn.cursor()
+
     cur.executescript(
         """
         CREATE TABLE IF NOT EXISTS settings (
@@ -61,6 +80,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             type TEXT NOT NULL CHECK(type IN ('static','animated')),
+            category TEXT DEFAULT '',
             price TEXT DEFAULT '',
             description TEXT DEFAULT '',
             image_url TEXT DEFAULT '',
@@ -74,6 +94,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             category TEXT NOT NULL,
+            price TEXT DEFAULT '',
             description TEXT DEFAULT '',
             video_url TEXT DEFAULT '',
             live_url TEXT DEFAULT '',
@@ -103,32 +124,89 @@ def init_db():
         """
     )
 
+    # -----------------------------------------------------------------------
+    # Migrate old databases
+    # -----------------------------------------------------------------------
+
+    add_column_if_missing(
+        conn,
+        "invitations",
+        "category",
+        "TEXT DEFAULT ''"
+    )
+
+    add_column_if_missing(
+        conn,
+        "websites",
+        "price",
+        "TEXT DEFAULT ''"
+    )
+
+    # -----------------------------------------------------------------------
+    # Defaults
+    # -----------------------------------------------------------------------
+
     defaults = {
         "admin_password_hash": hash_password(DEFAULT_ADMIN_PASSWORD),
         "site_logo": "/uploads/default-logo.svg",
         "site_name": "Atelier & Co.",
         "hero_headline": "Invitations and websites, designed like keepsakes.",
         "hero_subheadline": "Every card, every page, made to be kept.",
-        "invitation_quote": "Every invitation starts with your story. Tell us the occasion and we'll shape a quote around it \u2014 from a single printed card to a fully animated digital suite.",
-        "website_quote": "Your website should feel like your studio, not a template. Share what you're building and we'll scope a site that fits the brief, the budget, and the timeline.",
+        "invitation_quote": (
+            "Every invitation starts with your story. "
+            "Tell us the occasion and we'll shape a quote around it "
+            "— from a single printed card to a fully animated digital suite."
+        ),
+        "website_quote": (
+            "Your website should feel like your studio, not a template. "
+            "Share what you're building and we'll scope a site that fits "
+            "the brief, the budget, and the timeline."
+        ),
         "instagram_url": "https://instagram.com/",
         "contact_email": "hello@example.com",
     }
+
     for key, value in defaults.items():
         cur.execute(
-            "INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", (key, value)
+            """
+            INSERT OR IGNORE INTO settings (key, value)
+            VALUES (?, ?)
+            """,
+            (key, value),
         )
 
-    cur.execute("SELECT COUNT(*) AS c FROM invitations")
+    # -----------------------------------------------------------------------
+    # Sample invitations
+    # -----------------------------------------------------------------------
+
+    cur.execute(
+        "SELECT COUNT(*) AS c FROM invitations"
+    )
+
     if cur.fetchone()["c"] == 0:
+
         cur.executemany(
-            """INSERT INTO invitations (title, type, price, description, image_url, preview_url, purchase_link, sort_order)
-               VALUES (?,?,?,?,?,?,?,?)""",
+            """
+            INSERT INTO invitations
+            (
+                title,
+                type,
+                category,
+                price,
+                description,
+                image_url,
+                preview_url,
+                purchase_link,
+                sort_order
+            )
+            VALUES (?,?,?,?,?,?,?,?,?)
+            """,
             [
                 (
                     "Ivory Botanical",
                     "static",
-                    "\u20b91,200",
+                    "Wedding",
+                    "1200",
                     "A single printed card with pressed-botanical linework, letterpress finish, envelope included.",
                     "/uploads/sample-static-1.svg",
                     "/uploads/sample-static-1.svg",
@@ -138,7 +216,8 @@ def init_db():
                 (
                     "Midnight Monogram",
                     "static",
-                    "\u20b91,450",
+                    "Wedding",
+                    "1450",
                     "Foil monogram on deep ink card stock, for evening weddings and formal occasions.",
                     "/uploads/sample-static-2.svg",
                     "/uploads/sample-static-2.svg",
@@ -148,8 +227,9 @@ def init_db():
                 (
                     "Gilded Bloom Motion",
                     "animated",
-                    "\u20b92,900",
-                    "Petals unfold around your names as the card opens \u2014 a looping animated invitation for digital sends.",
+                    "Wedding",
+                    "2900",
+                    "Petals unfold around your names as the card opens — a looping animated invitation for digital sends.",
                     "/uploads/sample-animated-1.svg",
                     "/uploads/sample-animated-1.svg",
                     "https://example.com/animated-code/gilded-bloom",
@@ -158,7 +238,8 @@ def init_db():
                 (
                     "Confetti Reveal",
                     "animated",
-                    "\u20b93,200",
+                    "Birthday",
+                    "3200",
                     "A playful confetti-burst reveal, built for birthdays and celebrations sent over WhatsApp or email.",
                     "/uploads/sample-animated-2.svg",
                     "/uploads/sample-animated-2.svg",
@@ -168,15 +249,35 @@ def init_db():
             ],
         )
 
-    cur.execute("SELECT COUNT(*) AS c FROM websites")
+    # -----------------------------------------------------------------------
+    # Sample websites
+    # -----------------------------------------------------------------------
+
+    cur.execute(
+        "SELECT COUNT(*) AS c FROM websites"
+    )
+
     if cur.fetchone()["c"] == 0:
+
         cur.executemany(
-            """INSERT INTO websites (title, category, description, video_url, live_url, sort_order)
-               VALUES (?,?,?,?,?,?)""",
+            """
+            INSERT INTO websites
+            (
+                title,
+                category,
+                price,
+                description,
+                video_url,
+                live_url,
+                sort_order
+            )
+            VALUES (?,?,?,?,?,?,?)
+            """,
             [
                 (
                     "Marlowe & Finch",
                     "Portfolio",
+                    "15000",
                     "A photographer's portfolio with a full-bleed gallery and slow-motion scroll.",
                     "/uploads/sample-website-1.mp4",
                     "https://example.com",
@@ -185,6 +286,7 @@ def init_db():
                 (
                     "Kettle & Co.",
                     "E-commerce",
+                    "25000",
                     "A small-batch tea shop storefront with a hand-drawn product grid.",
                     "/uploads/sample-website-2.mp4",
                     "https://example.com",
@@ -193,6 +295,7 @@ def init_db():
                 (
                     "The Wren Report",
                     "Editorial",
+                    "12000",
                     "A weekly newsletter site with an archive and a reading-time indicator.",
                     "/uploads/sample-website-3.mp4",
                     "https://example.com",
@@ -200,6 +303,14 @@ def init_db():
                 ),
             ],
         )
+
+    # Normalize existing prices/categories to prevent NULL problems.
+    cur.execute(
+        "UPDATE invitations SET category = '' WHERE category IS NULL"
+    )
+    cur.execute(
+        "UPDATE websites SET price = '' WHERE price IS NULL"
+    )
 
     conn.commit()
     conn.close()
@@ -215,15 +326,31 @@ _active_tokens: set[str] = set()
 
 
 def get_setting(key: str, default: str = "") -> str:
+
     conn = get_db()
-    row = conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
+
+    row = conn.execute(
+        "SELECT value FROM settings WHERE key = ?",
+        (key,),
+    ).fetchone()
+
     conn.close()
+
     return row["value"] if row else default
 
 
-def require_admin(x_admin_token: Optional[str] = Header(None)):
-    if not x_admin_token or x_admin_token not in _active_tokens:
-        raise HTTPException(status_code=401, detail="Not authenticated")
+def require_admin(
+    x_admin_token: Optional[str] = Header(None)
+):
+    if (
+        not x_admin_token
+        or x_admin_token not in _active_tokens
+    ):
+        raise HTTPException(
+            status_code=401,
+            detail="Not authenticated"
+        )
+
     return True
 
 
@@ -233,17 +360,32 @@ class LoginBody(BaseModel):
 
 @app.post("/api/admin/login")
 def admin_login(body: LoginBody):
-    stored_hash = get_setting("admin_password_hash")
+
+    stored_hash = get_setting(
+        "admin_password_hash"
+    )
+
     if hash_password(body.password) != stored_hash:
-        raise HTTPException(status_code=401, detail="Incorrect password")
+        raise HTTPException(
+            status_code=401,
+            detail="Incorrect password"
+        )
+
     token = secrets.token_hex(24)
+
     _active_tokens.add(token)
+
     return {"token": token}
 
 
 @app.post("/api/admin/logout")
-def admin_logout(x_admin_token: Optional[str] = Header(None)):
-    _active_tokens.discard(x_admin_token)
+def admin_logout(
+    x_admin_token: Optional[str] = Header(None)
+):
+
+    if x_admin_token:
+        _active_tokens.discard(x_admin_token)
+
     return {"ok": True}
 
 
@@ -253,17 +395,35 @@ class ChangePasswordBody(BaseModel):
 
 
 @app.post("/api/admin/change-password")
-def change_password(body: ChangePasswordBody, _: bool = Depends(require_admin)):
-    stored_hash = get_setting("admin_password_hash")
+def change_password(
+    body: ChangePasswordBody,
+    _: bool = Depends(require_admin)
+):
+
+    stored_hash = get_setting(
+        "admin_password_hash"
+    )
+
     if hash_password(body.current_password) != stored_hash:
-        raise HTTPException(status_code=401, detail="Current password is incorrect")
+        raise HTTPException(
+            status_code=401,
+            detail="Current password is incorrect"
+        )
+
     conn = get_db()
+
     conn.execute(
-        "UPDATE settings SET value = ? WHERE key = 'admin_password_hash'",
+        """
+        UPDATE settings
+        SET value = ?
+        WHERE key = 'admin_password_hash'
+        """,
         (hash_password(body.new_password),),
     )
+
     conn.commit()
     conn.close()
+
     return {"ok": True}
 
 
@@ -274,11 +434,25 @@ def change_password(body: ChangePasswordBody, _: bool = Depends(require_admin)):
 
 @app.get("/api/settings")
 def list_settings():
+
     conn = get_db()
-    rows = conn.execute("SELECT key, value FROM settings").fetchall()
+
+    rows = conn.execute(
+        "SELECT key, value FROM settings"
+    ).fetchall()
+
     conn.close()
-    data = {r["key"]: r["value"] for r in rows}
-    data.pop("admin_password_hash", None)
+
+    data = {
+        r["key"]: r["value"]
+        for r in rows
+    }
+
+    data.pop(
+        "admin_password_hash",
+        None
+    )
+
     return data
 
 
@@ -287,18 +461,31 @@ class SettingsUpdate(BaseModel):
 
 
 @app.put("/api/settings")
-def update_settings(body: SettingsUpdate, _: bool = Depends(require_admin)):
+def update_settings(
+    body: SettingsUpdate,
+    _: bool = Depends(require_admin)
+):
+
     conn = get_db()
+
     for key, value in body.values.items():
+
         if key == "admin_password_hash":
             continue
+
         conn.execute(
-            "INSERT INTO settings (key, value) VALUES (?, ?) "
-            "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+            """
+            INSERT INTO settings (key, value)
+            VALUES (?, ?)
+            ON CONFLICT(key)
+            DO UPDATE SET value = excluded.value
+            """,
             (key, str(value)),
         )
+
     conn.commit()
     conn.close()
+
     return list_settings()
 
 
@@ -310,6 +497,7 @@ def update_settings(body: SettingsUpdate, _: bool = Depends(require_admin)):
 class InvitationIn(BaseModel):
     title: str
     type: str
+    category: str = ""
     price: str = ""
     description: str = ""
     image_url: str = ""
@@ -319,78 +507,240 @@ class InvitationIn(BaseModel):
 
 
 @app.get("/api/invitations")
-def list_invitations(type: Optional[str] = None):
+def list_invitations(
+    type: Optional[str] = None,
+    category: Optional[str] = None,
+):
+
     conn = get_db()
+
+    conditions = []
+    params = []
+
     if type:
-        rows = conn.execute(
-            "SELECT * FROM invitations WHERE type = ? ORDER BY sort_order, id", (type,)
-        ).fetchall()
-    else:
-        rows = conn.execute("SELECT * FROM invitations ORDER BY sort_order, id").fetchall()
+        conditions.append("type = ?")
+        params.append(type)
+
+    if category:
+        conditions.append("category = ?")
+        params.append(category)
+
+    query = "SELECT * FROM invitations"
+
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
+
+    query += " ORDER BY sort_order, id"
+
+    rows = conn.execute(
+        query,
+        params
+    ).fetchall()
+
     conn.close()
-    return [dict(r) for r in rows]
+
+    return [
+        dict(r)
+        for r in rows
+    ]
+
+
+@app.get("/api/invitations/categories")
+def list_invitation_categories(
+    type: Optional[str] = None
+):
+
+    conn = get_db()
+
+    if type:
+
+        rows = conn.execute(
+            """
+            SELECT DISTINCT category
+            FROM invitations
+            WHERE type = ?
+              AND TRIM(category) <> ''
+            ORDER BY category COLLATE NOCASE
+            """,
+            (type,),
+        ).fetchall()
+
+    else:
+
+        rows = conn.execute(
+            """
+            SELECT DISTINCT category
+            FROM invitations
+            WHERE TRIM(category) <> ''
+            ORDER BY category COLLATE NOCASE
+            """
+        ).fetchall()
+
+    conn.close()
+
+    return [
+        r["category"]
+        for r in rows
+    ]
 
 
 @app.post("/api/invitations")
-def create_invitation(body: InvitationIn, _: bool = Depends(require_admin)):
-    if body.type not in ("static", "animated"):
-        raise HTTPException(400, "type must be 'static' or 'animated'")
+def create_invitation(
+    body: InvitationIn,
+    _: bool = Depends(require_admin)
+):
+
+    if body.type not in (
+        "static",
+        "animated"
+    ):
+        raise HTTPException(
+            400,
+            "type must be 'static' or 'animated'"
+        )
+
     conn = get_db()
+
     cur = conn.execute(
-        """INSERT INTO invitations (title,type,price,description,image_url,preview_url,purchase_link,sort_order)
-           VALUES (?,?,?,?,?,?,?,?)""",
+        """
+        INSERT INTO invitations
         (
-            body.title,
+            title,
+            type,
+            category,
+            price,
+            description,
+            image_url,
+            preview_url,
+            purchase_link,
+            sort_order
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)
+        """,
+        (
+            body.title.strip(),
             body.type,
-            body.price,
-            body.description,
-            body.image_url,
-            body.preview_url,
-            body.purchase_link,
+            body.category.strip(),
+            body.price.strip(),
+            body.description.strip(),
+            body.image_url.strip(),
+            body.preview_url.strip(),
+            body.purchase_link.strip(),
             body.sort_order,
         ),
     )
+
     conn.commit()
+
     new_id = cur.lastrowid
-    row = conn.execute("SELECT * FROM invitations WHERE id = ?", (new_id,)).fetchone()
+
+    row = conn.execute(
+        "SELECT * FROM invitations WHERE id = ?",
+        (new_id,),
+    ).fetchone()
+
     conn.close()
+
     return dict(row)
 
 
 @app.put("/api/invitations/{item_id}")
-def update_invitation(item_id: int, body: InvitationIn, _: bool = Depends(require_admin)):
+def update_invitation(
+    item_id: int,
+    body: InvitationIn,
+    _: bool = Depends(require_admin)
+):
+
+    if body.type not in (
+        "static",
+        "animated"
+    ):
+        raise HTTPException(
+            400,
+            "type must be 'static' or 'animated'"
+        )
+
     conn = get_db()
-    existing = conn.execute("SELECT id FROM invitations WHERE id = ?", (item_id,)).fetchone()
+
+    existing = conn.execute(
+        """
+        SELECT id
+        FROM invitations
+        WHERE id = ?
+        """,
+        (item_id,),
+    ).fetchone()
+
     if not existing:
+
         conn.close()
-        raise HTTPException(404, "Invitation not found")
+
+        raise HTTPException(
+            404,
+            "Invitation not found"
+        )
+
     conn.execute(
-        """UPDATE invitations SET title=?, type=?, price=?, description=?, image_url=?,
-           preview_url=?, purchase_link=?, sort_order=? WHERE id = ?""",
+        """
+        UPDATE invitations
+        SET
+            title = ?,
+            type = ?,
+            category = ?,
+            price = ?,
+            description = ?,
+            image_url = ?,
+            preview_url = ?,
+            purchase_link = ?,
+            sort_order = ?
+        WHERE id = ?
+        """,
         (
-            body.title,
+            body.title.strip(),
             body.type,
-            body.price,
-            body.description,
-            body.image_url,
-            body.preview_url,
-            body.purchase_link,
+            body.category.strip(),
+            body.price.strip(),
+            body.description.strip(),
+            body.image_url.strip(),
+            body.preview_url.strip(),
+            body.purchase_link.strip(),
             body.sort_order,
             item_id,
         ),
     )
+
     conn.commit()
-    row = conn.execute("SELECT * FROM invitations WHERE id = ?", (item_id,)).fetchone()
+
+    row = conn.execute(
+        """
+        SELECT *
+        FROM invitations
+        WHERE id = ?
+        """,
+        (item_id,),
+    ).fetchone()
+
     conn.close()
+
     return dict(row)
 
 
 @app.delete("/api/invitations/{item_id}")
-def delete_invitation(item_id: int, _: bool = Depends(require_admin)):
+def delete_invitation(
+    item_id: int,
+    _: bool = Depends(require_admin)
+):
+
     conn = get_db()
-    conn.execute("DELETE FROM invitations WHERE id = ?", (item_id,))
+
+    conn.execute(
+        "DELETE FROM invitations WHERE id = ?",
+        (item_id,),
+    )
+
     conn.commit()
     conn.close()
+
     return {"ok": True}
 
 
@@ -402,6 +752,7 @@ def delete_invitation(item_id: int, _: bool = Depends(require_admin)):
 class WebsiteIn(BaseModel):
     title: str
     category: str
+    price: str = ""
     description: str = ""
     video_url: str = ""
     live_url: str = ""
@@ -409,67 +760,219 @@ class WebsiteIn(BaseModel):
 
 
 @app.get("/api/websites")
-def list_websites(category: Optional[str] = None):
+def list_websites(
+    category: Optional[str] = None
+):
+
     conn = get_db()
+
     if category:
+
         rows = conn.execute(
-            "SELECT * FROM websites WHERE category = ? ORDER BY sort_order, id", (category,)
+            """
+            SELECT *
+            FROM websites
+            WHERE category = ?
+            ORDER BY sort_order, id
+            """,
+            (category,),
         ).fetchall()
+
     else:
-        rows = conn.execute("SELECT * FROM websites ORDER BY sort_order, id").fetchall()
+
+        rows = conn.execute(
+            """
+            SELECT *
+            FROM websites
+            ORDER BY sort_order, id
+            """
+        ).fetchall()
+
     conn.close()
-    return [dict(r) for r in rows]
+
+    return [
+        dict(r)
+        for r in rows
+    ]
 
 
 @app.get("/api/websites/categories")
 def list_website_categories():
+
     conn = get_db()
+
     rows = conn.execute(
-        "SELECT DISTINCT category FROM websites ORDER BY category"
+        """
+        SELECT DISTINCT category
+        FROM websites
+        WHERE TRIM(category) <> ''
+        ORDER BY category COLLATE NOCASE
+        """
     ).fetchall()
+
     conn.close()
-    return [r["category"] for r in rows]
+
+    return [
+        r["category"]
+        for r in rows
+    ]
 
 
 @app.post("/api/websites")
-def create_website(body: WebsiteIn, _: bool = Depends(require_admin)):
+def create_website(
+    body: WebsiteIn,
+    _: bool = Depends(require_admin)
+):
+
+    if not body.title.strip():
+        raise HTTPException(
+            400,
+            "Title is required"
+        )
+
+    if not body.category.strip():
+        raise HTTPException(
+            400,
+            "Category is required"
+        )
+
     conn = get_db()
+
     cur = conn.execute(
-        """INSERT INTO websites (title,category,description,video_url,live_url,sort_order)
-           VALUES (?,?,?,?,?,?)""",
-        (body.title, body.category, body.description, body.video_url, body.live_url, body.sort_order),
+        """
+        INSERT INTO websites
+        (
+            title,
+            category,
+            price,
+            description,
+            video_url,
+            live_url,
+            sort_order
+        )
+        VALUES (?,?,?,?,?,?,?)
+        """,
+        (
+            body.title.strip(),
+            body.category.strip(),
+            body.price.strip(),
+            body.description.strip(),
+            body.video_url.strip(),
+            body.live_url.strip(),
+            body.sort_order,
+        ),
     )
+
     conn.commit()
+
     new_id = cur.lastrowid
-    row = conn.execute("SELECT * FROM websites WHERE id = ?", (new_id,)).fetchone()
+
+    row = conn.execute(
+        "SELECT * FROM websites WHERE id = ?",
+        (new_id,),
+    ).fetchone()
+
     conn.close()
+
     return dict(row)
 
 
 @app.put("/api/websites/{item_id}")
-def update_website(item_id: int, body: WebsiteIn, _: bool = Depends(require_admin)):
+def update_website(
+    item_id: int,
+    body: WebsiteIn,
+    _: bool = Depends(require_admin)
+):
+
+    if not body.title.strip():
+        raise HTTPException(
+            400,
+            "Title is required"
+        )
+
+    if not body.category.strip():
+        raise HTTPException(
+            400,
+            "Category is required"
+        )
+
     conn = get_db()
-    existing = conn.execute("SELECT id FROM websites WHERE id = ?", (item_id,)).fetchone()
+
+    existing = conn.execute(
+        """
+        SELECT id
+        FROM websites
+        WHERE id = ?
+        """,
+        (item_id,),
+    ).fetchone()
+
     if not existing:
+
         conn.close()
-        raise HTTPException(404, "Website not found")
+
+        raise HTTPException(
+            404,
+            "Website not found"
+        )
+
     conn.execute(
-        """UPDATE websites SET title=?, category=?, description=?, video_url=?, live_url=?, sort_order=?
-           WHERE id = ?""",
-        (body.title, body.category, body.description, body.video_url, body.live_url, body.sort_order, item_id),
+        """
+        UPDATE websites
+        SET
+            title = ?,
+            category = ?,
+            price = ?,
+            description = ?,
+            video_url = ?,
+            live_url = ?,
+            sort_order = ?
+        WHERE id = ?
+        """,
+        (
+            body.title.strip(),
+            body.category.strip(),
+            body.price.strip(),
+            body.description.strip(),
+            body.video_url.strip(),
+            body.live_url.strip(),
+            body.sort_order,
+            item_id,
+        ),
     )
+
     conn.commit()
-    row = conn.execute("SELECT * FROM websites WHERE id = ?", (item_id,)).fetchone()
+
+    row = conn.execute(
+        """
+        SELECT *
+        FROM websites
+        WHERE id = ?
+        """,
+        (item_id,),
+    ).fetchone()
+
     conn.close()
+
     return dict(row)
 
 
 @app.delete("/api/websites/{item_id}")
-def delete_website(item_id: int, _: bool = Depends(require_admin)):
+def delete_website(
+    item_id: int,
+    _: bool = Depends(require_admin)
+):
+
     conn = get_db()
-    conn.execute("DELETE FROM websites WHERE id = ?", (item_id,))
+
+    conn.execute(
+        "DELETE FROM websites WHERE id = ?",
+        (item_id,),
+    )
+
     conn.commit()
     conn.close()
+
     return {"ok": True}
 
 
@@ -485,54 +988,135 @@ class ReviewIn(BaseModel):
 
 
 @app.get("/api/reviews")
-def list_reviews(all: bool = False, _admin: Optional[str] = Header(None, alias="X-Admin-Token")):
+def list_reviews(
+    all: bool = False,
+    _admin: Optional[str] = Header(
+        None,
+        alias="X-Admin-Token"
+    ),
+):
+
     conn = get_db()
+
     if all and _admin in _active_tokens:
-        rows = conn.execute("SELECT * FROM reviews ORDER BY created_at DESC").fetchall()
-    else:
+
         rows = conn.execute(
-            "SELECT * FROM reviews WHERE approved = 1 ORDER BY created_at DESC"
+            """
+            SELECT *
+            FROM reviews
+            ORDER BY created_at DESC
+            """
         ).fetchall()
+
+    else:
+
+        rows = conn.execute(
+            """
+            SELECT *
+            FROM reviews
+            WHERE approved = 1
+            ORDER BY created_at DESC
+            """
+        ).fetchall()
+
     conn.close()
-    return [dict(r) for r in rows]
+
+    return [
+        dict(r)
+        for r in rows
+    ]
 
 
 @app.post("/api/reviews")
-def create_review(body: ReviewIn):
-    if not (1 <= body.rating <= 5):
-        raise HTTPException(400, "rating must be between 1 and 5")
+def create_review(
+    body: ReviewIn
+):
+
+    if not (
+        1 <= body.rating <= 5
+    ):
+        raise HTTPException(
+            400,
+            "rating must be between 1 and 5"
+        )
+
     conn = get_db()
+
     cur = conn.execute(
-        "INSERT INTO reviews (name, rating, comment, approved) VALUES (?,?,?,0)",
-        (body.name, body.rating, body.comment),
+        """
+        INSERT INTO reviews
+        (name, rating, comment, approved)
+        VALUES (?,?,?,0)
+        """,
+        (
+            body.name,
+            body.rating,
+            body.comment,
+        ),
     )
+
     conn.commit()
+
     new_id = cur.lastrowid
-    row = conn.execute("SELECT * FROM reviews WHERE id = ?", (new_id,)).fetchone()
+
+    row = conn.execute(
+        """
+        SELECT *
+        FROM reviews
+        WHERE id = ?
+        """,
+        (new_id,),
+    ).fetchone()
+
     conn.close()
+
     return dict(row)
 
 
 @app.put("/api/reviews/{item_id}/approve")
-def approve_review(item_id: int, _: bool = Depends(require_admin)):
+def approve_review(
+    item_id: int,
+    _: bool = Depends(require_admin)
+):
+
     conn = get_db()
-    conn.execute("UPDATE reviews SET approved = 1 WHERE id = ?", (item_id,))
+
+    conn.execute(
+        """
+        UPDATE reviews
+        SET approved = 1
+        WHERE id = ?
+        """,
+        (item_id,),
+    )
+
     conn.commit()
     conn.close()
+
     return {"ok": True}
 
 
 @app.delete("/api/reviews/{item_id}")
-def delete_review(item_id: int, _: bool = Depends(require_admin)):
+def delete_review(
+    item_id: int,
+    _: bool = Depends(require_admin)
+):
+
     conn = get_db()
-    conn.execute("DELETE FROM reviews WHERE id = ?", (item_id,))
+
+    conn.execute(
+        "DELETE FROM reviews WHERE id = ?",
+        (item_id,),
+    )
+
     conn.commit()
     conn.close()
+
     return {"ok": True}
 
 
 # ---------------------------------------------------------------------------
-# Project requests ("Do a Project")
+# Project requests
 # ---------------------------------------------------------------------------
 
 
@@ -545,79 +1129,196 @@ class ProjectRequestIn(BaseModel):
 
 
 @app.get("/api/project-requests")
-def list_project_requests(_: bool = Depends(require_admin)):
+def list_project_requests(
+    _: bool = Depends(require_admin)
+):
+
     conn = get_db()
-    rows = conn.execute("SELECT * FROM project_requests ORDER BY created_at DESC").fetchall()
+
+    rows = conn.execute(
+        """
+        SELECT *
+        FROM project_requests
+        ORDER BY created_at DESC
+        """
+    ).fetchall()
+
     conn.close()
-    return [dict(r) for r in rows]
+
+    return [
+        dict(r)
+        for r in rows
+    ]
 
 
 @app.post("/api/project-requests")
-def create_project_request(body: ProjectRequestIn):
+def create_project_request(
+    body: ProjectRequestIn
+):
+
     conn = get_db()
+
     cur = conn.execute(
-        """INSERT INTO project_requests (name,email,project_type,budget,message)
-           VALUES (?,?,?,?,?)""",
-        (body.name, body.email, body.project_type, body.budget, body.message),
+        """
+        INSERT INTO project_requests
+        (
+            name,
+            email,
+            project_type,
+            budget,
+            message
+        )
+        VALUES (?,?,?,?,?)
+        """,
+        (
+            body.name,
+            body.email,
+            body.project_type,
+            body.budget,
+            body.message,
+        ),
     )
+
     conn.commit()
+
     new_id = cur.lastrowid
-    row = conn.execute("SELECT * FROM project_requests WHERE id = ?", (new_id,)).fetchone()
+
+    row = conn.execute(
+        """
+        SELECT *
+        FROM project_requests
+        WHERE id = ?
+        """,
+        (new_id,),
+    ).fetchone()
+
     conn.close()
+
     return dict(row)
 
 
 @app.put("/api/project-requests/{item_id}/status")
-def update_project_status(item_id: int, status: str, _: bool = Depends(require_admin)):
+def update_project_status(
+    item_id: int,
+    status: str,
+    _: bool = Depends(require_admin)
+):
+
     conn = get_db()
-    conn.execute("UPDATE project_requests SET status = ? WHERE id = ?", (status, item_id))
+
+    conn.execute(
+        """
+        UPDATE project_requests
+        SET status = ?
+        WHERE id = ?
+        """,
+        (status, item_id),
+    )
+
     conn.commit()
     conn.close()
+
     return {"ok": True}
 
 
 @app.delete("/api/project-requests/{item_id}")
-def delete_project_request(item_id: int, _: bool = Depends(require_admin)):
+def delete_project_request(
+    item_id: int,
+    _: bool = Depends(require_admin)
+):
+
     conn = get_db()
-    conn.execute("DELETE FROM project_requests WHERE id = ?", (item_id,))
+
+    conn.execute(
+        "DELETE FROM project_requests WHERE id = ?",
+        (item_id,),
+    )
+
     conn.commit()
     conn.close()
+
     return {"ok": True}
 
 
 # ---------------------------------------------------------------------------
-# Uploads (images / videos / logo)
+# Uploads
 # ---------------------------------------------------------------------------
 
-ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".mp4", ".webm"}
+
+ALLOWED_EXTENSIONS = {
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".webp",
+    ".svg",
+    ".mp4",
+    ".webm",
+}
 
 
 @app.post("/api/upload")
-async def upload_file(file: UploadFile = File(...), _: bool = Depends(require_admin)):
+async def upload_file(
+    file: UploadFile = File(...),
+    _: bool = Depends(require_admin)
+):
+
+    if not file.filename:
+        raise HTTPException(
+            400,
+            "No file selected"
+        )
+
     ext = Path(file.filename).suffix.lower()
+
     if ext not in ALLOWED_EXTENSIONS:
-        raise HTTPException(400, f"Unsupported file type: {ext}")
-    safe_name = f"{secrets.token_hex(8)}{ext}"
+        raise HTTPException(
+            400,
+            f"Unsupported file type: {ext}"
+        )
+
+    safe_name = (
+        f"{secrets.token_hex(8)}{ext}"
+    )
+
     dest = UPLOADS_DIR / safe_name
+
     with dest.open("wb") as f:
-        shutil.copyfileobj(file.file, f)
-    return {"url": f"/uploads/{safe_name}"}
+        shutil.copyfileobj(
+            file.file,
+            f
+        )
+
+    return {
+        "url": f"/uploads/{safe_name}"
+    }
 
 
 # ---------------------------------------------------------------------------
 # Static frontend
 # ---------------------------------------------------------------------------
 
-app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
-app.mount("/css", StaticFiles(directory=str(FRONTEND_DIR / "css")), name="css")
-app.mount("/js", StaticFiles(directory=str(FRONTEND_DIR / "js")), name="js")
+
+app.mount(
+    "/uploads",
+    StaticFiles(
+        directory=str(UPLOADS_DIR)
+    ),
+    name="uploads",
+)
 
 
 @app.get("/")
 def serve_index():
-    return FileResponse(str(FRONTEND_DIR / "index.html"))
+
+    return FileResponse(
+        str(FRONTEND_DIR / "index.html")
+    )
 
 
 @app.get("/admin")
 def serve_admin():
-    return FileResponse(str(FRONTEND_DIR / "admin.html"))
+
+    return FileResponse(
+        str(FRONTEND_DIR / "admin.html")
+    )
