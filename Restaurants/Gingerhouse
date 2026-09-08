@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ginger House Kalwakurthy | Authentic Dum Biryani & Family Restaurant</title>
+<meta name="description" content="Ginger House Kalwakurthy - Famous for Chicken Dum Biryani, Family Dining, Tandoor & Chinese. Main Road, Kalwakurthy, Telangana. Open Daily 11AM-11PM.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Tiro+Telugu&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ginger: {50:'#FFF8F0',100:'#FFF0DE',200:'#FFDDB1',300:'#FFC37A',400:'#FF9E3D',500:'#FF6B1A',600:'#E65300',700:'#B74100',800:'#7A2D00',900:'#4A1C00',950:'#230D00'},
+        cream:'#FFF8F0',
+        leaf:'#1B5E20',
+        maroon:'#5C0A0A'
+      },
+      fontFamily: {
+        display:['"Playfair Display"','serif'],
+        body:['"Plus Jakarta Sans"','sans-serif']
+      },
+      boxShadow: {
+        soft:'0 20px 60px -15px rgba(74,28,0,.25)',
+        card:'0 10px 40px -10px rgba(0,0,0,.18)',
+        glow:'0 0 0 4px rgba(255,107,26,.18), 0 15px 40px rgba(255,107,26,.35)'
+      }
+    }
+  }
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  *{ -webkit-tap-highlight-color:transparent; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Plus Jakarta Sans',sans-serif; background:#FFF8F0; color:#230D00; overflow-x:hidden; }
+  ::selection{ background:#FF6B1A; color:#fff; }
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:#FFF0DE; }
+  ::-webkit-scrollbar-thumb{ background:linear-gradient(#FF6B1A,#7A2D00); border-radius:20px; }
+
+  .pattern-bg{
+    background-image: radial-gradient(rgba(255,107,26,.12) 1.5px, transparent 1.5px);
+    background-size:22px 22px;
+  }
+  .texture-mandala{
+    background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23FF6B1A' stroke-opacity='0.12'%3E%3Ccircle cx='60' cy='60' r='28'/%3E%3Ccircle cx='60' cy='60' r='18'/%3E%3Cpath d='M60 10v20M60 90v20M10 60h20M90 60h20'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-slide{ position:absolute; inset:0; opacity:0; transform:scale(1.08); transition:opacity 1.2s ease, transform 6s ease; background-size:cover; background-position:center; }
+  .hero-slide.active{ opacity:1; transform:scale(1); }
+  .hero-gradient{ background:linear-gradient(90deg, rgba(35,13,0,.92) 0%, rgba(35,13,0,.78) 38%, rgba(35,13,0,.35) 70%, rgba(35,13,0,.15) 100%), linear-gradient(0deg, rgba(35,13,0,.85) 0%, transparent 55%); }
+  .gold-text{ background:linear-gradient(92deg,#FFC37A 0%,#FFDDB1 20%,#FF6B1A 50%,#FFC53D 75%,#FFE8C2 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .btn-shine{ position:relative; overflow:hidden; }
+  .btn-shine:after{ content:''; position:absolute; top:0; left:-80%; width:60%; height:100%; background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent); transform:skewX(-20deg); transition:left .6s; }
+  .btn-shine:hover:after{ left:130%; }
+  .reveal{ opacity:0; transform:translateY(36px); transition:all .9s cubic-bezier(.16,1,.3,1); }
+  .reveal.revealed{ opacity:1; transform:none; }
+  .marquee-track{ display:flex; gap:0; width:max-content; animation:marquee 26s linear infinite; }
+  @keyframes marquee{ to{ transform:translateX(-50%);} }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0) rotate(0)} 50%{ transform:translateY(-14px) rotate(1.5deg)} }
+  .floaty{ animation:floaty 5s ease-in-out infinite; }
+  @keyframes spinSlow{ to{ transform:rotate(360deg)} }
+  .spin-slow{ animation:spinSlow 18s linear infinite; }
+  @keyframes pulseGlow{ 0%,100%{ box-shadow:0 0 0 0 rgba(255,107,26,.5)} 50%{ box-shadow:0 0 0 14px rgba(255,107,26,0)} }
+  .pulse-glow{ animation:pulseGlow 2.2s infinite; }
+  .card-hover{ transition:all .45s cubic-bezier(.16,1,.3,1); }
+  .card-hover:hover{ transform:translateY(-8px); box-shadow:0 24px 60px -12px rgba(74,28,0,.35); }
+  .menu-card img{ transition:transform .8s cubic-bezier(.16,1,.3,1); }
+  .menu-card:hover img{ transform:scale(1.12) rotate(.5deg); }
+  .veg-dot{ width:16px; height:16px; border:2px solid; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; flex-shrink:0; }
+  .veg-dot span{ width:7px; height:7px; border-radius:50%; display:block; }
+  .veg-true{ border-color:#1B5E20; } .veg-true span{ background:#1B5E20; }
+  .veg-false{ border-color:#B71C1C; } .veg-false span{ background:#B71C1C; clip-path:polygon(50% 0,100% 100%,0 100%); border-radius:0; width:8px; height:8px; }
+  .tab-btn.active{ background:#230D00; color:#fff; border-color:#230D00; box-shadow:0 12px 30px -8px rgba(35,13,0,.5); }
+  .gallery-item img{ transition:all .7s ease; } .gallery-item:hover img{ transform:scale(1.08); }
+  .gallery-item:hover .g-overlay{ opacity:1; } .g-overlay{ opacity:0; transition:.4s; }
+  .testi-track{ transition:transform .6s cubic-bezier(.16,1,.3,1); }
+  input,select,textarea{ outline:none; } input:focus,select:focus,textarea:focus{ border-color:#FF6B1A !important; box-shadow:0 0 0 3px rgba(255,107,26,.18); }
+  #preloader{ transition:opacity .6s, visibility .6s; } #preloader.hide{ opacity:0; visibility:hidden; }
+  .loader-pot{ animation:steam 1.2s ease-in-out infinite alternate; transform-origin:bottom; }
+  @keyframes steam{ from{ transform:translateY(0) scale(1)} to{ transform:translateY(-6px) scale(1.04)} }
+  .drawer{ transition:transform .5s cubic-bezier(.16,1,.3,1); }
+  .chili{ filter:drop-shadow(0 2px 4px rgba(0,0,0,.3)); }
+  .ticket-edge{ --notch:14px; -webkit-mask:radial-gradient(var(--notch) at var(--notch) 50%, transparent 98%, black) -14px / 28px 28px repeat-y, linear-gradient(black,black) left / calc(100% - 14px) 100% no-repeat; }
+  @media(max-width:768px){ .hero-gradient{ background:linear-gradient(0deg, rgba(35,13,0,.94) 10%, rgba(35,13,0,.75) 55%, rgba(35,13,0,.35) 100%);} }
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Restaurant","name":"Ginger House Kalwakurthy","servesCuisine":["Biryani","South Indian","North Indian","Chinese","Tandoor"],"address":{"@type":"PostalAddress","streetAddress":"Main Road, Opp. Bus Stand, Near Ambedkar Chowk","addressLocality":"Kalwakurthy","addressRegion":"Telangana","postalCode":"509324","addressCountry":"IN"},"telephone":"+91-9490412345","openingHours":"Mo-Su 11:00-23:00","priceRange":"₹₹"}
+</script>
+</head>
+<body class="bg-cream">
+
+<!-- PRELOADER -->
+<div id="preloader" class="fixed inset-0 z-[100] bg-[#230D00] flex flex-col items-center justify-center text-center px-6">
+  <div class="loader-pot w-20 h-20 rounded-2xl bg-gradient-to-br from-ginger-500 to-ginger-800 flex items-center justify-center text-4xl shadow-glow">🍲</div>
+  <h1 class="font-display text-3xl md:text-4xl text-white mt-6 font-bold">Ginger <span class="gold-text">House</span></h1>
+  <p class="text-ginger-200 tracking-[.3em] text-xs mt-2 uppercase">Kalwakurthy • Since 2012</p>
+  <div class="w-56 h-1 bg-white/10 rounded-full mt-6 overflow-hidden"><div id="loadBar" class="h-full w-0 bg-gradient-to-r from-ginger-400 to-yellow-400 rounded-full transition-all"></div></div>
+  <p class="text-white/50 text-xs mt-3">Slow-cooking the Dum...</p>
+</div>
+
+<!-- TOP BAR -->
+<div class="bg-[#230D00] text-[13px] text-orange-100/90 py-2 px-4 hidden md:block relative z-40">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <div class="flex items-center gap-5">
+      <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-ginger-400"></i> Main Road, Opp. Bus Stand, Kalwakurthy, Telangana 509324</span>
+      <span class="hidden lg:flex items-center gap-2"><i class="fa-regular fa-clock text-ginger-400"></i> Open Daily: 11:00 AM – 11:00 PM</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="flex items-center gap-1 text-yellow-300"><i class="fa-solid fa-star"></i> 4.3 <span class="text-white/60 font-normal">(2,400+ Google Reviews)</span></span>
+      <a href="tel:+919490412345" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-phone text-ginger-400"></i> +91 94904 12345</a>
+      <div class="flex gap-2 ml-2">
+        <a href="#" class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center hover:bg-ginger-500 transition"><i class="fa-brands fa-instagram text-xs"></i></a>
+        <a href="#" class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center hover:bg-ginger-500 transition"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+        <a href="#" class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center hover:bg-ginger-500 transition"><i class="fa-brands fa-youtube text-xs"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<header id="navbar" class="sticky top-0 z-50 transition-all duration-300 bg-cream/90 backdrop-blur-xl border-b border-ginger-200/60">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-[72px]">
+    <a href="#home" class="flex items-center gap-3 group">
+      <div class="relative">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-ginger-500 via-ginger-600 to-[#230D00] flex items-center justify-center text-white font-display font-800 text-2xl font-bold shadow-card rotate-3 group-hover:rotate-0 transition">G</div>
+        <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-leaf text-white rounded-full text-[10px] flex items-center justify-center border-2 border-cream"><i class="fa-solid fa-leaf"></i></div>
+      </div>
+      <div class="leading-tight">
+        <div class="font-display font-bold text-xl md:text-2xl tracking-tight">GINGER <span class="text-ginger-600">HOUSE</span></div>
+        <div class="text-[11px] tracking-[.28em] uppercase text-ginger-800/70 font-semibold">Kalwakurthy • Family Restaurant</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-7 text-[15px] font-semibold">
+      <a href="#home" class="hover:text-ginger-600 transition nav-link">Home</a>
+      <a href="#about" class="hover:text-ginger-600 transition nav-link">About</a>
+      <a href="#menu" class="hover:text-ginger-600 transition nav-link">Menu</a>
+      <a href="#gallery" class="hover:text-ginger-600 transition nav-link">Gallery</a>
+      <a href="#reviews" class="hover:text-ginger-600 transition nav-link">Reviews</a>
+      <a href="#visit" class="hover:text-ginger-600 transition nav-link">Visit Us</a>
+    </nav>
+    <div class="flex items-center gap-2 md:gap-3">
+      <button onclick="toggleCart(true)" class="relative w-11 h-11 rounded-full bg-[#230D00] text-white flex items-center justify-center hover:bg-ginger-600 transition" aria-label="Cart">
+        <i class="fa-solid fa-basket-shopping"></i>
+        <span id="cartCount" class="absolute -top-1 -right-1 w-6 h-6 bg-ginger-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-cream scale-0 transition">0</span>
+      </button>
+      <a href="#book" class="hidden md:inline-flex btn-shine bg-gradient-to-r from-ginger-500 to-ginger-700 text-white font-bold px-6 py-3 rounded-full text-sm shadow-soft hover:shadow-glow transition">Book Table <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
+      <button id="mobileBtn" class="lg:hidden w-11 h-11 rounded-full border border-ginger-300 flex items-center justify-center"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="lg:hidden hidden border-t border-ginger-200 bg-cream px-6 py-4 space-y-3 font-semibold">
+    <a href="#home" class="block py-2 border-b border-ginger-100">Home</a>
+    <a href="#about" class="block py-2 border-b border-ginger-100">About</a>
+    <a href="#menu" class="block py-2 border-b border-ginger-100">Menu</a>
+    <a href="#gallery" class="block py-2 border-b border-ginger-100">Gallery</a>
+    <a href="#reviews" class="block py-2 border-b border-ginger-100">Reviews</a>
+    <a href="#visit" class="block py-2 border-b border-ginger-100">Visit Us</a>
+    <a href="#book" class="block text-center bg-[#230D00] text-white rounded-full py-3 mt-2">Book Table</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="home" class="relative min-h-[92vh] flex items-center overflow-hidden bg-[#230D00]">
+  <div class="absolute inset-0">
+    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="absolute inset-0 hero-gradient"></div>
+    <div class="absolute inset-0 texture-mandala opacity-60"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 grid lg:grid-cols-[1.15fr_.85fr] gap-10 items-center w-full">
+    <div>
+      <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full pl-1 pr-4 py-1 text-sm text-white">
+        <span class="bg-gradient-to-r from-ginger-500 to-yellow-500 text-[#230D00] font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1"><i class="fa-solid fa-crown"></i> NO.1 IN KALWAKURTHY</span>
+        <span class="hidden sm:inline text-white/90">Famous Dum Biryani since 2012</span>
+      </div>
+      <h1 class="font-display text-white font-bold leading-[.95] mt-5 text-[42px] sm:text-6xl xl:text-[84px]">Taste of <br><span class="gold-text italic">Tradition</span> in the <br>Heart of Town.</h1>
+      <p class="text-orange-100/90 mt-5 max-w-xl text-[16px] md:text-lg leading-relaxed">From smoky tandoors to slow-cooked <strong class="text-white">Chicken Dum Biryani</strong> — Ginger House serves Kalwakurthy's most loved family meals, made fresh with local spices, every single day.</p>
+
+      <div class="flex flex-wrap items-center gap-3 mt-7">
+        <a href="#menu" class="btn-shine bg-gradient-to-r from-ginger-500 to-ginger-600 hover:to-ginger-700 text-white font-bold px-8 py-4 rounded-full shadow-glow transition flex items-center gap-2"><i class="fa-solid fa-utensils"></i> Explore Menu</a>
+        <a href="tel:+919490412345" class="bg-white/10 backdrop-blur border border-white/25 text-white font-bold px-7 py-4 rounded-full hover:bg-white hover:text-[#230D00] transition flex items-center gap-2"><i class="fa-solid fa-phone"></i> 94904 12345</a>
+        <button onclick="toggleCart(true)" class="bg-yellow-400 text-[#230D00] font-bold px-6 py-4 rounded-full hover:bg-yellow-300 transition flex items-center gap-2"><i class="fa-solid fa-motorcycle"></i> Order Takeaway</button>
+      </div>
+
+      <div class="flex flex-wrap gap-3 mt-8">
+        <div class="bg-white/10 backdrop-blur border border-white/15 rounded-2xl px-5 py-3 flex items-center gap-3">
+          <div class="flex -space-x-3">
+            <img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full border-2 border-white object-cover" alt="customer">
+            <img src="https://i.pravatar.cc/64?img=32" class="w-9 h-9 rounded-full border-2 border-white object-cover" alt="customer">
+            <img src="https://i.pravatar.cc/64?img=56" class="w-9 h-9 rounded-full border-2 border-white object-cover" alt="customer">
+            <div class="w-9 h-9 rounded-full bg-ginger-500 border-2 border-white text-white text-[11px] font-bold flex items-center justify-center">50k+</div>
+          </div>
+          <div class="text-white text-sm leading-tight"><div class="flex text-yellow-400 text-xs gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> <span class="text-white font-bold ml-1">4.3</span></div><span class="text-white/70">2,400+ happy reviews</span></div>
+        </div>
+        <div class="bg-white/10 backdrop-blur border border-white/15 rounded-2xl px-5 py-3 flex items-center gap-3 text-white text-sm">
+          <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center"><i class="fa-solid fa-leaf"></i></div>
+          <div class="leading-tight"><strong>Hygienic Kitchen</strong><br><span class="text-white/70">FSSAI Certified • RO Water</span></div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 mt-8 text-white/60 text-sm">
+        <button onclick="heroGo(0)" class="hero-dot w-10 h-2 rounded-full bg-ginger-500 transition-all"></button>
+        <button onclick="heroGo(1)" class="hero-dot w-6 h-2 rounded-full bg-white/30 transition-all"></button>
+        <button onclick="heroGo(2)" class="hero-dot w-6 h-2 rounded-full bg-white/30 transition-all"></button>
+        <span class="ml-3 flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full animate-ping"></span> Open Now • Closes 11 PM</span>
+      </div>
+    </div>
+
+    <!-- Floating order card -->
+    <div class="hidden lg:block relative">
+      <div class="absolute -top-8 -left-8 w-28 h-28 spin-slow opacity-90"><svg viewBox="0 0 100 100"><defs><path id="circ" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"/></defs><text font-size="11.5" fill="#FFC37A" font-weight="700" letter-spacing="2"><textPath href="#circ">• GINGER HOUSE • DUM BIRYANI • KALWAKURTHY</textPath></text></svg></div>
+      <div class="floaty relative bg-white rounded-[28px] p-4 shadow-soft rotate-2">
+        <div class="relative rounded-2xl overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=800&q=80" class="w-full h-[340px] object-cover" alt="Chicken Dum Biryani - Ginger House Kalwakurthy">
+          <div class="absolute top-3 left-3 bg-[#230D00]/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1"><i class="fa-solid fa-fire text-orange-400"></i> BESTSELLER</div>
+          <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur rounded-2xl p-3 flex items-center justify-between">
+            <div><div class="font-bold text-[15px]">Chicken Dum Biryani</div><div class="text-xs text-gray-500">Serves 1 • Mirchi ka Salan + Raita</div></div>
+            <div class="text-right"><div class="font-display font-bold text-xl text-ginger-600">₹199</div><div class="text-xs line-through text-gray-400">₹249</div></div>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button onclick="addToCart(1)" class="flex-1 bg-[#230D00] text-white font-bold py-3 rounded-xl hover:bg-ginger-600 transition text-sm"><i class="fa-solid fa-plus mr-1"></i> Add to Thali</button>
+          <a href="https://maps.google.com/?q=Ginger+House+Kalwakurthy" target="_blank" class="w-12 h-[46px] rounded-xl border-2 border-[#230D00] flex items-center justify-center hover:bg-[#230D00] hover:text-white transition"><i class="fa-solid fa-diamond-turn-right"></i></a>
+        </div>
+        <div class="flex items-center justify-between mt-3 px-1 text-[13px] font-semibold text-gray-600">
+          <span><i class="fa-regular fa-clock mr-1 text-ginger-600"></i> 25-30 min</span>
+          <span><i class="fa-solid fa-motorcycle mr-1 text-ginger-600"></i> Free delivery in town</span>
+          <spa
