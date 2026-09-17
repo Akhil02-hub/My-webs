@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shilpi Family Restaurant | Authentic Biryani & Family Dining in Kalwakurthy</title>
+    <meta name="description"
+        content="Welcome to Shilpi Family Restaurant in Kalwakurthy, Telangana. Renowned for authentic Hyderabadi Dum Biryani, Tandoori Starters, South Indian Thali, and AC Family Dining near MRO Office & Govt Hospital." />
+    <meta name="keywords"
+        content="Shilpi restaurant kalwakurthy, shilpi family restaurant, best biryani in kalwakurthy, kalwakurthy restaurants, hyderabad srisailam highway food, srinivasa colony kalwakurthy" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Shilpi Family Restaurant - Kalwakurthy" />
+    <meta property="og:description"
+        content="Authentic Hyderabadi Dum Biryani, South & North Indian Delicacies, and Comfortable AC Family Dining in Kalwakurthy." />
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:image"
+        content="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1200&auto=format&fit=crop&q=80" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* ==========================================================
+       SHILPI FAMILY RESTAURANT - KALWAKURTHY STYLES
+       ========================================================== */
+        :root {
+            --primary: #e67e22;
+            --primary-hover: #d35400;
+            --primary-light: #fef5ec;
+            --accent-gold: #f39c12;
+            --accent-red: #c0392b;
+            --dark-bg: #0f1115;
+            --card-bg: #181b22;
+            --card-border: #282d38;
+            --text-main: #f8f9fa;
+            --text-muted: #9aa4b2;
+            --text-dim: #6c757d;
+            --veg-green: #27ae60;
+            --nonveg-red: #e74c3c;
+            --whatsapp-green: #25d366;
+            --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 70px;
+        }
+
+        @media (min-width: 992px) {
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Top Banner */
+        .top-banner {
+            background: linear-gradient(90deg, #781c1c, #962828, #b03a2e);
+            color: #fff;
+            font-size: 0.85rem;
+            padding: 7px 15px;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .top-banner .badge-pill {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        /* Header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 17, 21, 0.94);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--card-border);
+            transition: var(--transition);
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 76px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, #e67e22, #c0392b);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+        }
+
+        .brand-text h1 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            color: #ffffff;
+        }
+
+        .brand-text h1 span {
+            color: var(--primary);
+        }
+
+        .brand-text .sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .desktop-nav {
+            display: none;
+            gap: 24px;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .desktop-nav {
+                display: flex;
+            }
+        }
+
+        .nav-link {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: var(--transition);
+            padding: 6px 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .cart-btn {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .cart-btn:hover {
+            border-color: var(--primary);
+            background: #20242e;
+        }
+
+        .cart-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #d35400);
+            color: #ffffff;
+            box-shadow: 0 4px 18px rgba(230, 126, 34, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(230, 126, 34, 0.5);
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(230, 126, 34, 0.1);
+            color: var(--primary);
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: #ffffff;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1eb956;
+        }
+
+        .mobile-toggle {
+            display: block;
+            background: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            padding: 6px;
+        }
+
+        @media (min-width: 992px) {
+            .mobile-toggle {
+                display: none;
+            }
+        }
+
+        .mobile-nav-panel {
+            display: none;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+            padding: 16px 20px 24px;
+        }
+
+        .mobile-nav-panel.open {
+            display: block;
+        }
+
+        .mobile-nav-panel a {
+            display: block;
+            padding: 12px 0;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .mobile-nav-panel a:last-child {
+            border-bottom: none;
+        }
+
+        /* Hero */
+        .hero-section {
+            position: relative;
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            padding: 70px 0 60px;
+            background: radial-gradient(circle at top right, rgba(230, 126, 34, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(192, 57, 43, 0.15) 0%, transparent 50%);
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .hero-grid {
+                grid-template-columns: 1.15fr 0.85fr;
+                gap: 60px;
+            }
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(230, 126, 34, 0.12);
+            border: 1px solid rgba(230, 126, 34, 0.3);
+            color: var(--accent-gold);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.3rem, 5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, #f39c12, #e67e22, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 32px;
+            max-width: 580px;
+        }
+
+        .hero-badges-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 36px;
+        }
+
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #e1e7f0;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-img-card {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-img-card img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .hero-img-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .hero-overlay-badge {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(15, 17, 21, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rating-num {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            line-height: 1;
+        }
+
+        .rating-stars {
+            color: #f1c40f;
+            font-size: 0.95rem;
+        }
+
+        .rating-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 50px;
+        }
+
+        .section-tag {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.25;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 12px;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 30px 24px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(230, 126, 34, 0.4);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon-wrap {
+            width: 54px;
+            height: 54px;
+            background: rgba(230, 126, 34, 0.12);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        /* Menu Controls */
+        .menu-controls {
+            margin-bottom: 35px;
+        }
+
+        .filter-categories {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--card-border) transparent;
+        }
+
+        .filter-btn {
+            white-space: nowrap;
+            padding: 10px 18px;
+            border-radius: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover {
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(230, 126, 34, 0.4);
+        }
+
+        .menu-search-veg-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+        }
+
+        .search-input-wrap {
+            flex: 1;
+            min-width: 220px;
+            position: relative;
+        }
+
+        .search-input-wrap input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .search-input-wrap input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-input-wrap svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .veg-filters {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .diet-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .diet-toggle.active-veg {
+            border-color: var(--veg-green);
+            color: var(--veg-green);
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .diet-toggle.active-nonveg {
+            border-color: var(--nonveg-red);
+            color: var(--nonveg-red);
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .diet-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        .diet-veg {
+            border: 1.8px solid var(--veg-green);
+        }
+
+        .diet-veg::after {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--veg-green);
+        }
+
+        .diet-nonveg {
+            border: 1.8px solid var(--nonveg-red);
+        }
+
+        .diet-nonveg::after {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--nonveg-red);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 26px;
+        }
+
+        .dish-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        .dish-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(230, 126, 34, 0.35);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dish-img-wrap {
+            position: relative;
+            height: 210px;
+            overflow: hidden;
+            background: #1e222d;
+        }
+
+        .dish-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .dish-card:hover .dish-img-wrap img {
+            transform: scale(1.07);
+        }
+
+        .dish-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .dish-spice-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(15, 17, 21, 0.85);
+            backdrop-filter: blur(8px);
+            color: #ffaa55;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 6px;
+        }
+
+        .dish-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .dish-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .dish-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .dish-desc {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.55;
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+
+        .dish-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .dish-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+
+        .btn-add-cart {
+            background: rgba(230, 126, 34, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add-cart:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* Highway Banner */
+        .highway-banner {
+            background: linear-gradient(135deg, #1c202a 0%, #261614 100%);
+            border: 1px solid rgba(230, 126, 34, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 45px 35px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .highway-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .highway-grid {
+                grid-template-columns: 1.2fr 0.8fr;
+            }
+        }
+
+        .highway-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .highway-point-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: var(--radius-sm);
+        }
+
+        .highway-point-card h4 {
+            font-size: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .highway-point-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Reservation / Contact */
+        .res-contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+
+        @media (min-width: 992px) {
+            .res-contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 34px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #d1d8e0;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            background: #111318;
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            color: #ffffff;
+            font-size: 0.92rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .location-info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 34px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .info-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            background: rgba(230, 126, 34, 0.12);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .info-text h4 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .info-text p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .map-embed-wrapper {
+            margin-top: 15px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            height: 210px;
+            background: #14171f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Cart Drawer */
+        .cart-drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .cart-drawer-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 440px;
+            height: 100%;
+            background: var(--card-bg);
+            border-left: 1px solid var(--card-border);
+            z-index: 1001;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cart-drawer.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-header h3 {
+            font-size: 1.25rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-btn {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            padding: 4px;
+        }
+
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        .cart-items-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .cart-item-info h4 {
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .cart-item-info .item-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary);
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid var(--card-border);
+            background: #13151b;
+        }
+
+        .cart-total-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .cart-total-row .total-amount {
+            color: var(--accent-gold);
+            font-size: 1.4rem;
+        }
+
+        /* Mobile Dock */
+        .mobile-bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: rgba(18, 20, 26, 0.96);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 99;
+            padding: 0 10px;
+        }
+
+        @media (min-width: 992px) {
+            .mobile-bottom-bar {
+                display: none;
+            }
+        }
+
+        .dock-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            gap: 4px;
+        }
+
+        .dock-item.highlight-order {
+            background: var(--primary);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 30px;
+            flex-direction: row;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: #090a0d;
+            border-top: 1px solid var(--card-border);
+            padding: 60px 0 30px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.82rem;
+        }
+
+        /* Toast */
+        .toast-notice {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(50px);
+            background: #202530;
+            border: 1px solid var(--primary);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            z-index: 1100;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast-notice.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ===== TOP BANNER ===== -->
+    <div class="top-banner">
+        <span>📍 1-10-160/A1, Srinivasa Colony, Kalwakurthy (Beside Govt Hospital)</span>
+        <span class="badge-pill">NH 765 Srisailam Highway Stopover</span>
+        <span>🕒 Open Daily: 11:00 AM – 11:00 PM</span>
+        <span>📞 Call: <a href="tel:+919440123456" style="text-decoration: underline; font-weight: 700;">+91 94401
+                23456</a></span>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+        <div class="container">
+            <div class="nav-wrap">
+                <a href="#hero" class="brand-logo">
+                    <div class="brand-icon">🍛</div>
+                    <div class="brand-text">
+                        <h1>SHILPI <span>FAMILY</span></h1>
+                        <span class="sub">Restaurant • Kalwakurthy</span>
+                    </div>
+                </a>
+
+                <nav class="desktop-nav">
+                    <a href="#menu" class="nav-link">Menu</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#reservation" class="nav-link">Reservation</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                    <button class="cart-btn open-cart-btn">
+                        🛒 Cart <span class="cart-badge cart-count-badge" style="display:none;">0</span>
+                    </button>
+                </nav>
+
+                <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Toggle navigation">☰</button>
+            </div>
+
+            <div class="mobile-nav-panel" id="mobileNavPanel">
+                <a href="#menu">Menu</a>
+                <a href="#about">About</a>
+                <a href="#reservation">Reservation</a>
+                <a href="#contact">Contact</a>
+                <a href="#" class="open-cart-btn">🛒 Cart</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <span class="hero-tag">🌟 Since 2015</span>
+                    <h1 class="hero-title">Authentic <span class="highlight">Hyderabadi Dum Biryani</span> &amp; Family
+                        Dining</h1>
+                    <p class="hero-subtitle">Experience the rich flavours of Telangana with our slow-cooked dum biryani,
+                        sizzling tandoori starters, and comfortable AC dining. A favourite stopover on the
+                        Hyderabad-Srisailam Highway.</p>
+                    <div class="hero-badges-row">
+                        <span class="hero-badge">⭐ 4.8 ★ (850+ reviews)</span>
+                        <span class="hero-badge">🍽️ AC Family Hall</span>
+                        <span class="hero-badge">🚗 Free Parking</span>
+                    </div>
+                    <div class="hero-cta-group">
+                        <a href="#menu" class="btn btn-primary">Explore Our Menu</a>
+                        <a href="#reservation" class="btn btn-outline">Book a Table</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-img-card">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=80"
+                            alt="Shilpi Family Restaurant - Hyderabadi Dum Biryani" />
+                        <div class="hero-overlay-badge">
+                            <div class="rating-box">
+                                <span class="rating-num">4.8</span>
+                                <div>
+                                    <div class="rating-stars">★★★★★</div>
+                                    <span class="rating-label">Based on 850+ reviews</span>
+                                </div>
+                            </div>
+                            <span style="font-weight:600; color:#f39c12;">👨‍🍳 Chef's Special</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Why Choose Us</span>
+                <h2 class="section-title">A Taste of Telangana in Every Bite</h2>
+                <p class="section-subtitle">We bring authentic Hyderabadi Dum Biryani and classic South & North Indian
+                    delicacies to Kalwakurthy with a warm family atmosphere.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-wrap">🍛</div>
+                    <h3>Authentic Dum Biryani</h3>
+                    <p>Slow-cooked in traditional handi with aged basmati rice, secret spices, and tender meat – true
+                        Hyderabadi taste.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrap">🌿</div>
+                    <h3>Pure & Fresh Ingredients</h3>
+                    <p>We source fresh vegetables, high-quality meat, and pure ghee to ensure every dish is wholesome
+                        and flavourful.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrap">❄️</div>
+                    <h3>AC Family Dining Hall</h3>
+                    <p>Relax in our spacious, air‑conditioned dining area perfect for family gatherings, celebrations,
+                        and comfortable meals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrap">🛣️</div>
+                    <h3>Highway Stopover Friendly</h3>
+                    <p>Conveniently located on NH 765 near the Hyderabad-Srisailam route with ample parking and quick
+                        parcel service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MENU ===== -->
+    <section id="menu" class="section" style="background: #111318;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Specialties</span>
+                <h2 class="section-title">Explore Our Menu</h2>
+                <p class="section-subtitle">From fiery biryanis to comforting South Indian thalis – find your favourite
+                    dish.</p>
+            </div>
+
+            <div class="menu-controls">
+                <div class="filter-categories" id="filterCategories">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="biryani">Biryani</button>
+                    <button class="filter-btn" data-category="starters">Starters</button>
+                    <button class="filter-btn" data-category="curries">Curries</button>
+                    <button class="filter-btn" data-category="southindian">South Indian</button>
+                    <button class="filter-btn" data-category="chinese">Chinese</button>
+                    <button class="filter-btn" data-category="beverages">Beverages</button>
+                </div>
+
+                <div class="menu-search-veg-row">
+                    <div class="search-input-wrap">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <input type="text" id="menuSearch" placeholder="Search for dishes..." />
+                    </div>
+                    <div class="veg-filters">
+                        <button class="diet-toggle" id="filterVeg">🟢 Veg</button>
+                        <button class="diet-toggle" id="filterNonVeg">🔴 Non-Veg</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-grid" id="menuGrid"></div>
+        </div>
+    </section>
+
+    <!-- ===== HIGHWAY BANNER ===== -->
+    <section class="section" style="padding: 40px 0;">
+        <div class="container">
+            <div class="highway-banner">
+                <div class="highway-grid">
+                    <div>
+                        <span style="color:#f39c12; font-weight:700; letter-spacing:1px;">🛣️ HIGHWAY COMMUTERS</span>
+                        <h2 style="font-size:1.8rem; font-weight:800; margin: 12px 0 10px; color:#fff;">Your Perfect
+                            Stopover on NH 765</h2>
+                        <p style="color:var(--text-muted); max-width:500px;">Located right on the Hyderabad-Srisailam
+                            highway, we offer quick parcel service, clean washrooms, and a relaxing AC dining space for
+                            travellers.</p>
+                        <div class="highway-points">
+                            <div class="highway-point-card">
+                                <h4>⏱️ Quick Parcel</h4>
+                                <p>Ready in 10–15 minutes for your journey.</p>
+                            </div>
+                            <div class="highway-point-card">
+                                <h4>🚗 Ample Parking</h4>
+                                <p>Safe parking for cars and buses.</p>
+                            </div>
+                            <div class="highway-point-card">
+                                <h4>🧳 Family Stopover</h4>
+                                <p>Comfortable seating & clean facilities.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <span style="font-size: 4rem;">🍛</span>
+                        <p style="font-weight:700; color:#fff; font-size:1.2rem;">Open 11 AM – 11 PM</p>
+                        <p style="color:var(--text-muted);">All 7 days</p>
+                        <a href="tel:+919440123456" class="btn btn-whatsapp" style="margin-top: 10px;">📞 Call for
+                            Takeaway</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== RESERVATION ===== -->
+    <section id="reservation" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Reserve a Table</span>
+                <h2 class="section-title">Plan Your Visit</h2>
+                <p class="section-subtitle">We recommend booking in advance for weekends and large groups.</p>
+            </div>
+
+            <div class="res-contact-grid">
+                <div class="form-card">
+                    <h3 style="color:#fff; margin-bottom: 20px;">📅 Table Reservation</h3>
+                    <form id="reservationForm">
+                        <div class="form-group">
+                            <label for="resName">Full Name *</label>
+                            <input type="text" id="resName" class="form-control" placeholder="e.g. Rajesh Kumar"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="resPhone">Phone Number *</label>
+                            <input type="tel" id="resPhone" class="form-control" placeholder="e.g. 9440123456"
+                                required />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="resDate">Date *</label>
+                                <input type="date" id="resDate" class="form-control" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="resTime">Time *</label>
+                                <input type="time" id="resTime" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="resGuests">Number of Guests *</label>
+                                <input type="number" id="resGuests" class="form-control" placeholder="e.g. 4" min="1"
+                                    max="50" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="resSeating">Seating Preference</label>
+                                <select id="resSeating" class="form-control">
+                                    <option value="AC Hall">❄️ AC Hall</option>
+                                    <option value="Non-AC">🍃 Non-AC (Open)</option>
+                                    <option value="Family Private">👨‍👩‍👧‍👦 Family Private</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="resNotes">Special Requests (Optional)</label>
+                            <textarea id="resNotes" class="form-control" rows="2"
+                                placeholder="e.g., birthday celebration, dietary preferences..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;">📨 Request Reservation via
+                            WhatsApp</button>
+                    </form>
+                </div>
+
+                <div class="location-info-card">
+                    <h3 style="color:#fff; margin-bottom: 20px;">📍 Get in Touch</h3>
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-text">
+                            <h4>Address</h4>
+                            <p>1-10-160/A1, Srinivasa Colony,<br />Kalwakurthy, Telangana 509324</p>
+                            <p style="font-size:0.8rem; color:var(--accent-gold);">Beside Govt General Hospital, Near
+                                MRO Office</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">📞</div>
+                        <div class="info-text">
+                            <h4>Phone</h4>
+                            <p><a href="tel:+919440123456" style="color:var(--primary);">+91 94401 23456</a></p>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">08549 272233</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🕒</div>
+                        <div class="info-text">
+                            <h4>Opening Hours</h4>
+                            <p>11:00 AM – 11:00 PM (All 7 days)</p>
+                        </div>
+                    </div>
+                    <div class="map-embed-wrapper">
+                        <span style="font-size:2.4rem; margin-bottom:8px;">🗺️</span>
+                        <p style="font-weight:600; color:#fff;">Find Us on Google Maps</p>
+                        <p style="font-size:0.8rem; color:var(--text-muted);">Click below to navigate</p>
+                        <a href="https://www.google.com/maps?q=Kalwakurthy+Telangana" target="_blank"
+                            class="btn btn-outline" style="margin-top:10px;">Open in Maps</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer id="contact" class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Shilpi Family Restaurant</h4>
+                    <p style="font-size:0.9rem; max-width:300px;">Authentic Hyderabadi Dum Biryani, Tandoori, and South
+                        Indian meals in the heart of Kalwakurthy.</p>
+                    <div style="margin-top:10px; display:flex; gap:10px;">
+                        <span style="background:var(--card-bg); padding:6px 10px; border-radius:6px;">⭐ 4.8 ★</span>
+                        <span style="background:var(--card-bg); padding:6px 10px; border-radius:6px;">🍽️ 850+
+                            reviews</span>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#reservation">Reservation</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>📞 <a href="tel:+919440123456">+91 94401 23456</a></li>
+                        <li>📧 contact@shilpirestaurantkalwakurthy.com</li>
+                        <li>📍 Srinivasa Colony, Kalwakurthy</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>We're Open</h4>
+                    <ul>
+                        <li>🕒 Mon–Sun: 11 AM – 11 PM</li>
+                        <li>✅ Dine-in • Takeaway • Parcel</li>
+                        <li>🚗 Free Parking Available</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Shilpi Family Restaurant, Kalwakurthy. Made with ❤️ in Telangana.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== CART DRAWER ===== -->
+    <div class="cart-drawer-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>🛒 Your Order</h3>
+            <button class="close-btn" id="closeCartBtn">✕</button>
+        </div>
+        <div class="cart-items-list" id="cartItemsList">
+            <div id="cartEmptyState" style="text-align:center; padding:40px 0; color:var(--text-muted);">
+                <p style="font-size:2.4rem; margin-bottom:10px;">🍽️</p>
+                <p>Your order tray is empty.</p>
+                <p style="font-size:0.85rem;">Add your favourite dishes!</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total Amount</span>
+                <span class="total-amount" id="cartTotalAmount">₹0</span>
+            </div>
+            <div style="display:flex; gap:10px; flex-direction:column;">
+                <input type="text" id="customerOrderName" class="form-control" placeholder="Your Name" />
+                <input type="tel" id="customerOrderPhone" class="form-control" placeholder="Phone Number" />
+                <textarea id="orderNotes" class="form-control" rows="1"
+                    placeholder="Any special instructions?"></textarea>
+                <div style="display:flex; gap:12px; align-items:center; font-size:0.9rem; color:var(--text-muted);">
+                    <label><input type="radio" name="orderType" value="Dine-in" checked /> Dine-in</label>
+                    <label><input type="radio" name="orderType" value="Takeaway (Parcel)" /> Takeaway</label>
+                </div>
+                <button class="btn btn-whatsapp" id="whatsappOrderBtn" style="width:100%; justify-content:center;">📲
+                    Order via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MOBILE DOCK ===== -->
+    <div class="mobile-bottom-bar">
+        <a href="#menu" class="dock-item">📋 Menu</a>
+        <button class="dock-item open-cart-btn">🛒 <span class="cart-count-badge"
+                style="display:none;">0</span></button>
+        <a href="#reservation" class="dock-item">📅 Book</a>
+        <a href="tel:+919440123456" class="dock-item highlight-order">📞 Call</a>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div id="appToast" class="toast-notice"></div>
+
+    <!-- ==========================================================
+       ALL JAVASCRIPT (MENU DATA + CONTROLLER) EMBEDDED
+       ========================================================== -->
+    <script>
+        // ==========================================================
+        // MENU DATA
+        // ==========================================================
+        const MENU_DATA = [{
+            id: "bir-1",
+            name: "Shilpi Special Chicken Dum Biryani",
+            category: "biryani",
+            isVeg: false,
+            price: 240,
+            rating: 4.9,
+            reviewsCount: 180,
+            isBestseller: true,
+            spiceLevel: "Medium Hot",
+            desc: "Long grain aromatic basmati rice cooked on dum with tender chicken pieces marinated in authentic Hyderabadi secret spices. Served with Mirchi ka Salan and creamy Raita.",
+            image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "bir-2",
+            name: "Special Mutton Dum Biryani",
+            category: "biryani",
+            isVeg: false,
+            price: 330,
+            rating: 4.9,
+            reviewsCount: 140,
+            isBestseller: true,
+            spiceLevel: "Spicy",
+            desc: "Slow-cooked succulent tender goat meat layered with saffron infused basmati rice, caramelized onions, and royal spices. A Kalwakurthy weekend favorite.",
+            image: "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "bir-3",
+            name: "Chicken 65 Biryani",
+            category: "biryani",
+            isVeg: false,
+            price: 260,
+            rating: 4.8,
+            reviewsCount: 95,
+            isBestseller: false,
+            spiceLevel: "Spicy",
+            desc: "Crispy, spiced Chicken 65 tossed with curry leaves and green chilies, layered over fragrant biryani rice.",
+            image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "bir-4",
+            name: "Shilpi Royal Veg Dum Biryani",
+            category: "biryani",
+            isVeg: true,
+            price: 190,
+            rating: 4.7,
+            reviewsCount: 82,
+            isBestseller: false,
+            spiceLevel: "Medium",
+            desc: "Fresh garden vegetables, diced paneer, and mint layered with fragrant basmati rice and saffron. Served with salan and raita.",
+            image: "https://images.unsplash.com/photo-1642821373181-696a54913e93?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "bir-5",
+            name: "Paneer Tikka Biryani",
+            category: "biryani",
+            isVeg: true,
+            price: 220,
+            rating: 4.8,
+            reviewsCount: 64,
+            isBestseller: false,
+            spiceLevel: "Medium",
+            desc: "Clay-oven grilled smoky cottage cheese cubes blended with spiced biryani rice and rich herbs.",
+            image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "bir-6",
+            name: "Family Pack Chicken Biryani",
+            category: "biryani",
+            isVeg: false,
+            price: 680,
+            rating: 4.9,
+            reviewsCount: 210,
+            isBestseller: true,
+            spiceLevel: "Medium Hot",
+            desc: "Generous family portion serving 3-4 persons. Includes 1 starter, extra gravy, raita, and sweet gulab jamuns.",
+            image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "star-1",
+            name: "Crispy Telangana Chicken 65",
+            category: "starters",
+            isVeg: false,
+            price: 210,
+            rating: 4.8,
+            reviewsCount: 110,
+            isBestseller: true,
+            spiceLevel: "Spicy",
+            desc: "Deep-fried boneless chicken bites tossed with fresh green chillies, garlic, and aromatic curry leaves.",
+            image: "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "star-2",
+            name: "Tandoori Chicken (Half / Full)",
+            category: "starters",
+            isVeg: false,
+            price: 230,
+            rating: 4.9,
+            reviewsCount: 130,
+            isBestseller: true,
+            spiceLevel: "Medium Hot",
+            desc: "Whole chicken pieces marinated in spiced yogurt and roasted to perfection in an authentic charcoal tandoor.",
+            image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "star-3",
+            name: "Chilli Chicken Dry",
+            category: "starters",
+            isVeg: false,
+            price: 220,
+            rating: 4.7,
+            reviewsCount: 88,
+            isBestseller: false,
+            spiceLevel: "Spicy",
+            desc: "Wok-tossed chicken chunks with diced bell peppers, onions, and oriental hot soy sauce.",
+            image: "https://images.unsplash.com/photo-1525755662778-989d0524087e?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "star-4",
+            name: "Paneer 65 Crispy",
+            category: "starters",
+            isVeg: true,
+            price: 180,
+            rating: 4.7,
+            reviewsCount: 75,
+            isBestseller: false,
+            spiceLevel: "Medium Hot",
+            desc: "Golden-fried fresh cottage cheese cubes seasoned with South Indian spices and tempered curry leaves.",
+            image: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "star-5",
+            name: "Crispy Corn Pepper Salt",
+            category: "starters",
+            isVeg: true,
+            price: 160,
+            rating: 4.6,
+            reviewsCount: 52,
+            isBestseller: false,
+            spiceLevel: "Mild-Medium",
+            desc: "Sweet American corn kernels batter-fried till crunchy and tossed with crushed black pepper, spring onions and garlic.",
+            image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "cur-1",
+            name: "Butter Chicken Masala",
+            category: "curries",
+            isVeg: false,
+            price: 230,
+            rating: 4.8,
+            reviewsCount: 145,
+            isBestseller: true,
+            spiceLevel: "Mild-Medium",
+            desc: "Tender shredded tandoori chicken cooked in a velvety tomato, butter, and cashew cream gravy with fenugreek leaves.",
+            image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "cur-2",
+            name: "Telangana Natu Kodi Pulusu (Country Chicken)",
+            category: "curries",
+            isVeg: false,
+            price: 270,
+            rating: 4.9,
+            reviewsCount: 160,
+            isBestseller: true,
+            spiceLevel: "Very Spicy",
+            desc: "Traditional desi country chicken curry cooked in an earthen pot with roasted whole spices, poppy seeds, and fiery chili gravy.",
+            image: "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "cur-3",
+            name: "Paneer Butter Masala",
+            category: "curries",
+            isVeg: true,
+            price: 190,
+            rating: 4.8,
+            reviewsCount: 104,
+            isBestseller: true,
+            spiceLevel: "Mild",
+            desc: "Soft cottage cheese simmered in a creamy, mildly sweet and savory tomato-cashew reduction.",
+            image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "cur-4",
+            name: "Dal Tadka Dhaba Style",
+            category: "curries",
+            isVeg: true,
+            price: 140,
+            rating: 4.6,
+            reviewsCount: 65,
+            isBestseller: false,
+            spiceLevel: "Medium",
+            desc: "Yellow lentils tempered with ghee, cumin seeds, garlic, dried red chillies, and fresh coriander.",
+            image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "cur-5",
+            name: "Butter Naan / Roti Basket",
+            category: "curries",
+            isVeg: true,
+            price: 45,
+            rating: 4.7,
+            reviewsCount: 90,
+            isBestseller: false,
+            spiceLevel: "Mild",
+            desc: "Freshly baked clay oven Indian breads brushed with real butter. Crisp on the outside, pillowy inside.",
+            image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "sth-1",
+            name: "Special South Indian Unlimited Thali",
+            category: "southindian",
+            isVeg: true,
+            price: 130,
+            rating: 4.8,
+            reviewsCount: 220,
+            isBestseller: true,
+            spiceLevel: "Medium",
+            desc: "Steamed Sona Masoori rice served with Pappu, Sambar, Rasam, Curd, 2 Veg Fries/Curries, Papad, Gunpowder (Podi) & Ghee.",
+            image: "https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "sth-2",
+            name: "Ghee Roast Masala Dosa",
+            category: "southindian",
+            isVeg: true,
+            price: 80,
+            rating: 4.9,
+            reviewsCount: 175,
+            isBestseller: true,
+            spiceLevel: "Medium",
+            desc: "Crispy golden crepe roasted in pure cow ghee, stuffed with spiced potato mash, served with coconut chutney, allam (ginger) chutney & piping hot sambar.",
+            image: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "sth-3",
+            name: "Kalwakurthy Special Curd Rice",
+            category: "southindian",
+            isVeg: true,
+            price: 90,
+            rating: 4.7,
+            reviewsCount: 68,
+            isBestseller: false,
+            spiceLevel: "Mild",
+            desc: "Homestyle creamy curd rice tempered with mustard seeds, ginger, curry leaves, pomegranate seeds, and homemade mango pickle.",
+            image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "chn-1",
+            name: "Chicken Schezwan Fried Rice",
+            category: "chinese",
+            isVeg: false,
+            price: 190,
+            rating: 4.7,
+            reviewsCount: 92,
+            isBestseller: true,
+            spiceLevel: "Spicy",
+            desc: "Wok-tossed rice with shredded chicken, scrambled egg, and fiery in-house Schezwan red pepper sauce.",
+            image: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "chn-2",
+            name: "Veg Hakka Noodles & Manchurian",
+            category: "chinese",
+            isVeg: true,
+            price: 170,
+            rating: 4.6,
+            reviewsCount: 84,
+            isBestseller: false,
+            spiceLevel: "Medium",
+            desc: "Fresh noodles stir-fried with julienned vegetables and paired with savory crispy vegetable manchurian balls.",
+            image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "bev-1",
+            name: "Shilpi Special Matka Kulfi",
+            category: "beverages",
+            isVeg: true,
+            price: 60,
+            rating: 4.9,
+            reviewsCount: 115,
+            isBestseller: true,
+            spiceLevel: "Sweet",
+            desc: "Rich traditional dense milk kulfi infused with green cardamom, saffron threads, and sliced pistachios in an earthen pot.",
+            image: "https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "bev-2",
+            name: "Fresh Sweet Lassi / Butter Milk",
+            category: "beverages",
+            isVeg: true,
+            price: 50,
+            rating: 4.8,
+            reviewsCount: 98,
+            isBestseller: false,
+            spiceLevel: "Refreshing",
+            desc: "Thick churned creamy Punjabi sweet lassi or spiced masala majjiga with mint and roasted cumin.",
+            image: "https://images.unsplash.com/photo-1553787499-6f9133860278?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            id: "bev-3",
+            name: "Hot Gulab Jamun (2 Pcs)",
+            category: "beverages",
+            isVeg: true,
+            price: 60,
+            rating: 4.9,
+            reviewsCount: 132,
+            isBestseller: true,
+            spiceLevel: "Sweet",
+            desc: "Melt-in-mouth golden khoya dumplings soaked in rose and cardamom sugar syrup.",
+            image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&auto=format&fit=crop&q=80"
+        }
+        ];
+
+        const RESTAURANT_INFO = {
+            name: "Shilpi Family Restaurant",
+            teluguName: "శిల్పి ఫ్యామిలీ రెస్టారెంట్",
+            tagline: "Authentic Dum Biryani, Pure Desi Flavors & AC Family Dining in Kalwakurthy",
+            address: "Door No. 1-10-160/A1, Srinivasa Colony, Kalwakurthy, Telangana 509324",
+            landmark: "Beside Government General Hospital, Near MRO Office, Kalwakurthy",
+            district: "Nagarkurnool / Mahabubnagar District, Telangana",
+            phone: "+91 94401 23456",
+            phoneDisplay: "094401 23456 / 08549 272233",
+            whatsappNumber: "919440123456",
+            email: "contact@shilpirestaurantkalwakurthy.com",
+            timing: "11:00 AM – 11:00 PM (All 7 Days Open)",
+            avgRating: 4.8,
+            totalReviews: 850,
+            highwayNote: "Conveniently accessible from Hyderabad-Srisailam Highway (NH 765) Junction with parking space & quick parcel packaging for commuters."
+        };
+
+        // ==========================================================
+        // MAIN CONTROLLER
+        // ==========================================================
+        let currentCategory = 'all';
+        let currentDiet = 'all';
+        let searchQuery = '';
+        let cart = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu();
+            initFilterEvents();
+            initCartEvents();
+            initReservationForm();
+            initMobileNav();
+        });
+
+        function renderMenu() {
+            const container = document.getElementById('menuGrid');
+            if (!container) return;
+
+            const filtered = MENU_DATA.filter(item => {
+                const matchCategory = currentCategory === 'all' || item.category === currentCategory;
+                const matchDiet = currentDiet === 'all' ||
+                    (currentDiet === 'veg' && item.isVeg) ||
+                    (currentDiet === 'nonveg' && !item.isVeg);
+                const matchSearch = searchQuery === '' ||
+                    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.desc.toLowerCase().includes(searchQuery.toLowerCase());
+
+                return matchCategory && matchDiet && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: var(--text-muted);">
+            <p style="font-size: 1.2rem; margin-bottom: 8px;">No dishes found matching your criteria.</p>
+            <button class="btn btn-outline" onclick="resetFilters()">Reset Filters</button>
+          </div>
+        `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => `
+        <article class="dish-card" data-id="${item.id}">
+          <div class="dish-img-wrap">
+            <img src="${item.image}" alt="${item.name}" loading="lazy" />
+            ${item.isBestseller ? '<span class="dish-badge">★ Chef\'s Bestseller</span>' : ''}
+            <span class="dish-spice-badge">🌶️ ${item.spiceLevel}</span>
+          </div>
+          <div class="dish-body">
+            <div class="dish-header">
+              <h3 class="dish-title">${item.name}</h3>
+              <span class="diet-indicator ${item.isVeg ? 'diet-veg' : 'diet-nonveg'}" title="${item.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}"></span>
+            </div>
+            <p class="dish-desc">${item.desc}</p>
+            <div class="dish-footer">
+              <div class="dish-price">₹${item.price}</div>
+              <button class="btn-add-cart" onclick="addToCart('${item.id}')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Add
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+        }
+
+        function initFilterEvents() {
+            const catButtons = document.querySelectorAll('.filter-btn');
+            catButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    catButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
+                    renderMenu();
+                });
+            });
+
+            const vegBtn = document.getElementById('filterVeg');
+            const nonvegBtn = document.getElementById('filterNonVeg');
+
+            if (vegBtn) {
+                vegBtn.addEventListener('click', () => {
+                    if (currentDiet === 'veg') {
+                        currentDiet = 'all';
+                        vegBtn.classList.remove('active-veg');
+                    } else {
+                        currentDiet = 'veg';
+                        vegBtn.classList.add('active-veg');
+                        if (nonvegBtn) nonvegBtn.classList.remove('active-nonveg');
+                    }
+                    renderMenu();
+                });
+            }
+
+            if (nonvegBtn) {
+                nonvegBtn.addEventListener('click', () => {
+                    if (currentDiet === 'nonveg') {
+                        currentDiet = 'all';
+                        nonvegBtn.classList.remove('active-nonveg');
+                    } else {
+                        currentDiet = 'nonveg';
+                        nonvegBtn.classList.add('active-nonveg');
+                        if (vegBtn) vegBtn.classList.remove('active-veg');
+                    }
+                    renderMenu();
+                });
+            }
+
+            const searchInput = document.getElementById('menuSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchQuery = e.target.value.trim();
+                    renderMenu();
+                });
+            }
+        }
+
+        function resetFilters() {
+            currentCategory = 'all';
+            currentDiet = 'all';
+            searchQuery = '';
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.category === 'all');
+            });
+            const vegBtn = document.getElementById('filterVeg');
+            const nonvegBtn = document.getElementById('filterNonVeg');
+            const searchInput = document.getElementById('menuSearch');
+            if (vegBtn) vegBtn.classList.remove('active-veg');
+            if (nonvegBtn) nonvegBtn.classList.remove('active-nonveg');
+            if (searchInput) searchInput.value = '';
+            renderMenu();
+        }
+
+        function addToCart(dishId) {
+            const dish = MENU_DATA.find(d => d.id === dishId);
+            if (!dish) return;
+
+            const existing = cart.find(item => item.id === dishId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id: dish.id,
+                    name: dish.name,
+                    price: dish.price,
+                    isVeg: dish.isVeg,
+                    qty: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`Added "${dish.name}" to order!`);
+        }
+
+        function updateCartQty(dishId, change) {
+            const itemIndex = cart.findIndex(i => i.id === dishId);
+            if (itemIndex > -1) {
+                cart[itemIndex].qty += change;
+                if (cart[itemIndex].qty <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            const badges = document.querySelectorAll('.cart-count-badge');
+            badges.forEach(b => {
+                b.textContent = totalCount;
+                b.style.display = totalCount > 0 ? 'inline-block' : 'none';
+            });
+
+            const list = document.getElementById('cartItemsList');
+            const emptyState = document.getElementById('cartEmptyState');
+            const totalEl = document.getElementById('cartTotalAmount');
+            const actionBtn = document.getElementById('whatsappOrderBtn');
+
+            if (list && emptyState) {
+                if (cart.length === 0) {
+                    list.innerHTML = '';
+                    emptyState.style.display = 'block';
+                    if (actionBtn) actionBtn.disabled = true;
+                } else {
+                    emptyState.style.display = 'none';
+                    if (actionBtn) actionBtn.disabled = false;
+                    list.innerHTML = cart.map(item => `
+            <div class="cart-item">
+              <div class="cart-item-info">
+                <h4>${item.name}</h4>
+                <div class="item-sub">₹${item.price} each • ₹${item.price * item.qty}</div>
+              </div>
+              <div class="cart-item-controls">
+                <button class="qty-btn" onclick="updateCartQty('${item.id}', -1)">-</button>
+                <span style="font-weight:700; min-width: 20px; text-align: center;">${item.qty}</span>
+                <button class="qty-btn" onclick="updateCartQty('${item.id}', 1)">+</button>
+              </div>
+            </div>
+          `).join('');
+                }
+            }
+
+            if (totalEl) {
+                totalEl.textContent = `₹${totalPrice}`;
+            }
+        }
+
+        function initCartEvents() {
+            const openButtons = document.querySelectorAll('.open-cart-btn');
+            const closeBtn = document.getElementById('closeCartBtn');
+            const overlay = document.getElementById('cartOverlay');
+            const drawer = document.getElementById('cartDrawer');
+
+            openButtons.forEach(b => {
+                b.addEventListener('click', () => {
+                    overlay.classList.add('open');
+                    drawer.classList.add('open');
+                });
+            });
+
+            const closeCart = () => {
+                overlay.classList.remove('open');
+                drawer.classList.remove('open');
+            };
+
+            if (closeBtn) closeBtn.addEventListener('click', closeCart);
+            if (overlay) overlay.addEventListener('click', closeCart);
+
+            const orderBtn = document.getElementById('whatsappOrderBtn');
+            if (orderBtn) {
+                orderBtn.addEventListener('click', sendOrderToWhatsApp);
+            }
+        }
+
+        function sendOrderToWhatsApp() {
+            if (cart.length === 0) {
+                showToast('Your order tray is empty!');
+                return;
+            }
+
+            const orderType = document.querySelector('input[name="orderType"]:checked')?.value || 'Takeaway (Parcel)';
+            const customerName = document.getElementById('customerOrderName')?.value.trim() || 'Valued Customer';
+            const customerPhone = document.getElementById('customerOrderPhone')?.value.trim() || 'N/A';
+            const notes = document.getElementById('orderNotes')?.value.trim() || 'None';
+
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            let message = `🍽️ *NEW FOOD ORDER - SHILPI FAMILY RESTAURANT, KALWAKURTHY*\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `👤 *Customer Name:* ${customerName}\n`;
+            message += `📞 *Phone:* ${customerPhone}\n`;
+            message += `📦 *Order Type:* ${orderType}\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `*ORDER ITEMS:*\n`;
+
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} x ${item.qty} = ₹${item.price * item.qty}\n`;
+            });
+
+            message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `💰 *TOTAL ESTIMATE:* ₹${totalPrice}\n`;
+            if (notes !== 'None') {
+                message += `📝 *Special Note:* ${notes}\n`;
+            }
+            message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `📍 *Restaurant Landmark:* Near MRO Office / Beside Govt Hospital, Kalwakurthy.\n`;
+            message += `Please confirm my order and approximate prep time!`;
+
+            const encoded = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${RESTAURANT_INFO.whatsappNumber}?text=${encoded}`;
+
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function initReservationForm() {
+            const form = document.getElementById('reservationForm');
+            if (!form) return;
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('resName').value;
+                const phone = document.getElementById('resPhone').value;
+                const date = document.getElementById('resDate').value;
+                const time = document.getElementById('resTime').value;
+                const guests = document.getElementById('resGuests').value;
+                const seating = document.getElementById('resSeating').value;
+                const notes = document.getElementById('resNotes').value;
+
+                const resMessage = `✨ *TABLE RESERVATION REQUEST - SHILPI RESTAURANT KALWAKURTHY*\n\n` +
+                    `👤 *Name:* ${name}\n` +
+                    `📞 *Phone:* ${phone}\n` +
+                    `📅 *Date:* ${date}\n` +
+                    `⏰ *Time:* ${time}\n` +
+                    `👥 *Guests:* ${guests}\n` +
+                    `❄️ *Seating:* ${seating}\n` +
+                    (notes ? `📝 *Special Request:* ${notes}\n` : '') +
+                    `\nPlease confirm table availability. Thank you!`;
+
+                const encoded = encodeURIComponent(resMessage);
+                const whatsappUrl = `https://wa.me/${RESTAURANT_INFO.whatsappNumber}?text=${encoded}`;
+
+                window.open(whatsappUrl, '_blank');
+                showToast('Reservation details formatted! Opening WhatsApp to confirm...');
+                form.reset();
+            });
+        }
+
+        function initMobileNav() {
+            const toggleBtn = document.getElementById('mobileMenuToggle');
+            const panel = document.getElementById('mobileNavPanel');
+
+            if (toggleBtn && panel) {
+                toggleBtn.addEventListener('click', () => {
+                    panel.classList.toggle('open');
+                });
+
+                panel.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        panel.classList.remove('open');
+                    });
+                });
+            }
+        }
+
+        function showToast(message) {
+            let toast = document.getElementById('appToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'appToast';
+                toast.className = 'toast-notice';
+                document.body.appendChild(toast);
+            }
+
+            toast.innerHTML = `<span>✓</span> <span>${message}</span>`;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3200);
+        }
+
+        // Expose functions to global scope for inline onclick handlers
+        window.addToCart = addToCart;
+        window.updateCartQty = updateCartQty;
+        window.resetFilters = resetFilters;
+        window.sendOrderToWhatsApp = sendOrderToWhatsApp;
+    </script>
+
+</body>
+
+</html>

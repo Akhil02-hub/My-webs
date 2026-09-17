@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABHISHTA Multicuisine Restaurant — Srisailam Highway, Amangal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#0c0b09',
+                        coal: '#141311',
+                        smoke: '#1d1b18',
+                        gold: '#d4af37',
+                        champagne: '#f0dfb3',
+                        cream: '#f9f6f0',
+                        spicy: '#dc2626',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --gold: #d4af37;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0c0b09;
+            color: #f9f6f0;
+            font-family: 'Inter', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: #d4af37;
+            color: #0c0b09;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0c0b09;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3a332a;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+
+        /* Grain overlay */
+        .grain::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            pointer-events: none;
+            opacity: .05;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Nav */
+        #nav {
+            transition: background .5s ease, padding .5s ease, backdrop-filter .5s ease, border-color .5s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        #nav.scrolled {
+            background: rgba(12, 11, 9, .88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-color: rgba(212, 175, 55, .18);
+        }
+
+        .nav-link {
+            position: relative;
+            letter-spacing: .14em;
+            font-size: .72rem;
+            text-transform: uppercase;
+            color: #cfc6b4;
+            transition: color .3s;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width .35s cubic-bezier(.6, 0, .2, 1);
+        }
+
+        .nav-link:hover {
+            color: #fff;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn-gold {
+            position: relative;
+            overflow: hidden;
+            background: var(--gold);
+            color: #0c0b09;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            font-size: .72rem;
+            font-weight: 700;
+            padding: 1rem 2.25rem;
+            transition: transform .3s, box-shadow .3s;
+            isolation: isolate;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+        }
+
+        .btn-gold::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #f0dfb3;
+            transform: translateX(-101%);
+            transition: transform .45s cubic-bezier(.7, 0, .2, 1);
+            z-index: -1;
+        }
+
+        .btn-gold:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 40px -12px rgba(212, 175, 55, .45);
+        }
+
+        .btn-outline {
+            position: relative;
+            border: 1px solid rgba(240, 223, 179, .4);
+            color: #f0dfb3;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            font-size: .72rem;
+            font-weight: 600;
+            padding: 1rem 2.25rem;
+            transition: all .35s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212, 175, 55, .08);
+        }
+
+        /* Hero */
+        .hero-bg {
+            background: url('https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=2400&auto=format&fit=crop') center/cover no-repeat, #141311;
+            animation: heroZoom 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroZoom {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.08);
+            }
+        }
+
+        .hero-fade {
+            background: linear-gradient(to bottom, rgba(12, 11, 9, .65) 0%, rgba(12, 11, 9, .45) 40%, rgba(12, 11, 9, .96) 100%);
+        }
+
+        .hero-line {
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: lineDrop 2.2s ease-in-out infinite;
+            transform-origin: top;
+        }
+
+        @keyframes lineDrop {
+            0% {
+                transform: scaleY(0);
+                opacity: 0;
+            }
+
+            40% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scaleY(1) translateY(20px);
+                opacity: 0;
+            }
+        }
+
+        /* Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        .reveal[data-delay="1"] {
+            transition-delay: .12s;
+        }
+
+        .reveal[data-delay="2"] {
+            transition-delay: .24s;
+        }
+
+        .reveal[data-delay="3"] {
+            transition-delay: .36s;
+        }
+
+        .reveal[data-delay="4"] {
+            transition-delay: .48s;
+        }
+
+        .eyebrow {
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            font-size: .7rem;
+            color: var(--gold);
+            display: inline-flex;
+            align-items: center;
+            gap: .9rem;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 36px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .eyebrow.center::after {
+            content: '';
+            width: 36px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        /* Image frames */
+        .frame {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .frame img {
+            transition: transform 1.1s cubic-bezier(.2, .7, .2, 1), filter .6s;
+        }
+
+        .frame:hover img {
+            transform: scale(1.06);
+        }
+
+        .frame-border::after {
+            content: '';
+            position: absolute;
+            inset: 14px;
+            border: 1px solid rgba(212, 175, 55, .45);
+            pointer-events: none;
+            transition: inset .5s;
+        }
+
+        .frame-border:hover::after {
+            inset: 22px;
+        }
+
+        /* Menu */
+        .tab {
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            font-size: .75rem;
+            font-weight: 600;
+            padding: .75rem 1.25rem;
+            color: #8d8577;
+            position: relative;
+            transition: color .3s;
+            white-space: nowrap;
+        }
+
+        .tab::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transform: translateX(-50%);
+            transition: width .35s;
+        }
+
+        .tab.active {
+            color: #f9f6f0;
+        }
+
+        .tab.active::after {
+            width: 60%;
+        }
+
+        .menu-item {
+            display: flex;
+            gap: 1.25rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(240, 223, 179, .1);
+            transition: transform .35s, background .35s;
+        }
+
+        .menu-item:hover {
+            transform: translateX(6px);
+        }
+
+        .menu-item:hover .dish-name {
+            color: var(--gold);
+        }
+
+        .dish-name {
+            transition: color .3s;
+        }
+
+        .dots {
+            flex: 1;
+            border-bottom: 1px dotted rgba(240, 223, 179, .28);
+            margin: 0 .75rem;
+            transform: translateY(-6px);
+        }
+
+        .menu-panel {
+            display: none;
+            animation: fadeUp .6s ease both;
+        }
+
+        .menu-panel.active {
+            display: grid;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .badge-veg {
+            font-size: .58rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            padding: .2rem .5rem;
+            border: 1px solid #22c55e;
+            color: #4ade80;
+            border-radius: 4px;
+        }
+
+        .badge-nonveg {
+            font-size: .58rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            padding: .2rem .5rem;
+            border: 1px solid #ef4444;
+            color: #f87171;
+            border-radius: 4px;
+        }
+
+        .badge-bestseller {
+            font-size: .58rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            padding: .2rem .5rem;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            border-radius: 4px;
+        }
+
+        /* Parallax band */
+        .parallax {
+            background: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2400&auto=format&fit=crop') center/cover fixed no-repeat, #141311;
+        }
+
+        @media (max-width: 1024px) {
+            .parallax {
+                background-attachment: scroll;
+            }
+        }
+
+        /* Gallery */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            background: #1d1b18;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(.2, .7, .2, 1), filter .6s;
+            filter: saturate(.9);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+            filter: saturate(1.1);
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(12, 11, 9, .8), transparent 55%);
+            opacity: 0;
+            transition: opacity .5s;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        .gallery-item span {
+            position: absolute;
+            left: 1.25rem;
+            bottom: 1.1rem;
+            z-index: 2;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #f9f6f0;
+            transform: translateY(12px);
+            opacity: 0;
+            transition: all .5s .05s;
+        }
+
+        .gallery-item:hover span {
+            transform: none;
+            opacity: 1;
+        }
+
+        /* Testimonials */
+        .quote-track {
+            display: flex;
+            transition: transform .8s cubic-bezier(.7, 0, .2, 1);
+        }
+
+        .quote-slide {
+            min-width: 100%;
+            padding: 0 1rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(240, 223, 179, .25);
+            transition: all .4s;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: var(--gold);
+            width: 28px;
+            border-radius: 4px;
+        }
+
+        /* Form */
+        .field {
+            width: 100%;
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid rgba(240, 223, 179, .22);
+            padding: .9rem 0;
+            color: #f9f6f0;
+            font-size: .95rem;
+            outline: none;
+            transition: border-color .3s;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .field:focus {
+            border-color: var(--gold);
+        }
+
+        .field::placeholder {
+            color: #787063;
+        }
+
+        .field option {
+            background: #141311;
+            color: #f9f6f0;
+        }
+
+        .field-label {
+            font-size: .65rem;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: #9c9384;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(.8) sepia(1) saturate(2) hue-rotate(5deg);
+            cursor: pointer;
+        }
+
+        .field-wrap {
+            position: relative;
+        }
+
+        .field-wrap::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width .5s cubic-bezier(.6, 0, .2, 1);
+        }
+
+        .field-wrap:focus-within::after {
+            width: 100%;
+        }
+
+        /* Toast */
+        #toast {
+            transform: translateY(120%);
+            opacity: 0;
+            transition: all .5s cubic-bezier(.2, .7, .2, 1);
+        }
+
+        #toast.show {
+            transform: none;
+            opacity: 1;
+        }
+
+        /* Mobile menu */
+        #mobileMenu {
+            clip-path: inset(0 0 100% 0);
+            transition: clip-path .6s cubic-bezier(.7, 0, .2, 1);
+        }
+
+        #mobileMenu.open {
+            clip-path: inset(0 0 0 0);
+        }
+
+        .burger span {
+            display: block;
+            width: 26px;
+            height: 1px;
+            background: #f9f6f0;
+            transition: all .4s;
+        }
+
+        .burger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .burger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Marquee */
+        .marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .ornament {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        /* Cards */
+        .glow-card {
+            position: relative;
+            background: #141311;
+            border: 1px solid rgba(240, 223, 179, .08);
+            transition: border-color .4s, transform .4s;
+        }
+
+        .glow-card:hover {
+            border-color: rgba(212, 175, 55, .4);
+            transform: translateY(-6px);
+        }
+    </style>
+</head>
+
+<body class="grain">
+
+    <!-- NAVIGATION -->
+    <header id="nav" class="fixed top-0 inset-x-0 z-50 py-6">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between">
+            <nav class="hidden lg:flex items-center gap-10">
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#menu" class="nav-link">Our Menu</a>
+                <a href="#amenities" class="nav-link">Amenities</a>
+            </nav>
+            <a href="#top" class="flex flex-col items-center leading-none text-center">
+                <span class="font-serif text-2xl md:text-3xl tracking-[.18em] font-semibold text-white">ABHISHTA</span>
+                <span class="font-sans text-[.62rem] tracking-[.4em] uppercase text-gold mt-1 font-medium">Multicuisine
+                    Restaurant</span>
+                <span class="text-[0.6rem] text-champagne/70 font-sans tracking-widest mt-0.5">అభిష్ట మల్టీకుసిన్
+                    రెస్టారెంట్</span>
+            </a>
+            <div class="hidden lg:flex items-center gap-10">
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#reviews" class="nav-link">Reviews</a>
+                <a href="tel:09676878574" class="btn-gold !py-3 !px-6"><i class="fas fa-phone-alt mr-1"></i> 096768
+                    78574</a>
+            </div>
+            <button id="burger" class="burger lg:hidden flex flex-col gap-[6px] p-2" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE MENU -->
+    <div id="mobileMenu"
+        class="fixed inset-0 z-40 bg-ink/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8 lg:hidden">
+        <a href="#about" class="mob-link font-serif text-4xl text-cream hover:text-gold transition">About Us</a>
+        <a href="#menu" class="mob-link font-serif text-4xl text-cream hover:text-gold transition">Our Menu</a>
+        <a href="#amenities" class="mob-link font-serif text-4xl text-cream hover:text-gold transition">Highway
+            Amenities</a>
+        <a href="#gallery" class="mob-link font-serif text-4xl text-cream hover:text-gold transition">Gallery</a>
+        <a href="#reviews" class="mob-link font-serif text-4xl text-cream hover:text-gold transition">Guest Reviews</a>
+        <a href="#contact" class="mob-link font-serif text-4xl text-cream hover:text-gold transition">Location &
+            Contact</a>
+        <a href="tel:09676878574" class="mob-link btn-gold mt-4"><i class="fas fa-phone-alt"></i> Call 096768 78574</a>
+    </div>
+
+    <!-- HERO -->
+    <section id="top"
+        class="relative h-[100svh] min-h-[640px] overflow-hidden flex items-center justify-center text-center">
+        <div class="hero-bg absolute inset-0"></div>
+        <div class="hero-fade absolute inset-0"></div>
+        <div class="relative z-10 px-6 max-w-4xl mx-auto">
+            <div class="reveal in flex flex-wrap items-center justify-center gap-2 mb-6">
+                <span
+                    class="inline-flex items-center bg-black/50 border border-gold/30 rounded-full px-4 py-1.5 text-xs text-gold font-semibold tracking-wider uppercase">
+                    <i class="fas fa-star text-gold mr-1.5"></i> 4.1 Rating · 610+ Reviews
+                </span>
+                <span
+                    class="inline-flex items-center bg-black/50 border border-champagne/30 rounded-full px-4 py-1.5 text-xs text-champagne">
+                    <i class="fas fa-map-marker-alt text-red-400 mr-1.5"></i> Srisailam Highway, Amangal
+                </span>
+                <span
+                    class="inline-flex items-center bg-green-950/60 border border-green-500/40 rounded-full px-3 py-1.5 text-xs text-green-400 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span> Open until 11:30 PM
+                </span>
+            </div>
+            <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl leading-[1.0] font-normal reveal in" data-delay="1">
+                Authentic Taste on the<br><em class="italic text-champagne">Srisailam Highway</em>
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-sm md:text-base text-cream/75 font-light leading-relaxed reveal in"
+                data-delay="2">
+                The most trusted family multicuisine pitstop on the Hyderabad – Srisailam Highway (NH-765). Renowned for
+                mouthwatering Hyderabadi Biryanis, sizzling Kebabs, rich Paneer curries, tandoori rotis, and peaceful
+                dining for pilgrims and travelers.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 reveal in" data-delay="3">
+                <a href="#menu" class="btn-gold"><i class="fas fa-utensils"></i> Explore Menu</a>
+                <a href="#contact" class="btn-outline"><i class="fas fa-directions"></i> Get Directions</a>
+                <a href="tel:09676878574" class="btn-outline"><i class="fas fa-phone"></i> Call for Takeaway</a>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+            <span class="text-[.6rem] tracking-[.3em] uppercase text-cream/50">Scroll to Explore</span>
+            <div class="hero-line"></div>
+        </div>
+    </section>
+
+    <!-- INFO STRIP -->
+    <section class="relative border-y border-champagne/15 bg-coal">
+        <div
+            class="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-champagne/15">
+            <div class="py-7 md:px-6 flex items-start gap-4 reveal">
+                <i class="fas fa-clock text-gold text-2xl shrink-0 mt-1"></i>
+                <div>
+                    <p class="field-label mb-1">Operating Hours</p>
+                    <p class="font-serif text-xl">Daily: 6:30 AM – 11:30 PM</p>
+                    <p class="text-xs text-cream/55 mt-1">Breakfast, Lunch & Dinner</p>
+                </div>
+            </div>
+            <div class="py-7 md:px-6 flex items-start gap-4 reveal" data-delay="1">
+                <i class="fas fa-map-marked-alt text-gold text-2xl shrink-0 mt-1"></i>
+                <div>
+                    <p class="field-label mb-1">Highway Location</p>
+                    <p class="font-serif text-xl">Srisailam Highway (NH-765)</p>
+                    <p class="text-xs text-cream/55 mt-1">Near Amangal, Raghaipally 509360</p>
+                </div>
+            </div>
+            <div class="py-7 md:px-6 flex items-start gap-4 reveal" data-delay="2">
+                <i class="fas fa-wallet text-gold text-2xl shrink-0 mt-1"></i>
+                <div>
+                    <p class="field-label mb-1">Pocket Friendly</p>
+                    <p class="font-serif text-xl">₹200 – ₹400 per person</p>
+                    <p class="text-xs text-cream/55 mt-1">Generous portion sizes</p>
+                </div>
+            </div>
+            <div class="py-7 md:px-6 flex items-start gap-4 reveal" data-delay="3">
+                <i class="fas fa-phone-volume text-gold text-2xl shrink-0 mt-1"></i>
+                <div>
+                    <p class="field-label mb-1">Direct Helpline</p>
+                    <p class="font-serif text-xl">096768 78574</p>
+                    <p class="text-xs text-cream/55 mt-1">Dine-in, Takeaway & Bus Stops</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY / ABOUT -->
+    <section id="about" class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <div class="relative reveal">
+                <div class="frame frame-border aspect-[4/5] bg-smoke">
+                    <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=1400&auto=format&fit=crop"
+                        alt="Biryani and Indian curries at Abhishta" class="w-full h-full object-cover">
+                </div>
+                <div
+                    class="absolute -bottom-8 -right-4 md:-right-8 w-48 md:w-64 aspect-square frame hidden sm:block shadow-2xl shadow-black/80">
+                    <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=900&auto=format&fit=crop"
+                        alt="Paneer Butter Masala" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -top-6 -left-6 w-28 h-28 border border-gold/30 hidden md:block"></div>
+            </div>
+            <div>
+                <p class="eyebrow mb-6 reveal">About Abhishta Restaurant</p>
+                <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl leading-[1.08] font-normal reveal"
+                    data-delay="1">
+                    A Welcoming Oasis for <em class="italic text-champagne">Hungry Travelers</em>
+                </h2>
+                <p class="mt-6 text-cream/70 font-light leading-relaxed reveal" data-delay="2">
+                    Whether you are embarking on a sacred pilgrimage to the <strong>Mallikarjuna Jyotirlinga Temple at
+                        Srisailam</strong> or cruising back towards Hyderabad, <strong>ABHISHTA Multicuisine
+                        Restaurant</strong> in Raghaipally (Amangal) is designed to be your favorite haven.
+                </p>
+                <p class="mt-4 text-cream/70 font-light leading-relaxed reveal" data-delay="2">
+                    After enduring the long 60+ km dense jungle stretch, our diners enjoy delicious freshly cooked hot
+                    meals. We take pride in serving high-grade vegetarian and non-vegetarian delicacies, cooked
+                    separately with absolute hygiene, rapid service, and authentic spices.
+                </p>
+
+                <div class="mt-10 grid grid-cols-3 gap-6 reveal" data-delay="3">
+                    <div>
+                        <p class="font-serif text-4xl md:text-5xl text-gold" data-count="610">0</p>
+                        <p class="field-label mt-2">Verified Reviews</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-4xl md:text-5xl text-gold" data-count="85">0</p>
+                        <p class="field-label mt-2">Dishes Crafted</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-4xl md:text-5xl text-gold">100%</p>
+                        <p class="field-label mt-2">Fresh Daily Prep</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 p-5 rounded-2xl bg-smoke border border-champagne/10 flex items-center gap-5 reveal"
+                    data-delay="4">
+                    <div
+                        class="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center text-gold text-xl shrink-0">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <p class="font-serif text-xl italic text-champagne">Hospitality First</p>
+                        <p class="text-xs text-cream/60 leading-relaxed mt-0.5">Special compliments to Captain Alam,
+                            Suman, Asif, Raju, Biswajeet & Krishna for attentive and smiling service!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="border-y border-champagne/15 py-5 overflow-hidden bg-coal">
+        <div class="marquee font-serif text-2xl md:text-3xl italic text-cream/45 gap-12">
+            <span class="flex gap-12 whitespace-nowrap">
+                <span>Hyderabadi Dum Biryani</span><span class="text-gold">✦</span>
+                <span>Loose Prawns & Chicken 555</span><span class="text-gold">✦</span>
+                <span>Paneer Butter Masala & Do Pyaza</span><span class="text-gold">✦</span>
+                <span>Butter Naan & Tandoori Roti</span><span class="text-gold">✦</span>
+                <span>Pure Veg Specialties</span><span class="text-gold">✦</span>
+                <span>Murgh Malai Kebab</span><span class="text-gold">✦</span>
+                <span>Carrot Halwa & Gulab Jamun</span><span class="text-gold">✦</span>
+                <span>Clean Highway Washrooms</span><span class="text-gold">✦</span>
+                <span>15+ Car Safe Parking</span><span class="text-gold">✦</span>
+            </span>
+            <span class="flex gap-12 whitespace-nowrap" aria-hidden="true">
+                <span>Hyderabadi Dum Biryani</span><span class="text-gold">✦</span>
+                <span>Loose Prawns & Chicken 555</span><span class="text-gold">✦</span>
+                <span>Paneer Butter Masala & Do Pyaza</span><span class="text-gold">✦</span>
+                <span>Butter Naan & Tandoori Roti</span><span class="text-gold">✦</span>
+                <span>Pure Veg Specialties</span><span class="text-gold">✦</span>
+                <span>Murgh Malai Kebab</span><span class="text-gold">✦</span>
+                <span>Carrot Halwa & Gulab Jamun</span><span class="text-gold">✦</span>
+                <span>Clean Highway Washrooms</span><span class="text-gold">✦</span>
+                <span>15+ Car Safe Parking</span><span class="text-gold">✦</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- MENU -->
+    <section id="menu" class="py-24 md:py-32 relative">
+        <div class="absolute inset-0 pointer-events-none"
+            style="background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(212,175,55,.08), transparent 70%);">
+        </div>
+        <div class="max-w-6xl mx-auto px-6 lg:px-10 relative">
+            <div class="text-center">
+                <p class="eyebrow center justify-center mb-5 reveal">Curated Highway Delicacies</p>
+                <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl font-normal leading-tight reveal" data-delay="1">
+                    Taste the Flavors of <em class="italic text-champagne">Abhishta</em>
+                </h2>
+                <p class="mt-4 text-cream/65 font-light max-w-xl mx-auto reveal" data-delay="2">
+                    Freshly prepared with authentic ingredients. Portion sizes are generous and pocket-friendly
+                    (₹200–400 per head).
+                </p>
+            </div>
+
+            <!-- TABS -->
+            <div class="mt-12 flex justify-start md:justify-center gap-2 overflow-x-auto pb-2 reveal border-b border-champagne/15"
+                data-delay="2" id="tabs">
+                <button class="tab active" data-tab="biryani">Biryani & Rice</button>
+                <button class="tab" data-tab="starters">Starters & Kebabs</button>
+                <button class="tab" data-tab="curries">Curries & Rotis</button>
+                <button class="tab" data-tab="desserts">Desserts & Drinks</button>
+            </div>
+
+            <div class="mt-6 reveal" data-delay="3">
+                <!-- Biryani Panel -->
+                <div class="menu-panel active grid-cols-1 md:grid-cols-2 gap-x-14" data-panel="biryani">
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=300&auto=format&fit=crop"
+                            alt="Hyderabadi Chicken Dum Biryani">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Chicken Dum Biryani</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹260</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Slow cooked Hyderabadi basmati rice layered
+                                with tender chicken, served with mirchi ka salan and dahi raita</p>
+                            <div class="flex gap-2 mt-2"><span class="badge-nonveg">Non-Veg</span><span
+                                    class="badge-bestseller">Customer Favorite</span></div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=300&auto=format&fit=crop"
+                            alt="Chicken Fry Piece Biryani">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Chicken Fry Piece Biryani</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹280</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Flavored biryani rice topped with spicy
+                                Andhra-style crisp roasted chicken pieces</p>
+                            <div class="flex gap-2 mt-2"><span class="badge-nonveg">Non-Veg</span><span
+                                    class="badge-bestseller">Must Try</span></div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=300&auto=format&fit=crop"
+                            alt="Special Mutton Biryani">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Special Mutton Biryani</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹340</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Succulent mutton cooked on dum with
+                                aromatic spices and saffron-infused basmati rice</p>
+                            <span class="badge-nonveg mt-2 inline-block">Non-Veg</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?q=80&w=300&auto=format&fit=crop"
+                            alt="Paneer Veg Fried Rice">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Paneer Fried Rice</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹220</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Wok-tossed long-grain rice with fresh
+                                paneer cubes, crunchy garden veggies, and mild spices</p>
+                            <span class="badge-veg mt-2 inline-block">Pure Veg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Starters Panel -->
+                <div class="menu-panel grid-cols-1 md:grid-cols-2 gap-x-14" data-panel="starters">
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?q=80&w=300&auto=format&fit=crop"
+                            alt="Loose Prawns">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Crispy Loose Prawns</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹320</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Marinated king prawns tossed with green
+                                chilies, curry leaves, garlic, and special spices</p>
+                            <div class="flex gap-2 mt-2"><span class="badge-nonveg">Non-Veg</span><span
+                                    class="badge-bestseller">Top Star Rated</span></div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?q=80&w=300&auto=format&fit=crop"
+                            alt="Chicken 555">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Chicken 555</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹270</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Tender boneless chicken strips coated in a
+                                tangy, spicy, slightly creamy highway sauce</p>
+                            <span class="badge-nonveg mt-2 inline-block">Non-Veg</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=300&auto=format&fit=crop"
+                            alt="Veg / Gobi Manchurian">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Gobi / Veg Manchurian</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹180</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Crisp florets tossed in scallions, ginger,
+                                garlic, and savory Indo-Chinese sauces</p>
+                            <span class="badge-veg mt-2 inline-block">Pure Veg</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=300&auto=format&fit=crop"
+                            alt="Murgh Malai Kebab">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Murgh Malai Kebab</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹290</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Clay oven-roasted chicken morsels marinated
+                                in fresh cream, cheese, and cardamom</p>
+                            <span class="badge-nonveg mt-2 inline-block">Tandoor Special</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Curries Panel -->
+                <div class="menu-panel grid-cols-1 md:grid-cols-2 gap-x-14" data-panel="curries">
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=300&auto=format&fit=crop"
+                            alt="Paneer Butter Masala">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Paneer Butter Masala (PBM)</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹240</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Fresh cottage cheese steeped in rich
+                                butter, velvet cashew, and tomato gravy</p>
+                            <div class="flex gap-2 mt-2"><span class="badge-veg">Pure Veg</span><span
+                                    class="badge-bestseller">Highly Recommended</span></div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=300&auto=format&fit=crop"
+                            alt="Butter Chicken">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Butter Chicken (Murgh Makhani)</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹280</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Tandoori chicken pieces cooked in a creamy
+                                tomato sauce with fenugreek and butter</p>
+                            <span class="badge-nonveg mt-2 inline-block">Non-Veg</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=300&auto=format&fit=crop"
+                            alt="Paneer Do Pyaza & Veg Kolhapuri">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Paneer Do Pyaza / Kolhapuri</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹250</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Paneer cooked with double onions or spicy
+                                Kolhapuri red masala for spice lovers</p>
+                            <span class="badge-veg mt-2 inline-block">Pure Veg</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=300&auto=format&fit=crop"
+                            alt="Butter Naan & Tandoori Roti">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Butter Naan / Tandoori Roti</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹25 – ₹45</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Freshly slapped whole wheat tandoori roti
+                                or clay-baked layered butter naan</p>
+                            <span class="badge-veg mt-2 inline-block">Fresh from Tandoor</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desserts & Drinks Panel -->
+                <div class="menu-panel grid-cols-1 md:grid-cols-2 gap-x-14" data-panel="desserts">
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1505253758473-96b3015f240a?q=80&w=300&auto=format&fit=crop"
+                            alt="Gajar Ka Halwa">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Desi Ghee Carrot Halwa</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹110</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Traditional slow-cooked grated red carrot
+                                pudding with pure ghee, khoya, and cashews</p>
+                            <span class="badge-bestseller mt-2 inline-block">Guest Review Hit</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=300&auto=format&fit=crop"
+                            alt="Hot Gulab Jamun">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Hot Gulab Jamun (2 Pcs)</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹80</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Warm milk-solid dumplings dipped in rose &
+                                green cardamom sugar syrup</p>
+                            <span class="badge-veg mt-2 inline-block">Pure Veg</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=300&auto=format&fit=crop"
+                            alt="Highway Masala Tea">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Special Highway Chai</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">₹30</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Freshly brewed ginger and cardamom milk tea
+                                — the ultimate refresher during long drives</p>
+                            <span class="badge-veg mt-2 inline-block">Highway Specialty</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <img class="w-20 h-20 object-cover shrink-0 rounded-xl hidden sm:block"
+                            src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=300&auto=format&fit=crop"
+                            alt="Chilled Soft Drinks">
+                        <div class="flex-1">
+                            <div class="flex items-baseline">
+                                <h3 class="dish-name font-serif text-2xl">Chilled Beverages & Water</h3><span
+                                    class="dots"></span><span class="font-serif text-xl text-gold">MRP</span>
+                            </div>
+                            <p class="text-sm text-cream/60 mt-1 font-light">Thums Up, Sprite, fresh lime soda, and
+                                chilled packaged mineral water bottles</p>
+                            <span class="badge-veg mt-2 inline-block">Cool Refreshment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center reveal">
+                <a href="tel:09676878574" class="btn-gold"><i class="fas fa-phone-alt mr-2"></i> Order by Phone: 096768
+                    78574</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- HIGHWAY AMENITIES -->
+    <section id="amenities" class="parallax relative py-28 md:py-36">
+        <div class="absolute inset-0 bg-ink/80"></div>
+        <div class="relative max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-3 gap-8 items-center">
+            <div class="lg:col-span-1 reveal">
+                <p class="eyebrow mb-4">Highway Comfort</p>
+                <h2 class="font-serif text-4xl sm:text-5xl font-normal leading-tight">
+                    Why Travelers Stop at <em class="italic text-champagne">Abhishta</em>
+                </h2>
+                <p class="mt-4 text-cream/65 font-light leading-relaxed">
+                    Road trips require more than good food. We provide a clean, secure, and refreshing atmosphere to
+                    recharge your energy.
+                </p>
+            </div>
+            <div class="lg:col-span-2 grid sm:grid-cols-3 gap-5">
+                <div class="glow-card p-7 rounded-2xl reveal" data-delay="1">
+                    <i class="fas fa-restroom text-gold text-3xl"></i>
+                    <h3 class="font-serif text-2xl mt-5">Clean Washrooms</h3>
+                    <p class="text-sm text-cream/60 mt-2 font-light leading-relaxed">Hygienic, continuously maintained
+                        restrooms — a rare and valued amenity on the Srisailam Highway.</p>
+                    <p class="text-gold text-xs tracking-widest uppercase mt-4 font-semibold">★ Praised by 50+ Reviewers
+                    </p>
+                </div>
+                <div class="glow-card p-7 rounded-2xl reveal" data-delay="2">
+                    <i class="fas fa-parking text-gold text-3xl"></i>
+                    <h3 class="font-serif text-2xl mt-5">Ample Car Parking</h3>
+                    <p class="text-sm text-cream/60 mt-2 font-light leading-relaxed">Spacious front yard accommodating
+                        15+ cars and tour vehicles with safe, easy highway access.</p>
+                    <p class="text-gold text-xs tracking-widest uppercase mt-4 font-semibold">100% Free & Safe</p>
+                </div>
+                <div class="glow-card p-7 rounded-2xl reveal" data-delay="3">
+                    <i class="fas fa-leaf text-gold text-3xl"></i>
+                    <h3 class="font-serif text-2xl mt-5">Green Ambiance</h3>
+                    <p class="text-sm text-cream/60 mt-2 font-light leading-relaxed">Pleasant dining hall accented with
+                        fresh potted plants, air conditioning, and family seating.</p>
+                    <p class="text-gold text-xs tracking-widest uppercase mt-4 font-semibold">Family & Child Friendly
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div>
+                    <p class="eyebrow mb-4 reveal">Photo Showcase</p>
+                    <h2 class="font-serif text-4xl sm:text-5xl font-normal leading-tight reveal" data-delay="1">
+                        Moments at <em class="italic text-champagne">Abhishta</em>
+                    </h2>
+                </div>
+                <p class="text-cream/60 font-light max-w-sm reveal" data-delay="2">
+                    A glimpse into our freshly crafted dishes, highway kitchen, and comfortable dining spaces.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 auto-rows-[180px] md:auto-rows-[220px] gap-3 md:gap-4">
+                <div class="gallery-item col-span-2 row-span-2 reveal rounded-2xl">
+                    <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=1400&auto=format&fit=crop"
+                        alt="Hyderabadi Dum Biryani">
+                    <span>Hyderabadi Dum Biryani</span>
+                </div>
+                <div class="gallery-item reveal rounded-2xl" data-delay="1">
+                    <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=800&auto=format&fit=crop"
+                        alt="Paneer Butter Masala">
+                    <span>Paneer Butter Masala</span>
+                </div>
+                <div class="gallery-item reveal rounded-2xl" data-delay="2">
+                    <img src="https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?q=80&w=800&auto=format&fit=crop"
+                        alt="Loose Prawns">
+                    <span>Crisp Loose Prawns</span>
+                </div>
+                <div class="gallery-item reveal rounded-2xl" data-delay="2">
+                    <img src="https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=800&auto=format&fit=crop"
+                        alt="Tandoori Naan">
+                    <span>Clay-Oven Butter Naan</span>
+                </div>
+                <div class="gallery-item reveal rounded-2xl" data-delay="3">
+                    <img src="https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?q=80&w=800&auto=format&fit=crop"
+                        alt="Chicken 555 Starter">
+                    <span>Chicken 555</span>
+                </div>
+                <div class="gallery-item col-span-2 reveal rounded-2xl" data-delay="1">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1400&auto=format&fit=crop"
+                        alt="Restaurant Interior">
+                    <span>Family Dining Hall</span>
+                </div>
+                <div class="gallery-item reveal rounded-2xl" data-delay="2">
+                    <img src="https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=800&auto=format&fit=crop"
+                        alt="Veg Manchurian">
+                    <span>Veg Manchurian</span>
+                </div>
+                <div class="gallery-item reveal rounded-2xl" data-delay="3">
+                    <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=800&auto=format&fit=crop"
+                        alt="Hot Gulab Jamun">
+                    <span>Hot Gulab Jamun</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS (FROM REAL REVIEWS) -->
+    <section id="reviews" class="py-24 md:py-32 bg-coal border-y border-champagne/15 relative overflow-hidden">
+        <div
+            class="absolute -top-20 left-1/2 -translate-x-1/2 font-serif text-[22rem] leading-none text-gold/[.03] select-none pointer-events-none">
+            “</div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative">
+            <p class="eyebrow center justify-center mb-6 reveal">What Diners Say</p>
+            <h2 class="font-serif text-3xl sm:text-4xl text-white mb-10 reveal">Reviews From Google Maps</h2>
+
+            <div class="overflow-hidden reveal" data-delay="1">
+                <div class="quote-track" id="quoteTrack">
+                    <!-- Review 1 -->
+                    <div class="quote-slide">
+                        <p class="font-serif text-2xl sm:text-3xl md:text-3xl leading-snug font-light italic">
+                            "Had a great dinner experience at Abhishta Restaurant! Every single dish we ordered was
+                            absolutely delicious and full of flavour. The Tandoori Roti, Paneer Butter Masala (PBM), and
+                            Paneer Do Pyaza were the absolute highlights of our meal. Good hospitality by Asif!"
+                        </p>
+                        <div class="mt-8 flex items-center justify-center gap-1 text-gold text-lg">★★★★★</div>
+                        <p class="mt-3 text-sm tracking-widest uppercase text-cream/70 font-medium">Kundan Dumbare ·
+                            Local Guide (69 Reviews)</p>
+                    </div>
+                    <!-- Review 2 -->
+                    <div class="quote-slide">
+                        <p class="font-serif text-2xl sm:text-3xl md:text-3xl leading-snug font-light italic">
+                            "Best hygiene, tasty food & decent ambience on the way to Srisailam Temple — Hyderabad Road,
+                            Amangal. After a tough 60 km jungle stretch, this is the most trusted spot for a delicious
+                            meal."
+                        </p>
+                        <div class="mt-8 flex items-center justify-center gap-1 text-gold text-lg">★★★★★</div>
+                        <p class="mt-3 text-sm tracking-widest uppercase text-cream/70 font-medium">Rithika Bomdyal ·
+                            Srisailam Pilgrim Traveler</p>
+                    </div>
+                    <!-- Review 3 -->
+                    <div class="quote-slide">
+                        <p class="font-serif text-2xl sm:text-3xl md:text-3xl leading-snug font-light italic">
+                            "The restaurant is located right on the highway. Easy to locate. Hospitality is great. I
+                            liked the biryani and loose prawns in starter. Loved the carrot halwa."
+                        </p>
+                        <div class="mt-8 flex items-center justify-center gap-1 text-gold text-lg">★★★★★</div>
+                        <p class="mt-3 text-sm tracking-widest uppercase text-cream/70 font-medium">Ahalya · Local Guide
+                            (281 Reviews)</p>
+                    </div>
+                    <!-- Review 4 -->
+                    <div class="quote-slide">
+                        <p class="font-serif text-2xl sm:text-3xl md:text-3xl leading-snug font-light italic">
+                            "We were 7 people visiting while coming back from Mallikarjuna Jyotirlinga darshana. We saw
+                            this hotel, stopped, food was excellent and washrooms were very clean and tidy. Highly
+                            recommend for families!"
+                        </p>
+                        <div class="mt-8 flex items-center justify-center gap-1 text-gold text-lg">★★★★★</div>
+                        <p class="mt-3 text-sm tracking-widest uppercase text-cream/70 font-medium">Avtar Chandra ·
+                            Family Highway Group</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 flex items-center justify-center gap-3" id="quoteDots">
+                <span class="dot active" data-i="0"></span>
+                <span class="dot" data-i="1"></span>
+                <span class="dot" data-i="2"></span>
+                <span class="dot" data-i="3"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESERVATION / PRE-ORDER SECTION -->
+    <section id="reserve" class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-5 gap-16 items-start">
+            <div class="lg:col-span-2 lg:sticky lg:top-32">
+                <p class="eyebrow mb-4 reveal">Planning a Highway Stop?</p>
+                <h2 class="font-serif text-4xl sm:text-5xl font-normal leading-tight reveal" data-delay="1">
+                    Pre-Order or <em class="italic text-champagne">Reserve Table</em>
+                </h2>
+                <p class="mt-4 text-cream/70 font-light leading-relaxed reveal" data-delay="2">
+                    Traveling in a family group, tour bus, or in a rush back to Hyderabad? Inform us in advance so we
+                    can prepare your hot meal or hold a table.
+                </p>
+
+                <div class="mt-8 space-y-4 reveal" data-delay="3">
+                    <div class="flex items-center gap-3"><i class="fas fa-check text-gold"></i>
+                        <p class="text-sm text-cream/80">Separate, hygienic cooking for Veg & Non-Veg</p>
+                    </div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check text-gold"></i>
+                        <p class="text-sm text-cream/80">Takeaway packing with leak-proof containers</p>
+                    </div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check text-gold"></i>
+                        <p class="text-sm text-cream/80">UPI / Cash / Card payments accepted</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 p-6 bg-smoke rounded-2xl border border-champagne/15 reveal" data-delay="3">
+                    <h4 class="font-serif text-2xl text-gold">Instant Telephone Booking</h4>
+                    <p class="text-sm text-cream/60 mt-1">Speak directly with Captain Alam or our manager:</p>
+                    <a href="tel:09676878574"
+                        class="mt-4 inline-flex items-center gap-3 text-lg font-bold text-white hover:text-gold transition">
+                        <span class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-gold"><i
+                                class="fas fa-phone-alt"></i></span>
+                        096768 78574
+                    </a>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="reserveForm"
+                class="lg:col-span-3 bg-coal border border-champagne/15 p-8 md:p-12 rounded-3xl reveal relative overflow-hidden"
+                data-delay="2" novalidate>
+                <div class="absolute top-0 right-0 w-40 h-40 pointer-events-none"
+                    style="background: radial-gradient(circle at top right, rgba(212,175,55,.14), transparent 70%);">
+                </div>
+                <h3 class="font-serif text-3xl mb-6">Highway Reservation & Pre-Order</h3>
+                <div class="grid sm:grid-cols-2 gap-x-10 gap-y-7">
+                    <div class="field-wrap"><label class="field-label" for="name">Your Name</label><input id="name"
+                            class="field" type="text" placeholder="e.g. Ramesh Kumar" required></div>
+                    <div class="field-wrap"><label class="field-label" for="phone">Phone Number</label><input id="phone"
+                            class="field" type="tel" placeholder="e.g. 09876543210" required></div>
+                    <div class="field-wrap"><label class="field-label" for="guests">Party Size</label>
+                        <select id="guests" class="field" required>
+                            <option value="">Select Guests</option>
+                            <option>1 – 2 persons</option>
+                            <option>3 – 5 persons (Family)</option>
+                            <option>6 – 10 persons (Group)</option>
+                            <option>10+ persons (Tour Bus / Pilgrims)</option>
+                        </select>
+                    </div>
+                    <div class="field-wrap"><label class="field-label" for="orderType">Order Type</label>
+                        <select id="orderType" class="field" required>
+                            <option value="Dine-in">Dine-in at Restaurant</option>
+                            <option value="Takeaway / Parcel">Takeaway / Parcel</option>
+                        </select>
+                    </div>
+                    <div class="field-wrap"><label class="field-label" for="date">Estimated Date</label><input id="date"
+                            class="field" type="date" required></div>
+                    <div class="field-wrap"><label class="field-label" for="time">Approx. Arrival Time</label>
+                        <select id="time" class="field" required>
+                            <option value="">Select Time</option>
+                            <option>12:30 PM – Lunch</option>
+                            <option>1:30 PM – Lunch</option>
+                            <option>2:30 PM – Late Lunch</option>
+                            <option>4:30 PM – High Tea & Snacks</option>
+                            <option>7:30 PM – Dinner</option>
+                            <option>8:30 PM – Dinner</option>
+                            <option>9:30 PM – Dinner</option>
+                            <option>10:30 PM – Late Dinner</option>
+                        </select>
+                    </div>
+                    <div class="field-wrap sm:col-span-2">
+                        <label class="field-label" for="notes">Pre-order Dishes or Dietary Preference</label>
+                        <textarea id="notes" class="field resize-none" rows="2"
+                            placeholder="e.g. 2 Chicken Biryani, 1 Paneer Butter Masala, 4 Butter Naans..."></textarea>
+                    </div>
+                </div>
+                <p id="formError" class="hidden mt-4 text-sm text-red-400">Please provide your name, valid phone number,
+                    and arrival details.</p>
+                <div class="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                    <p class="text-xs text-cream/50 font-light max-w-xs">We will have your table or parcel ready so your
+                        journey stays smooth and unhindered.</p>
+                    <button type="submit" class="btn-gold w-full sm:w-auto">Submit Booking Request</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER / CONTACT -->
+    <footer id="contact" class="bg-coal border-t border-champagne/15 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid md:grid-cols-4 gap-12">
+            <!-- Col 1 -->
+            <div class="md:col-span-1">
+                <div class="flex flex-col leading-none">
+                    <span class="font-serif text-3xl tracking-[.18em] font-semibold text-white">ABHISHTA</span>
+                    <span
+                        class="font-sans text-[.65rem] tracking-[.35em] uppercase text-gold mt-1 font-medium">Multicuisine
+                        Restaurant</span>
+                    <span class="text-xs text-champagne/70 mt-1 font-sans">అభిష్ట మల్టీకుసిన్ రెస్టారెంట్</span>
+                </div>
+                <p class="mt-5 text-sm text-cream/60 font-light leading-relaxed">
+                    The premier multicuisine dining destination on the Hyderabad – Srisailam Highway. Serving delicious
+                    flavors, genuine hospitality, and fresh food daily.
+                </p>
+                <div class="mt-4 flex items-center gap-2 text-gold">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                        class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    <span class="text-white text-xs ml-1 font-semibold">4.1 (610+ Reviews)</span>
+                </div>
+            </div>
+
+            <!-- Col 2 -->
+            <div>
+                <p class="field-label mb-4">Location</p>
+                <p class="font-serif text-xl">Srisailam Highway (NH-765)</p>
+                <p class="text-sm text-cream/60 mt-1">Near Amangal, Raghaipally Village</p>
+                <p class="text-sm text-cream/60 mt-0.5">Amangal, Telangana – 509360</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=ABHISHTA+Multicuisine+Restaurant+Amangal+Srisailam+Highway"
+                    target="_blank" rel="noopener"
+                    class="inline-flex items-center gap-1.5 mt-4 text-xs tracking-widest uppercase text-gold hover:text-champagne transition">
+                    <i class="fas fa-location-arrow"></i> Open in Google Maps →
+                </a>
+            </div>
+
+            <!-- Col 3 -->
+            <div>
+                <p class="field-label mb-4">Hours & Contact</p>
+                <ul class="space-y-2 text-sm text-cream/70">
+                    <li class="flex justify-between border-b border-champagne/10 pb-1.5"><span>Monday –
+                            Sunday</span><span class="text-white font-medium">6:30 AM – 11:30 PM</span></li>
+                    <li class="flex justify-between border-b border-champagne/10 pb-1.5"><span>Phone Contact</span><a
+                            href="tel:09676878574" class="text-gold font-bold">096768 78574</a></li>
+                    <li class="flex justify-between border-b border-champagne/10 pb-1.5"><span>Average
+                            Budget</span><span>₹200 – ₹400 / person</span></li>
+                    <li class="flex justify-between pb-1.5"><span>Services</span><span>Dine-in · Takeaway ·
+                            Parking</span></li>
+                </ul>
+            </div>
+
+            <!-- Col 4 -->
+            <div>
+                <p class="field-label mb-4">Route Information</p>
+                <p class="text-sm text-cream/60 font-light leading-relaxed">
+                    Located right before/after the major Srisailam forest ghat pass. An ideal stopover between Hyderabad
+                    and Mallikarjuna Temple.
+                </p>
+                <div class="mt-5 p-4 rounded-xl bg-smoke border border-champagne/10">
+                    <div class="flex items-center gap-2 text-green-400 text-xs font-semibold uppercase tracking-wider">
+                        <i class="fas fa-shield-alt"></i> Safe Family Pitstop
+                    </div>
+                    <p class="text-xs text-cream/65 mt-1">Dedicated clean washrooms, airy seating, and rapid order
+                        delivery for travelers.</p>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto px-6 lg:px-10 mt-14 pt-8 border-t border-champagne/15 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-cream/45">
+            <p>© 2025 ABHISHTA Multicuisine Restaurant, Amangal. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#about" class="hover:text-gold transition">About</a>
+                <a href="#menu" class="hover:text-gold transition">Menu</a>
+                <a href="#amenities" class="hover:text-gold transition">Amenities</a>
+                <a href="#reviews" class="hover:text-gold transition">Reviews</a>
+                <a href="tel:09676878574" class="hover:text-gold transition">096768 78574</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] bg-gold text-ink px-6 py-4 flex items-center gap-4 shadow-2xl shadow-black/80 max-w-[90vw] rounded-xl font-medium">
+        <i class="fas fa-check-circle text-lg"></i>
+        <p id="toastMsg" class="text-sm"></p>
+    </div>
+
+    <script>
+        // Nav scroll state
+        const nav = document.getElementById('nav');
+        const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+        onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+
+        // Mobile menu
+        const burger = document.getElementById('burger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const toggleMenu = (force) => {
+            const open = force !== undefined ? force : !mobileMenu.classList.contains('open');
+            mobileMenu.classList.toggle('open', open);
+            burger.classList.toggle('open', open);
+            document.body.style.overflow = open ? 'hidden' : '';
+        };
+        burger.addEventListener('click', () => toggleMenu());
+        document.querySelectorAll('.mob-link').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+        // Reveal on scroll
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // Counters
+        const counters = document.querySelectorAll('[data-count]');
+        const cio = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                const el = e.target, target = +el.dataset.count, dur = 1400, start = performance.now();
+                const step = (t) => { const p = Math.min((t - start) / dur, 1); el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
+                requestAnimationFrame(step); cio.unobserve(el);
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => cio.observe(c));
+
+        // Menu tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelector(`[data-panel="${tab.dataset.tab}"]`).classList.add('active');
+            });
+        });
+
+        // Testimonials Carousel
+        const track = document.getElementById('quoteTrack');
+        const dots = document.querySelectorAll('#quoteDots .dot');
+        let idx = 0, timer;
+        const goTo = (i) => {
+            idx = (i + dots.length) % dots.length;
+            track.style.transform = `translateX(-${idx * 100}%)`;
+            dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+        };
+        const autoplay = () => { clearInterval(timer); timer = setInterval(() => goTo(idx + 1), 6500); };
+        dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.i); autoplay(); }));
+        autoplay();
+
+        // Touch swipe for testimonials
+        let sx = 0;
+        track.addEventListener('touchstart', e => sx = e.touches[0].clientX, { passive: true });
+        track.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) { goTo(idx + (dx < 0 ? 1 : -1)); autoplay(); } });
+
+        // Toast
+        let toastTimer;
+        window.showToast = (msg) => {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 4200);
+        };
+
+        // Reservation form handler
+        const form = document.getElementById('reserveForm');
+        const dateInput = document.getElementById('date');
+        if (dateInput) {
+            dateInput.min = new Date().toISOString().split('T')[0];
+            dateInput.value = new Date().toISOString().split('T')[0];
+        }
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const err = document.getElementById('formError');
+            let valid = true;
+            form.querySelectorAll('[required]').forEach(f => {
+                const ok = f.value.trim() !== '';
+                f.style.borderBottomColor = ok ? '' : 'rgba(239,68,68,.8)';
+                if (!ok) valid = false;
+            });
+            err.classList.toggle('hidden', valid);
+            if (!valid) return;
+            const name = document.getElementById('name').value.split(' ')[0];
+            const time = document.getElementById('time').value;
+            const type = document.getElementById('orderType').value;
+            showToast(`Thank you, ${name}! Your ${type} request for ${time} has been received. Have a safe journey!`);
+            form.reset();
+        });
+        form.querySelectorAll('.field').forEach(f => f.addEventListener('input', () => f.style.borderBottomColor = ''));
+    </script>
+</body>
+
+</html>

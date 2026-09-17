@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lumière — Three Michelin star fine dining in the heart of Paris. A twelve-course odyssey of light and flavor.">
+    <title>Lumière · Three Michelin Star Dining — Paris</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#0b0a08',
+                        coal: '#121009',
+                        gold: '#c8a45d',
+                        champagne: '#e7d9b8',
+                        cream: '#f2ede3',
+                        stone: '#8f8a7e'
+                    },
+                    fontFamily: {
+                        display: ['"Cormorant Garamond"', 'serif'],
+                        body: ['Jost', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --gold: #c8a45d;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0b0a08;
+            font-family: 'Jost', sans-serif;
+            color: #f2ede3;
+            overflow-x: hidden;
+        }
+
+        section[id] {
+            scroll-margin-top: 4.5rem;
+        }
+
+        ::selection {
+            background: #c8a45d;
+            color: #0b0a08;
+        }
+
+        ::-webkit-scrollbar {
+            width: 9px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0b0a08;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3a332a;
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ---------- Preloader ---------- */
+        .pre-letter {
+            opacity: 0;
+            animation: letterIn .9s cubic-bezier(.22, 1, .36, 1) forwards;
+        }
+
+        @keyframes letterIn {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .pre-line {
+            transform: scaleX(0);
+            animation: lineIn 1.1s cubic-bezier(.22, 1, .36, 1) .9s forwards;
+        }
+
+        @keyframes lineIn {
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        .pre-sub {
+            opacity: 0;
+            animation: letterIn 1s ease 1.15s forwards;
+        }
+
+        body.loaded #preloader {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .8s ease, visibility 0s linear .8s;
+        }
+
+        /* ---------- Hero entrance ---------- */
+        .hero-anim {
+            opacity: 0;
+            transform: translateY(42px);
+            transition: opacity 1.1s cubic-bezier(.22, 1, .36, 1), transform 1.1s cubic-bezier(.22, 1, .36, 1);
+            transition-delay: var(--d, 0s);
+        }
+
+        body.loaded .hero-anim {
+            opacity: 1;
+            transform: none;
+        }
+
+        #heroBg {
+            transform: scale(1.12);
+            will-change: transform;
+        }
+
+        /* ---------- Scroll indicator ---------- */
+        .scroll-line {
+            width: 1px;
+            height: 54px;
+            background: rgba(242, 237, 227, .2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            animation: scrollDrop 2.2s cubic-bezier(.65, 0, .35, 1) infinite;
+        }
+
+        @keyframes scrollDrop {
+            0% {
+                top: -100%;
+            }
+
+            60%,
+            100% {
+                top: 100%;
+            }
+        }
+
+        /* ---------- Navbar ---------- */
+        #navbar {
+            transition: background .5s ease, border-color .5s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        #navbar.scrolled {
+            background: rgba(11, 10, 8, .88);
+            backdrop-filter: blur(14px);
+            border-bottom-color: rgba(200, 164, 93, .14);
+        }
+
+        #navbar .nav-inner {
+            height: 6rem;
+            transition: height .4s ease;
+        }
+
+        #navbar.scrolled .nav-inner {
+            height: 4.75rem;
+        }
+
+        .nav-link {
+            position: relative;
+            padding-bottom: 5px;
+            transition: color .3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transform: translateX(-50%);
+            transition: width .4s ease;
+        }
+
+        .nav-link:hover {
+            color: #e7d9b8;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn-sweep {
+            position: relative;
+            display: inline-block;
+            padding: .95rem 2.4rem;
+            font-size: 11px;
+            letter-spacing: .32em;
+            text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid rgba(200, 164, 93, .7);
+            background: transparent;
+            overflow: hidden;
+            transition: color .45s ease, border-color .45s ease;
+        }
+
+        .btn-sweep::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, #c8a45d, #e7d9b8);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .btn-sweep span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-sweep:hover {
+            color: #0b0a08;
+            border-color: var(--gold);
+        }
+
+        .btn-sweep:hover::before {
+            transform: scaleX(1);
+        }
+
+        .btn-solid {
+            position: relative;
+            display: inline-block;
+            padding: .95rem 2.4rem;
+            font-size: 11px;
+            letter-spacing: .32em;
+            text-transform: uppercase;
+            color: #0b0a08;
+            background: linear-gradient(120deg, #d3b06a, #b8934c);
+            border: 1px solid transparent;
+            overflow: hidden;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .btn-solid span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-solid:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px -10px rgba(200, 164, 93, .55);
+        }
+
+        /* ---------- Mobile menu ---------- */
+        #mobileMenu {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .5s ease;
+        }
+
+        #mobileMenu.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #mobileMenu .m-link {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity .6s cubic-bezier(.22, 1, .36, 1), transform .6s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        #mobileMenu.open .m-link {
+            opacity: 1;
+            transform: none;
+        }
+
+        .menu-btn span {
+            display: block;
+            width: 26px;
+            height: 1.5px;
+            background: #f2ede3;
+            margin: 7px 0;
+            transition: transform .4s cubic-bezier(.22, 1, .36, 1), opacity .3s ease;
+        }
+
+        .menu-btn.open span:nth-child(1) {
+            transform: translateY(8.5px) rotate(45deg);
+        }
+
+        .menu-btn.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.open span:nth-child(3) {
+            transform: translateY(-8.5px) rotate(-45deg);
+        }
+
+        /* ---------- Reveal on scroll ---------- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(38px);
+            transition: opacity 1s cubic-bezier(.22, 1, .36, 1), transform 1s cubic-bezier(.22, 1, .36, 1);
+            transition-delay: var(--d, 0s);
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ---------- Marquee ---------- */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ---------- Menu tabs ---------- */
+        .tab-btn {
+            position: relative;
+            color: #8f8a7e;
+            padding-bottom: .8rem;
+            transition: color .3s ease;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 1px;
+            width: 100%;
+            background: var(--gold);
+            transform: scaleX(0);
+            transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .tab-btn:hover {
+            color: #f2ede3;
+        }
+
+        .tab-btn.tab-active {
+            color: var(--gold);
+        }
+
+        .tab-btn.tab-active::after {
+            transform: scaleX(1);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeUp .65s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .leader {
+            border-bottom: 1px dotted rgba(143, 138, 126, .45);
+            margin: 0 .9rem;
+            transform: translateY(-5px);
+        }
+
+        /* ---------- Form fields ---------- */
+        .label {
+            display: block;
+            font-size: 10px;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            color: #8f8a7e;
+            margin-bottom: .55rem;
+        }
+
+        .field {
+            width: 100%;
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid rgba(200, 164, 93, .25);
+            padding: .85rem 1rem;
+            color: #f2ede3;
+            font-size: .9rem;
+            font-family: 'Jost', sans-serif;
+            outline: none;
+            border-radius: 2px;
+            transition: border-color .3s, background .3s, box-shadow .3s;
+            color-scheme: dark;
+        }
+
+        .field:focus {
+            border-color: var(--gold);
+            background: rgba(200, 164, 93, .06);
+            box-shadow: 0 0 0 3px rgba(200, 164, 93, .12);
+        }
+
+        .field::placeholder {
+            color: #6b675e;
+        }
+
+        select.field option {
+            background: #121009;
+            color: #f2ede3;
+        }
+
+        /* ---------- Toast ---------- */
+        #toast {
+            transform: translate(-50%, 160%);
+            opacity: 0;
+            transition: transform .6s cubic-bezier(.22, 1, .36, 1), opacity .6s ease;
+        }
+
+        #toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        /* ---------- Lightbox ---------- */
+        #lightbox {
+            display: none;
+        }
+
+        #lightbox.open {
+            display: flex;
+            animation: lbIn .35s ease both;
+        }
+
+        @keyframes lbIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        #lightbox.open figure {
+            animation: lbZoom .5s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        @keyframes lbZoom {
+            from {
+                opacity: 0;
+                transform: scale(.94);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* ---------- Back to top ---------- */
+        #toTop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .4s ease, transform .4s ease;
+            transform: translateY(12px);
+        }
+
+        #toTop.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+        }
+
+        /* ---------- Custom cursor ---------- */
+        #cursorDot,
+        #cursorRing {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            will-change: transform;
+        }
+
+        #cursorDot {
+            width: 6px;
+            height: 6px;
+            margin: -3px 0 0 -3px;
+            border-radius: 50%;
+            background: var(--gold);
+            transition: opacity .4s ease;
+        }
+
+        #cursorRing {
+            width: 36px;
+            height: 36px;
+            margin: -18px 0 0 -18px;
+            border: 1px solid rgba(200, 164, 93, .55);
+            border-radius: 50%;
+            transition: opacity .4s ease, background-color .3s ease, border-color .3s ease;
+        }
+
+        #cursorRing.grow {
+            background: rgba(200, 164, 93, .12);
+            border-color: rgba(200, 164, 93, .9);
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+
+            body.has-cursor,
+            body.has-cursor a,
+            body.has-cursor button,
+            body.has-cursor label,
+            body.has-cursor figure {
+                cursor: none;
+            }
+
+            body.has-cursor input,
+            body.has-cursor textarea,
+            body.has-cursor select {
+                cursor: auto;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-ink text-cream font-body antialiased">
+
+    <!-- Custom cursor -->
+    <div id="cursorDot"></div>
+    <div id="cursorRing"></div>
+
+    <!-- ============ PRELOADER ============ -->
+    <div id="preloader" class="fixed inset-0 z-[999] bg-ink flex flex-col items-center justify-center">
+        <div class="font-display text-4xl md:text-6xl tracking-[0.25em] text-cream select-none" aria-label="Lumière">
+            <span class="pre-letter inline-block" style="animation-delay:.05s">L</span><span
+                class="pre-letter inline-block" style="animation-delay:.12s">U</span><span
+                class="pre-letter inline-block" style="animation-delay:.19s">M</span><span
+                class="pre-letter inline-block" style="animation-delay:.26s">I</span><span
+                class="pre-letter inline-block" style="animation-delay:.33s">È</span><span
+                class="pre-letter inline-block" style="animation-delay:.40s">R</span><span
+                class="pre-letter inline-block" style="animation-delay:.47s">E</span>
+        </div>
+        <div class="pre-line mt-7 h-px w-40 bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+        <p class="pre-sub mt-5 text-[10px] tracking-[0.55em] text-stone">PARIS · EST. 1998</p>
+    </div>
+
+    <!-- ============ NAVBAR ============ -->
+    <header id="navbar" class="fixed top-0 inset-x-0 z-[90]">
+        <nav class="nav-inner max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10">
+            <a href="#home" class="font-display text-2xl tracking-[0.18em] text-cream">LUMIÈRE<span
+                    class="text-gold">.</span></a>
+
+            <ul class="hidden lg:flex items-center gap-10 text-[11px] tracking-[0.3em] text-cream/75">
+                <li><a class="nav-link" href="#about">STORY</a></li>
+                <li><a class="nav-link" href="#menu">MENU</a></li>
+                <li><a class="nav-link" href="#gallery">GALLERY</a></li>
+                <li><a class="nav-link" href="#chef">CHEF</a></li>
+                <li><a class="nav-link" href="#contact">CONTACT</a></li>
+            </ul>
+
+            <a href="#reserve" class="hidden lg:inline-block btn-sweep !py-3 !px-7"><span>Reserve</span></a>
+
+            <button id="menuBtn" class="menu-btn lg:hidden p-2" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 z-[85] lg:hidden flex flex-col items-center justify-center bg-ink/95 backdrop-blur-md">
+        <ul class="text-center">
+            <li class="m-link py-2" style="transition-delay:.10s"><a href="#about"
+                    class="font-display text-4xl text-cream">Story</a></li>
+            <li class="m-link py-2" style="transition-delay:.18s"><a href="#menu"
+                    class="font-display text-4xl text-cream">Menu</a></li>
+            <li class="m-link py-2" style="transition-delay:.26s"><a href="#gallery"
+                    class="font-display text-4xl text-cream">Gallery</a></li>
+            <li class="m-link py-2" style="transition-delay:.34s"><a href="#chef"
+                    class="font-display text-4xl text-cream">Chef</a></li>
+            <li class="m-link py-2" style="transition-delay:.42s"><a href="#contact"
+                    class="font-display text-4xl text-cream">Contact</a></li>
+        </ul>
+        <a href="#reserve" class="m-link btn-solid mt-8" style="transition-delay:.5s"><span>Reserve a Table</span></a>
+        <p class="m-link mt-10 text-[10px] tracking-[0.45em] text-stone" style="transition-delay:.58s">+33 1 42 60 07 07
+        </p>
+    </div>
+
+    <!-- ============ HERO ============ -->
+    <section id="home" class="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden">
+        <div id="heroBg" class="absolute inset-0 bg-cover bg-center"
+            style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80')">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/45 to-ink"></div>
+
+        <div class="relative z-10 text-center px-6 max-w-5xl">
+            <div class="hero-anim flex items-center justify-center gap-4" style="--d:.45s">
+                <span class="h-px w-10 md:w-16 bg-gold/70"></span>
+                <span class="text-[10px] md:text-xs tracking-[0.5em] text-champagne">EST. 1998 · PARIS</span>
+                <span class="h-px w-10 md:w-16 bg-gold/70"></span>
+            </div>
+
+            <h1 class="hero-anim mt-8 font-display font-light text-5xl md:text-7xl lg:text-8xl leading-[1.04]"
+                style="--d:.6s">
+                A Symphony of<br><em class="text-gold italic">Light</em> &amp; Flavor
+            </h1>
+
+            <p class="hero-anim mt-8 text-stone text-base md:text-lg font-light max-w-xl mx-auto leading-relaxed tracking-wide"
+                style="--d:.75s">
+                Three Michelin stars. Twelve courses. One unforgettable evening above the lantern-lit streets of
+                Saint-Honoré.
+            </p>
+
+            <div class="hero-anim mt-12 flex flex-col sm:flex-row items-center justify-center gap-5" style="--d:.9s">
+                <a href="#reserve" class="btn-solid w-full sm:w-auto text-center"><span>Reserve a Table</span></a>
+                <a href="#menu" class="btn-sweep w-full sm:w-auto text-center"><span>Explore the Menu</span></a>
+            </div>
+        </div>
+
+        <div class="hero-anim absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+            style="--d:1.15s">
+            <span class="text-[9px] tracking-[0.5em] text-cream/50">SCROLL</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ============ AWARDS MARQUEE ============ -->
+    <div class="marquee py-5 bg-coal border-y border-gold/15 overflow-hidden relative z-10">
+        <div class="marquee-track">
+            <div class="flex items-center shrink-0">
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">THREE MICHELIN
+                    STARS</span><span class="text-gold/60 text-xs">✦</span>
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">WORLD'S 50 BEST · NO.
+                    7</span><span class="text-gold/60 text-xs">✦</span>
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">WINE SPECTATOR GRAND
+                    AWARD</span><span class="text-gold/60 text-xs">✦</span>
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">GAULT &amp; MILLAU
+                    19/20</span><span class="text-gold/60 text-xs">✦</span>
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">CONDE NAST GOLD LIST
+                    2025</span><span class="text-gold/60 text-xs">✦</span>
+            </div>
+            <div class="flex items-center shrink-0" aria-hidden="true">
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">THREE MICHELIN
+                    STARS</span><span class="text-gold/60 text-xs">✦</span>
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">WORLD'S 50 BEST · NO.
+                    7</span><span class="text-gold/60 text-xs">✦</span>
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">WINE SPECTATOR GRAND
+                    AWARD</span><span class="text-gold/60 text-xs">✦</span>
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">GAULT &amp; MILLAU
+                    19/20</span><span class="text-gold/60 text-xs">✦</span>
+                <span class="mx-8 text-[11px] tracking-[0.4em] text-cream/70 whitespace-nowrap">CONDE NAST GOLD LIST
+                    2025</span><span class="text-gold/60 text-xs">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ ABOUT / STORY ============ -->
+    <section id="about" class="relative py-24 md:py-36 overflow-hidden">
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-gold/[0.07] blur-[130px] rounded-full pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <!-- Images -->
+            <div class="relative reveal">
+                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80"
+                    alt="The dining room at Lumière" loading="lazy" class="w-full h-[420px] md:h-[540px] object-cover">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80"
+                    alt="A course being served" loading="lazy"
+                    class="absolute -bottom-10 -right-4 md:-right-10 w-1/2 md:w-2/3 h-44 md:h-60 object-cover border-4 md:border-8 border-ink shadow-2xl">
+                <div class="absolute -top-5 -left-5 w-24 h-24 border-t border-l border-gold/50 pointer-events-none">
+                </div>
+            </div>
+
+            <!-- Copy -->
+            <div>
+                <span class="reveal text-gold/80 text-[11px] tracking-[0.45em]">01 · OUR STORY</span>
+                <h2 class="reveal mt-5 font-display font-light text-4xl md:text-5xl lg:text-6xl leading-tight"
+                    style="--d:.1s">
+                    Where Every Plate<br>Becomes <em class="text-gold italic">a Poem</em>
+                </h2>
+                <div class="reveal flex items-center gap-3 mt-7" style="--d:.18s">
+                    <span class="h-px w-12 bg-gold/60"></span><span class="text-gold text-xs">✦</span><span
+                        class="h-px w-12 bg-gold/60"></span>
+                </div>
+                <p class="reveal mt-8 text-stone leading-relaxed font-light" style="--d:.24s">
+                    For twenty-seven years, Lumière has pursued a single obsession — the moment a guest closes their
+                    eyes
+                    at the first bite. Chef Élodie Marchand composes twelve-course odysseys that move like seasons:
+                    delicate, fiery, tender, and quietly unforgettable.
+                </p>
+                <p class="reveal mt-5 text-stone leading-relaxed font-light" style="--d:.3s">
+                    Beneath vaulted stone cellars rests a 320-label wine library; above, thirty-two candlelit seats
+                    orbit an open flame kitchen where every element is finished before your eyes.
+                </p>
+                <p class="reveal mt-8 font-display italic text-2xl text-champagne" style="--d:.36s">— Élodie Marchand,
+                    Chef &amp; Founder</p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="max-w-6xl mx-auto px-6 lg:px-10 mt-24 md:mt-32">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-6 text-center border-t border-gold/15 pt-14">
+                <div class="reveal">
+                    <div class="font-display text-5xl md:text-6xl text-gold"><span data-count="27">0</span></div>
+                    <p class="mt-3 text-[10px] tracking-[0.35em] text-stone">YEARS OF CRAFT</p>
+                </div>
+                <div class="reveal" style="--d:.1s">
+                    <div class="font-display text-5xl md:text-6xl text-gold"><span data-count="3">0</span></div>
+                    <p class="mt-3 text-[10px] tracking-[0.35em] text-stone">MICHELIN STARS</p>
+                </div>
+                <div class="reveal" style="--d:.2s">
+                    <div class="font-display text-5xl md:text-6xl text-gold"><span data-count="12">0</span></div>
+                    <p class="mt-3 text-[10px] tracking-[0.35em] text-stone">COURSE ODYSSEY</p>
+                </div>
+                <div class="reveal" style="--d:.3s">
+                    <div class="font-display text-5xl md:text-6xl text-gold"><span data-count="320">0</span></div>
+                    <p class="mt-3 text-[10px] tracking-[0.35em] text-stone">CELLAR LABELS</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ MENU ============ -->
+    <section id="menu" class="relative py-24 md:py-36 bg-coal overflow-hidden">
+        <div
+            class="absolute top-1/3 -right-32 w-[28rem] h-[28rem] bg-gold/[0.06] blur-[140px] rounded-full pointer-events-none">
+        </div>
+
+        <div class="max-w-5xl mx-auto px-6 lg:px-10">
+            <div class="text-center reveal">
+                <span class="text-gold/80 text-[11px] tracking-[0.45em]">02 · THE MENU</span>
+                <h2 class="mt-5 font-display font-light text-4xl md:text-5xl lg:text-6xl">Composed by the <em
+                        class="text-gold italic">Season</em></h2>
+                <div class="flex items-center justify-center gap-3 mt-7">
+                    <span class="h-px w-12 bg-gold/60"></span><span class="text-gold text-xs">✦</span><span
+                        class="h-px w-12 bg-gold/60"></span>
+                </div>
+                <p class="mt-6 text-stone font-light italic text-sm md:text-base">Menus rotate with the moon and the
+                    market — below, this winter's movement.</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="reveal mt-14 flex flex-wrap justify-center gap-x-10 gap-y-4 text-[11px] tracking-[0.3em] uppercase"
+                style="--d:.15s">
+                <button class="tab-btn tab-active" data-tab="tasting">Tasting Menu</button>
+                <button class="tab-btn" data-tab="starters">Starters</button>
+                <button class="tab-btn" data-tab="mains">Mains</button>
+                <button class="tab-btn" data-tab="desserts">Desserts</button>
+                <button class="tab-btn" data-tab="cellar">The Cellar</button>
+            </div>
+
+            <div class="mt-14 reveal" style="--d:.25s">
+
+                <!-- Tasting -->
+                <div id="tab-tasting" class="tab-panel active max-w-2xl mx-auto">
+                    <p class="text-center font-display italic text-2xl md:text-3xl text-champagne">Le Grand Voyage</p>
+                    <p class="text-center text-stone text-sm mt-2 tracking-wide">twelve movements · one evening</p>
+
+                    <div class="mt-12 space-y-9">
+                        <div class="flex gap-6 items-baseline">
+                            <span class="font-display text-gold text-xl w-8 shrink-0">I</span>
+                            <div>
+                                <h4 class="font-display text-xl md:text-2xl">Oyster, Champagne &amp; Pearls</h4>
+                                <p class="text-stone text-sm mt-1 font-light">gelid oyster · champagne mousse · oscietra
+                                    caviar</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-baseline">
+                            <span class="font-display text-gold text-xl w-8 shrink-0">II</span>
+                            <div>
+                                <h4 class="font-display text-xl md:text-2xl">Ember-Baked Beetroot</h4>
+                                <p class="text-stone text-sm mt-1 font-light">smoked crème fraîche · horseradish snow ·
+                                    dill oil</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-baseline">
+                            <span class="font-display text-gold text-xl w-8 shrink-0">III</span>
+                            <div>
+                                <h4 class="font-display text-xl md:text-2xl">Hokkaido Scallop</h4>
+                                <p class="text-stone text-sm mt-1 font-light">brown butter · kombu · a veil of black
+                                    truffle</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-baseline">
+                            <span class="font-display text-gold text-xl w-8 shrink-0">IV</span>
+                            <div>
+                                <h4 class="font-display text-xl md:text-2xl">A5 Wagyu, Carbon de Bois</h4>
+                                <p class="text-stone text-sm mt-1 font-light">charcoal crust · bone-marrow jus ·
+                                    fermented black garlic</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-baseline">
+                            <span class="font-display text-gold text-xl w-8 shrink-0">V</span>
+                            <div>
+                                <h4 class="font-display text-xl md:text-2xl">Valrhona Soleil</h4>
+                                <p class="text-stone text-sm mt-1 font-light">molten chocolate sphere · salted caramel ·
+                                    24k gold leaf</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-14 text-center border border-gold/25 bg-ink/40 py-7 px-6">
+                        <p class="font-display text-2xl text-cream">Twelve Courses — <span class="text-gold">€285</span>
+                        </p>
+                        <p class="text-stone text-sm mt-2 font-light">sommelier's pairing · five pours — <span
+                                class="text-champagne">€185</span></p>
+                    </div>
+                </div>
+
+                <!-- Starters -->
+                <div id="tab-starters" class="tab-panel">
+                    <div class="grid md:grid-cols-2 gap-x-14 gap-y-10">
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Oysters &amp; Pearls</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€34</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">three oysters · champagne granita · caviar
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Foie Gras Torchon</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€38</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">sauternes gelée · toasted brioche · fleur de
+                                sel</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Heirloom Tomato Symphony</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€26</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">twelve varietals · burrata cloud · basil air
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Langoustine Raviolo</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€42</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">shellfish bisque · chive oil · coral crumb
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Velouté of Chestnut</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€24</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">aged parmesan · brown butter · winter
+                                truffle</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Cured Sea Trout</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€28</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">buttermilk · cucumber · flowers of the
+                                moment</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mains -->
+                <div id="tab-mains" class="tab-panel">
+                    <div class="grid md:grid-cols-2 gap-x-14 gap-y-10">
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">A5 Wagyu Tenderloin</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€88</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">charcoal crust · marrow jus · black garlic
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Dover Sole Meunière</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€64</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">nut-brown butter · caper berries · Amalfi
+                                lemon</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Dry-Aged Duck à l'Orange</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€58</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">21 days aged · blood orange · glazed endive
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Wild Turbot</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€68</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">champagne beurre blanc · oscietra · sea
+                                herbs</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Black Truffle Risotto</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€52</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">carnaroli · 36-month parmesan · winter
+                                truffle, shaved tableside</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Bresse Chicken en Vessie</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€56</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">morels · vin jaune sauce · spring vegetables
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desserts -->
+                <div id="tab-desserts" class="tab-panel">
+                    <div class="grid md:grid-cols-2 gap-x-14 gap-y-10">
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Valrhona Soleil</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€24</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">molten sphere · salted caramel · gold leaf
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Soufflé au Grand Marnier</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€22</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">eighteen minutes · crème anglaise poured
+                                tableside</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">The Cheese Cave</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€28</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">five affinaged selections · walnut bread ·
+                                honeycomb</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Mille-Feuille d'Hiver</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€21</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">vanilla caramel · tartare of pear ·
+                                brown-butter ice</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cellar -->
+                <div id="tab-cellar" class="tab-panel">
+                    <div class="grid md:grid-cols-2 gap-x-14 gap-y-10">
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Sommelier's Flight</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€95</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">five pours · composed to this evening's menu
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Vintage Champagne</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€45</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">by the glass · blanc de blancs · grand cru
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Grand Cru Burgundy</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€38</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">by the glass · chardonnay, Côte de Beaune
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Old Vine Châteauneuf</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€32</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">by the glass · grenache · 1943 plantings</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Sauternes, 1988</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€65</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">by the glass · liquid amber · a legend of
+                                the cellar</p>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline">
+                                <h4 class="font-display text-xl md:text-2xl">Zero-Dosage Pairing</h4><span
+                                    class="leader flex-1"></span><span class="text-gold">€120</span>
+                            </div>
+                            <p class="text-stone text-sm mt-1.5 font-light">five natural pours · for the purist</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section id="gallery" class="py-24 md:py-36">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 reveal">
+                <div>
+                    <span class="text-gold/80 text-[11px] tracking-[0.45em]">03 · MOMENTS</span>
+                    <h2 class="mt-5 font-display font-light text-4xl md:text-5xl lg:text-6xl">The <em
+                            class="text-gold italic">Gallery</em></h2>
+                </div>
+                <p class="text-stone font-light text-sm max-w-xs md:text-right">A glimpse behind the pass — tap any
+                    image to step closer.</p>
+            </div>
+
+            <div class="mt-14 grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+                <figure class="gallery-item reveal group relative overflow-hidden"
+                    data-caption="OYSTER, PEARLS &amp; CHAMPAGNE">
+                    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1000&q=80"
+                        alt="Plated starter" loading="lazy"
+                        class="w-full h-52 md:h-80 object-cover transition-transform duration-[900ms] group-hover:scale-110">
+                    <figcaption
+                        class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-ink/90 to-transparent opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-[10px] tracking-[0.35em] text-champagne">OYSTER, PEARLS &amp; CHAMPAGNE</span>
+                    </figcaption>
+                </figure>
+                <figure class="gallery-item reveal group relative overflow-hidden" style="--d:.08s"
+                    data-caption="THE DINING ROOM">
+                    <img src="https://images.unsplash.com/photo-1592861956120-e524fc739696?auto=format&fit=crop&w=1000&q=80"
+                        alt="Dining room" loading="lazy"
+                        class="w-full h-52 md:h-80 object-cover transition-transform duration-[900ms] group-hover:scale-110">
+                    <figcaption
+                        class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-ink/90 to-transparent opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-[10px] tracking-[0.35em] text-champagne">THE DINING ROOM</span>
+                    </figcaption>
+                </figure>
+                <figure class="gallery-item reveal group relative overflow-hidden" style="--d:.16s"
+                    data-caption="EMBER-FIRED A5 WAGYU">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=80"
+                        alt="A5 wagyu" loading="lazy"
+                        class="w-full h-52 md:h-80 object-cover transition-transform duration-[900ms] group-hover:scale-110">
+                    <figcaption
+                        class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-ink/90 to-transparent opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-[10px] tracking-[0.35em] text-champagne">EMBER-FIRED A5 WAGYU</span>
+                    </figcaption>
+                </figure>
+                <figure class="gallery-item reveal group relative overflow-hidden" data-caption="THE GRAND CELLAR">
+                    <img src="https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=1000&q=80"
+                        alt="Wine cellar" loading="lazy"
+                        class="w-full h-52 md:h-80 object-cover transition-transform duration-[900ms] group-hover:scale-110">
+                    <figcaption
+                        class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-ink/90 to-transparent opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-[10px] tracking-[0.35em] text-champagne">THE GRAND CELLAR</span>
+                    </figcaption>
+                </figure>
+                <figure class="gallery-item reveal group relative overflow-hidden" style="--d:.08s"
+                    data-caption="THE SWEET FINALE">
+                    <img src="https://images.unsplash.com/photo-1559054663-e8d23213f55c?auto=format&fit=crop&w=1000&q=80"
+                        alt="Dessert plating" loading="lazy"
+                        class="w-full h-52 md:h-80 object-cover transition-transform duration-[900ms] group-hover:scale-110">
+                    <figcaption
+                        class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-ink/90 to-transparent opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-[10px] tracking-[0.35em] text-champagne">THE SWEET FINALE</span>
+                    </figcaption>
+                </figure>
+                <figure class="gallery-item reveal group relative overflow-hidden" style="--d:.16s"
+                    data-caption="FROM THE MORNING MARKET">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=80"
+                        alt="Market produce" loading="lazy"
+                        class="w-full h-52 md:h-80 object-cover transition-transform duration-[900ms] group-hover:scale-110">
+                    <figcaption
+                        class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-ink/90 to-transparent opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="text-[10px] tracking-[0.35em] text-champagne">FROM THE MORNING MARKET</span>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CHEF ============ -->
+    <section id="chef" class="relative py-24 md:py-36 bg-coal overflow-hidden">
+        <div
+            class="absolute -bottom-32 -left-24 w-[26rem] h-[26rem] bg-gold/[0.06] blur-[130px] rounded-full pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-14 lg:gap-20 items-center">
+            <div class="lg:col-span-5 relative reveal">
+                <div class="absolute -bottom-5 -right-5 w-full h-full border border-gold/40 pointer-events-none"></div>
+                <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=1000&q=80"
+                    alt="Chef Élodie Marchand at the pass" loading="lazy"
+                    class="relative z-10 w-full h-[440px] md:h-[560px] object-cover">
+            </div>
+
+            <div class="lg:col-span-7">
+                <span class="reveal text-gold/80 text-[11px] tracking-[0.45em]">04 · THE MAESTRO</span>
+                <h2 class="reveal mt-5 font-display font-light text-4xl md:text-5xl lg:text-6xl" style="--d:.1s">Élodie
+                    <em class="text-gold italic">Marchand</em></h2>
+                <p class="reveal mt-8 font-display italic text-2xl md:text-[1.75rem] leading-snug text-champagne"
+                    style="--d:.18s">
+                    "Cooking is my language — every plate, a sentence in an ongoing love letter to Paris."
+                </p>
+                <p class="reveal mt-7 text-stone font-light leading-relaxed" style="--d:.24s">
+                    Trained under three legends of Lyonnaise cuisine before opening Lumière at twenty-nine, Chef
+                    Marchand
+                    has spent nearly three decades distilling French tradition into something weightless and new. Her
+                    kitchen
+                    runs on wood fire, live fermentation, and an unreasonable devotion to detail.
+                </p>
+                <div class="reveal mt-10 space-y-4" style="--d:.3s">
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="h-px w-8 bg-gold/60"></span><span class="text-cream/85 tracking-wide">Michelin
+                            Guide · Chef of the Year, 2023</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="h-px w-8 bg-gold/60"></span><span class="text-cream/85 tracking-wide">Grand Prix de
+                            l'Art de la Cuisine</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="h-px w-8 bg-gold/60"></span><span class="text-cream/85 tracking-wide">Author of
+                            "Feu Doux" — Éditions du Goût</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="py-24 md:py-32 border-t border-gold/10">
+        <div class="max-w-3xl mx-auto px-6 text-center reveal">
+            <span class="text-gold/80 text-[11px] tracking-[0.45em]">05 · WORD OF MOUTH</span>
+
+            <div class="relative mt-12 overflow-hidden" id="testiWrap">
+                <div id="testiTrack" class="flex transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)]">
+                    <div class="min-w-full px-2">
+                        <div class="font-display text-gold text-6xl leading-none select-none">“</div>
+                        <p class="font-display italic text-2xl md:text-[1.7rem] text-cream/90 leading-relaxed mt-3">An
+                            evening at Lumière is not dinner — it is theatre, poetry and memory served in twelve acts.
+                        </p>
+                        <div class="mt-8 text-[11px] tracking-[0.4em] text-gold">THE MICHELIN GUIDE</div>
+                        <div class="mt-1.5 text-xs text-stone">European Selection 2025</div>
+                    </div>
+                    <div class="min-w-full px-2">
+                        <div class="font-display text-gold text-6xl leading-none select-none">“</div>
+                        <p class="font-display italic text-2xl md:text-[1.7rem] text-cream/90 leading-relaxed mt-3">The
+                            most emotionally intelligent cooking in Europe. Marchand cooks the way poets write —
+                            sparingly, and forever.</p>
+                        <div class="mt-8 text-[11px] tracking-[0.4em] text-gold">FOOD &amp; WINE</div>
+                        <div class="mt-1.5 text-xs text-stone">Restaurant of the Year</div>
+                    </div>
+                    <div class="min-w-full px-2">
+                        <div class="font-display text-gold text-6xl leading-none select-none">“</div>
+                        <p class="font-display italic text-2xl md:text-[1.7rem] text-cream/90 leading-relaxed mt-3">
+                            Every plate arrives like a small aria. Flawless service, devastating flavours, and a cellar
+                            that hums.</p>
+                        <div class="mt-8 text-[11px] tracking-[0.4em] text-gold">CONDÉ NAST TRAVELER</div>
+                        <div class="mt-1.5 text-xs text-stone">Gold List</div>
+                    </div>
+                </div>
+
+                <button id="testiPrev"
+                    class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center border border-gold/30 text-gold hover:bg-gold hover:text-ink transition-colors duration-300"
+                    aria-label="Previous testimonial">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M15 5l-7 7 7 7" />
+                    </svg>
+                </button>
+                <button id="testiNext"
+                    class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center border border-gold/30 text-gold hover:bg-gold hover:text-ink transition-colors duration-300"
+                    aria-label="Next testimonial">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="testiDots" class="flex justify-center gap-3 mt-10">
+                <button class="t-dot h-2 w-2 rounded-full bg-gold transition-all duration-300"
+                    aria-label="Slide 1"></button>
+                <button class="t-dot h-2 w-2 rounded-full bg-stone/40 hover:bg-stone transition-all duration-300"
+                    aria-label="Slide 2"></button>
+                <button class="t-dot h-2 w-2 rounded-full bg-stone/40 hover:bg-stone transition-all duration-300"
+                    aria-label="Slide 3"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ RESERVATIONS ============ -->
+    <section id="reserve" class="relative py-24 md:py-36 bg-coal overflow-hidden border-t border-gold/10">
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-[36rem] h-[36rem] bg-gold/[0.05] blur-[150px] rounded-full pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="text-center reveal">
+                <span class="text-gold/80 text-[11px] tracking-[0.45em]">06 · RESERVATIONS</span>
+                <h2 class="mt-5 font-display font-light text-4xl md:text-5xl lg:text-6xl">Your Table <em
+                        class="text-gold italic">Awaits</em></h2>
+                <div class="flex items-center justify-center gap-3 mt-7">
+                    <span class="h-px w-12 bg-gold/60"></span><span class="text-gold text-xs">✦</span><span
+                        class="h-px w-12 bg-gold/60"></span>
+                </div>
+            </div>
+
+            <div class="mt-16 grid lg:grid-cols-12 gap-14 lg:gap-20">
+                <!-- Info -->
+                <div class="lg:col-span-5 reveal" style="--d:.1s">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=1000&q=80"
+                            alt="Wine being poured" loading="lazy" class="w-full h-56 md:h-64 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-coal via-transparent to-transparent"></div>
+                    </div>
+
+                    <div class="mt-10 space-y-7">
+                        <div class="flex gap-5">
+                            <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.4">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 7v5l3.5 2" />
+                            </svg>
+                            <div>
+                                <p class="text-[10px] tracking-[0.35em] text-gold">HOURS</p>
+                                <p class="mt-2 text-cream/90 font-light">Tuesday — Saturday · 18:00 – 23:30</p>
+                                <p class="text-stone text-sm font-light">Sunday &amp; Monday · closed</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5">
+                            <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.4">
+                                <path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z" />
+                                <circle cx="12" cy="10" r="2.6" />
+                            </svg>
+                            <div>
+                                <p class="text-[10px] tracking-[0.35em] text-gold">ADDRESS</p>
+                                <p class="mt-2 text-cream/90 font-light">18 Rue Saint-Honoré, 75001 Paris</p>
+                                <p class="text-stone text-sm font-light">Lantern door, third arch — ring twice</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5">
+                            <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.4">
+                                <path
+                                    d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
+                            </svg>
+                            <div>
+                                <p class="text-[10px] tracking-[0.35em] text-gold">CONCIERGE</p>
+                                <p class="mt-2 text-cream/90 font-light">+33 1 42 60 07 07</p>
+                                <p class="text-stone text-sm font-light">tables@lumiere.paris</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5">
+                            <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.4">
+                                <path d="M6 3l12 7-5 1.6L9.8 17 6 3z" />
+                                <path d="M13.5 13.5L19 19" />
+                            </svg>
+                            <div>
+                                <p class="text-[10px] tracking-[0.35em] text-gold">DRESS CODE</p>
+                                <p class="mt-2 text-cream/90 font-light">Elegant · jackets appreciated</p>
+                                <p class="text-stone text-sm font-light">Children over 12 welcome at the salon</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="lg:col-span-7 reveal" style="--d:.2s">
+                    <form id="resForm" class="border border-gold/20 bg-ink/50 p-8 md:p-12" novalidate>
+                        <p class="font-display text-2xl md:text-3xl">Request a Reservation</p>
+                        <p class="text-stone text-sm font-light mt-2">Requests are confirmed by our maître d' within the
+                            hour.</p>
+
+                        <div class="grid md:grid-cols-2 gap-6 mt-10">
+                            <div>
+                                <label class="label" for="resName">Full Name</label>
+                                <input class="field" id="resName" type="text" placeholder="Jeanne Moreau" required>
+                            </div>
+                            <div>
+                                <label class="label" for="resPhone">Phone</label>
+                                <input class="field" id="resPhone" type="tel" placeholder="+33 6 12 34 56 78" required>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="label" for="resEmail">Email</label>
+                                <input class="field" id="resEmail" type="email" placeholder="you@example.com" required>
+                            </div>
+                            <div>
+                                <label class="label" for="resDate">Date</label>
+                                <input class="field" id="resDate" type="date" required>
+                            </div>
+                            <div>
+                                <label class="label" for="resTime">Time</label>
+                                <select class="field" id="resTime" required>
+                                    <option value="" disabled selected>Select a time</option>
+                                    <option>18:00</option>
+                                    <option>18:30</option>
+                                    <option>19:00</option>
+                                    <option>19:30</option>
+                                    <option>20:00</option>
+                                    <option>20:30</option>
+                                    <option>21:00</option>
+                                    <option>21:30</option>
+                                    <option>22:00</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="label" for="resGuests">Guests</label>
+                                <select class="field" id="resGuests" required>
+                                    <option>1 Guest</option>
+                                    <option selected>2 Guests</option>
+                                    <option>3 Guests</option>
+                                    <option>4 Guests</option>
+                                    <option>5 Guests</option>
+                                    <option>6 Guests</option>
+                                    <option>7 Guests</option>
+                                    <option>8 Guests</option>
+                                    <option>9+ · Private Salon</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="label" for="resNotes">Occasions &amp; Requests <span
+                                        class="text-stone/60 normal-case tracking-normal">(optional)</span></label>
+                                <textarea class="field resize-none" id="resNotes" rows="3"
+                                    placeholder="Anniversaries, allergies, window seats, surprises..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 flex flex-col sm:flex-row items-center gap-6">
+                            <button type="submit" class="btn-solid w-full sm:w-auto text-center"><span>Request
+                                    Table</span></button>
+                            <p class="text-stone text-xs font-light text-center sm:text-left">No card required ·
+                                Cancellation courtesy 24h prior</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer id="contact" class="bg-[#080706] border-t border-gold/10 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10 grid gap-14 md:grid-cols-2 lg:grid-cols-4">
+
+            <div class="reveal">
+                <a href="#home" class="font-display text-3xl tracking-[0.18em]">LUMIÈRE<span
+                        class="text-gold">.</span></a>
+                <p class="mt-5 text-stone text-sm font-light leading-relaxed">Three stars, one flame, thirty-two seats.
+                    Fine dining as it was meant to be felt — quietly, completely, forever.</p>
+                <div class="flex gap-4 mt-7">
+                    <a href="#" aria-label="Instagram"
+                        class="w-10 h-10 border border-gold/30 text-gold flex items-center justify-center hover:bg-gold hover:text-ink transition-colors duration-300">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="5" />
+                            <circle cx="12" cy="12" r="4" />
+                            <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Facebook"
+                        class="w-10 h-10 border border-gold/30 text-gold flex items-center justify-center hover:bg-gold hover:text-ink transition-colors duration-300">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M14 8.2h2.6V4.8H14c-2.6 0-4.2 1.6-4.2 4.2v2.4H7.2v3.4h2.6v6.4h3.5v-6.4h2.7l.5-3.4h-3.2V9c0-.5.3-.8.7-.8z" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="X"
+                        class="w-10 h-10 border border-gold/30 text-gold flex items-center justify-center hover:bg-gold hover:text-ink transition-colors duration-300">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M17.7 3H21l-7.3 8.3L22 21h-6.7l-5.2-6.3L4 21H3l7.8-8.9L3 3h6.9l4.7 5.7L17.7 3zm-1.2 16h1.9L7.6 4.9H5.6L16.5 19z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="reveal" style="--d:.1s">
+                <p class="text-[11px] tracking-[0.4em] text-gold">VISIT</p>
+                <ul class="mt-6 space-y-3 text-sm font-light text-cream/85">
+                    <li>18 Rue Saint-Honoré</li>
+                    <li>75001 Paris, France</li>
+                    <li class="pt-2"><a href="tel:+33142600707" class="hover:text-gold transition-colors">+33 1 42 60 07
+                            07</a></li>
+                    <li><a href="mailto:tables@lumiere.paris"
+                            class="hover:text-gold transition-colors">tables@lumiere.paris</a></li>
+                </ul>
+            </div>
+
+            <div class="reveal" style="--d:.2s">
+                <p class="text-[11px] tracking-[0.4em] text-gold">HOURS</p>
+                <ul class="mt-6 space-y-3 text-sm font-light text-cream/85">
+                    <li class="flex justify-between gap-4"><span>Tue — Thu</span><span class="text-stone">18:00 –
+                            23:00</span></li>
+                    <li class="flex justify-between gap-4"><span>Fri — Sat</span><span class="text-stone">18:00 –
+                            23:30</span></li>
+                    <li class="flex justify-between gap-4"><span>Sun — Mon</span><span class="text-stone">Closed</span>
+                    </li>
+                    <li class="pt-2 text-stone text-xs">Bar Lumière pours until 01:00, Tuesday — Saturday.</li>
+                </ul>
+            </div>
+
+            <div class="reveal" style="--d:.3s">
+                <p class="text-[11px] tracking-[0.4em] text-gold">THE CIRCLE</p>
+                <p class="mt-6 text-sm font-light text-stone leading-relaxed">Be first to know of seasonal menus, cellar
+                    releases and midnight suppers.</p>
+                <form id="newsletterForm" class="mt-6 flex" novalidate>
+                    <input type="email" required placeholder="Your email" class="field !rounded-none flex-1 min-w-0">
+                    <button type="submit" aria-label="Subscribe"
+                        class="shrink-0 px-5 bg-gold text-ink flex items-center justify-center hover:bg-champagne transition-colors duration-300">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8">
+                            <path d="M4 12h15M13 6l6 6-6 6" />
+                        </svg>
+                    </button>
+                </form>
+                <p class="mt-3 text-[11px] text-stone/70 font-light">One letter a season. Never more.</p>
+            </div>
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto px-6 lg:px-10 mt-16 pt-8 border-t border-gold/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone font-light">
+            <p>© <span id="year">2025</span> Lumière Paris. All rights reserved.</p>
+            <p class="font-display italic text-sm text-champagne/70">Crafted with fire &amp; finesse.</p>
+            <a href="#home" class="hover:text-gold transition-colors tracking-[0.25em]">BACK TO TOP ↑</a>
+        </div>
+    </footer>
+
+    <!-- Back to top -->
+    <button id="toTop" aria-label="Back to top"
+        class="fixed bottom-6 right-6 z-40 w-12 h-12 border border-gold/40 bg-ink/80 backdrop-blur text-gold flex items-center justify-center hover:bg-gold hover:text-ink transition-colors duration-300">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M12 19V5M6 11l6-6 6 6" />
+        </svg>
+    </button>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed left-1/2 bottom-8 z-[200] w-[92%] max-w-md">
+        <div
+            class="bg-coal border border-gold/40 px-6 py-5 flex items-start gap-4 shadow-[0_20px_60px_-15px_rgba(0,0,0,.8)]">
+            <div class="w-9 h-9 shrink-0 rounded-full border border-gold/50 flex items-center justify-center text-gold">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" />
+                </svg>
+            </div>
+            <div class="min-w-0">
+                <p id="toastTitle" class="font-display text-lg text-cream">Reservation Requested</p>
+                <p id="toastMsg" class="text-stone text-sm mt-1 font-light leading-relaxed">Merci. Our maître d' will be
+                    in touch shortly.</p>
+            </div>
+            <button id="toastClose" aria-label="Dismiss"
+                class="ml-auto text-stone hover:text-gold transition-colors shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="fixed inset-0 z-[150] items-center justify-center bg-ink/95 backdrop-blur-sm p-6">
+        <button id="lbClose" aria-label="Close"
+            class="absolute top-6 right-6 w-11 h-11 border border-gold/40 text-gold flex items-center justify-center hover:bg-gold hover:text-ink transition-colors duration-300">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+        </button>
+        <button id="lbPrev" aria-label="Previous"
+            class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-11 h-11 border border-gold/40 text-gold flex items-center justify-center hover:bg-gold hover:text-ink transition-colors duration-300">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M15 5l-7 7 7 7" />
+            </svg>
+        </button>
+        <button id="lbNext" aria-label="Next"
+            class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-11 h-11 border border-gold/40 text-gold flex items-center justify-center hover:bg-gold hover:text-ink transition-colors duration-300">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+        <figure class="max-w-5xl w-[92%]">
+            <img id="lbImg" src="" alt="" class="w-full max-h-[74vh] object-contain">
+            <figcaption id="lbCap" class="text-center mt-5 text-[11px] tracking-[0.4em] text-gold"></figcaption>
+        </figure>
+    </div>
+
+    <script>
+            (function () {
+                'use strict';
+
+                /* ---------- Preloader & hero entrance ---------- */
+                var loaded = false;
+                function reveal() {
+                    if (loaded) return;
+                    loaded = true;
+                    document.body.classList.add('loaded');
+                }
+                window.addEventListener('load', function () { setTimeout(reveal, 1200); });
+                setTimeout(reveal, 3800); // safety fallback
+
+                /* ---------- Navbar, parallax & back-to-top ---------- */
+                var navbar = document.getElementById('navbar');
+                var heroBg = document.getElementById('heroBg');
+                var toTop = document.getElementById('toTop');
+
+                function onScroll() {
+                    var y = window.scrollY || window.pageYOffset;
+                    navbar.classList.toggle('scrolled', y > 40);
+                    toTop.classList.toggle('show', y > 700);
+                    if (heroBg && y < window.innerHeight) {
+                        heroBg.style.transform = 'translateY(' + (y * 0.35) + 'px) scale(1.12)';
+                    }
+                }
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+
+                toTop.addEventListener('click', function () {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+
+                /* ---------- Mobile menu ---------- */
+                var menuBtn = document.getElementById('menuBtn');
+                var mobileMenu = document.getElementById('mobileMenu');
+
+                function setMenu(open) {
+                    menuBtn.classList.toggle('open', open);
+                    mobileMenu.classList.toggle('open', open);
+                    document.body.style.overflow = open ? 'hidden' : '';
+                }
+                menuBtn.addEventListener('click', function () {
+                    setMenu(!mobileMenu.classList.contains('open'));
+                });
+                mobileMenu.querySelectorAll('a').forEach(function (a) {
+                    a.addEventListener('click', function () { setMenu(false); });
+                });
+
+                /* ---------- Scroll reveal ---------- */
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+                    });
+                }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+                document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+                /* ---------- Animated counters ---------- */
+                function runCounter(el) {
+                    var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+                    var dur = 1600, t0 = null;
+                    function tick(t) {
+                        if (!t0) t0 = t;
+                        var p = Math.min((t - t0) / dur, 1);
+                        var eased = 1 - Math.pow(1 - p, 3);
+                        el.textContent = Math.round(target * eased);
+                        if (p < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                }
+                var co = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        if (e.isIntersecting) { runCounter(e.target); co.unobserve(e.target); }
+                    });
+                }, { threshold: 0.6 });
+                document.querySelectorAll('[data-count]').forEach(function (el) { co.observe(el); });
+
+                /* ---------- Menu tabs ---------- */
+                var tabBtns = document.querySelectorAll('.tab-btn');
+                var tabPanels = document.querySelectorAll('.tab-panel');
+                tabBtns.forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        tabBtns.forEach(function (b) { b.classList.remove('tab-active'); });
+                        btn.classList.add('tab-active');
+                        tabPanels.forEach(function (p) {
+                            p.classList.toggle('active', p.id === 'tab-' + btn.getAttribute('data-tab'));
+                        });
+                    });
+                });
+
+                /* ---------- Testimonials slider ---------- */
+                var track = document.getElementById('testiTrack');
+                var slides = track.children.length;
+                var dots = document.querySelectorAll('.t-dot');
+                var current = 0, autoTimer = null;
+
+                function goTo(i) {
+                    current = (i + slides) % slides;
+                    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+                    dots.forEach(function (d, idx) {
+                        d.classList.toggle('bg-gold', idx === current);
+                        d.classList.toggle('bg-stone/40', idx !== current);
+                    });
+                }
+                function restartAuto() {
+                    clearInterval(autoTimer);
+                    autoTimer = setInterval(function () { goTo(current + 1); }, 6500);
+                }
+                document.getElementById('testiPrev').addEventListener('click', function () { goTo(current - 1); restartAuto(); });
+                document.getElementById('testiNext').addEventListener('click', function () { goTo(current + 1); restartAuto(); });
+                dots.forEach(function (d, idx) {
+                    d.addEventListener('click', function () { goTo(idx); restartAuto(); });
+                });
+                restartAuto();
+
+                /* ---------- Toast ---------- */
+                var toast = document.getElementById('toast');
+                var toastTitle = document.getElementById('toastTitle');
+                var toastMsg = document.getElementById('toastMsg');
+                var toastTimer = null;
+
+                function showToast(title, msg) {
+                    toastTitle.textContent = title;
+                    toastMsg.textContent = msg;
+                    toast.classList.add('show');
+                    clearTimeout(toastTimer);
+                    toastTimer = setTimeout(hideToast, 6500);
+                }
+                function hideToast() { toast.classList.remove('show'); }
+                document.getElementById('toastClose').addEventListener('click', hideToast);
+
+                /* ---------- Reservation form ---------- */
+                var resForm = document.getElementById('resForm');
+                var resDate = document.getElementById('resDate');
+                resDate.min = new Date().toISOString().split('T')[0];
+
+                resForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    if (!resForm.checkValidity()) {
+                        resForm.reportValidity();
+                        return;
+                    }
+                    var name = document.getElementById('resName').value.trim().split(' ')[0];
+                    var dateEl = document.getElementById('resDate');
+                    var time = document.getElementById('resTime').value;
+                    var guests = document.getElementById('resGuests').value;
+
+                    var when = '';
+                    try {
+                        when = new Date(dateEl.value + 'T12:00:00')
+                            .toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                    } catch (err) { when = dateEl.value; }
+
+                    showToast('Reservation Requested',
+                        'Merci, ' + name + '. We have received your request for ' + guests + ' on ' + when + ' at ' + time +
+                        '. Our maître d\' will confirm by email within the hour.');
+                    resForm.reset();
+                    resDate.min = new Date().toISOString().split('T')[0];
+                });
+
+                /* ---------- Newsletter ---------- */
+                document.getElementById('newsletterForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var input = this.querySelector('input');
+                    if (!input.value.trim() || input.value.indexOf('@') === -1) {
+                        input.focus();
+                        return;
+                    }
+                    showToast('Welcome to the Circle',
+                        'Your first letter — a menu for the coming season — arrives with the next full moon.');
+                    input.value = '';
+                });
+
+                /* ---------- Gallery lightbox ---------- */
+                var lightbox = document.getElementById('lightbox');
+                var lbImg = document.getElementById('lbImg');
+                var lbCap = document.getElementById('lbCap');
+                var items = Array.prototype.slice.call(document.querySelectorAll('.gallery-item'));
+                var lbIndex = 0;
+
+                function openLightbox(i) {
+                    lbIndex = (i + items.length) % items.length;
+                    var item = items[lbIndex];
+                    lbImg.src = item.querySelector('img').src.replace('w=1000', 'w=1800');
+                    lbImg.alt = item.getAttribute('data-caption') || '';
+                    lbCap.textContent = item.getAttribute('data-caption') || '';
+                    lightbox.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                }
+                function closeLightbox() {
+                    lightbox.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+                items.forEach(function (item, i) {
+                    item.addEventListener('click', function () { openLightbox(i); });
+                });
+                document.getElementById('lbClose').addEventListener('click', closeLightbox);
+                document.getElementById('lbPrev').addEventListener('click', function (e) { e.stopPropagation(); openLightbox(lbIndex - 1); });
+                document.getElementById('lbNext').addEventListener('click', function (e) { e.stopPropagation(); openLightbox(lbIndex + 1); });
+                lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLightbox(); });
+                document.addEventListener('keydown', function (e) {
+                    if (!lightbox.classList.contains('open')) return;
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowRight') openLightbox(lbIndex + 1);
+                    if (e.key === 'ArrowLeft') openLightbox(lbIndex - 1);
+                });
+
+                /* ---------- Custom cursor (desktop only) ---------- */
+                if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                    document.body.classList.add('has-cursor');
+                    var dot = document.getElementById('cursorDot');
+                    var ring = document.getElementById('cursorRing');
+                    var mx = 0, my = 0, rx = 0, ry = 0, rs = 1, rsTarget = 1, shown = false;
+
+                    window.addEventListener('mousemove', function (e) {
+                        mx = e.clientX; my = e.clientY;
+                        if (!shown) { shown = true; dot.style.opacity = 1; ring.style.opacity = 1; }
+                        dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
+                    });
+
+                    (function loop() {
+                        rx += (mx - rx) * 0.14;
+                        ry += (my - ry) * 0.14;
+                        rs += (rsTarget - rs) * 0.16;
+                        ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) scale(' + rs + ')';
+                        requestAnimationFrame(loop);
+                    })();
+
+                    document.querySelectorAll('a, button, .gallery-item, .tab-btn, input, select, textarea, label').forEach(function (el) {
+                        el.addEventListener('mouseenter', function () { rsTarget = 1.8; ring.classList.add('grow'); });
+                        el.addEventListener('mouseleave', function () { rsTarget = 1; ring.classList.remove('grow'); });
+                    });
+                }
+
+                /* ---------- Footer year ---------- */
+                document.getElementById('year').textContent = new Date().getFullYear();
+            })();
+    </script>
+</body>
+
+</html>

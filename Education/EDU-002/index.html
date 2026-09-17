@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GATE Kodad | Gandhi Academy of Technical Education</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        primary: '#0f172a', // Slate 900
+                        secondary: '#1e293b', // Slate 800
+                        accent: '#fbbf24', // Amber 400
+                        accentHover: '#f59e0b', // Amber 500
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://www.collegebatch.com/static/clg-gallery/gandhi-academy-of-technical-education-nalgonda-324879.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Fade-in Animation Classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navbar transitions */
+        #navbar {
+            transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        #navbar.scrolled .nav-link {
+            color: #0f172a;
+        }
+
+        #navbar.scrolled .logo-text {
+            color: #0f172a;
+        }
+
+        .mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .mobile-menu.open {
+            max-height: 400px;
+            /* Adjust based on content */
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-gray-700 bg-gray-50">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 top-0 py-6 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap text-accent text-3xl"></i>
+                        <span class="logo-text font-serif font-bold text-2xl tracking-tight">GATE Kodad<span
+                                class="text-accent">.</span></span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link font-medium hover:text-accent transition duration-300">Home</a>
+                    <a href="#about" class="nav-link font-medium hover:text-accent transition duration-300">About</a>
+                    <a href="#academics"
+                        class="nav-link font-medium hover:text-accent transition duration-300">Academics</a>
+                    <a href="#campus" class="nav-link font-medium hover:text-accent transition duration-300">Campus
+                        Life</a>
+                    <a href="#admissions"
+                        class="bg-accent hover:bg-accentHover text-primary font-semibold py-2 px-6 rounded-full transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Apply
+                        Now</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="nav-link focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white shadow-xl absolute w-full top-full left-0">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#home"
+                    class="block px-3 py-3 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-accent border-b border-gray-100">Home</a>
+                <a href="#about"
+                    class="block px-3 py-3 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-accent border-b border-gray-100">About
+                    Us</a>
+                <a href="#academics"
+                    class="block px-3 py-3 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-accent border-b border-gray-100">Academics</a>
+                <a href="#campus"
+                    class="block px-3 py-3 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-accent border-b border-gray-100">Campus
+                    Life</a>
+                <a href="#admissions"
+                    class="block px-3 py-3 text-base font-bold text-accent bg-primary text-center rounded-md mt-4">Apply
+                    Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero-bg min-h-screen flex items-center relative pt-20">
+        <!-- Decorative Shape -->
+        <div class="absolute bottom-0 w-full overflow-hidden leading-none z-10" style="transform: translateY(1px);">
+            <svg class="relative block w-full h-[50px] lg:h-[100px]" data-name="Layer 1"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,119.93,200,111.94,249.2,106.27,297.77,88.75,321.39,56.44Z"
+                    class="fill-gray-50"></path>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center w-full">
+            <span class="fade-in-up block text-accent font-semibold tracking-wider uppercase text-sm mb-4">ENGINEERING •
+                TECHNOLOGY • MANAGEMENT</span>
+            <h1 class="fade-in-up text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 leading-tight"
+                style="transition-delay: 100ms;">
+                Build Your Future <br class="hidden md:block"> at GATE Kodad
+            </h1>
+            <p class="fade-in-up text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light"
+                style="transition-delay: 200ms;">
+                Technical and professional education at GATE Kodad, with engineering programs and a campus focused on
+                practical learning, skills and career development.
+            </p>
+            <div class="fade-in-up flex flex-col sm:flex-row justify-center gap-4" style="transition-delay: 300ms;">
+                <a href="#admissions"
+                    class="bg-accent hover:bg-accentHover text-primary font-bold py-4 px-8 rounded-full transition duration-300 shadow-lg flex items-center justify-center gap-2">
+                    Start Your Enquiry <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="#tour"
+                    class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary font-bold py-4 px-8 rounded-full transition duration-300 flex items-center justify-center gap-2">
+                    <i class="fa-regular fa-calendar"></i> Visit Campus
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Stats Section -->
+    <section class="py-12 relative z-20 -mt-20 lg:-mt-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Stat 1 -->
+                <div class="fade-in-up bg-white rounded-2xl shadow-xl p-8 card-hover border-t-4 border-accent">
+                    <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-users text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-primary mb-2">CO-ED</h3>
+                    <p class="text-gray-500 font-medium">College Type</p>
+                    <p class="text-sm text-gray-400 mt-2">Private • Co-educational institution</p>
+                </div>
+                <!-- Stat 2 -->
+                <div class="fade-in-up bg-white rounded-2xl shadow-xl p-8 card-hover border-t-4 border-accent"
+                    style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-award text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-primary mb-2">UG + PG</h3>
+                    <p class="text-gray-500 font-medium">Academic Pathways</p>
+                    <p class="text-sm text-gray-400 mt-2">Engineering and professional study options.</p>
+                </div>
+                <!-- Stat 3 -->
+                <div class="fade-in-up bg-white rounded-2xl shadow-xl p-8 card-hover border-t-4 border-accent"
+                    style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-book-open-reader text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-primary mb-2">10+</h3>
+                    <p class="text-gray-500 font-medium">Campus Facilities</p>
+                    <p class="text-sm text-gray-400 mt-2">Labs, library, hostels, transport and student services.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <!-- Image Side -->
+                <div class="fade-in-up lg:w-1/2 relative">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://www.collegebatch.com/static/clg-gallery/gandhi-academy-of-technical-education-nalgonda-324891.webp"
+                            alt="Students studying" class="w-full h-auto object-cover aspect-[4/3]">
+                        <div class="absolute inset-0 bg-primary/10"></div>
+                    </div>
+                    <!-- Decorative element -->
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-accent rounded-full -z-10"></div>
+                    <div
+                        class="absolute -top-6 -left-6 w-24 h-24 border-4 border-primary rounded-full -z-10 opacity-20">
+                    </div>
+
+                    <!-- Floating Badge -->
+                    <div class="absolute bottom-8 -left-8 bg-white p-4 rounded-xl shadow-xl flex items-center gap-4">
+                        <div class="bg-primary text-accent p-3 rounded-lg">
+                            <i class="fa-solid fa-medal text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900">Established</p>
+                            <p class="text-gray-500 text-sm">2008</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="fade-in-up lg:w-1/2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-8 h-[2px] bg-accent"></span>
+                        <span class="text-accent font-semibold uppercase tracking-wider text-sm">WELCOME TO GATE
+                            KODAD</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-primary mb-6 leading-tight">Engineering
+                        minds, <br> building careers.</h2>
+                    <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+                        At Gandhi Academy of Technical Education, we believe that education extends far beyond the
+                        classroom. For over three decades, we have fostered an inclusive, challenging, and supportive
+                        environment where students are encouraged to ask questions, think critically, and act with
+                        compassion.
+                    </p>
+                    <p class="text-gray-600 mb-8 text-lg leading-relaxed">
+                        Our dedicated faculty combines innovative teaching methods with timeless values, ensuring that
+                        our graduates are not only academically prepared but also equipped to make a positive impact in
+                        a rapidly changing world.
+                    </p>
+                    <div class="flex items-center gap-6">
+                        <a href="#more-about"
+                            class="text-primary font-bold hover:text-accent transition duration-300 flex items-center gap-2 group">
+                            View College Information
+                            <span
+                                class="bg-primary group-hover:bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fa-solid fa-arrow-right text-sm"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academics/Programs Section -->
+    <section id="academics" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-primary mb-4">Academic & Professional Programs
+                </h2>
+                <p class="text-gray-500 text-lg">Explore engineering and professional study options associated with GATE
+                    Kodad.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Program 1 -->
+                <div
+                    class="fade-in-up group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 bg-gray-50">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://www.collegebatch.com/static/clg-gallery/gandhi-academy-of-technical-education-nalgonda-324888.webp"
+                            alt="Computer Science & Engineering"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                        <h3 class="absolute bottom-6 left-6 text-2xl font-serif font-bold text-white">Computer Science &
+                            Engineering</h3>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-600 mb-6 line-clamp-3">
+                            The CSE department was established in 2008 and public institutional information describes
+                            computer laboratories, seminars, symposia and industry-oriented learning.
+                        </p>
+                        <a href="#"
+                            class="text-primary font-semibold hover:text-accent transition flex items-center gap-2">
+                            Explore Program <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Program 2 -->
+                <div class="fade-in-up group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 bg-gray-50"
+                    style="transition-delay: 100ms;">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://www.collegebatch.com/static/clg-gallery/gandhi-academy-of-technical-education-nalgonda-324894.webp"
+                            alt="CSE — Artificial Intelligence & Machine Learning"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                        <h3 class="absolute bottom-6 left-6 text-2xl font-serif font-bold text-white">CSE — Artificial
+                            Intelligence & Machine Learning</h3>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-600 mb-6 line-clamp-3">
+                            CSE (AI & ML) is listed among the engineering study pathways associated with GATE Kodad,
+                            reflecting the college's computing focus.
+                        </p>
+                        <a href="#"
+                            class="text-primary font-semibold hover:text-accent transition flex items-center gap-2">
+                            Explore Program <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Program 3 -->
+                <div class="fade-in-up group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 bg-gray-50"
+                    style="transition-delay: 200ms;">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop"
+                            alt="Electronics, Electrical & Core Engineering"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                        <h3 class="absolute bottom-6 left-6 text-2xl font-serif font-bold text-white">Electronics,
+                            Electrical & Core Engineering</h3>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-600 mb-6 line-clamp-3">
+                            GATE Kodad is listed for engineering disciplines including Electronics & Communication,
+                            Electrical & Electronics, Mechanical and Mining Engineering.
+                        </p>
+                        <a href="#"
+                            class="text-primary font-semibold hover:text-accent transition flex items-center gap-2">
+                            Explore Program <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Events -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 fade-in-up">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-2">Campus Life & Updates</h2>
+                    <p class="text-gray-500">Campus information, events and student activities.</p>
+                </div>
+                <a href="#"
+                    class="hidden md:inline-block border border-primary text-primary hover:bg-primary hover:text-white font-medium py-2 px-6 rounded-full transition duration-300">View
+                    All</a>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Featured News -->
+                <div class="fade-in-up bg-white rounded-2xl shadow-md overflow-hidden flex flex-col md:flex-row h-full">
+                    <div class="md:w-2/5 h-48 md:h-auto">
+                        <img src="https://images.unsplash.com/photo-1564069114553-7215e1ff1890?q=80&w=1932&auto=format&fit=crop"
+                            alt="Science Fair" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 md:w-3/5 flex flex-col justify-center">
+                        <span class="text-accent font-semibold text-sm mb-2">Academics</span>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-accent transition cursor-pointer">
+                            Engineering & Technology Projects</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Technical projects, seminars, practical
+                            learning and student activities support the academic experience at GATE Kodad.</p>
+                        <p class="text-gray-400 text-xs"><i class="fa-regular fa-calendar mr-1"></i> October 15, 2023
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Event List -->
+                <div class="fade-in-up flex flex-col justify-between space-y-4" style="transition-delay: 100ms;">
+                    <!-- Event Item -->
+                    <div
+                        class="bg-white rounded-xl shadow-sm p-4 flex items-center gap-6 border-l-4 border-accent hover:shadow-md transition">
+                        <div class="text-center min-w-[60px]">
+                            <span class="block text-sm text-gray-500 font-bold uppercase">Nov</span>
+                            <span class="block text-2xl font-bold text-primary">12</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 hover:text-accent cursor-pointer transition">Admissions &
+                                Enquiry</h4>
+                            <p class="text-sm text-gray-500">GATE Kodad • Contact admissions</p>
+                        </div>
+                    </div>
+                    <!-- Event Item -->
+                    <div
+                        class="bg-white rounded-xl shadow-sm p-4 flex items-center gap-6 border-l-4 border-primary hover:shadow-md transition">
+                        <div class="text-center min-w-[60px]">
+                            <span class="block text-sm text-gray-500 font-bold uppercase">Nov</span>
+                            <span class="block text-2xl font-bold text-primary">18</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 hover:text-accent cursor-pointer transition">Technical
+                                Seminars</h4>
+                            <p class="text-sm text-gray-500">Campus • Check current notice</p>
+                        </div>
+                    </div>
+                    <!-- Event Item -->
+                    <div
+                        class="bg-white rounded-xl shadow-sm p-4 flex items-center gap-6 border-l-4 border-primary hover:shadow-md transition">
+                        <div class="text-center min-w-[60px]">
+                            <span class="block text-sm text-gray-500 font-bold uppercase">Dec</span>
+                            <span class="block text-2xl font-bold text-primary">05</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 hover:text-accent cursor-pointer transition">Placement &
+                                Career Activities</h4>
+                            <p class="text-sm text-gray-500">Campus • Check current notice</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:hidden mt-4 text-center fade-in-up">
+                    <a href="#"
+                        class="inline-block border border-primary text-primary font-medium py-2 px-6 rounded-full">View
+                        All Events</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 relative overflow-hidden bg-primary">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M0 40L40 0H20L0 20M40 40V20L20 40" fill="#ffffff" fill-opacity="1" />
+                    </pattern>
+                </defs>
+                <rect width="UG + PG" height="UG + PG" fill="url(#pattern)" />
+            </svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h2 class="fade-in-up text-3xl md:text-5xl font-serif font-bold text-white mb-6">Take the Next Step at GATE
+                Kodad</h2>
+            <p class="fade-in-up text-gray-300 text-lg mb-10 max-w-2xl mx-auto" style="transition-delay: 100ms;">
+                Explore engineering and professional pathways at GATE Kodad. Send an enquiry to receive current course
+                and admission information.
+            </p>
+            <div class="fade-in-up flex flex-col sm:flex-row justify-center gap-4" style="transition-delay: 200ms;">
+                <a href="#apply"
+                    class="bg-accent hover:bg-accentHover text-primary font-bold py-4 px-8 rounded-full transition duration-300 shadow-lg text-lg">
+                    Apply Online
+                </a>
+                <a href="#contact"
+                    class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary font-bold py-4 px-8 rounded-full transition duration-300 text-lg">
+                    Request Information
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class="py-24 bg-gray-50 relative overflow-hidden">
+        <div class="absolute -top-32 -right-32 w-96 h-96 bg-accent/20 rounded-full blur-3xl"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="inline-block bg-primary text-accent px-4 py-2 rounded-full text-sm font-semibold">GATE
+                    Kodad</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-primary mt-4">Talk to Admissions</h2>
+                <p class="text-gray-500 text-lg mt-4">Send a quick enquiry for current programmes, admissions and campus
+                    information.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-primary text-white rounded-3xl p-8 shadow-2xl">
+                    <p class="text-accent uppercase tracking-widest text-xs font-bold mb-3">Campus</p>
+                    <h3 class="text-2xl font-serif font-bold mb-5">Gandhi Academy of Technical Education</h3>
+                    <div class="space-y-4 text-gray-300">
+                        <p><i class="fa-solid fa-location-dot text-accent mr-3"></i>Kattakommagudam (V), Chilkur (M),
+                            Kodad (Post), Suryapet District, Telangana – 508206</p>
+                        <p><i class="fa-solid fa-phone text-accent mr-3"></i><a href="tel:+919666659818"
+                                class="hover:text-white">+91 96666 59818</a></p>
+                        <p><i class="fa-solid fa-envelope text-accent mr-3"></i><a href="gateoffice99@gmail.com"
+                                class="hover:text-white">gateoffice99@gmail.com</a></p>
+                        <p><i class="fa-solid fa-globe text-accent mr-3"></i><a href="https://gatekodad.onrender.com"
+                                target="_blank" rel="noopener" class="hover:text-white">gatekodad.co.in ↗</a></p>
+                    </div>
+                    <a class="mt-8 inline-flex items-center bg-accent text-primary font-bold px-5 py-3 rounded-full hover:bg-accentHover transition"
+                        href="https://www.google.com/maps/search/?api=1&query=Gandhi+Academy+of+Technical+Education+Kodad+Telangana"
+                        target="_blank" rel="noopener">
+                        Open in Google Maps <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+                    </a>
+                </div>
+                <div class="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-primary">Quick Enquiry</h3>
+                        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-green-50 text-green-700">API
+                            Connected</span>
+                    </div>
+                    <form id="enquiryForm" class="space-y-4">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden"
+                            aria-hidden="true">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <input required name="first_name"
+                                class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/40"
+                                placeholder="First name">
+                            <input required name="last_name"
+                                class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/40"
+                                placeholder="Last name">
+                        </div>
+                        <input required type="email" name="email"
+                            class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/40"
+                            placeholder="Email address">
+                        <input type="tel" name="phone"
+                            class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/40"
+                            placeholder="Phone number">
+                        <select required name="program"
+                            class="w-full rounded-xl border border-gray-200 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-accent/40">
+                            <option value="">Select programme</option>
+                            <option>B.Tech — Computer Science & Engineering</option>
+                            <option>B.Tech — CSE (AI & ML)</option>
+                            <option>B.Tech — Artificial Intelligence & Data Science</option>
+                            <option>B.Tech — Electronics & Communication Engineering</option>
+                            <option>B.Tech — Electrical & Electronics Engineering</option>
+                            <option>B.Tech — Mechanical Engineering</option>
+                            <option>B.Tech — Mining Engineering</option>
+                            <option>M.Tech</option>
+                            <option>MBA</option>
+                            <option>MCA</option>
+                            <option>Diploma / Polytechnic</option>
+                        </select>
+                        <button type="submit"
+                            class="w-full py-4 rounded-xl bg-primary text-white font-bold hover:bg-secondary transition">Send
+                            Enquiry <i class="fa-solid fa-paper-plane ml-2"></i></button>
+                        <p id="enquiryMsg" class="min-h-5 text-sm text-center"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-gray-300 pt-16 pb-8 border-t-4 border-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <!-- Brand Info -->
+                <div>
+                    <a href="#" class="flex items-center gap-2 mb-6 text-white">
+                        <i class="fa-solid fa-graduation-cap text-accent text-3xl"></i>
+                        <span class="font-serif font-bold text-2xl tracking-tight">GATE Kodad<span
+                                class="text-accent">.</span></span>
+                    </a>
+                    <p class="text-sm mb-6 text-gray-400">
+                        GATE Kodad is a technical education institution serving students in engineering, technology and
+                        professional study.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-accent hover:text-primary transition"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-accent hover:text-primary transition"><i
+                                class="fa-brands fa-twitter"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-accent hover:text-primary transition"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-accent hover:text-primary transition"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6 relative inline-block">
+                        Quick Links
+                        <span class="absolute bottom-0 left-0 w-1/2 h-1 bg-accent -mb-2"></span>
+                    </h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> About Us</a></li>
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Admissions Process</a></li>
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Academic Calendar</a></li>
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Athletics</a></li>
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Arts Program</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6 relative inline-block">
+                        Resources
+                        <span class="absolute bottom-0 left-0 w-1/2 h-1 bg-accent -mb-2"></span>
+                    </h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Parent Portal</a></li>
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Student Portal</a></li>
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Faculty Directory</a></li>
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Employment</a></li>
+                        <li><a href="#" class="hover:text-accent transition flex items-center gap-2"><i
+                                    class="fa-solid fa-angle-right text-xs"></i> Alumni Network</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6 relative inline-block">
+                        Contact Us
+                        <span class="absolute bottom-0 left-0 w-1/2 h-1 bg-accent -mb-2"></span>
+                    </h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-accent"></i>
+                            <span>Kattakommagudam (V), Chilkur (M),<br>Kodad (Post), Suryapet District,<br>Telangana –
+                                508206</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-accent"></i>
+                            <span>+91 98484 21753</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-accent"></i>
+                            <a href="mailto:principal.qe@gmail.com"
+                                class="hover:text-white transition">principal.qe@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div
+                class="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+                <p>&copy; <span id="year"></span> Gandhi Academy of Technical Education. All rights reserved.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-2xl">
+        <div
+            class="rounded-2xl bg-primary/95 backdrop-blur-xl border border-white/10 shadow-2xl px-4 py-3 flex items-center justify-between gap-4 text-white">
+            <div class="flex items-center gap-3 min-w-0">
+                <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shrink-0"></span>
+                <span class="text-xs sm:text-sm text-gray-200 truncate">GATE Kodad • Admissions & enquiries</span>
+            </div>
+            <a href="#contact"
+                class="shrink-0 bg-accent text-primary font-bold text-xs sm:text-sm px-4 py-2 rounded-full hover:bg-accentHover">Enquire
+                Now</a>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = btn.querySelector('i');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('open');
+
+            // Toggle icon
+            if (menu.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('open');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // Scroll Animation Observer (Fade in up)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Initial trigger for elements already in viewport on load
+        setTimeout(() => {
+            document.querySelectorAll('.fade-in-up').forEach((el) => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    el.classList.add('visible');
+                }
+            });
+        }, 100);
+        // FastAPI-connected quick enquiry
+        const enquiryForm = document.getElementById('enquiryForm');
+        if (enquiryForm) {
+            enquiryForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const form = event.currentTarget;
+                const button = form.querySelector('button[type="submit"]');
+                const msg = document.getElementById('enquiryMsg');
+                const payload = Object.fromEntries(new FormData(form).entries());
+
+                if (!form.reportValidity()) return;
+                if (payload.website) return;
+
+                const original = button.innerHTML;
+                button.disabled = true;
+                button.innerHTML = 'Sending...';
+
+                try {
+                    const response = await fetch('/api/admission', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.detail || 'Unable to send enquiry.');
+                    msg.textContent = data.message || 'Enquiry sent successfully.';
+                    msg.className = 'min-h-5 text-sm text-center text-green-600';
+                    form.reset();
+                } catch (error) {
+                    msg.textContent = error.message || 'Something went wrong.';
+                    msg.className = 'min-h-5 text-sm text-center text-red-600';
+                } finally {
+                    button.disabled = false;
+                    button.innerHTML = original;
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

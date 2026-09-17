@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaffran & Dum | The Royal Biryani House</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            goldLight: '#F3E5AB',
+                            goldDark: '#AA7C11',
+                            amber: '#F59E0B',
+                            saffron: '#E65100',
+                            charcoal: '#0C0A09',
+                            darkCard: '#171412',
+                            cardBorder: '#2E2620'
+                        }
+                    },
+                    fontFamily: {
+                        royal: ['Cinzel', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0c0a09;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2e2620;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF3D4 0%, #D4AF37 50%, #AA7C11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-gradient {
+            border-image: linear-gradient(to right, #aa7c11, #d4af37, #aa7c11) 1;
+        }
+
+        .bg-mesh {
+            background-color: #0c0a09;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(230, 81, 0, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(20, 16, 14, 0.9) 0px, transparent 100%);
+        }
+
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+        }
+
+        .animate-float {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        /* Subtle Steam Simulation */
+        .steam-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: steamRise 4s infinite linear;
+        }
+
+        @keyframes steamRise {
+            0% {
+                transform: translateY(0) scale(0.6);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.35;
+            }
+
+            100% {
+                transform: translateY(-90px) scale(1.4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-[#0C0A09] text-[#E6E4E2] font-sans antialiased overflow-x-hidden selection:bg-brand-gold selection:text-black">
+
+    <!-- Subtle Ambience Glow Top -->
+    <div
+        class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-amber-600/10 rounded-full blur-[140px] pointer-events-none z-0">
+    </div>
+
+    <!-- Announcement Bar -->
+    <div
+        class="bg-gradient-to-r from-brand-charcoal via-brand-darkCard to-brand-charcoal border-b border-brand-cardBorder/60 py-2 text-xs font-medium text-center text-brand-goldLight tracking-wider uppercase flex items-center justify-center gap-3 px-4 relative z-50">
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+        <span>Mughlai Culinary Legacy Since 1932 • Use code <strong
+                class="text-white bg-brand-goldDark/30 px-2 py-0.5 rounded border border-brand-gold/40">DUM15</strong>
+            for 15% Off Your Royal Order</span>
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header
+        class="sticky top-0 z-40 bg-[#0C0A09]/90 backdrop-blur-md border-b border-brand-cardBorder transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div
+                    class="w-11 h-11 rounded-full bg-gradient-to-br from-brand-gold to-brand-goldDark flex items-center justify-center text-black shadow-lg shadow-brand-gold/20 group-hover:scale-105 transition-transform">
+                    <i data-lucide="flame" class="w-6 h-6 stroke-[2.5]"></i>
+                </div>
+                <div>
+                    <span
+                        class="font-royal text-2xl font-bold tracking-wider text-white group-hover:text-brand-gold transition-colors block leading-tight">ZAFFRAN
+                        & DUM</span>
+                    <span class="text-[10px] uppercase tracking-[0.3em] text-brand-gold block font-medium">Royal Handi
+                        Kitchen</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+                <a href="#menu" class="hover:text-brand-gold transition-colors">Specialty Biryanis</a>
+                <a href="#dum-story" class="hover:text-brand-gold transition-colors">The Dum Ritual</a>
+                <a href="#craft" class="hover:text-brand-gold transition-colors">Our Spices</a>
+                <a href="#testimonials" class="hover:text-brand-gold transition-colors">Stories</a>
+                <a href="#reservation" class="hover:text-brand-gold transition-colors">Dawat Booking</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <button onclick="openReservationModal()"
+                    class="hidden sm:inline-flex items-center gap-2 border border-brand-gold/60 text-brand-gold hover:bg-brand-gold hover:text-black px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                    <span>Reserve Seat</span>
+                </button>
+
+                <!-- Cart Button with Counter -->
+                <button onclick="toggleCart()"
+                    class="relative p-2.5 rounded-full bg-brand-darkCard border border-brand-cardBorder hover:border-brand-gold text-brand-goldLight transition-all">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span id="cart-counter"
+                        class="absolute -top-1 -right-1 bg-brand-saffron text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-brand-charcoal">0</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()"
+                    class="md:hidden p-2 text-white hover:text-brand-gold">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-brand-darkCard border-b border-brand-cardBorder px-6 py-6 space-y-4">
+            <a href="#menu" onclick="toggleMobileMenu()"
+                class="block text-base font-medium hover:text-brand-gold">Specialty Biryanis</a>
+            <a href="#dum-story" onclick="toggleMobileMenu()"
+                class="block text-base font-medium hover:text-brand-gold">The Dum Ritual</a>
+            <a href="#craft" onclick="toggleMobileMenu()" class="block text-base font-medium hover:text-brand-gold">Our
+                Spices</a>
+            <a href="#reservation" onclick="toggleMobileMenu()"
+                class="block text-base font-medium hover:text-brand-gold">Reserve Table</a>
+            <button onclick="toggleMobileMenu(); openReservationModal();"
+                class="w-full mt-2 py-3 bg-brand-gold text-black font-semibold rounded-lg text-sm tracking-wide">
+                Book Royal Dawat Table
+            </button>
+        </div>
+    </header>
+
+    <main class="bg-mesh relative">
+        <!-- Hero Section -->
+        <section
+            class="relative min-h-[88vh] flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                <!-- Left Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left z-10">
+                    <div
+                        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold tracking-widest uppercase">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-gold"></i>
+                        Authentic Slow Handi Dum Pukht
+                    </div>
+
+                    <h1 class="font-royal text-4xl sm:text-6xl xl:text-7xl font-extrabold text-white leading-[1.12]">
+                        Crafted in Clay, <br />
+                        <span class="gold-gradient-text">Sealed by Dough,</span> <br />
+                        Perfumed with Saffron.
+                    </h1>
+
+                    <p class="text-stone-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+                        Experience century-old Hyderabadi & Awadhi royal recipes. Layered with aged Basmati rice,
+                        slow-braised cuts, and 36 whole stone-ground spices—cooked on fragrant charcoal embers.
+                    </p>
+
+                    <!-- Trust Highlights -->
+                    <div class="grid grid-cols-3 gap-4 pt-3 pb-2 max-w-lg mx-auto lg:mx-0 text-left">
+                        <div class="border-l-2 border-brand-gold pl-3">
+                            <p class="font-royal text-xl font-bold text-white">12 Hrs</p>
+                            <p class="text-xs text-stone-400">Slow Marination</p>
+                        </div>
+                        <div class="border-l-2 border-brand-gold pl-3">
+                            <p class="font-royal text-xl font-bold text-white">100%</p>
+                            <p class="text-xs text-stone-400">Pure Kashmiri Mongra</p>
+                        </div>
+                        <div class="border-l-2 border-brand-gold pl-3">
+                            <p class="font-royal text-xl font-bold text-white">4.9 ★</p>
+                            <p class="text-xs text-stone-400">Over 150k+ Dawats</p>
+                        </div>
+                    </div>
+
+                    <!-- CTA Group -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#menu"
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-brand-gold to-brand-goldDark text-black font-semibold text-sm tracking-wider uppercase shadow-xl shadow-brand-gold/20 hover:shadow-brand-gold/40 hover:scale-[1.02] transition-all duration-300">
+                            <i data-lucide="utensils-crossed" class="w-4 h-4"></i>
+                            <span>Explore Royal Menu</span>
+                        </a>
+                        <button onclick="openReservationModal()"
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-brand-darkCard border border-brand-cardBorder hover:border-brand-gold text-white font-medium text-sm tracking-wider transition-all">
+                            <span>Book A Dawat (Table)</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Food Safety / Halal Badge -->
+                    <div class="flex items-center justify-center lg:justify-start gap-6 text-xs text-stone-400 pt-2">
+                        <span class="flex items-center gap-1.5"><i data-lucide="check-circle"
+                                class="w-4 h-4 text-emerald-400"></i> Certified Halal Meat</span>
+                        <span class="flex items-center gap-1.5"><i data-lucide="check-circle"
+                                class="w-4 h-4 text-emerald-400"></i> Pure Desi Ghee</span>
+                        <span class="flex items-center gap-1.5"><i data-lucide="check-circle"
+                                class="w-4 h-4 text-emerald-400"></i> Fresh Clay Handi</span>
+                    </div>
+                </div>
+
+                <!-- Right Hero Image with Floating Elements -->
+                <div class="lg:col-span-5 relative flex items-center justify-center">
+                    <!-- Glow Circle -->
+                    <div
+                        class="absolute w-[320px] sm:w-[420px] h-[320px] sm:h-[420px] bg-gradient-to-br from-brand-gold/20 via-brand-saffron/20 to-transparent rounded-full blur-3xl -z-10">
+                    </div>
+
+                    <div class="relative w-full max-w-md animate-float">
+                        <!-- Main Biryani Pot Image -->
+                        <div
+                            class="relative rounded-3xl overflow-hidden border-2 border-brand-gold/40 shadow-2xl shadow-black/80 aspect-square group">
+                            <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=900&auto=format&fit=crop"
+                                alt="Shahi Hyderabadi Biryani in Pot"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                            </div>
+
+                            <!-- Badges in Image -->
+                            <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-brand-gold font-bold">Nizami
+                                        Signature</p>
+                                    <p class="font-royal text-lg font-bold">Royal Mutton Dum Biryani</p>
+                                </div>
+                                <span
+                                    class="bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full text-brand-gold text-sm font-bold border border-brand-gold/30">
+                                    $24.50
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Floating Micro Badge 1 -->
+                        <div
+                            class="absolute -top-5 -left-5 bg-brand-darkCard/95 border border-brand-gold/40 rounded-2xl p-3 shadow-xl backdrop-blur-md flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-brand-gold">
+                                <i data-lucide="flame" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-stone-400">Authentic Style</p>
+                                <p class="text-xs font-bold text-white">Clay Handi Dum</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Micro Badge 2 -->
+                        <div
+                            class="absolute -bottom-5 -right-3 bg-brand-darkCard/95 border border-brand-gold/40 rounded-2xl p-3 shadow-xl backdrop-blur-md flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                                <i data-lucide="shield-check" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-stone-400">Sealed In Dough</p>
+                                <p class="text-xs font-bold text-white">Intact Natural Steam</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Dum Process Strip (The Royal Dum Ritual) -->
+        <section id="dum-story" class="py-20 border-y border-brand-cardBorder bg-[#110e0c]/50 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-brand-gold text-xs font-semibold tracking-widest uppercase">The Heritage
+                        Method</span>
+                    <h2 class="font-royal text-3xl sm:text-4xl font-bold text-white mt-2">The Art of Slow "Dum Pukht"
+                    </h2>
+                    <p class="text-stone-400 text-sm mt-3">Where Persian culinary aesthetics meet rich Indian royal
+                        spices. We never rush. We let time create perfection.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                    <!-- Step 1 -->
+                    <div
+                        class="bg-brand-darkCard p-6 rounded-2xl border border-brand-cardBorder hover:border-brand-gold/50 transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-amber-950/40 text-brand-gold flex items-center justify-center font-royal font-bold text-xl mb-4 group-hover:bg-brand-gold group-hover:text-black transition-colors">
+                            01
+                        </div>
+                        <h3 class="font-royal text-lg font-semibold text-white mb-2">Pehli Dawat (Marination)</h3>
+                        <p class="text-stone-400 text-xs leading-relaxed">Meat massaged with freshly pound javitri,
+                            shahi jeera, cold-pressed mustard oil, sour curd and crushed garlic ginger overnight.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div
+                        class="bg-brand-darkCard p-6 rounded-2xl border border-brand-cardBorder hover:border-brand-gold/50 transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-amber-950/40 text-brand-gold flex items-center justify-center font-royal font-bold text-xl mb-4 group-hover:bg-brand-gold group-hover:text-black transition-colors">
+                            02
+                        </div>
+                        <h3 class="font-royal text-lg font-semibold text-white mb-2">Birinj (Aged Basmati)</h3>
+                        <p class="text-stone-400 text-xs leading-relaxed">2-year extra-long grain rice parboiled in
+                            cardamom & whole spice broth to exactly 70% tenderness before layering.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div
+                        class="bg-brand-darkCard p-6 rounded-2xl border border-brand-cardBorder hover:border-brand-gold/50 transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-amber-950/40 text-brand-gold flex items-center justify-center font-royal font-bold text-xl mb-4 group-hover:bg-brand-gold group-hover:text-black transition-colors">
+                            03
+                        </div>
+                        <h3 class="font-royal text-lg font-semibold text-white mb-2">Pardah (Dough Seal)</h3>
+                        <p class="text-stone-400 text-xs leading-relaxed">Heavy terracotta handi is sealed with whole
+                            wheat dough ring to lock every drop of aromatic spice vapor inside.</p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div
+                        class="bg-brand-darkCard p-6 rounded-2xl border border-brand-cardBorder hover:border-brand-gold/50 transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-amber-950/40 text-brand-gold flex items-center justify-center font-royal font-bold text-xl mb-4 group-hover:bg-brand-gold group-hover:text-black transition-colors">
+                            04
+                        </div>
+                        <h3 class="font-royal text-lg font-semibold text-white mb-2">Koyla Dum (Gentle Fire)</h3>
+                        <p class="text-stone-400 text-xs leading-relaxed">Cooked upon gentle glowing wood charcoal
+                            embers, infusing subtle smoke until unsealed directly at your dining table.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section (Interactive with dynamic filter & cart integration) -->
+        <section id="menu" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-brand-gold text-xs font-semibold tracking-widest uppercase">From Royal
+                        Kitchens</span>
+                    <h2 class="font-royal text-3xl sm:text-5xl font-bold text-white mt-1">Our Biryani Masterpieces</h2>
+                    <p class="text-stone-400 text-sm mt-2">Accompanied with smoked Burhani Raita, spicy Mirchi Ka Salan,
+                        & Sirka Onions.</p>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2" id="filter-container">
+                    <button onclick="filterMenu('all')"
+                        class="filter-btn active px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all bg-brand-gold text-black">
+                        All Offerings
+                    </button>
+                    <button onclick="filterMenu('hyderabadi')"
+                        class="filter-btn px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all bg-brand-darkCard text-stone-300 border border-brand-cardBorder hover:border-brand-gold">
+                        Hyderabadi Dum
+                    </button>
+                    <button onclick="filterMenu('lucknowi')"
+                        class="filter-btn px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all bg-brand-darkCard text-stone-300 border border-brand-cardBorder hover:border-brand-gold">
+                        Awadhi / Lucknowi
+                    </button>
+                    <button onclick="filterMenu('shakahari')"
+                        class="filter-btn px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all bg-brand-darkCard text-stone-300 border border-brand-cardBorder hover:border-brand-gold">
+                        Vegetarian Royal
+                    </button>
+                    <button onclick="filterMenu('kebabs')"
+                        class="filter-btn px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all bg-brand-darkCard text-stone-300 border border-brand-cardBorder hover:border-brand-gold">
+                        Sides & Kebabs
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menu Cards Grid -->
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Javascript will populate menu items here -->
+            </div>
+        </section>
+
+        <!-- Spice Heritage Banner / Interactive Ingredients Explorer -->
+        <section id="craft"
+            class="py-20 bg-gradient-to-b from-brand-charcoal via-brand-darkCard to-brand-charcoal border-y border-brand-cardBorder relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                    <div class="lg:col-span-5 relative">
+                        <div class="rounded-3xl overflow-hidden border border-brand-gold/30 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=900&auto=format&fit=crop"
+                                alt="Spices of Biryani"
+                                class="w-full h-[450px] object-cover hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div
+                            class="absolute -bottom-6 -right-6 bg-brand-charcoal border border-brand-gold/50 p-5 rounded-2xl hidden sm:block max-w-xs shadow-2xl">
+                            <p class="font-royal text-brand-gold font-bold text-sm">Pampore Saffron Harvest</p>
+                            <p class="text-stone-300 text-xs mt-1">Directly flown from the valleys of Kashmir for
+                                genuine natural aroma and golden hue.</p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 space-y-6">
+                        <span class="text-brand-gold text-xs font-semibold tracking-widest uppercase">The Royal Spice
+                            Chest</span>
+                        <h2 class="font-royal text-3xl sm:text-4xl font-bold text-white">No Essences. No Artificial
+                            Colors. Just Timeless Spices.</h2>
+                        <p class="text-stone-300 text-sm leading-relaxed">
+                            Each morning our Masalchis pound stone-ground whole spices in stone mortars. From star anise
+                            of Vietnam, green cardamom of Idukki, to dried rose petals of Kannauj—every spoonful
+                            narrates an imperial dawat.
+                        </p>
+
+                        <!-- Spice List Interactive Tags -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4">
+                            <div
+                                class="bg-black/40 border border-brand-cardBorder p-3 rounded-xl flex items-center gap-3">
+                                <span class="text-xl">🌸</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Kashmiri Saffron</h4>
+                                    <span class="text-[10px] text-brand-gold">Mongra Grade A</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-black/40 border border-brand-cardBorder p-3 rounded-xl flex items-center gap-3">
+                                <span class="text-xl">🌿</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Shahi Jeera</h4>
+                                    <span class="text-[10px] text-brand-gold">Himalayan Black Cumin</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-black/40 border border-brand-cardBorder p-3 rounded-xl flex items-center gap-3">
+                                <span class="text-xl">🪵</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Dalchini & Javitri</h4>
+                                    <span class="text-[10px] text-brand-gold">Ceylon Cinnamon & Mace</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-black/40 border border-brand-cardBorder p-3 rounded-xl flex items-center gap-3">
+                                <span class="text-xl">🏺</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Bilona Ghee</h4>
+                                    <span class="text-[10px] text-brand-gold">A2 Gir Cow Butter</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-black/40 border border-brand-cardBorder p-3 rounded-xl flex items-center gap-3">
+                                <span class="text-xl">🌾</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Daawat Rice</h4>
+                                    <span class="text-[10px] text-brand-gold">Aged 24 Months</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-black/40 border border-brand-cardBorder p-3 rounded-xl flex items-center gap-3">
+                                <span class="text-xl">🌹</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Meetha Ittar</h4>
+                                    <span class="text-[10px] text-brand-gold">Kannauj Natural Dew</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-gold text-xs font-semibold tracking-widest uppercase">Words of
+                    Connoisseurs</span>
+                <h2 class="font-royal text-3xl sm:text-4xl font-bold text-white mt-2">Loved by Food Royalty</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-brand-darkCard p-8 rounded-2xl border border-brand-cardBorder relative">
+                    <div class="flex text-amber-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-stone-300 text-sm italic mb-6 leading-relaxed">
+                        "The moment the server slit open the dough rim of the Handi, the fragrance of warm saffron and
+                        aged ghee filled the entire hall. The mutton fell off the bone effortlessly."
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-brand-cardBorder/60 pt-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center font-royal font-bold text-brand-gold">
+                            RN
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-white">Raza Nawab</h4>
+                            <p class="text-xs text-stone-400">Culinary Critic, Epicure Weekly</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-brand-darkCard p-8 rounded-2xl border border-brand-gold/30 relative">
+                    <div class="flex text-amber-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-stone-300 text-sm italic mb-6 leading-relaxed">
+                        "Finally, a restaurant in the city that understands the difference between Lucknowi Pukki
+                        Biryani and Hyderabadi Kacchi Dum. Every grain of rice is separate and flavorful!"
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-brand-cardBorder/60 pt-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center font-royal font-bold text-brand-gold">
+                            SM
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-white">Sarah Mathews</h4>
+                            <p class="text-xs text-stone-400">Food Journalist & Michelin Guide Contributor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-brand-darkCard p-8 rounded-2xl border border-brand-cardBorder relative">
+                    <div class="flex text-amber-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-stone-300 text-sm italic mb-6 leading-relaxed">
+                        "Their Subz Nizam-e-Khas proved to me that Vegetarian Biryani is not just Pulao. The smoked
+                        paneer, baby corn and saffron milk infusion is an unforgettable masterstroke."
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-brand-cardBorder/60 pt-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center font-royal font-bold text-brand-gold">
+                            AK
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-white">Anil Kapoor</h4>
+                            <p class="text-xs text-stone-400">Gourmet Food Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reservation & Dawat Banquet Section -->
+        <section id="reservation" class="py-20 bg-brand-darkCard/40 border-t border-brand-cardBorder relative">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+                <div
+                    class="bg-brand-darkCard border border-brand-gold/40 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                    <!-- Subtle ornament corner -->
+                    <div
+                        class="absolute -top-10 -right-10 w-40 h-40 bg-brand-gold/10 rounded-full blur-2xl pointer-events-none">
+                    </div>
+
+                    <div class="text-center max-w-xl mx-auto mb-8">
+                        <span class="text-brand-gold text-xs font-semibold tracking-widest uppercase">The Royal Dining
+                            Experience</span>
+                        <h2 class="font-royal text-3xl sm:text-4xl font-bold text-white mt-2">Reserve Your Dawat Table
+                        </h2>
+                        <p class="text-stone-400 text-xs sm:text-sm mt-2">Intimate dining, private family Diwan rooms,
+                            or royal celebrations.</p>
+                    </div>
+
+                    <form id="reservation-form" onsubmit="handleReserveSubmit(event)"
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <div>
+                            <label class="block text-xs font-medium text-stone-300 mb-2">Guest Name</label>
+                            <input type="text" required placeholder="e.g. Mirza Beg"
+                                class="w-full bg-[#0C0A09] border border-brand-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-stone-300 mb-2">Contact Number</label>
+                            <input type="tel" required placeholder="+1 (555) 000-0000"
+                                class="w-full bg-[#0C0A09] border border-brand-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-stone-300 mb-2">Number of Guests</label>
+                            <select
+                                class="w-full bg-[#0C0A09] border border-brand-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold transition-colors">
+                                <option>2 Royal Guests (Couple)</option>
+                                <option>4 Guests (Family Table)</option>
+                                <option>6-8 Guests (Grand Handi Feast)</option>
+                                <option>10+ Guests (Private Diwan Hall)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-stone-300 mb-2">Dining Date</label>
+                            <input type="date" required
+                                class="w-full bg-[#0C0A09] border border-brand-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-stone-300 mb-2">Preferred Time</label>
+                            <select
+                                class="w-full bg-[#0C0A09] border border-brand-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold transition-colors">
+                                <option>12:30 PM (Lunch Dawat)</option>
+                                <option>01:30 PM (Lunch Dawat)</option>
+                                <option>07:00 PM (Royal Dinner)</option>
+                                <option>08:30 PM (Royal Dinner)</option>
+                                <option>09:45 PM (Late Feast)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-stone-300 mb-2">Seating Style</label>
+                            <select
+                                class="w-full bg-[#0C0A09] border border-brand-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold transition-colors">
+                                <option>Traditional Diwan (Floor Cushions)</option>
+                                <option>Fine Dining Imperial Table</option>
+                                <option>Outdoor Courtyard Verandah</option>
+                            </select>
+                        </div>
+
+                        <div class="sm:col-span-2 lg:col-span-3 mt-3">
+                            <button type="submit"
+                                class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-gold via-amber-500 to-brand-goldDark text-black font-semibold text-sm tracking-wider uppercase hover:shadow-lg hover:shadow-brand-gold/30 hover:opacity-95 transition-all">
+                                Confirm Royal Table Reservation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#070605] border-t border-brand-cardBorder pt-16 pb-12 text-stone-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <!-- Col 1 -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-brand-gold flex items-center justify-center text-black">
+                        <i data-lucide="flame" class="w-5 h-5"></i>
+                    </div>
+                    <span class="font-royal text-xl font-bold tracking-wider text-white">ZAFFRAN & DUM</span>
+                </div>
+                <p class="text-xs text-stone-400 leading-relaxed">
+                    Preserving the century-old heirloom culinary legacy of royal Mughal and Nizami kitchens, served
+                    fresh in earthen clay handis.
+                </p>
+                <div class="flex gap-4 pt-2 text-stone-400">
+                    <a href="#" class="hover:text-brand-gold transition-colors"><i data-lucide="instagram"
+                            class="w-5 h-5"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors"><i data-lucide="facebook"
+                            class="w-5 h-5"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors"><i data-lucide="twitter"
+                            class="w-5 h-5"></i></a>
+                </div>
+            </div>
+
+            <!-- Col 2 -->
+            <div>
+                <h4 class="font-royal text-white font-semibold mb-4 tracking-wider uppercase text-xs">Royal Locations
+                </h4>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex items-start gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-brand-gold shrink-0 mt-0.5"></i>
+                        <span>147 Royal Heritage Avenue, Old Nizam Quarter</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-brand-gold shrink-0 mt-0.5"></i>
+                        <span>88 Grand Silk Road, Bay District</span>
+                    </li>
+                    <li class="flex items-center gap-2 pt-2">
+                        <i data-lucide="phone" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                        <span>+1 (800) 426-3438 (HANDI)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Col 3 -->
+            <div>
+                <h4 class="font-royal text-white font-semibold mb-4 tracking-wider uppercase text-xs">Serving Hours</h4>
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between border-b border-stone-800 pb-1">
+                        <span>Lunch Dawat</span>
+                        <span class="text-white">12:00 PM – 04:00 PM</span>
+                    </div>
+                    <div class="flex justify-between border-b border-stone-800 pb-1">
+                        <span>Royal Dinner</span>
+                        <span class="text-white">07:00 PM – 11:30 PM</span>
+                    </div>
+                    <div class="flex justify-between border-b border-stone-800 pb-1">
+                        <span>Midnight Dum Deliveries</span>
+                        <span class="text-brand-gold">Till 02:00 AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Col 4 -->
+            <div>
+                <h4 class="font-royal text-white font-semibold mb-4 tracking-wider uppercase text-xs">Royal Club
+                    Newsletter</h4>
+                <p class="text-xs text-stone-400 mb-3">Join our connoisseur circle for exclusive secret chef batches &
+                    invitation-only feasts.</p>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Your email address"
+                        class="bg-brand-darkCard border border-brand-cardBorder rounded-lg px-3 py-2 text-xs text-white w-full focus:outline-none focus:border-brand-gold">
+                    <button onclick="handleSubscribeNewsletter()"
+                        class="bg-brand-gold text-black px-4 py-2 rounded-lg text-xs font-semibold hover:bg-brand-goldDark transition-colors">Join</button>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-brand-cardBorder/60 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+            <p>© 2025 Zaffran & Dum Culinary Group. All Rights Reserved.</p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:underline">Privacy Policy</a>
+                <a href="#" class="hover:underline">Halal Certification</a>
+                <a href="#" class="hover:underline">Terms of Hospitality</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OVER CART DRAWER -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-300">
+        <!-- Backdrop -->
+        <div id="cart-backdrop" onclick="toggleCart()"
+            class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        </div>
+
+        <!-- Drawer Content -->
+        <div id="cart-panel"
+            class="absolute top-0 right-0 w-full max-w-md h-full bg-[#120F0D] border-l border-brand-cardBorder shadow-2xl flex flex-col translate-x-full pointer-events-auto transition-transform duration-300 ease-in-out">
+            <!-- Header -->
+            <div class="p-6 border-b border-brand-cardBorder flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-gold"></i>
+                    <h3 class="font-royal text-lg font-bold text-white">Your Royal Order</h3>
+                </div>
+                <button onclick="toggleCart()" class="text-stone-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Items List -->
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Cart items rendered via JS -->
+            </div>
+
+            <!-- Footer summary -->
+            <div class="p-6 border-t border-brand-cardBorder bg-[#0c0a09] space-y-4">
+                <div class="space-y-1.5 text-xs text-stone-300">
+                    <div class="flex justify-between">
+                        <span>Handi Subtotal</span>
+                        <span id="cart-subtotal" class="font-semibold text-white">$0.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Earthen Handi Packaging & Seal</span>
+                        <span class="text-emerald-400">Complimentary</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Tax & Royal Service</span>
+                        <span id="cart-tax" class="text-white">$0.00</span>
+                    </div>
+                    <div
+                        class="flex justify-between text-base font-bold text-brand-gold pt-2 border-t border-stone-800">
+                        <span>Estimated Total</span>
+                        <span id="cart-total">$0.00</span>
+                    </div>
+                </div>
+
+                <button onclick="proceedToCheckout()"
+                    class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-gold to-brand-goldDark text-black font-bold text-xs tracking-wider uppercase hover:shadow-lg hover:shadow-brand-gold/20 transition-all flex items-center justify-center gap-2">
+                    <span>Proceed to Royal Feast</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast"
+        class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-brand-darkCard border border-brand-gold text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center">
+            <i data-lucide="check" class="w-4 h-4"></i>
+        </div>
+        <div>
+            <p id="toast-title" class="text-xs font-bold">Added to Handi</p>
+            <p id="toast-message" class="text-[11px] text-stone-400">Signature Dum Biryani ready for order</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // MENU DATA
+        const menuItems = [
+            {
+                id: 'hyd-mutton',
+                name: 'Royal Nizami Mutton Dum Biryani',
+                category: 'hyderabadi',
+                price: 24.50,
+                rating: '4.9',
+                spiceLevel: 'Royal Spicy',
+                serves: 'Serves 1-2',
+                image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop',
+                description: 'Tender baby goat slow-dum cooked with basmati rice, layered with brown onions, crushed mint & Kashmiri saffron. Cooked in clay handi.'
+            },
+            {
+                id: 'lucknowi-chicken',
+                name: 'Awadhi Shahi Chicken Dum Biryani',
+                category: 'lucknowi',
+                price: 21.00,
+                rating: '4.8',
+                spiceLevel: 'Aromatic & Mild',
+                serves: 'Serves 1-2',
+                image: 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?q=80&w=600&auto=format&fit=crop',
+                description: 'Lucknowi pukki style where farm chicken is gently cooked in spiced yakhni stock and perfumed with kewra water and sweet ittar.'
+            },
+            {
+                id: 'veg-nizam',
+                name: 'Subz Nizam-e-Khas (Royal Veg)',
+                category: 'shakahari',
+                price: 18.50,
+                rating: '4.9',
+                spiceLevel: 'Medium Spice',
+                serves: 'Serves 1-2',
+                image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=600&auto=format&fit=crop',
+                description: 'Smoked Malai Paneer cubes, wild morels, green peas, baby carrots layered in rich saffron cream and dum sealed with wheat dough.'
+            },
+            {
+                id: 'hyd-chicken-dum',
+                name: 'Kacche Gosht Murgh Biryani',
+                category: 'hyderabadi',
+                price: 22.00,
+                rating: '4.9',
+                spiceLevel: 'Classic Spicy',
+                serves: 'Serves 1-2',
+                image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=600&auto=format&fit=crop',
+                description: 'Raw marinated country chicken and soaked basmati layered simultaneously to infuse deep meat juices directly into the rice grain.'
+            },
+            {
+                id: 'galouti-kebab',
+                name: 'Melt-in-Mouth Galouti Kebabs',
+                category: 'kebabs',
+                price: 17.50,
+                rating: '5.0',
+                spiceLevel: 'Delicate Spice',
+                serves: '4 Pieces',
+                image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=600&auto=format&fit=crop',
+                description: 'Silken minced mutton patties infused with raw papaya and 160 secret herbs, pan-seared on mahi tawa. Served with Mughlai Sheermal.'
+            },
+            {
+                id: 'shahi-tukda',
+                name: 'Old Delhi Shahi Tukda with Rabri',
+                category: 'kebabs',
+                price: 11.50,
+                rating: '4.9',
+                spiceLevel: 'Sweet Indulgence',
+                serves: 'Serves 1-2',
+                image: 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=600&auto=format&fit=crop',
+                description: 'Ghee-fried crisp bread steeped in saffron cardamom syrup, cloaked in 8-hour reduced khoya rabri, pistachio dust & edible silver vark.'
+            }
+        ];
+
+        // CART STATE
+        let cart = [];
+
+        // RENDER MENU
+        function renderMenu(filter = 'all') {
+            const container = document.getElementById('menu-grid');
+            container.innerHTML = '';
+
+            const filtered = filter === 'all'
+                ? menuItems
+                : menuItems.filter(item => item.category === filter);
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-brand-darkCard rounded-3xl border border-brand-cardBorder overflow-hidden flex flex-col hover:border-brand-gold/60 transition-all duration-300 group hover:-translate-y-1";
+                card.innerHTML = `
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        <div class="absolute top-3 left-3 flex gap-2">
+                            <span class="bg-black/80 backdrop-blur-md text-brand-gold text-[10px] font-bold px-2.5 py-1 rounded-full border border-brand-gold/30">
+                                ${item.spiceLevel}
+                            </span>
+                            <span class="bg-black/80 backdrop-blur-md text-stone-300 text-[10px] font-medium px-2.5 py-1 rounded-full">
+                                ${item.serves}
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-brand-charcoal/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-amber-400 flex items-center gap-1 border border-brand-cardBorder">
+                            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                            <span>${item.rating}</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-royal text-lg font-bold text-white group-hover:text-brand-gold transition-colors">${item.name}</h3>
+                            <p class="text-stone-400 text-xs mt-2 leading-relaxed line-clamp-3">${item.description}</p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-brand-cardBorder">
+                            <div>
+                                <span class="text-[10px] text-stone-400 block uppercase">Portion Price</span>
+                                <span class="text-xl font-royal font-bold text-brand-gold">$${item.price.toFixed(2)}</span>
+                            </div>
+                            <button onclick="addToCart('${item.id}')" class="px-5 py-2.5 rounded-full bg-brand-gold/10 hover:bg-brand-gold text-brand-gold hover:text-black border border-brand-gold/40 text-xs font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                <span>Add Handi</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // FILTER HANDLING
+        function filterMenu(cat) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-brand-gold', 'text-black');
+                btn.classList.add('bg-brand-darkCard', 'text-stone-300');
+            });
+            event.target.classList.add('bg-brand-gold', 'text-black');
+            event.target.classList.remove('bg-brand-darkCard', 'text-stone-300');
+            renderMenu(cat);
+        }
+
+        // CART LOGIC
+        function addToCart(id) {
+            const product = menuItems.find(p => p.id === id);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast("Added to Royal Handi", `${product.name} is sealed for you.`);
+        }
+
+        function updateCartUI() {
+            const counter = document.getElementById('cart-counter');
+            const itemsContainer = document.getElementById('cart-items');
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            counter.innerText = totalQty;
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-16 text-stone-500">
+                        <i data-lucide="cooking-pot" class="w-16 h-16 stroke-1 text-stone-600 mb-4"></i>
+                        <p class="font-royal text-white text-base">Your Handi is Empty</p>
+                        <p class="text-xs text-stone-400 max-w-xs mt-1">Select authentic biryanis crafted with saffron and sealed in slow dum.</p>
+                    </div>
+                `;
+            } else {
+                itemsContainer.innerHTML = '';
+                cart.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = "flex gap-3 bg-brand-darkCard p-3 rounded-2xl border border-brand-cardBorder";
+                    row.innerHTML = `
+                        <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover shrink-0" />
+                        <div class="flex-1">
+                            <h4 class="text-xs font-bold text-white leading-snug">${item.name}</h4>
+                            <p class="text-xs text-brand-gold mt-0.5">$${(item.price * item.qty).toFixed(2)}</p>
+                            
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center gap-2 border border-brand-cardBorder bg-black rounded-lg px-2 py-0.5">
+                                    <button onclick="changeQty('${item.id}', -1)" class="text-stone-400 hover:text-white text-xs px-1">-</button>
+                                    <span class="text-xs font-semibold text-white">${item.qty}</span>
+                                    <button onclick="changeQty('${item.id}', 1)" class="text-stone-400 hover:text-white text-xs px-1">+</button>
+                                </div>
+                                <button onclick="removeItem('${item.id}')" class="text-stone-500 hover:text-red-400 text-xs">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                    itemsContainer.appendChild(row);
+                });
+            }
+
+            // Calculation
+            const subtotal = cart.reduce((acc, cur) => acc + (cur.price * cur.qty), 0);
+            const tax = subtotal * 0.0825; // 8.25% Tax
+            const total = subtotal + tax;
+
+            document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-tax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+
+            lucide.createIcons();
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(p => p.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                cart = cart.filter(p => p.id !== id);
+            }
+            updateCartUI();
+        }
+
+        function removeItem(id) {
+            cart = cart.filter(p => p.id !== id);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const backdrop = document.getElementById('cart-backdrop');
+            const panel = document.getElementById('cart-panel');
+
+            const isOpen = !panel.classList.contains('translate-x-full');
+
+            if (isOpen) {
+                // Close
+                panel.classList.add('translate-x-full');
+                backdrop.classList.add('opacity-0', 'pointer-events-none');
+                backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                drawer.classList.add('pointer-events-none');
+            } else {
+                // Open
+                panel.classList.remove('translate-x-full');
+                backdrop.classList.remove('opacity-0', 'pointer-events-none');
+                backdrop.classList.add('opacity-100', 'pointer-events-auto');
+                drawer.classList.remove('pointer-events-none');
+            }
+        }
+
+        function showToast(title, msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-message').innerText = msg;
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast("Your Handi is Empty", "Please select your favorite biryani first!");
+                return;
+            }
+            toggleCart();
+            showToast("Feast Order Placed!", "Our chefs are heating the clay handis now.");
+            cart = [];
+            updateCartUI();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function openReservationModal() {
+            const reservationSec = document.getElementById('reservation');
+            reservationSec.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleReserveSubmit(e) {
+            e.preventDefault();
+            showToast("Royal Table Reserved!", "You will receive an SMS & WhatsApp confirmation with your royal banquet pass.");
+            e.target.reset();
+        }
+
+        function handleSubscribeNewsletter() {
+            showToast("Welcome to the Royal Club!", "Check your inbox for your 15% discount code.");
+        }
+
+        // Initialize icons & items
+        window.addEventListener('DOMContentLoaded', () => {
+            renderMenu('all');
+            updateCartUI();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+
+</html>

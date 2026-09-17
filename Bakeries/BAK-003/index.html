@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Gulab & Grain is a modern Indian bakery crafting fresh breads, mithai-inspired pastries, celebration cakes, and chai-time favourites.">
+    <meta name="theme-color" content="#6d1f2f">
+    <title>Gulab & Grain — Modern Indian Bakery</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --wine: #6d1f2f;
+            --wine-dark: #49131f;
+            --saffron: #ee9f35;
+            --rose: #f7d9d2;
+            --cream: #fffaf0;
+            --paper: #fffdf8;
+            --ink: #2f1d1c;
+            --muted: #78635f;
+            --green: #3e674c;
+            --line: rgba(74, 35, 32, 0.12);
+            --shadow: 0 18px 55px rgba(90, 35, 35, 0.13);
+            --radius: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            color: var(--ink);
+            background: var(--cream);
+            font-family: "DM Sans", sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            color: inherit;
+        }
+
+        .container {
+            width: min(1180px, calc(100% - 40px));
+            margin-inline: auto;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--wine);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.17em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 26px;
+            height: 2px;
+            background: var(--saffron);
+            content: "";
+        }
+
+        .display {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(2.4rem, 5vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.045em;
+        }
+
+        .section-title {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            line-height: 1.1;
+            letter-spacing: -0.035em;
+        }
+
+        .section-copy {
+            max-width: 590px;
+            color: var(--muted);
+            font-size: 1.03rem;
+        }
+
+        .btn {
+            min-height: 50px;
+            padding: 0 22px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            color: white;
+            background: var(--wine);
+            box-shadow: 0 10px 25px rgba(109, 31, 47, 0.22);
+        }
+
+        .btn-primary:hover {
+            background: var(--wine-dark);
+            box-shadow: 0 14px 30px rgba(109, 31, 47, 0.28);
+        }
+
+        .btn-light {
+            color: var(--wine);
+            background: white;
+            border-color: var(--line);
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .announcement {
+            padding: 9px 20px;
+            color: white;
+            background: var(--wine);
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 250, 240, 0.91);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(16px);
+        }
+
+        .nav-inner {
+            height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            position: relative;
+            z-index: 52;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            color: white;
+            background: var(--wine);
+            border-radius: 50% 50% 46% 54% / 52% 45% 55% 48%;
+            display: grid;
+            place-items: center;
+            transform: rotate(-5deg);
+            box-shadow: 0 7px 15px rgba(109, 31, 47, 0.2);
+        }
+
+        .brand-mark svg {
+            width: 24px;
+            transform: rotate(5deg);
+        }
+
+        .brand-name {
+            font-family: "Playfair Display", serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .brand-name small {
+            margin-top: 5px;
+            color: var(--muted);
+            display: block;
+            font-family: "DM Sans", sans-serif;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 29px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            position: relative;
+            font-size: 0.93rem;
+            font-weight: 600;
+        }
+
+        .nav-links a::after {
+            width: 0;
+            height: 2px;
+            position: absolute;
+            left: 0;
+            bottom: -7px;
+            background: var(--saffron);
+            content: "";
+            transition: width 0.25s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-button,
+        .menu-button {
+            width: 44px;
+            height: 44px;
+            position: relative;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .65);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            width: 19px;
+            height: 19px;
+            position: absolute;
+            top: -3px;
+            right: -2px;
+            color: white;
+            background: var(--wine);
+            border: 2px solid var(--cream);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 0.62rem;
+            font-weight: 700;
+        }
+
+        .menu-button {
+            display: none;
+        }
+
+        .hero {
+            min-height: 690px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            width: 520px;
+            height: 520px;
+            position: absolute;
+            top: -190px;
+            left: -200px;
+            border: 1px solid rgba(238, 159, 53, 0.26);
+            border-radius: 50%;
+            content: "";
+            box-shadow: 0 0 0 55px rgba(238, 159, 53, 0.035), 0 0 0 110px rgba(238, 159, 53, 0.025);
+        }
+
+        .hero-grid {
+            padding: 76px 0 84px;
+            display: grid;
+            grid-template-columns: 0.92fr 1.08fr;
+            align-items: center;
+            gap: 72px;
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            max-width: 620px;
+            margin: 18px 0 23px;
+        }
+
+        .hero h1 em {
+            color: var(--wine);
+            font-weight: 600;
+        }
+
+        .hero-copy>p {
+            max-width: 545px;
+            color: var(--muted);
+            font-size: 1.08rem;
+        }
+
+        .hero-actions {
+            margin-top: 31px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero-note {
+            margin-top: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .avatar-stack {
+            display: flex;
+        }
+
+        .avatar-stack img {
+            width: 34px;
+            height: 34px;
+            margin-left: -8px;
+            border: 2px solid var(--cream);
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .avatar-stack img:first-child {
+            margin-left: 0;
+        }
+
+        .hero-visual {
+            min-height: 525px;
+            position: relative;
+        }
+
+        .hero-photo {
+            width: 83%;
+            height: 500px;
+            margin-left: auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 210px 210px 28px 28px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-photo::after {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(51, 17, 18, 0.25), transparent 45%);
+            content: "";
+        }
+
+        .roundel {
+            width: 117px;
+            height: 117px;
+            position: absolute;
+            top: 51px;
+            left: 2px;
+            z-index: 3;
+            color: var(--wine);
+            background: var(--saffron);
+            border: 7px solid var(--cream);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            transform: rotate(-9deg);
+            box-shadow: var(--shadow);
+            font-family: "Playfair Display", serif;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.15;
+        }
+
+        .fresh-card {
+            width: 230px;
+            padding: 17px;
+            position: absolute;
+            right: -22px;
+            bottom: 34px;
+            z-index: 3;
+            background: rgba(255, 253, 248, .96);
+            border: 1px solid rgba(255, 255, 255, .7);
+            border-radius: 19px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .fresh-card strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+            font-size: 1.06rem;
+        }
+
+        .fresh-card span {
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .fresh-top {
+            margin-bottom: 7px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .fresh-icon {
+            width: 34px;
+            height: 34px;
+            color: var(--green);
+            background: #e5f0e5;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+
+        .trust-strip {
+            color: white;
+            background: var(--wine-dark);
+        }
+
+        .trust-grid {
+            min-height: 104px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            align-items: center;
+        }
+
+        .trust-item {
+            padding: 5px 25px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            border-right: 1px solid rgba(255, 255, 255, .13);
+        }
+
+        .trust-item:first-child {
+            padding-left: 0;
+        }
+
+        .trust-item:last-child {
+            border-right: 0;
+        }
+
+        .trust-item svg {
+            color: var(--saffron);
+            flex: 0 0 auto;
+        }
+
+        .trust-item strong {
+            display: block;
+            font-size: 0.91rem;
+        }
+
+        .trust-item span {
+            color: rgba(255, 255, 255, .64);
+            font-size: 0.74rem;
+        }
+
+        .menu-section {
+            padding: 105px 0 115px;
+            background:
+                radial-gradient(circle at 95% 5%, rgba(247, 217, 210, .45), transparent 24%),
+                var(--paper);
+        }
+
+        .section-heading {
+            margin-bottom: 36px;
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .section-heading h2 {
+            margin: 12px 0 9px;
+        }
+
+        .filters {
+            margin-bottom: 35px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .filter-btn {
+            padding: 9px 17px;
+            color: var(--muted);
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 700;
+            transition: .2s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: white;
+            background: var(--wine);
+            border-color: var(--wine);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 21px;
+        }
+
+        .product-card {
+            min-width: 0;
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 9px 30px rgba(68, 36, 30, 0.06);
+            transition: transform .3s ease, box-shadow .3s ease, opacity .25s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-7px);
+            box-shadow: var(--shadow);
+        }
+
+        .product-card.hidden {
+            display: none;
+        }
+
+        .product-image {
+            height: 225px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.06);
+        }
+
+        .product-badge {
+            padding: 5px 10px;
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            color: var(--wine);
+            background: rgba(255, 250, 240, .92);
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+        }
+
+        .product-body {
+            padding: 19px;
+        }
+
+        .product-title-row {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .product-card h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 1.2rem;
+            line-height: 1.25;
+        }
+
+        .veg-dot {
+            width: 17px;
+            height: 17px;
+            flex: 0 0 auto;
+            border: 1.5px solid #398a48;
+            display: grid;
+            place-items: center;
+        }
+
+        .veg-dot::after {
+            width: 7px;
+            height: 7px;
+            background: #398a48;
+            border-radius: 50%;
+            content: "";
+        }
+
+        .product-card p {
+            min-height: 42px;
+            margin: 8px 0 18px;
+            color: var(--muted);
+            font-size: 0.83rem;
+            line-height: 1.5;
+        }
+
+        .product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price {
+            color: var(--wine);
+            font-size: 1.02rem;
+            font-weight: 800;
+        }
+
+        .add-btn {
+            width: 38px;
+            height: 38px;
+            color: white;
+            background: var(--wine);
+            border: 0;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: transform .2s, background .2s;
+        }
+
+        .add-btn:hover {
+            background: var(--saffron);
+            transform: rotate(90deg);
+        }
+
+        .story {
+            padding: 115px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr .93fr;
+            align-items: center;
+            gap: 90px;
+        }
+
+        .story-visual {
+            min-height: 540px;
+            position: relative;
+        }
+
+        .story-main {
+            width: 82%;
+            height: 495px;
+            overflow: hidden;
+            border-radius: 30px 180px 30px 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .story-main img,
+        .story-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-small {
+            width: 235px;
+            height: 190px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            border: 9px solid var(--cream);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .years-card {
+            padding: 17px 21px;
+            position: absolute;
+            top: 55px;
+            right: 5px;
+            color: white;
+            background: var(--wine);
+            border-radius: 17px;
+            box-shadow: var(--shadow);
+        }
+
+        .years-card strong {
+            display: block;
+            color: var(--saffron);
+            font-family: "Playfair Display", serif;
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .years-card span {
+            font-size: .75rem;
+        }
+
+        .story-copy h2 {
+            margin: 14px 0 22px;
+        }
+
+        .story-copy>p {
+            margin-bottom: 17px;
+            color: var(--muted);
+        }
+
+        .signature {
+            margin: 29px 0 31px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .signature img {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .signature strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+        }
+
+        .signature span {
+            color: var(--muted);
+            font-size: .78rem;
+        }
+
+        .celebration {
+            padding: 0 0 115px;
+        }
+
+        .celebration-panel {
+            min-height: 435px;
+            padding: 65px;
+            position: relative;
+            color: white;
+            background: var(--wine-dark);
+            border-radius: 34px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .celebration-panel::before {
+            width: 430px;
+            height: 430px;
+            position: absolute;
+            right: -100px;
+            top: -105px;
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 50%;
+            content: "";
+            box-shadow: 0 0 0 55px rgba(255, 255, 255, .025), 0 0 0 110px rgba(255, 255, 255, .018);
+        }
+
+        .celebration-image {
+            width: 47%;
+            position: absolute;
+            inset: 0 0 0 auto;
+        }
+
+        .celebration-image::after {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, var(--wine-dark), transparent 70%);
+            content: "";
+        }
+
+        .celebration-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .83;
+        }
+
+        .celebration-copy {
+            max-width: 590px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .celebration-copy .eyebrow {
+            color: #ffd17c;
+        }
+
+        .celebration h2 {
+            margin: 15px 0 18px;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(2.2rem, 4.4vw, 3.7rem);
+            line-height: 1.05;
+            letter-spacing: -.04em;
+        }
+
+        .celebration p {
+            max-width: 500px;
+            margin-bottom: 29px;
+            color: rgba(255, 255, 255, .72);
+        }
+
+        .celebration .btn {
+            color: var(--wine);
+            background: var(--saffron);
+        }
+
+        .testimonials {
+            padding: 105px 0;
+            background: #f6e4dc;
+        }
+
+        .testimonial-header {
+            margin-bottom: 43px;
+            text-align: center;
+        }
+
+        .testimonial-header .eyebrow::before {
+            display: none;
+        }
+
+        .testimonial-header h2 {
+            margin: 13px auto 0;
+        }
+
+        .reviews {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .review {
+            padding: 29px;
+            background: rgba(255, 255, 255, .75);
+            border: 1px solid rgba(255, 255, 255, .8);
+            border-radius: 23px;
+            box-shadow: 0 12px 30px rgba(93, 47, 45, 0.06);
+        }
+
+        .stars {
+            margin-bottom: 18px;
+            color: #dc8a24;
+            letter-spacing: 3px;
+        }
+
+        .review blockquote {
+            margin-bottom: 24px;
+            font-family: "Playfair Display", serif;
+            font-size: 1.1rem;
+            line-height: 1.55;
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .reviewer img {
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .reviewer strong {
+            display: block;
+            font-size: .88rem;
+        }
+
+        .reviewer span {
+            color: var(--muted);
+            font-size: .74rem;
+        }
+
+        .visit {
+            padding: 110px 0;
+            background: var(--paper);
+        }
+
+        .visit-grid {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            align-items: stretch;
+            gap: 24px;
+        }
+
+        .visit-copy {
+            padding: 55px;
+            color: white;
+            background: var(--green);
+            border-radius: 28px;
+        }
+
+        .visit-copy .eyebrow {
+            color: #ffd17c;
+        }
+
+        .visit-copy h2 {
+            margin: 14px 0 29px;
+        }
+
+        .contact-list {
+            display: grid;
+            gap: 21px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 13px;
+        }
+
+        .contact-item svg {
+            color: #ffd17c;
+            flex: 0 0 auto;
+        }
+
+        .contact-item strong {
+            display: block;
+            font-size: .87rem;
+        }
+
+        .contact-item span,
+        .contact-item a {
+            color: rgba(255, 255, 255, .72);
+            font-size: .83rem;
+        }
+
+        .map-card {
+            min-height: 455px;
+            position: relative;
+            background: url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=85") center/cover;
+            border-radius: 28px;
+            overflow: hidden;
+        }
+
+        .map-card::after {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(140deg, rgba(48, 27, 23, .05), rgba(48, 27, 23, .4));
+            content: "";
+        }
+
+        .map-label {
+            width: min(330px, calc(100% - 40px));
+            padding: 20px;
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+            z-index: 2;
+            background: rgba(255, 253, 248, .94);
+            border-radius: 17px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .map-label strong {
+            font-family: "Playfair Display", serif;
+            font-size: 1.15rem;
+        }
+
+        .map-label p {
+            margin: 4px 0 13px;
+            color: var(--muted);
+            font-size: .78rem;
+        }
+
+        .map-label a {
+            color: var(--wine);
+            font-size: .82rem;
+            font-weight: 800;
+        }
+
+        footer {
+            padding: 68px 0 24px;
+            color: rgba(255, 255, 255, .74);
+            background: #291519;
+        }
+
+        .footer-grid {
+            padding-bottom: 48px;
+            display: grid;
+            grid-template-columns: 1.55fr .7fr .7fr 1.15fr;
+            gap: 55px;
+        }
+
+        footer .brand {
+            width: fit-content;
+            color: white;
+        }
+
+        footer .brand-mark {
+            background: var(--saffron);
+            color: var(--wine);
+        }
+
+        .footer-about p {
+            max-width: 330px;
+            margin: 18px 0 22px;
+            font-size: .86rem;
+        }
+
+        .socials {
+            display: flex;
+            gap: 9px;
+        }
+
+        .socials a {
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            transition: .2s;
+        }
+
+        .socials a:hover {
+            color: var(--wine);
+            background: var(--saffron);
+            border-color: var(--saffron);
+        }
+
+        .footer-col h3 {
+            margin-bottom: 18px;
+            color: white;
+            font-family: "Playfair Display", serif;
+            font-size: 1rem;
+        }
+
+        .footer-col ul {
+            display: grid;
+            gap: 10px;
+            list-style: none;
+            font-size: .84rem;
+        }
+
+        .footer-col a:hover {
+            color: var(--saffron);
+        }
+
+        .newsletter {
+            margin-top: 14px;
+            padding: 5px 5px 5px 15px;
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 999px;
+            display: flex;
+        }
+
+        .newsletter input {
+            min-width: 0;
+            color: white;
+            background: transparent;
+            border: 0;
+            outline: 0;
+            flex: 1;
+        }
+
+        .newsletter input::placeholder {
+            color: rgba(255, 255, 255, .42);
+        }
+
+        .newsletter button {
+            width: 40px;
+            height: 40px;
+            color: var(--wine);
+            background: var(--saffron);
+            border: 0;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, .1);
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            font-size: .75rem;
+        }
+
+        .toast {
+            padding: 13px 19px;
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 100;
+            color: white;
+            background: var(--green);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: .3s ease;
+            font-size: .86rem;
+            font-weight: 700;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 120;
+            padding: 20px;
+            background: rgba(42, 20, 24, .67);
+            display: none;
+            place-items: center;
+            backdrop-filter: blur(7px);
+        }
+
+        .modal.show {
+            display: grid;
+        }
+
+        .modal-card {
+            width: min(560px, 100%);
+            max-height: 92vh;
+            padding: 34px;
+            position: relative;
+            background: var(--paper);
+            border-radius: 25px;
+            overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .3);
+            animation: modalIn .25s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(.96) translateY(15px);
+            }
+        }
+
+        .close-modal {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: white;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+        }
+
+        .modal-card h2 {
+            margin: 6px 45px 8px 0;
+            font-family: "Playfair Display", serif;
+            font-size: 2rem;
+        }
+
+        .modal-card>p {
+            margin-bottom: 23px;
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            font-size: .78rem;
+            font-weight: 700;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            padding: 12px 13px;
+            color: var(--ink);
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--saffron);
+            box-shadow: 0 0 0 3px rgba(238, 159, 53, .13);
+        }
+
+        .field textarea {
+            min-height: 95px;
+            resize: vertical;
+        }
+
+        .modal-card .btn {
+            width: 100%;
+            margin-top: 19px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1000px) {
+            .nav-links {
+                gap: 17px;
+            }
+
+            .nav-actions .order-nav {
+                display: none;
+            }
+
+            .hero-grid {
+                gap: 35px;
+            }
+
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .story-grid {
+                gap: 45px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1.4fr 1fr 1fr;
+            }
+
+            .footer-col:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 780px) {
+            .container {
+                width: min(100% - 28px, 650px);
+            }
+
+            .nav-inner {
+                height: 68px;
+            }
+
+            .menu-button {
+                display: grid;
+            }
+
+            .nav-links {
+                padding: 100px 25px 40px;
+                position: fixed;
+                inset: 0 0 auto 0;
+                z-index: 51;
+                color: white;
+                background: var(--wine-dark);
+                display: grid;
+                gap: 4px;
+                transform: translateY(-110%);
+                transition: transform .35s ease;
+            }
+
+            .nav-links.open {
+                transform: translateY(0);
+            }
+
+            .nav-links a {
+                padding: 13px 0;
+                display: block;
+                border-bottom: 1px solid rgba(255, 255, 255, .1);
+                font-size: 1.05rem;
+            }
+
+            .nav-links a::after {
+                display: none;
+            }
+
+            .navbar.menu-open .brand {
+                color: white;
+            }
+
+            .navbar.menu-open .brand small {
+                color: rgba(255, 255, 255, .65);
+            }
+
+            .navbar.menu-open .brand-mark {
+                color: var(--wine);
+                background: var(--saffron);
+            }
+
+            .navbar.menu-open .cart-button,
+            .navbar.menu-open .menu-button {
+                color: white;
+                background: rgba(255, 255, 255, .1);
+                border-color: rgba(255, 255, 255, .18);
+            }
+
+            .hero {
+                min-height: auto;
+            }
+
+            .hero-grid {
+                padding: 58px 0 74px;
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                min-height: 470px;
+            }
+
+            .hero-photo {
+                width: 88%;
+                height: 450px;
+            }
+
+            .roundel {
+                left: 0;
+            }
+
+            .fresh-card {
+                right: 0;
+            }
+
+            .trust-grid {
+                padding: 22px 0;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px 0;
+            }
+
+            .trust-item {
+                padding: 4px 15px;
+            }
+
+            .trust-item:nth-child(2) {
+                border-right: 0;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .story-grid,
+            .visit-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-copy {
+                order: -1;
+            }
+
+            .reviews {
+                grid-template-columns: 1fr;
+            }
+
+            .celebration-panel {
+                min-height: 530px;
+                padding: 45px 30px;
+                align-items: start;
+            }
+
+            .celebration-image {
+                width: 100%;
+                height: 48%;
+                top: auto;
+            }
+
+            .celebration-image::after {
+                background: linear-gradient(to bottom, var(--wine-dark), transparent);
+            }
+
+            .celebration-copy {
+                max-width: 100%;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-about,
+            .footer-col:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .announcement {
+                font-size: .72rem;
+            }
+
+            .brand-name {
+                font-size: 1.12rem;
+            }
+
+            .brand-mark {
+                width: 37px;
+                height: 37px;
+            }
+
+            .cart-button,
+            .menu-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .display {
+                font-size: 2.75rem;
+            }
+
+            .hero-grid {
+                padding-top: 45px;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .hero-visual {
+                min-height: 395px;
+            }
+
+            .hero-photo {
+                width: 92%;
+                height: 380px;
+            }
+
+            .roundel {
+                width: 90px;
+                height: 90px;
+                top: 28px;
+                font-size: .78rem;
+            }
+
+            .fresh-card {
+                width: 195px;
+                padding: 13px;
+                bottom: 17px;
+            }
+
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-item,
+            .trust-item:nth-child(2) {
+                padding: 6px 0;
+                border-right: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, .1);
+            }
+
+            .trust-item:last-child {
+                border-bottom: 0;
+            }
+
+            .menu-section,
+            .story,
+            .testimonials,
+            .visit {
+                padding: 80px 0;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 260px;
+            }
+
+            .story-visual {
+                min-height: 415px;
+            }
+
+            .story-main {
+                width: 90%;
+                height: 380px;
+            }
+
+            .story-small {
+                width: 170px;
+                height: 140px;
+            }
+
+            .years-card {
+                top: 35px;
+                right: 0;
+            }
+
+            .celebration {
+                padding-bottom: 80px;
+            }
+
+            .celebration-panel {
+                padding: 38px 23px;
+                border-radius: 24px;
+            }
+
+            .visit-copy {
+                padding: 36px 25px;
+            }
+
+            .map-card {
+                min-height: 400px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 34px;
+            }
+
+            .footer-about,
+            .footer-col:last-child {
+                grid-column: auto;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .modal-card {
+                padding: 26px 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="announcement">Freshly baked every morning · Free delivery on orders above ₹999</div>
+
+    <header class="navbar" id="navbar">
+        <div class="container nav-inner">
+            <a class="brand" href="#" aria-label="Gulab and Grain home">
+                <span class="brand-mark">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                            d="M12 21c5-3.1 7.5-7.1 7.5-11.2C16 9.5 13 11 12 14c-1-3-4-4.5-7.5-4.2C4.5 13.9 7 17.9 12 21Z">
+                        </path>
+                        <path d="M12 14C10.3 10.2 10.8 6.4 12 3c1.2 3.4 1.7 7.2 0 11Z"></path>
+                    </svg>
+                </span>
+                <span class="brand-name">Gulab &amp; Grain<small>Indian Bakery</small></span>
+            </a>
+
+            <nav aria-label="Main navigation">
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#menu">Our Menu</a></li>
+                    <li><a href="#story">Our Story</a></li>
+                    <li><a href="#celebrations">Celebrations</a></li>
+                    <li><a href="#visit">Visit Us</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="cart-button" aria-label="Shopping basket">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M6 8h12l-1 12H7L6 8Z"></path>
+                        <path d="M9 9V6a3 3 0 0 1 6 0v3"></path>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="btn btn-primary order-nav open-order">Order Online</button>
+                <button class="menu-button" id="menuButton" aria-label="Open menu" aria-expanded="false">
+                    <svg class="icon menu-icon" viewBox="0 0 24 24">
+                        <path d="M4 7h16M4 12h16M4 17h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy reveal">
+                    <span class="eyebrow">Tradition, freshly reimagined</span>
+                    <h1 class="display">A little <em>mithaas</em> in every bite.</h1>
+                    <p>Artisanal breads, mithai-inspired pastries and celebration cakes, handcrafted with local
+                        ingredients and the flavours we grew up loving.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#menu">
+                            Explore our menu
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M5 12h14M14 7l5 5-5 5"></path>
+                            </svg>
+                        </a>
+                        <button class="btn btn-light open-order">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path>
+                                <circle cx="12" cy="9" r="2.3"></circle>
+                            </svg>
+                            Find a bakery
+                        </button>
+                    </div>
+                    <div class="hero-note">
+                        <div class="avatar-stack">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"
+                                alt="">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80"
+                                alt="">
+                            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=100&q=80"
+                                alt="">
+                        </div>
+                        <span><strong>4.9 ★</strong> loved by 2,000+ sweet souls</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual reveal">
+                    <div class="roundel">Baked<br>with dil se<br>love</div>
+                    <div class="hero-photo">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=88"
+                            alt="Beautifully decorated pistachio celebration cake">
+                    </div>
+                    <div class="fresh-card">
+                        <div class="fresh-top">
+                            <span class="fresh-icon">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M20 4C12 4 5 8 5 15c0 2 1 4 3 5 0-6 4-10 10-13-5 4-8 8-9 13"></path>
+                                </svg>
+                            </span>
+                            <div>
+                                <strong>Always fresh</strong>
+                                <span>No preservatives, ever.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="trust-strip" aria-label="Bakery qualities">
+            <div class="container trust-grid">
+                <div class="trust-item">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 2v20M8 5c-2 2-2 5 4 7M16 5c2 2 2 5-4 7M7 14c-1.5 2-.5 5 5 6M17 14c1.5 2 .5 5-5 6">
+                        </path>
+                    </svg>
+                    <div><strong>Small-batch baked</strong><span>Made fresh each morning</span></div>
+                </div>
+                <div class="trust-item">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M20 4C12 4 5 8 5 15c0 2 1 4 3 5 0-6 4-10 10-13-5 4-8 8-9 13"></path>
+                    </svg>
+                    <div><strong>Thoughtful ingredients</strong><span>Local, seasonal, honest</span></div>
+                </div>
+                <div class="trust-item">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M4 10h16v10H4zM3 7h18v3H3zM12 7v13M12 7C9 7 7 6 7 4.5S9 3 10 4c1 1 2 3 2 3Zm0 0c3 0 5-1 5-2.5S15 3 14 4c-1 1-2 3-2 3Z">
+                        </path>
+                    </svg>
+                    <div><strong>Beautifully packed</strong><span>Perfect for gifting</span></div>
+                </div>
+                <div class="trust-item">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M3 7h12v10H3zM15 10h4l2 3v4h-6zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z">
+                        </path>
+                    </svg>
+                    <div><strong>Same-day delivery</strong><span>Across Bengaluru</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section" id="menu">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div>
+                        <span class="eyebrow">From our ovens</span>
+                        <h2 class="section-title">Today's favourites</h2>
+                        <p class="section-copy">Familiar Indian flavours meet contemporary baking. Pick something lovely
+                            for chai time—or simply because.</p>
+                    </div>
+                    <button class="btn btn-light open-order">View full menu</button>
+                </div>
+
+                <div class="filters reveal" aria-label="Filter products">
+                    <button class="filter-btn active" data-filter="all">All favourites</button>
+                    <button class="filter-btn" data-filter="pastry">Pastries</button>
+                    <button class="filter-btn" data-filter="bread">Breads</button>
+                    <button class="filter-btn" data-filter="cake">Cakes</button>
+                    <button class="filter-btn" data-filter="savoury">Savouries</button>
+                </div>
+
+                <div class="products">
+                    <article class="product-card reveal" data-category="pastry">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=85"
+                                alt="Flaky croissant with pistachio">
+                            <span class="product-badge">Bestseller</span>
+                        </div>
+                        <div class="product-body">
+                            <div class="product-title-row">
+                                <h3>Pista Rose Croissant</h3><span class="veg-dot" title="Vegetarian"></span>
+                            </div>
+                            <p>Butter layers, pistachio frangipane and fragrant rose glaze.</p>
+                            <div class="product-bottom"><span class="price">₹225</span><button class="add-btn"
+                                    aria-label="Add Pista Rose Croissant"><svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M12 5v14M5 12h14"></path>
+                                    </svg></button></div>
+                        </div>
+                    </article>
+
+                    <article class="product-card reveal" data-category="cake">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=700&q=85"
+                                alt="Cardamom cake with cream">
+                            <span class="product-badge">New</span>
+                        </div>
+                        <div class="product-body">
+                            <div class="product-title-row">
+                                <h3>Elaichi Milk Cake</h3><span class="veg-dot" title="Vegetarian"></span>
+                            </div>
+                            <p>Tender cardamom sponge, saffron milk soak and cloud cream.</p>
+                            <div class="product-bottom"><span class="price">₹395</span><button class="add-btn"
+                                    aria-label="Add Elaichi Milk Cake"><svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M12 5v14M5 12h14"></path>
+                                    </svg></button></div>
+                        </div>
+                    </article>
+
+                    <article class="product-card reveal" data-category="bread">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=700&q=85"
+                                alt="Freshly baked loaves of bread">
+                        </div>
+                        <div class="product-body">
+                            <div class="product-title-row">
+                                <h3>Masala Sourdough</h3><span class="veg-dot" title="Vegetarian"></span>
+                            </div>
+                            <p>48-hour fermented loaf with curry leaf, chilli and cumin.</p>
+                            <div class="product-bottom"><span class="price">₹280</span><button class="add-btn"
+                                    aria-label="Add Masala Sourdough"><svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M12 5v14M5 12h14"></path>
+                                    </svg></button></div>
+                        </div>
+                    </article>
+
+                    <article class="product-card reveal" data-category="savoury">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=700&q=85"
+                                alt="Golden flaky savoury pastries">
+                            <span class="product-badge">Chai-time</span>
+                        </div>
+                        <div class="product-body">
+                            <div class="product-title-row">
+                                <h3>Paneer Khari</h3><span class="veg-dot" title="Vegetarian"></span>
+                            </div>
+                            <p>Crisp puff pastry filled with spiced paneer and fresh herbs.</p>
+                            <div class="product-bottom"><span class="price">₹145</span><button class="add-btn"
+                                    aria-label="Add Paneer Khari"><svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M12 5v14M5 12h14"></path>
+                                    </svg></button></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="story" id="story">
+            <div class="container story-grid">
+                <div class="story-visual reveal">
+                    <div class="story-main">
+                        <img src="https://images.unsplash.com/photo-1556217477-d325251ece38?auto=format&fit=crop&w=900&q=85"
+                            alt="Baker preparing fresh pastry by hand">
+                    </div>
+                    <div class="story-small">
+                        <img src="https://images.unsplash.com/photo-1542826438-bd32f43d626f?auto=format&fit=crop&w=500&q=85"
+                            alt="Celebration cake decorated with flowers">
+                    </div>
+                    <div class="years-card"><strong>12</strong><span>years of baking joy</span></div>
+                </div>
+
+                <div class="story-copy reveal">
+                    <span class="eyebrow">Our story</span>
+                    <h2 class="section-title">Rooted in memory.<br>Baked for today.</h2>
+                    <p>It began with our nani's rose-scented kitchen, a battered recipe diary, and a belief that the
+                        best food always carries a story.</p>
+                    <p>Today, Gulab &amp; Grain brings that warmth to a modern neighbourhood bakery. We pair
+                        time-honoured Indian flavours with careful technique—kneading, folding and frosting everything
+                        by hand.</p>
+                    <div class="signature">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=120&q=80"
+                            alt="Founder Ananya Rao">
+                        <div><strong>Ananya Rao</strong><span>Founder &amp; Head Baker</span></div>
+                    </div>
+                    <a class="btn btn-primary" href="#visit">Come meet us</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="celebration" id="celebrations">
+            <div class="container">
+                <div class="celebration-panel reveal">
+                    <div class="celebration-image">
+                        <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=1000&q=85"
+                            alt="Luxury custom celebration cake">
+                    </div>
+                    <div class="celebration-copy">
+                        <span class="eyebrow">Made for your moments</span>
+                        <h2>Celebration cakes,<br>as unique as you.</h2>
+                        <p>From intimate birthdays to big fat Indian weddings, our cake artists create edible
+                            centrepieces inspired by your story.</p>
+                        <button class="btn open-order">Enquire for a custom cake</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <div class="testimonial-header reveal">
+                    <span class="eyebrow">Sweet words</span>
+                    <h2 class="section-title">From our bakery family</h2>
+                </div>
+                <div class="reviews">
+                    <article class="review reveal">
+                        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                        <blockquote>“The pista rose croissant is pure magic—flaky, fragrant and not too sweet. It tastes
+                            like nostalgia dressed up for brunch.”</blockquote>
+                        <div class="reviewer">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
+                                alt="">
+                            <div><strong>Meera K.</strong><span>Regular since 2019</span></div>
+                        </div>
+                    </article>
+                    <article class="review reveal">
+                        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                        <blockquote>“They understood our wedding vision perfectly. The rasmalai cake looked breathtaking
+                            and every guest asked for seconds.”</blockquote>
+                        <div class="reviewer">
+                            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=100&q=80"
+                                alt="">
+                            <div><strong>Rhea &amp; Karan</strong><span>Wedding clients</span></div>
+                        </div>
+                    </article>
+                    <article class="review reveal">
+                        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                        <blockquote>“My weekend ritual: masala sourdough, filter coffee and a sunny corner here.
+                            Everything feels thoughtful and full of heart.”</blockquote>
+                        <div class="reviewer">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80"
+                                alt="">
+                            <div><strong>Arjun S.</strong><span>Local guide</span></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="visit" id="visit">
+            <div class="container visit-grid">
+                <div class="visit-copy reveal">
+                    <span class="eyebrow">Our neighbourhood</span>
+                    <h2 class="section-title">Come by for<br>chai &amp; cake.</h2>
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path>
+                                <circle cx="12" cy="9" r="2.3"></circle>
+                            </svg>
+                            <div><strong>Indiranagar Bakery</strong><span>12th Main Road, Bengaluru, Karnataka
+                                    560038</span></div>
+                        </div>
+                        <div class="contact-item">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v5l3 2"></path>
+                            </svg>
+                            <div><strong>Open every day</strong><span>8:00 AM – 9:00 PM</span></div>
+                        </div>
+                        <div class="contact-item">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path
+                                    d="M5 4h4l2 5-3 2c1.5 3 3 4.5 6 6l2-3 5 2v4c0 1-1 2-2 2C10 21 3 14 3 6c0-1 1-2 2-2Z">
+                                </path>
+                            </svg>
+                            <div><strong>Call ahead</strong><a href="tel:+918045678900">+91 80 4567 8900</a></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-card reveal">
+                    <div class="map-label">
+                        <strong>Gulab &amp; Grain, Indiranagar</strong>
+                        <p>Fresh bread, warm chai and plenty of sunny seats.</p>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener">Get directions →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a class="brand" href="#">
+                        <span class="brand-mark">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21c5-3.1 7.5-7.1 7.5-11.2C16 9.5 13 11 12 14c-1-3-4-4.5-7.5-4.2C4.5 13.9 7 17.9 12 21Z">
+                                </path>
+                                <path d="M12 14C10.3 10.2 10.8 6.4 12 3c1.2 3.4 1.7 7.2 0 11Z"></path>
+                            </svg>
+                        </span>
+                        <span class="brand-name">Gulab &amp; Grain<small>Indian Bakery</small></span>
+                    </a>
+                    <p>A modern Indian bakery making everyday moments a little sweeter, one small batch at a time.</p>
+                    <div class="socials">
+                        <a href="#" aria-label="Instagram"><svg class="icon" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M17.5 6.5h.01"></path>
+                            </svg></a>
+                        <a href="#" aria-label="Facebook"><svg class="icon" viewBox="0 0 24 24">
+                                <path d="M14 8h3V4h-3c-3 0-5 2-5 5v3H6v4h3v5h4v-5h3l1-4h-4V9c0-.6.4-1 1-1Z"></path>
+                            </svg></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Explore</h3>
+                    <ul>
+                        <li><a href="#menu">Our menu</a></li>
+                        <li><a href="#story">Our story</a></li>
+                        <li><a href="#celebrations">Custom cakes</a></li>
+                        <li><a href="#visit">Locations</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="#">Delivery</a></li>
+                        <li><a href="#">Allergens</a></li>
+                        <li><a href="#">Corporate gifting</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>A sweet note in your inbox</h3>
+                    <p style="font-size:.82rem">New bakes, seasonal specials and bakery stories.</p>
+                    <form class="newsletter" id="newsletterForm">
+                        <input type="email" aria-label="Email address" placeholder="Your email address" required>
+                        <button type="submit" aria-label="Subscribe">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M5 12h14M14 7l5 5-5 5"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2025 Gulab &amp; Grain Bakery. Made with warmth in Bengaluru.</span>
+                <span><a href="#">Privacy</a> · <a href="#">Terms</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status">
+        <svg class="icon" viewBox="0 0 24 24">
+            <path d="m5 12 4 4L19 6"></path>
+        </svg>
+        <span id="toastText">Added to your basket</span>
+    </div>
+
+    <div class="modal" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-card">
+            <button class="close-modal" aria-label="Close">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="m6 6 12 12M18 6 6 18"></path>
+                </svg>
+            </button>
+            <span class="eyebrow">Let's make it special</span>
+            <h2 id="modalTitle">Place an enquiry</h2>
+            <p>Tell us what you're looking for and our bakery team will get back to you within one working day.</p>
+            <form id="orderForm">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="name">Your name</label>
+                        <input id="name" name="name" autocomplete="name" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone number</label>
+                        <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+                    </div>
+                    <div class="field">
+                        <label for="occasion">I'm looking for</label>
+                        <select id="occasion" name="occasion">
+                            <option>Everyday treats</option>
+                            <option>Birthday cake</option>
+                            <option>Wedding cake</option>
+                            <option>Corporate gifting</option>
+                            <option>Find a bakery</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="date">Preferred date</label>
+                        <input id="date" name="date" type="date">
+                    </div>
+                    <div class="field full">
+                        <label for="details">Tell us a little more</label>
+                        <textarea id="details" name="details"
+                            placeholder="Flavours, servings, dietary preferences..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Send enquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const navbar = document.getElementById("navbar");
+        const menuButton = document.getElementById("menuButton");
+        const navLinks = document.getElementById("navLinks");
+        const modal = document.getElementById("orderModal");
+        const toast = document.getElementById("toast");
+        const toastText = document.getElementById("toastText");
+        let cart = 0;
+        let toastTimer;
+
+        function showToast(message) {
+            toastText.textContent = message;
+            toast.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+        }
+
+        menuButton.addEventListener("click", () => {
+            const open = navLinks.classList.toggle("open");
+            navbar.classList.toggle("menu-open", open);
+            menuButton.setAttribute("aria-expanded", open);
+            document.body.style.overflow = open ? "hidden" : "";
+        });
+
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("open");
+                navbar.classList.remove("menu-open");
+                menuButton.setAttribute("aria-expanded", "false");
+                document.body.style.overflow = "";
+            });
+        });
+
+        document.querySelectorAll(".filter-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                const filter = button.dataset.filter;
+
+                document.querySelectorAll(".product-card").forEach(card => {
+                    card.classList.toggle("hidden", filter !== "all" && card.dataset.category !== filter);
+                });
+            });
+        });
+
+        document.querySelectorAll(".add-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                cart++;
+                document.getElementById("cartCount").textContent = cart;
+                const item = button.closest(".product-card").querySelector("h3").textContent;
+                showToast(item + " added to your basket");
+            });
+        });
+
+        function openModal() {
+            modal.classList.add("show");
+            document.body.classList.add("modal-open");
+            setTimeout(() => document.getElementById("name").focus(), 100);
+        }
+
+        function closeModal() {
+            modal.classList.remove("show");
+            document.body.classList.remove("modal-open");
+        }
+
+        document.querySelectorAll(".open-order").forEach(button => button.addEventListener("click", openModal));
+        document.querySelector(".close-modal").addEventListener("click", closeModal);
+
+        modal.addEventListener("click", event => {
+            if (event.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") closeModal();
+        });
+
+        document.getElementById("orderForm").addEventListener("submit", event => {
+            event.preventDefault();
+            closeModal();
+            event.target.reset();
+            showToast("Thank you! Our bakery team will call you soon.");
+        });
+
+        document.getElementById("newsletterForm").addEventListener("submit", event => {
+            event.preventDefault();
+            event.target.reset();
+            showToast("You're on the sweet list!");
+        });
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+    </script>
+</body>
+
+</html>

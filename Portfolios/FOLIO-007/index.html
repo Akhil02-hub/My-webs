@@ -1,0 +1,3089 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellocode &amp; Co. — Web Development </title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Sora:wght@400;500;600;700&display=swap');
+
+        :root {
+            --ink: #F6F1E7;
+            --plum: #FFFFFF;
+            --plum-2: #F2EAE0;
+            --paper: #161019;
+            --gold: #C9A15A;
+            --gold-soft: #A9823E;
+            --muted: #6F6570;
+            --ink-text: #161019;
+            --line: rgba(22, 16, 25, 0.14);
+            --danger: #B85C4C;
+            --button: #B86F72;
+            --button-hover: #9F5B5F;
+            --button-text: #FFFFFF;
+            --ease: cubic-bezier(.22, 1, .36, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --ink: #161019;
+                --plum: #251A29;
+                --plum-2: #2F2033;
+                --paper: #F6F1E7;
+                --gold: #C9A15A;
+                --gold-soft: #DEC08B;
+                --muted: #B9AEC0;
+                --ink-text: #F2EAE0;
+                --line: rgba(242, 234, 224, 0.14);
+                --danger: #D97C6B;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--ink);
+            color: var(--ink-text);
+            font-family: 'Sora', sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: 'Fraunces', serif;
+            font-weight: 500;
+            letter-spacing: -.01em;
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            display: block;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--ink);
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 18px;
+            transition: opacity .7s var(--ease), visibility .7s var(--ease);
+        }
+
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-mark {
+            width: 52px;
+            height: 52px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .loader-mark::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            border-top-color: var(--gold);
+            animation: spin 1.1s linear infinite;
+        }
+
+        .loader-text {
+            font-family: 'Fraunces', serif;
+            font-size: 14px;
+            letter-spacing: .14em;
+            color: var(--muted);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 32px;
+            transition: background .4s var(--ease), backdrop-filter .4s var(--ease), padding .4s var(--ease);
+        }
+
+        .site-header.scrolled {
+            background: rgba(22, 16, 25, .86);
+            backdrop-filter: blur(10px);
+            padding: 14px 32px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 34px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            color: var(--muted);
+            transition: color .25s;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink-text);
+        }
+
+        .nav-cta {
+            border: 1px solid var(--gold);
+            padding: 9px 20px;
+            border-radius: 999px;
+            font-size: 13px;
+            color: var(--gold-soft);
+            transition: background .25s, color .25s;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold);
+            color: var(--ink);
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding-top: 90px;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-eyebrow {
+            font-size: 13px;
+            color: var(--gold-soft);
+            margin-bottom: 22px;
+            display: block;
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5.2vw, 68px);
+            line-height: 1.04;
+            color: var(--ink-text);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero .sub {
+            margin-top: 22px;
+            max-width: 46ch;
+            font-size: 17px;
+            color: var(--muted);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-actions {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .hero.animate-in .hero-eyebrow {
+            animation: riseIn .8s var(--ease) .15s forwards;
+        }
+
+        .hero.animate-in h1 {
+            animation: riseIn .9s var(--ease) .3s forwards;
+        }
+
+        .hero.animate-in .sub {
+            animation: riseIn .9s var(--ease) .5s forwards;
+        }
+
+        .hero.animate-in .hero-actions {
+            animation: riseIn .9s var(--ease) .68s forwards;
+        }
+
+        @keyframes riseIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn {
+            border-radius: 999px;
+            padding: 16px 30px;
+            font-size: 14.5px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform .35s var(--ease), background .3s, color .3s, border-color .3s, box-shadow .3s;
+        }
+
+        .btn:active {
+            transform: scale(.97);
+        }
+
+        .btn-primary {
+            background: var(--button);
+            color: var(--button-text);
+            border-color: var(--button);
+        }
+
+        .btn-primary:hover {
+            background: var(--button-hover);
+            border-color: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(184, 111, 114, .25);
+        }
+
+        .btn-outline {
+            border-color: var(--button);
+            color: var(--button);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--button);
+            border-color: var(--button);
+            color: var(--button-text);
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            color: var(--muted);
+            padding: 16px 8px;
+        }
+
+        .btn-ghost:hover {
+            color: var(--ink-text);
+        }
+
+        .btn-sm {
+            padding: 11px 20px;
+            font-size: 13px;
+        }
+
+        .btn[disabled] {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .hero-card-float {
+            position: relative;
+            z-index: 2;
+            aspect-ratio: 3/4;
+            max-width: 320px;
+            justify-self: end;
+            border-radius: 24px;
+            background: linear-gradient(155deg, var(--plum-2), var(--plum));
+            border: 1px solid var(--line);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, .18);
+            display: flex;
+            align-items: flex-end;
+            padding: 26px;
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        .hero-card-float span {
+            font-family: 'Fraunces', serif;
+            font-size: 20px;
+            color: var(--gold-soft);
+        }
+
+        @keyframes floatCard {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-1.2deg);
+            }
+
+            50% {
+                transform: translateY(-16px) rotate(1deg);
+            }
+        }
+
+        .section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section-head {
+            max-width: 640px;
+            margin-bottom: 56px;
+        }
+
+        .section-kicker {
+            font-size: 13px;
+            color: var(--gold-soft);
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .section h2 {
+            font-size: clamp(30px, 3.6vw, 44px);
+            color: var(--ink-text);
+        }
+
+        .section .lede {
+            margin-top: 18px;
+            font-size: 16.5px;
+            color: var(--muted);
+            max-width: 60ch;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: var(--line);
+            margin: 0;
+        }
+
+        .quote-box {
+            border-left: 2px solid var(--gold);
+            padding: 6px 0 6px 24px;
+            margin: 28px 0 54px;
+            max-width: 64ch;
+            font-family: 'Fraunces', serif;
+            font-size: 19px;
+            color: var(--ink-text);
+            font-style: italic;
+            display: none;
+        }
+
+        .quote-box.visible {
+            display: block;
+            animation: riseIn .6s var(--ease) forwards;
+        }
+
+        .category-rail {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 18px;
+            margin-bottom: 44px;
+            cursor: grab;
+            scrollbar-width: thin;
+            user-select: none;
+        }
+
+        .category-rail.dragging {
+            cursor: grabbing;
+        }
+
+        .category-rail::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .category-rail::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 10px;
+        }
+
+        .category-pill {
+            flex: 0 0 auto;
+            padding: 11px 22px;
+            border-radius: 999px;
+            border: 1px solid var(--button);
+            color: var(--button);
+            background: transparent;
+            font-size: 13.5px;
+            white-space: nowrap;
+            transition: all .25s;
+        }
+
+        .category-pill:hover {
+            background: rgba(184, 111, 114, .12);
+            border-color: var(--button);
+            color: var(--button);
+        }
+
+        .category-pill.active {
+            background: var(--button);
+            border-color: var(--button);
+            color: var(--button-text);
+            font-weight: 600;
+        }
+
+        .website-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .website-card {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            background: var(--plum);
+            transition: transform .4s var(--ease);
+        }
+
+        .website-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .website-card .media {
+            aspect-ratio: 16/10;
+            background: linear-gradient(155deg, var(--plum-2), var(--ink));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .website-card .media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .website-card .media .fallback {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fraunces', serif;
+            color: var(--gold-soft);
+            font-size: 15px;
+            letter-spacing: .05em;
+        }
+
+        .website-card .body {
+            padding: 22px 24px 26px;
+        }
+
+        .website-card .cat-tag {
+            font-size: 11.5px;
+            letter-spacing: .06em;
+            color: var(--gold-soft);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .website-card h3 {
+            font-size: 19px;
+            margin-bottom: 6px;
+        }
+
+        .website-card .desc {
+            font-size: 13.5px;
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .website-card .price {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 4px;
+            margin: 0 0 18px;
+            padding: 8px 14px;
+            border: 1px solid rgba(222, 192, 139, .28);
+            border-radius: 999px;
+            background: rgba(201, 161, 90, .08);
+            color: var(--gold-soft);
+            font-family: 'Fraunces', serif;
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: .01em;
+        }
+
+        .website-card .price::before {
+            content: '₹';
+            font-family: 'Sora', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .website-card .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .website-card .card-actions .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 12px 14px;
+            font-size: 13px;
+        }
+
+        .project-section {
+            border-radius: 28px;
+            border: 1px solid var(--line);
+            background: linear-gradient(160deg, var(--plum-2), var(--plum) 60%, var(--ink));
+            padding: 70px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .project-section h2 {
+            font-size: clamp(28px, 3.4vw, 38px);
+        }
+
+        .project-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field label {
+            font-size: 12.5px;
+            color: var(--muted);
+            letter-spacing: .02em;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            background: rgba(0, 0, 0, .22);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 13px 14px;
+            color: var(--ink-text);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .25s;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--gold);
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 46px;
+            flex-wrap: wrap;
+        }
+
+        .rating-number {
+            font-family: 'Fraunces', serif;
+            font-size: 56px;
+            color: var(--gold-soft);
+            line-height: 1;
+        }
+
+        .stars {
+            color: var(--gold);
+            font-size: 19px;
+            letter-spacing: 2px;
+        }
+
+        .rating-meta {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 22px;
+            margin-bottom: 50px;
+        }
+
+        .review-card {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 24px;
+            background: var(--plum);
+        }
+
+        .review-card .stars {
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .review-card p {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .review-card .name {
+            font-size: 13px;
+            color: var(--ink-text);
+            font-weight: 600;
+        }
+
+        .review-form {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 32px;
+            background: var(--plum);
+            max-width: 560px;
+        }
+
+        .star-picker {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .star-picker button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--line);
+            padding: 0;
+            transition: color .2s;
+        }
+
+        .star-picker button.active,
+        .star-picker button:hover {
+            color: var(--gold);
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 50px 0 34px;
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 26px;
+        }
+
+        .footer-links a {
+            font-size: 13.5px;
+            color: var(--muted);
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--ink-text);
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            font-size: 12.5px;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .admin-link {
+            opacity: .55;
+            font-size: 12px;
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--gold);
+            color: var(--ink);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 14px 24px;
+            border-radius: 999px;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 300;
+            transition: all .35s var(--ease);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .3);
+        }
+
+        #toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .more-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 36px;
+            width: 100%;
+        }
+
+        .more-btn {
+            min-width: 140px;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .more-arrow {
+            font-size: 17px;
+            line-height: 1;
+            transition: transform .25s ease;
+        }
+
+        .more-btn:hover .more-arrow {
+            transform: translateY(3px);
+        }
+
+        .category-fab {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 150;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            border: 1px solid var(--button);
+            background: var(--button);
+            color: var(--button-text);
+            font-size: 22px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .22);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-fab.show {
+            display: flex;
+        }
+
+        .category-fab-panel {
+            position: fixed;
+            right: 24px;
+            bottom: 94px;
+            z-index: 149;
+            width: min(300px, calc(100vw - 40px));
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: var(--plum);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .25);
+            display: none;
+        }
+
+        .category-fab-panel.show {
+            display: block;
+        }
+
+        .category-fab-title {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .fab-category {
+            width: 100%;
+            text-align: left;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--ink-text);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+
+        .fab-category:hover,
+        .fab-category.active {
+            background: var(--button);
+            border-color: var(--button);
+            color: var(--button-text);
+        }
+
+        @media (max-width: 900px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card-float {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .project-section {
+                grid-template-columns: 1fr;
+                padding: 44px 28px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .section {
+                padding: 80px 0;
+            }
+
+            .site-header {
+                padding: 18px 20px;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader">
+        <div class="loader-mark"></div>
+        <div class="loader-text" id="loader-text">VELLOCODE &amp; CO.</div>
+    </div>
+
+    <header class="site-header" id="site-header">
+        <a href="#top" class="logo">
+            <img id="site-logo" src="/uploads/default-logo.svg" alt="Studio logo">
+        </a>
+
+        <nav class="nav-links">
+            <a href="#websites" data-nav="websites">Websites</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#project" class="nav-cta">Start a project</a>
+        </nav>
+    </header>
+
+    <main id="top">
+
+        <section class="hero" id="hero">
+            <canvas id="hero-canvas"></canvas>
+
+            <div class="container hero-inner">
+
+                <div>
+                    <span class="hero-eyebrow">WEB DEVELOPMENT STUDIO</span>
+
+                    <h1 id="hero-headline">
+                        Websites designed to move your business forward.
+                    </h1>
+
+                    <p class="sub" id="hero-subheadline">
+                        Modern, high-performance websites built around what you actually do.
+                    </p>
+
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" data-scroll="websites">
+                            Explore websites
+                        </button>
+
+                        <button class="btn btn-outline" data-scroll="project">
+                            Do a project
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-card-float">
+                    <span>Built<br>for Growth</span>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="section-divider"></div>
+        </div>
+
+        <section class="section" id="websites">
+
+            <div class="container">
+
+                <div class="section-head">
+                    <span class="section-kicker">01 — WEBSITES</span>
+
+                    <h2>
+                        Sites built around what you actually do.
+                    </h2>
+
+                    <div class="quote-box" id="website-quote"></div>
+                </div>
+
+                <div class="category-rail" id="category-rail"></div>
+
+                <div class="website-grid" id="website-grid"></div>
+
+                <div class="more-wrap">
+                    <button class="btn btn-outline more-btn" id="website-more-btn">
+                        More
+                        <span class="more-arrow">↓</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="container">
+            <div class="section-divider"></div>
+        </div>
+
+        <section class="section" id="project">
+
+            <div class="container">
+
+                <div class="project-section">
+
+                    <div>
+                        <span class="section-kicker">02 — START SOMETHING</span>
+
+                        <h2>
+                            Tell us what you're building.
+                        </h2>
+
+                        <p class="lede" style="margin-top:16px;">
+                            Whether it's a business website, portfolio, e-commerce site,
+                            or web application, send the brief and we'll follow up with
+                            a scope and a quote — usually within a day.
+                        </p>
+                    </div>
+
+                    <form class="project-form" id="project-form">
+
+                        <div class="two-col">
+
+                            <div class="field">
+                                <label for="pf-name">Name</label>
+                                <input id="pf-name" name="name" type="text" required>
+                            </div>
+
+                            <div class="field">
+                                <label for="pf-email">Email</label>
+                                <input id="pf-email" name="email" type="email" required>
+                            </div>
+
+                        </div>
+
+                        <div class="two-col">
+
+                            <div class="field">
+                                <label for="pf-type">Project type</label>
+
+                                <select id="pf-type" name="project_type">
+                                    <option value="Business Website">Business Website</option>
+                                    <option value="Portfolio Website">Portfolio Website</option>
+                                    <option value="E-commerce Website">E-commerce Website</option>
+                                    <option value="Web Application">Web Application</option>
+                                    <option value="Custom Website">Custom Website</option>
+                                    <option value="Something else">Something else</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label for="pf-budget">Rough budget</label>
+
+                                <input id="pf-budget" name="budget" type="text" placeholder="e.g. ₹15,000">
+                            </div>
+
+                        </div>
+
+                        <div class="field">
+
+                            <label for="pf-message">
+                                Tell us about it
+                            </label>
+
+                            <textarea id="pf-message" name="message"
+                                placeholder="Business details, required features, style, references..."></textarea>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="justify-content:center;margin-top:6px;">
+                            Send brief
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="container">
+            <div class="section-divider"></div>
+        </div>
+
+        <section class="section" id="reviews">
+
+            <div class="container">
+
+                <div class="section-head">
+
+                    <span class="section-kicker">03 — REVIEWS</span>
+
+                    <h2>
+                        What clients say.
+                    </h2>
+
+                </div>
+
+                <div class="rating-summary">
+
+                    <div class="rating-number" id="avg-rating">
+                        —
+                    </div>
+
+                    <div>
+
+                        <div class="stars" id="avg-stars">
+                            ☆☆☆☆☆
+                        </div>
+
+                        <div class="rating-meta" id="rating-count">
+                            No reviews yet
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="review-grid" id="review-grid"></div>
+
+                <div class="review-form">
+
+                    <h3 style="font-size:18px;margin-bottom:18px;">
+                        Leave a review
+                    </h3>
+
+                    <form id="review-form">
+
+                        <div class="field" style="margin-bottom:14px;">
+
+                            <label for="rf-name">
+                                Name
+                            </label>
+
+                            <input id="rf-name" name="name" type="text" required>
+
+                        </div>
+
+                        <div class="field" style="margin-bottom:14px;">
+
+                            <label>
+                                Rating
+                            </label>
+
+                            <div class="star-picker" id="star-picker">
+
+                                <button type="button" data-val="1">★</button>
+                                <button type="button" data-val="2">★</button>
+                                <button type="button" data-val="3">★</button>
+                                <button type="button" data-val="4">★</button>
+                                <button type="button" data-val="5">★</button>
+
+                            </div>
+
+                            <input type="hidden" id="rf-rating" name="rating" value="0">
+
+                        </div>
+
+                        <div class="field" style="margin-bottom:18px;">
+
+                            <label for="rf-comment">
+                                Comment
+                            </label>
+
+                            <textarea id="rf-comment" name="comment"></textarea>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-outline">
+                            Submit review
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <div class="container">
+
+            <div class="footer-row">
+
+                <img id="footer-logo" src="/uploads/default-logo.svg" alt="Studio logo" style="height:26px;">
+
+                <div class="footer-links">
+
+                    <a href="#websites">
+                        Websites
+                    </a>
+
+                    <a href="#project">
+                        Start a project
+                    </a>
+
+                    <a id="footer-instagram" href="https://instagram.com/" target="_blank" rel="noopener">
+                        Instagram
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <span>
+                    ©
+                    <span id="footer-year"></span>
+                    <span id="footer-name">
+                        VELLOCODE &amp; CO.
+                    </span>
+                </span>
+
+                <a class="admin-link" href="/admin">
+                    Studio admin
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <div id="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        (function () {
+
+            const canvas =
+                document.getElementById('hero-canvas');
+
+            if (!canvas || typeof THREE === 'undefined') {
+                return;
+            }
+
+            const heroSection =
+                document.getElementById('hero');
+
+            let width =
+                heroSection.clientWidth;
+
+            let height =
+                heroSection.clientHeight;
+
+            const scene =
+                new THREE.Scene();
+
+            const camera =
+                new THREE.PerspectiveCamera(
+                    45,
+                    width / height,
+                    0.1,
+                    100
+                );
+
+            camera.position.set(
+                0,
+                0,
+                14
+            );
+
+            const renderer =
+                new THREE.WebGLRenderer({
+                    canvas,
+                    alpha: true,
+                    antialias: true
+                });
+
+            renderer.setPixelRatio(
+                Math.min(
+                    window.devicePixelRatio,
+                    2
+                )
+            );
+
+            renderer.setSize(
+                width,
+                height
+            );
+
+            const colors = [
+                0xc9a15a,
+                0xe7adb6,
+                0x8a9a6e,
+                0xf6f1e7
+            ];
+
+            const group =
+                new THREE.Group();
+
+            scene.add(group);
+
+            const cardGeo =
+                new THREE.PlaneGeometry(
+                    2.1,
+                    2.9
+                );
+
+            const cards = [];
+
+            const cardCount = 9;
+
+            for (
+                let i = 0;
+                i < cardCount;
+                i++
+            ) {
+
+                const mat =
+                    new THREE.MeshBasicMaterial({
+                        color:
+                            colors[
+                            i %
+                            colors.length
+                            ],
+                        transparent: true,
+                        opacity:
+                            0.13 +
+                            Math.random() *
+                            0.1,
+                        side:
+                            THREE.DoubleSide
+                    });
+
+                const mesh =
+                    new THREE.Mesh(
+                        cardGeo,
+                        mat
+                    );
+
+                mesh.position.set(
+                    (Math.random() - 0.5) * 16,
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10 - 4
+                );
+
+                mesh.rotation.set(
+                    Math.random() * 0.6 - 0.3,
+                    Math.random() * 0.9 - 0.45,
+                    Math.random() * 0.5 - 0.25
+                );
+
+                const scale =
+                    0.6 +
+                    Math.random() *
+                    0.9;
+
+                mesh.scale.set(
+                    scale,
+                    scale,
+                    scale
+                );
+
+                mesh.userData = {
+                    speed:
+                        0.08 +
+                        Math.random() *
+                        0.12,
+
+                    offset:
+                        Math.random() *
+                        Math.PI *
+                        2,
+
+                    driftX:
+                        (Math.random() - 0.5) *
+                        0.4,
+
+                    baseY:
+                        mesh.position.y
+                };
+
+                group.add(mesh);
+
+                cards.push(mesh);
+            }
+
+            const ringGeo =
+                new THREE.TorusGeometry(
+                    4.6,
+                    0.015,
+                    8,
+                    90
+                );
+
+            const ringMat =
+                new THREE.MeshBasicMaterial({
+                    color: 0xc9a15a,
+                    transparent: true,
+                    opacity: 0.18
+                });
+
+            const ring =
+                new THREE.Mesh(
+                    ringGeo,
+                    ringMat
+                );
+
+            ring.position.set(
+                3.5,
+                -0.5,
+                -6
+            );
+
+            ring.rotation.x =
+                Math.PI / 2.4;
+
+            scene.add(ring);
+
+            let mouseX = 0;
+            let mouseY = 0;
+
+            let targetRotX = 0;
+            let targetRotY = 0;
+
+            window.addEventListener(
+                'mousemove',
+                e => {
+
+                    mouseX =
+                        e.clientX /
+                        window.innerWidth *
+                        2 - 1;
+
+                    mouseY =
+                        e.clientY /
+                        window.innerHeight *
+                        2 - 1;
+
+                }
+            );
+
+            const clock =
+                new THREE.Clock();
+
+            let raf = null;
+
+            function animate() {
+
+                raf =
+                    requestAnimationFrame(
+                        animate
+                    );
+
+                const t =
+                    clock.getElapsedTime();
+
+                cards.forEach(
+                    mesh => {
+
+                        const d =
+                            mesh.userData;
+
+                        mesh.position.y =
+                            d.baseY +
+                            Math.sin(
+                                t *
+                                d.speed *
+                                4 +
+                                d.offset
+                            ) *
+                            0.6;
+
+                        mesh.position.x +=
+                            Math.sin(
+                                t *
+                                0.1 +
+                                d.offset
+                            ) *
+                            0.0009;
+
+                        mesh.rotation.z +=
+                            0.0006;
+
+                        mesh.rotation.y +=
+                            0.0004;
+
+                    }
+                );
+
+                ring.rotation.z =
+                    t * 0.05;
+
+                targetRotY +=
+                    (
+                        mouseX * 0.25 -
+                        targetRotY
+                    ) * 0.03;
+
+                targetRotX +=
+                    (
+                        mouseY * 0.15 -
+                        targetRotX
+                    ) * 0.03;
+
+                group.rotation.y =
+                    targetRotY;
+
+                group.rotation.x =
+                    -targetRotX;
+
+                renderer.render(
+                    scene,
+                    camera
+                );
+            }
+
+            animate();
+
+            function onResize() {
+
+                width =
+                    heroSection.clientWidth;
+
+                height =
+                    heroSection.clientHeight;
+
+                camera.aspect =
+                    width / height;
+
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(
+                    width,
+                    height
+                );
+            }
+
+            window.addEventListener(
+                'resize',
+                onResize
+            );
+
+            if (
+                'IntersectionObserver'
+                in window
+            ) {
+
+                const io =
+                    new IntersectionObserver(
+                        entries => {
+
+                            entries.forEach(
+                                entry => {
+
+                                    if (
+                                        entry.isIntersecting
+                                    ) {
+
+                                        if (!raf) {
+                                            animate();
+                                        }
+
+                                    } else if (
+                                        raf
+                                    ) {
+
+                                        cancelAnimationFrame(
+                                            raf
+                                        );
+
+                                        raf = null;
+                                    }
+
+                                }
+                            );
+
+                        },
+                        {
+                            threshold: 0.05
+                        }
+                    );
+
+                io.observe(
+                    heroSection
+                );
+            }
+
+        })();
+    </script>
+
+    <script>
+        document.addEventListener(
+            'DOMContentLoaded',
+            () => {
+
+                (function () {
+
+                    const API = '';
+
+                    const $ =
+                        (
+                            sel,
+                            ctx = document
+                        ) =>
+                            ctx.querySelector(
+                                sel
+                            );
+
+                    const $$ =
+                        (
+                            sel,
+                            ctx = document
+                        ) =>
+                            Array.from(
+                                ctx.querySelectorAll(
+                                    sel
+                                )
+                            );
+
+                    function escapeHtml(
+                        str
+                    ) {
+
+                        return String(
+                            str || ''
+                        ).replace(
+                            /[&<>"']/g,
+                            m => ({
+                                '&': '&amp;',
+                                '<': '&lt;',
+                                '>': '&gt;',
+                                '"': '&quot;',
+                                "'": '&#39;'
+                            }[m])
+                        );
+                    }
+
+                    let SETTINGS = {};
+
+                    let activeWebsiteCategory =
+                        null;
+
+                    let websiteVisibleCount =
+                        12;
+
+                    let CURRENT_SECTION =
+                        null;
+
+                    let ALL_WEBSITES =
+                        [];
+
+                    async function api(
+                        path,
+                        opts = {}
+                    ) {
+
+                        const res =
+                            await fetch(
+                                API + path,
+                                {
+                                    ...opts,
+                                    headers: {
+                                        'Content-Type':
+                                            'application/json',
+
+                                        ...(opts.headers || {})
+                                    }
+                                }
+                            );
+
+                        if (!res.ok) {
+
+                            const err =
+                                await res
+                                    .json()
+                                    .catch(
+                                        () => ({
+                                            detail:
+                                                res.statusText
+                                        })
+                                    );
+
+                            throw new Error(
+                                err.detail ||
+                                'Request failed'
+                            );
+                        }
+
+                        return res.status === 204
+                            ? null
+                            : res.json();
+                    }
+
+                    function toast(
+                        msg
+                    ) {
+
+                        const el =
+                            $('#toast');
+
+                        if (!el) {
+                            return;
+                        }
+
+                        el.textContent =
+                            msg;
+
+                        el.classList.add(
+                            'show'
+                        );
+
+                        clearTimeout(
+                            toast._t
+                        );
+
+                        toast._t =
+                            setTimeout(
+                                () =>
+                                    el.classList.remove(
+                                        'show'
+                                    ),
+                                3200
+                            );
+                    }
+
+                    window.addEventListener(
+                        'load',
+                        () =>
+                            setTimeout(
+                                () => {
+
+                                    const loader =
+                                        $('#loader');
+
+                                    const hero =
+                                        $('#hero');
+
+                                    if (loader) {
+                                        loader.classList.add(
+                                            'hidden'
+                                        );
+                                    }
+
+                                    if (hero) {
+                                        hero.classList.add(
+                                            'animate-in'
+                                        );
+                                    }
+
+                                },
+                                600
+                            )
+                    );
+
+                    setTimeout(
+                        () => {
+
+                            const loader =
+                                $('#loader');
+
+                            const hero =
+                                $('#hero');
+
+                            if (
+                                loader &&
+                                !loader.classList.contains(
+                                    'hidden'
+                                )
+                            ) {
+
+                                loader.classList.add(
+                                    'hidden'
+                                );
+
+                                if (hero) {
+                                    hero.classList.add(
+                                        'animate-in'
+                                    );
+                                }
+                            }
+
+                        },
+                        2500
+                    );
+
+                    window.addEventListener(
+                        'scroll',
+                        () => {
+
+                            const header =
+                                $('#site-header');
+
+                            if (header) {
+
+                                header.classList.toggle(
+                                    'scrolled',
+                                    window.scrollY >
+                                    40
+                                );
+                            }
+                        }
+                    );
+
+                    $$(
+                        '[data-scroll]'
+                    ).forEach(
+                        btn =>
+                            btn.addEventListener(
+                                'click',
+                                () => {
+
+                                    const target =
+                                        document.getElementById(
+                                            btn.dataset
+                                                .scroll
+                                        );
+
+                                    if (target) {
+
+                                        target.scrollIntoView(
+                                            {
+                                                behavior:
+                                                    'smooth',
+
+                                                block:
+                                                    'start'
+                                            }
+                                        );
+                                    }
+
+                                    revealQuote(
+                                        btn.dataset
+                                            .scroll
+                                    );
+                                }
+                            )
+                    );
+
+                    function revealQuote(
+                        section
+                    ) {
+
+                        if (
+                            section ===
+                            'websites'
+                        ) {
+
+                            const el =
+                                $(
+                                    '#website-quote'
+                                );
+
+                            if (el) {
+
+                                el.classList.add(
+                                    'visible'
+                                );
+                            }
+                        }
+                    }
+
+                    if (
+                        'IntersectionObserver'
+                        in window
+                    ) {
+
+                        const sections = [
+                            'websites'
+                        ];
+
+                        const quoteObserver =
+                            new IntersectionObserver(
+                                entries =>
+                                    entries.forEach(
+                                        entry => {
+
+                                            if (
+                                                entry.isIntersecting
+                                            ) {
+
+                                                revealQuote(
+                                                    entry
+                                                        .target
+                                                        .id
+                                                );
+                                            }
+                                        }
+                                    ),
+                                {
+                                    threshold:
+                                        0.25
+                                }
+                            );
+
+                        sections.forEach(
+                            id => {
+
+                                const el =
+                                    document.getElementById(
+                                        id
+                                    );
+
+                                if (el) {
+
+                                    quoteObserver.observe(
+                                        el
+                                    );
+                                }
+                            }
+                        );
+                    }
+
+                    async function loadSettings() {
+
+                        SETTINGS =
+                            await api(
+                                '/api/settings'
+                            );
+
+                        if (
+                            SETTINGS.site_logo
+                        ) {
+
+                            const logo =
+                                $('#site-logo');
+
+                            const footerLogo =
+                                $('#footer-logo');
+
+                            if (logo) {
+
+                                logo.src =
+                                    SETTINGS.site_logo;
+                            }
+
+                            if (footerLogo) {
+
+                                footerLogo.src =
+                                    SETTINGS.site_logo;
+                            }
+                        }
+
+                        if (
+                            SETTINGS.site_name
+                        ) {
+
+                            document.title =
+                                `${SETTINGS.site_name} — Web Development`;
+
+                            const footerName =
+                                $('#footer-name');
+
+                            if (footerName) {
+
+                                footerName.textContent =
+                                    SETTINGS.site_name;
+                            }
+                        }
+
+                        if (
+                            SETTINGS.hero_headline
+                        ) {
+
+                            const el =
+                                $('#hero-headline');
+
+                            if (el) {
+
+                                el.textContent =
+                                    SETTINGS.hero_headline;
+                            }
+                        }
+
+                        if (
+                            SETTINGS.hero_subheadline
+                        ) {
+
+                            const el =
+                                $('#hero-subheadline');
+
+                            if (el) {
+
+                                el.textContent =
+                                    SETTINGS.hero_subheadline;
+                            }
+                        }
+
+                        if (
+                            SETTINGS.website_quote
+                        ) {
+
+                            const el =
+                                $('#website-quote');
+
+                            if (el) {
+
+                                el.textContent =
+                                    `“${SETTINGS.website_quote}”`;
+                            }
+                        }
+
+                        if (
+                            SETTINGS.instagram_url
+                        ) {
+
+                            const instagram =
+                                $('#footer-instagram');
+
+                            if (instagram) {
+
+                                instagram.href =
+                                    SETTINGS.instagram_url;
+                            }
+                        }
+
+                        const year =
+                            $('#footer-year');
+
+                        if (year) {
+
+                            year.textContent =
+                                new Date()
+                                    .getFullYear();
+                        }
+                    }
+
+                    function formatPrice(
+                        price
+                    ) {
+
+                        if (
+                            price === null ||
+                            price === undefined ||
+                            price === ''
+                        ) {
+
+                            return '';
+                        }
+
+                        const value =
+                            Number(
+                                String(price).replace(
+                                    /[₹,\s]/g,
+                                    ''
+                                )
+                            );
+
+                        return Number.isNaN(
+                            value
+                        )
+                            ? escapeHtml(
+                                String(price)
+                            )
+                            : value.toLocaleString(
+                                'en-IN'
+                            );
+                    }
+
+                    function renderCategoryRail(
+                        categories
+                    ) {
+
+                        const rail =
+                            $('#category-rail');
+
+                        if (!rail) {
+                            return;
+                        }
+
+                        activeWebsiteCategory =
+                            null;
+
+                        rail.innerHTML = [
+                            'All',
+                            ...categories
+                        ]
+                            .map(
+                                cat =>
+                                    `<button class="category-pill ${cat === 'All'
+                                        ? 'active'
+                                        : ''
+                                    }" data-cat="${escapeHtml(
+                                        cat
+                                    )}">${escapeHtml(
+                                        cat
+                                    )}</button>`
+                            )
+                            .join('');
+
+                        $$('.category-pill', rail)
+                            .forEach(
+                                pill =>
+                                    pill.addEventListener(
+                                        'click',
+                                        () => {
+
+                                            activeWebsiteCategory =
+                                                pill.dataset
+                                                    .cat ===
+                                                    'All'
+                                                    ? null
+                                                    : pill
+                                                        .dataset
+                                                        .cat;
+
+                                            websiteVisibleCount =
+                                                12;
+
+                                            $$(
+                                                '.category-pill',
+                                                rail
+                                            ).forEach(
+                                                p =>
+                                                    p.classList.remove(
+                                                        'active'
+                                                    )
+                                            );
+
+                                            pill.classList.add(
+                                                'active'
+                                            );
+
+                                            renderWebsites();
+
+                                            updateCategoryFAB(
+                                                'websites'
+                                            );
+                                        }
+                                    )
+                            );
+
+                        enableDragScroll(
+                            rail
+                        );
+                    }
+
+                    function renderWebsites() {
+
+                        const grid =
+                            $('#website-grid');
+
+                        const moreButton =
+                            $('#website-more-btn');
+
+                        if (!grid) {
+                            return;
+                        }
+
+                        const items =
+                            activeWebsiteCategory
+                                ? ALL_WEBSITES.filter(
+                                    w =>
+                                        (
+                                            w.category ||
+                                            ''
+                                        ).trim() ===
+                                        activeWebsiteCategory
+                                )
+                                : ALL_WEBSITES;
+
+                        if (!items.length) {
+
+                            grid.innerHTML =
+                                '<p style="color:var(--muted);font-size:14px;">No projects in this category yet.</p>';
+
+                            if (moreButton) {
+
+                                moreButton.style.display =
+                                    'none';
+                            }
+
+                            return;
+                        }
+
+                        const visibleItems =
+                            activeWebsiteCategory
+                                ? items
+                                : items.slice(
+                                    0,
+                                    websiteVisibleCount
+                                );
+
+                        grid.innerHTML =
+                            visibleItems
+                                .map(
+                                    item =>
+                                        `<div class="website-card">
+                                            <div class="media">
+                                                ${item.video_url
+                                            ? `<video src="${escapeHtml(
+                                                item.video_url
+                                            )}" muted loop playsinline autoplay onerror="this.style.display='none'"></video>`
+                                            : ''
+                                        }
+
+                                                <div class="fallback">
+                                                    ${escapeHtml(
+                                            item.title
+                                        )}
+                                                </div>
+                                            </div>
+
+                                            <div class="body">
+
+                                                <span class="cat-tag">
+                                                    ${escapeHtml(
+                                            item.category || ''
+                                        )}
+                                                </span>
+
+                                                <h3>
+                                                    ${escapeHtml(
+                                            item.title
+                                        )}
+                                                </h3>
+
+                                                <p class="desc">
+                                                    ${escapeHtml(
+                                            item.description || ''
+                                        )}
+                                                </p>
+
+                                                ${item.price
+                                            ? `<span class="price">${formatPrice(
+                                                item.price
+                                            )}</span>`
+                                            : ''
+                                        }
+
+                                                <div class="card-actions">
+
+                                                    <button
+                                                        class="btn btn-outline btn-sm"
+                                                        data-live="${escapeHtml(
+                                            item.live_url || ''
+                                        )}">
+                                                        Live website
+                                                    </button>
+
+                                                    <button
+                                                        class="btn btn-primary btn-sm"
+                                                        data-purchase-site="1">
+                                                        Purchase
+                                                    </button>
+
+                                                </div>
+
+                                            </div>
+                                        </div>`
+                                )
+                                .join('');
+
+                        if (moreButton) {
+
+                            moreButton.style.display =
+                                !activeWebsiteCategory &&
+                                    visibleItems.length <
+                                    items.length
+                                    ? 'inline-flex'
+                                    : 'none';
+                        }
+
+                        $$(
+                            '[data-live]',
+                            grid
+                        ).forEach(
+                            btn =>
+                                btn.addEventListener(
+                                    'click',
+                                    () =>
+                                        btn.dataset
+                                            .live
+                                            ? window.open(
+                                                btn.dataset
+                                                    .live,
+                                                '_blank',
+                                                'noopener'
+                                            )
+                                            : toast(
+                                                'Live preview coming soon.'
+                                            )
+                                )
+                        );
+
+                        $$(
+                            '[data-purchase-site]',
+                            grid
+                        ).forEach(
+                            btn =>
+                                btn.addEventListener(
+                                    'click',
+                                    () =>
+                                        window.open(
+                                            SETTINGS.instagram_url ||
+                                            'https://instagram.com/',
+                                            '_blank',
+                                            'noopener'
+                                        )
+                                )
+                        );
+                    }
+
+                    function enableDragScroll(
+                        el
+                    ) {
+
+                        if (!el) {
+                            return;
+                        }
+
+                        let isDown =
+                            false;
+
+                        let startX =
+                            0;
+
+                        let scrollLeft =
+                            0;
+
+                        el.addEventListener(
+                            'mousedown',
+                            e => {
+
+                                isDown =
+                                    true;
+
+                                el.classList.add(
+                                    'dragging'
+                                );
+
+                                startX =
+                                    e.pageX -
+                                    el.offsetLeft;
+
+                                scrollLeft =
+                                    el.scrollLeft;
+                            }
+                        );
+
+                        [
+                            'mouseleave',
+                            'mouseup'
+                        ].forEach(
+                            ev =>
+                                el.addEventListener(
+                                    ev,
+                                    () => {
+
+                                        isDown =
+                                            false;
+
+                                        el.classList.remove(
+                                            'dragging'
+                                        );
+                                    }
+                                )
+                        );
+
+                        el.addEventListener(
+                            'mousemove',
+                            e => {
+
+                                if (!isDown) {
+                                    return;
+                                }
+
+                                e.preventDefault();
+
+                                const x =
+                                    e.pageX -
+                                    el.offsetLeft;
+
+                                el.scrollLeft =
+                                    scrollLeft -
+                                    (
+                                        x -
+                                        startX
+                                    ) *
+                                    1.4;
+                            }
+                        );
+                    }
+
+                    function renderReviews(
+                        reviews
+                    ) {
+
+                        const grid =
+                            $('#review-grid');
+
+                        if (!grid) {
+                            return;
+                        }
+
+                        if (!reviews.length) {
+
+                            grid.innerHTML =
+                                '<p style="color:var(--muted);font-size:14px;">Be the first to leave a review.</p>';
+
+                        } else {
+
+                            grid.innerHTML =
+                                reviews
+                                    .slice(
+                                        0,
+                                        9
+                                    )
+                                    .map(
+                                        r =>
+                                            `<div class="review-card">
+
+                                                <span class="stars">
+                                                    ${'★'.repeat(
+                                                r.rating
+                                            )}${'☆'.repeat(
+                                                5 -
+                                                r.rating
+                                            )}
+                                                </span>
+
+                                                <p>
+                                                    ${escapeHtml(
+                                                r.comment ||
+                                                'Great experience working with the studio.'
+                                            )}
+                                                </p>
+
+                                                <span class="name">
+                                                    ${escapeHtml(
+                                                r.name
+                                            )}
+                                                </span>
+
+                                            </div>`
+                                    )
+                                    .join('');
+                        }
+
+                        if (
+                            reviews.length
+                        ) {
+
+                            const avg =
+                                reviews.reduce(
+                                    (
+                                        s,
+                                        r
+                                    ) =>
+                                        s +
+                                        r.rating,
+                                    0
+                                ) /
+                                reviews.length;
+
+                            const avgRating =
+                                $('#avg-rating');
+
+                            const avgStars =
+                                $('#avg-stars');
+
+                            const ratingCount =
+                                $('#rating-count');
+
+                            if (avgRating) {
+
+                                avgRating.textContent =
+                                    avg.toFixed(
+                                        1
+                                    );
+                            }
+
+                            const full =
+                                Math.round(
+                                    avg
+                                );
+
+                            if (avgStars) {
+
+                                avgStars.textContent =
+                                    '★'.repeat(
+                                        full
+                                    ) +
+                                    '☆'.repeat(
+                                        5 -
+                                        full
+                                    );
+                            }
+
+                            if (ratingCount) {
+
+                                ratingCount.textContent =
+                                    `${reviews.length} review${reviews.length === 1
+                                        ? ''
+                                        : 's'
+                                    }`;
+                            }
+                        }
+                    }
+
+                    let selectedRating =
+                        0;
+
+                    $$('#star-picker button')
+                        .forEach(
+                            btn =>
+                                btn.addEventListener(
+                                    'click',
+                                    () => {
+
+                                        selectedRating =
+                                            parseInt(
+                                                btn
+                                                    .dataset
+                                                    .val,
+                                                10
+                                            );
+
+                                        const ratingInput =
+                                            $('#rf-rating');
+
+                                        if (
+                                            ratingInput
+                                        ) {
+
+                                            ratingInput.value =
+                                                selectedRating;
+                                        }
+
+                                        $$(
+                                            '#star-picker button'
+                                        ).forEach(
+                                            b =>
+                                                b.classList.toggle(
+                                                    'active',
+                                                    parseInt(
+                                                        b
+                                                            .dataset
+                                                            .val,
+                                                        10
+                                                    ) <=
+                                                    selectedRating
+                                                )
+                                        );
+                                    }
+                                )
+                        );
+
+                    const reviewForm =
+                        $('#review-form');
+
+                    if (reviewForm) {
+
+                        reviewForm.addEventListener(
+                            'submit',
+                            async e => {
+
+                                e.preventDefault();
+
+                                if (
+                                    !selectedRating
+                                ) {
+
+                                    toast(
+                                        'Please choose a star rating.'
+                                    );
+
+                                    return;
+                                }
+
+                                const name =
+                                    $('#rf-name')
+                                        ?.value
+                                        .trim() ||
+                                    '';
+
+                                const comment =
+                                    $('#rf-comment')
+                                        ?.value
+                                        .trim() ||
+                                    '';
+
+                                try {
+
+                                    await api(
+                                        '/api/reviews',
+                                        {
+                                            method:
+                                                'POST',
+
+                                            body:
+                                                JSON.stringify(
+                                                    {
+                                                        name,
+                                                        rating:
+                                                            selectedRating,
+                                                        comment
+                                                    }
+                                                )
+                                        }
+                                    );
+
+                                    toast(
+                                        'Thanks! Your review is pending approval.'
+                                    );
+
+                                    reviewForm.reset();
+
+                                    selectedRating =
+                                        0;
+
+                                    $$(
+                                        '#star-picker button'
+                                    ).forEach(
+                                        b =>
+                                            b.classList.remove(
+                                                'active'
+                                            )
+                                    );
+
+                                } catch (
+                                err
+                                ) {
+
+                                    toast(
+                                        err.message ||
+                                        'Could not submit review.'
+                                    );
+                                }
+                            }
+                        );
+                    }
+
+                    const projectForm =
+                        $('#project-form');
+
+                    if (projectForm) {
+                        projectForm.addEventListener(
+                            'submit',
+                            async e => {
+                                e.preventDefault();
+
+                                const form = e.target;
+
+                                const name =
+                                    form.name.value.trim();
+
+                                const email =
+                                    form.email.value.trim();
+
+                                const projectType =
+                                    form.project_type.value.trim();
+
+                                const budget =
+                                    form.budget.value.trim();
+
+                                const message =
+                                    form.message.value.trim();
+
+                                const payload = {
+                                    name: name,
+                                    email: email,
+                                    project_type: projectType,
+                                    budget: budget,
+                                    message: message
+                                };
+
+                                try {
+
+                                    await api(
+                                        '/api/project-requests',
+                                        {
+                                            method: 'POST',
+                                            body: JSON.stringify(
+                                                payload
+                                            )
+                                        }
+                                    );
+
+                                    const whatsappMessage =
+                                        `Hello Vellocode & Co. 👋
+
+I want to start a project.
+
+Name: ${name}
+Email: ${email}
+Project type: ${projectType}
+Budget: ${budget || 'Not specified'}
+
+Project details:
+${message || 'Not provided'}
+
+I submitted this request through your website.`;
+
+                                    const whatsappNumber =
+                                        '917075282223';
+
+                                    const whatsappURL =
+                                        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                                            whatsappMessage
+                                        )}`;
+
+                                    window.location.href =
+                                        whatsappURL;
+
+                                    form.reset();
+
+                                } catch (err) {
+
+                                    console.error(err);
+
+                                    toast(
+                                        err.message ||
+                                        'Could not send project request.'
+                                    );
+                                }
+                            }
+                        );
+                    }
+
+                    const websiteMore =
+                        $('#website-more-btn');
+
+                    if (websiteMore) {
+
+                        websiteMore.addEventListener(
+                            'click',
+                            () => {
+
+                                const total =
+                                    activeWebsiteCategory
+                                        ? ALL_WEBSITES.filter(
+                                            w =>
+                                                (
+                                                    w.category ||
+                                                    ''
+                                                ).trim() ===
+                                                activeWebsiteCategory
+                                        ).length
+                                        : ALL_WEBSITES.length;
+
+                                websiteVisibleCount =
+                                    Math.min(
+                                        websiteVisibleCount +
+                                        12,
+                                        total
+                                    );
+
+                                renderWebsites();
+                            }
+                        );
+                    }
+
+                    function updateCategoryFAB(
+                        section
+                    ) {
+
+                        const fab =
+                            $('#category-fab');
+
+                        const panel =
+                            $('#category-fab-panel');
+
+                        const list =
+                            $('#category-fab-list');
+
+                        const title =
+                            $('#category-fab-title');
+
+                        if (
+                            !fab ||
+                            !panel ||
+                            !list ||
+                            !title
+                        ) {
+
+                            return;
+                        }
+
+                        CURRENT_SECTION =
+                            section;
+
+                        if (
+                            section !==
+                            'websites'
+                        ) {
+
+                            fab.classList.remove(
+                                'show'
+                            );
+
+                            panel.classList.remove(
+                                'show'
+                            );
+
+                            return;
+                        }
+
+                        const categories = [
+                            ...new Set(
+                                ALL_WEBSITES
+                                    .map(
+                                        w =>
+                                            (
+                                                w.category ||
+                                                ''
+                                            ).trim()
+                                    )
+                                    .filter(Boolean)
+                            )
+                        ].sort();
+
+                        title.textContent =
+                            'Website categories';
+
+                        if (
+                            !categories.length
+                        ) {
+
+                            fab.classList.remove(
+                                'show'
+                            );
+
+                            panel.classList.remove(
+                                'show'
+                            );
+
+                            return;
+                        }
+
+                        fab.classList.add(
+                            'show'
+                        );
+
+                        list.innerHTML = [
+                            '<button class="fab-category active" data-fab-cat="All">All</button>',
+
+                            ...categories.map(
+                                category =>
+                                    `<button class="fab-category" data-fab-cat="${escapeHtml(
+                                        category
+                                    )}">
+                                        ${escapeHtml(
+                                        category
+                                    )}
+                                    </button>`
+                            )
+                        ].join('');
+
+                        $$(
+                            '[data-fab-cat]',
+                            list
+                        ).forEach(
+                            btn =>
+                                btn.addEventListener(
+                                    'click',
+                                    () => {
+
+                                        const category =
+                                            btn
+                                                .dataset
+                                                .fabCat ===
+                                                'All'
+                                                ? null
+                                                : btn
+                                                    .dataset
+                                                    .fabCat;
+
+                                        $$(
+                                            '.fab-category',
+                                            list
+                                        ).forEach(
+                                            b =>
+                                                b.classList.remove(
+                                                    'active'
+                                                )
+                                        );
+
+                                        btn.classList.add(
+                                            'active'
+                                        );
+
+                                        activeWebsiteCategory =
+                                            category;
+
+                                        websiteVisibleCount =
+                                            12;
+
+                                        renderWebsites();
+
+                                        panel.classList.remove(
+                                            'show'
+                                        );
+                                    }
+                                )
+                        );
+                    }
+
+                    const categoryFab =
+                        $('#category-fab');
+
+                    if (categoryFab) {
+
+                        categoryFab.addEventListener(
+                            'click',
+                            () => {
+
+                                const panel =
+                                    $('#category-fab-panel');
+
+                                if (panel) {
+
+                                    panel.classList.toggle(
+                                        'show'
+                                    );
+                                }
+                            }
+                        );
+                    }
+
+                    if (
+                        'IntersectionObserver'
+                        in window
+                    ) {
+
+                        const fabObserver =
+                            new IntersectionObserver(
+                                entries =>
+                                    entries.forEach(
+                                        entry => {
+
+                                            if (
+                                                entry.isIntersecting
+                                            ) {
+
+                                                updateCategoryFAB(
+                                                    entry
+                                                        .target
+                                                        .id
+                                                );
+                                            }
+                                        }
+                                    ),
+                                {
+                                    threshold:
+                                        0.25
+                                }
+                            );
+
+                        const websiteSection =
+                            $('#websites');
+
+                        if (
+                            websiteSection
+                        ) {
+
+                            fabObserver.observe(
+                                websiteSection
+                            );
+                        }
+                    }
+
+                    async function init() {
+
+                        try {
+
+                            await loadSettings();
+
+                            const [
+                                websites,
+                                categories,
+                                reviews
+                            ] =
+                                await Promise.all([
+                                    api(
+                                        '/api/websites'
+                                    ),
+
+                                    api(
+                                        '/api/websites/categories'
+                                    ),
+
+                                    api(
+                                        '/api/reviews'
+                                    )
+                                ]);
+
+                            ALL_WEBSITES =
+                                websites || [];
+
+                            websiteVisibleCount =
+                                12;
+
+                            activeWebsiteCategory =
+                                null;
+
+                            renderCategoryRail(
+                                categories || []
+                            );
+
+                            renderWebsites();
+
+                            renderReviews(
+                                reviews || []
+                            );
+
+                            updateCategoryFAB(
+                                'websites'
+                            );
+
+                        } catch (
+                        err
+                        ) {
+
+                            console.error(
+                                err
+                            );
+
+                            toast(
+                                'Could not reach the server. Is the backend running?'
+                            );
+                        }
+                    }
+
+                    init();
+
+                })();
+
+            }
+        );
+    </script>
+
+    <button class="category-fab" id="category-fab" aria-label="Categories">
+        ☰
+    </button>
+
+    <div class="category-fab-panel" id="category-fab-panel">
+
+        <div class="category-fab-title" id="category-fab-title">
+            Website categories
+        </div>
+
+        <div id="category-fab-list"></div>
+
+    </div>
+
+</body>
+
+</html>

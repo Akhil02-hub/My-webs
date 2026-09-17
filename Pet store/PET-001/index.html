@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pawsh &mdash; Premium Pet Boutique &amp; Care Club</title>
+    <meta name="description"
+        content="Pawsh is a premium pet boutique offering curated nutrition, spa-grade grooming, veterinary care and a members club for extraordinary pets." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FDF8F2',
+                        sand: '#F3E7D8',
+                        ink: '#16241F',
+                        moss: { 50: '#EEF5F0', 100: '#D7E8DD', 400: '#4E9070', 500: '#35785A', 600: '#28604818', 700: '#1F4A38' },
+                        gold: '#D99A4E',
+                        blush: '#F0C3B1'
+                    },
+                    fontFamily: {
+                        display: ['Fraunces', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
+                    },
+                    boxShadow: {
+                        soft: '0 18px 50px -20px rgba(22,36,31,.28)',
+                        lift: '0 30px 70px -30px rgba(22,36,31,.45)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #FDF8F2;
+            color: #16241F;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: #D99A4E;
+            color: #fff;
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F3E7D8;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #35785A;
+            border-radius: 99px;
+            border: 2px solid #F3E7D8;
+        }
+
+        .grain:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 60;
+            opacity: .035;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .8s cubic-bezier(.16, .84, .44, 1), transform .8s cubic-bezier(.16, .84, .44, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        .blob {
+            filter: blur(60px);
+            opacity: .55;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(0, -24px, 0) scale(1.07);
+            }
+        }
+
+        .tilt {
+            transition: transform .5s cubic-bezier(.16, .84, .44, 1), box-shadow .5s;
+        }
+
+        .tilt:hover {
+            transform: translateY(-8px) rotate(-.6deg);
+        }
+
+        .img-fallback {
+            background: linear-gradient(135deg, #D7E8DD, #F3E7D8 55%, #F0C3B1);
+        }
+
+        .marquee {
+            display: flex;
+            gap: 3rem;
+            width: max-content;
+            animation: scrollx 26s linear infinite;
+        }
+
+        @keyframes scrollx {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .underline-grow {
+            position: relative;
+        }
+
+        .underline-grow:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            height: 2px;
+            width: 0;
+            background: #D99A4E;
+            transition: width .35s ease;
+        }
+
+        .underline-grow:hover:after {
+            width: 100%;
+        }
+
+        .chip.active {
+            background: #16241F;
+            color: #FDF8F2;
+            border-color: #16241F;
+        }
+
+        .paw {
+            position: absolute;
+            opacity: .13;
+            animation: pawFloat 9s ease-in-out infinite;
+        }
+
+        @keyframes pawFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0)
+            }
+
+            50% {
+                transform: translateY(-18px) rotate(9deg)
+            }
+        }
+
+        .drawer {
+            transition: transform .5s cubic-bezier(.16, .84, .44, 1);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .45s ease;
+        }
+
+        .bounce-badge {
+            animation: pop .4s ease;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1)
+            }
+
+            45% {
+                transform: scale(1.45)
+            }
+
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        .card-glow:hover {
+            box-shadow: 0 30px 70px -30px rgba(22, 36, 31, .45);
+        }
+    </style>
+</head>
+
+<body class="grain font-sans antialiased">
+
+    <!-- ================= NAV ================= -->
+    <header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div id="navInner"
+                class="mt-4 flex items-center justify-between rounded-2xl px-4 sm:px-6 py-3 transition-all duration-500 bg-cream/70 backdrop-blur-xl border border-ink/5">
+                <a href="#home" class="flex items-center gap-2.5 group">
+                    <span
+                        class="grid place-items-center w-10 h-10 rounded-xl bg-moss-500 text-cream shadow-soft group-hover:rotate-6 transition">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor">
+                            <circle cx="7" cy="8" r="2.1" />
+                            <circle cx="12" cy="6" r="2.1" />
+                            <circle cx="17" cy="8" r="2.1" />
+                            <path
+                                d="M12 10.5c-3 0-5.4 2.2-5.4 4.6 0 1.9 1.6 2.9 3.3 2.4l1.4-.4c.5-.1 1-.1 1.5 0l1.4.4c1.7.5 3.3-.5 3.3-2.4 0-2.4-2.5-4.6-5.5-4.6z" />
+                        </svg>
+                    </span>
+                    <span class="font-display text-2xl font-700 tracking-tight">Pawsh</span>
+                </a>
+
+                <nav class="hidden lg:flex items-center gap-8 text-sm font-medium">
+                    <a href="#services" class="underline-grow">Services</a>
+                    <a href="#shop" class="underline-grow">Boutique</a>
+                    <a href="#club" class="underline-grow">Care Club</a>
+                    <a href="#adopt" class="underline-grow">Adopt</a>
+                    <a href="#faq" class="underline-grow">FAQ</a>
+                </nav>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleCart(true)"
+                        class="relative grid place-items-center w-11 h-11 rounded-xl border border-ink/10 hover:bg-sand transition"
+                        aria-label="Open cart">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
+                            <path
+                                d="M6 6h15l-1.6 9.2a2 2 0 0 1-2 1.8H9.3a2 2 0 0 1-2-1.7L5.6 4.4A1 1 0 0 0 4.6 3.5H3" />
+                            <circle cx="9.5" cy="20" r="1.4" />
+                            <circle cx="18" cy="20" r="1.4" />
+                        </svg>
+                        <span id="cartCount"
+                            class="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 grid place-items-center text-[11px] font-bold rounded-full bg-gold text-white">0</span>
+                    </button>
+                    <a href="#book"
+                        class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-ink text-cream px-5 py-3 text-sm font-semibold hover:bg-moss-500 transition">
+                        Book a visit
+                    </a>
+                    <button onclick="toggleMenu()"
+                        class="lg:hidden grid place-items-center w-11 h-11 rounded-xl border border-ink/10"
+                        aria-label="Menu">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path d="M4 7h16M4 12h16M4 17h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobileMenu" class="lg:hidden overflow-hidden max-h-0 transition-all duration-500">
+                <div
+                    class="mt-2 rounded-2xl bg-cream/95 backdrop-blur-xl border border-ink/5 p-4 grid gap-1 shadow-soft">
+                    <a href="#services" class="px-4 py-3 rounded-xl hover:bg-sand font-medium">Services</a>
+                    <a href="#shop" class="px-4 py-3 rounded-xl hover:bg-sand font-medium">Boutique</a>
+                    <a href="#club" class="px-4 py-3 rounded-xl hover:bg-sand font-medium">Care Club</a>
+                    <a href="#adopt" class="px-4 py-3 rounded-xl hover:bg-sand font-medium">Adopt</a>
+                    <a href="#faq" class="px-4 py-3 rounded-xl hover:bg-sand font-medium">FAQ</a>
+                    <a href="#book" class="mt-1 px-4 py-3 rounded-xl bg-ink text-cream font-semibold text-center">Book a
+                        visit</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= HERO ================= -->
+    <section id="home" class="relative pt-36 sm:pt-44 pb-16 sm:pb-24 overflow-hidden">
+        <div class="absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-moss-100 blob"></div>
+        <div class="absolute top-40 -right-20 w-[380px] h-[380px] rounded-full bg-blush blob"
+            style="animation-delay:-4s"></div>
+
+        <svg class="paw w-16 h-16 text-moss-500 left-[8%] top-[28%] hidden md:block" fill="currentColor"
+            viewBox="0 0 24 24">
+            <circle cx="7" cy="8" r="2.1" />
+            <circle cx="12" cy="6" r="2.1" />
+            <circle cx="17" cy="8" r="2.1" />
+            <path
+                d="M12 10.5c-3 0-5.4 2.2-5.4 4.6 0 1.9 1.6 2.9 3.3 2.4l1.4-.4c.5-.1 1-.1 1.5 0l1.4.4c1.7.5 3.3-.5 3.3-2.4 0-2.4-2.5-4.6-5.5-4.6z" />
+        </svg>
+        <svg class="paw w-10 h-10 text-gold right-[10%] bottom-[12%] hidden md:block" style="animation-delay:-3s"
+            fill="currentColor" viewBox="0 0 24 24">
+            <circle cx="7" cy="8" r="2.1" />
+            <circle cx="12" cy="6" r="2.1" />
+            <circle cx="17" cy="8" r="2.1" />
+            <path
+                d="M12 10.5c-3 0-5.4 2.2-5.4 4.6 0 1.9 1.6 2.9 3.3 2.4l1.4-.4c.5-.1 1-.1 1.5 0l1.4.4c1.7.5 3.3-.5 3.3-2.4 0-2.4-2.5-4.6-5.5-4.6z" />
+        </svg>
+
+        <div
+            class="relative max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[1.05fr_.95fr] gap-14 lg:gap-10 items-center">
+            <div class="reveal">
+                <span
+                    class="inline-flex items-center gap-2 rounded-full bg-white border border-ink/10 pl-2 pr-4 py-1.5 text-xs font-semibold tracking-wide shadow-soft">
+                    <span class="grid place-items-center w-6 h-6 rounded-full bg-gold/20 text-gold">★</span>
+                    Rated 4.9 by 3,400+ pet parents
+                </span>
+
+                <h1
+                    class="mt-6 font-display text-[13vw] leading-[.92] sm:text-6xl lg:text-[4.6rem] font-700 tracking-tight">
+                    The <em class="italic text-moss-500">finer</em> life,<br>
+                    for your <span class="relative inline-block">
+                        best friend
+                        <svg class="absolute -bottom-2 left-0 w-full" height="14" viewBox="0 0 300 14" fill="none">
+                            <path d="M2 9C60 3 150 2 298 6" stroke="#D99A4E" stroke-width="4" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                </h1>
+
+                <p class="mt-7 text-lg text-ink/70 max-w-lg leading-relaxed">
+                    A premium boutique &amp; care house — chef-crafted nutrition, spa-grade grooming,
+                    gentle veterinary care and design-led essentials, all under one very calm roof.
+                </p>
+
+                <div class="mt-9 flex flex-wrap items-center gap-3">
+                    <a href="#shop"
+                        class="group inline-flex items-center gap-3 rounded-2xl bg-moss-500 text-white px-7 py-4 font-semibold shadow-lift hover:bg-moss-700 transition">
+                        Explore the boutique
+                        <span
+                            class="grid place-items-center w-7 h-7 rounded-full bg-white/15 group-hover:translate-x-1 transition">→</span>
+                    </a>
+                    <a href="#services"
+                        class="inline-flex items-center gap-2 rounded-2xl bg-white border border-ink/10 px-7 py-4 font-semibold hover:border-ink/30 transition">
+                        Our services
+                    </a>
+                </div>
+
+                <div class="mt-12 grid grid-cols-3 gap-6 max-w-md">
+                    <div>
+                        <div class="font-display text-3xl font-700" data-count="28">0</div>
+                        <div class="text-xs uppercase tracking-widest text-ink/50 mt-1">Groomers</div>
+                    </div>
+                    <div>
+                        <div class="font-display text-3xl font-700" data-count="12">0</div>
+                        <div class="text-xs uppercase tracking-widest text-ink/50 mt-1">Years open</div>
+                    </div>
+                    <div>
+                        <div class="font-display text-3xl font-700"><span data-count="41">0</span>k</div>
+                        <div class="text-xs uppercase tracking-widest text-ink/50 mt-1">Happy tails</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- hero collage -->
+            <div class="relative reveal" style="transition-delay:.15s">
+                <div
+                    class="relative aspect-[4/5] sm:aspect-[5/5] rounded-[2.5rem] overflow-hidden img-fallback shadow-lift">
+                    <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=1000&q=80"
+                        alt="Happy golden dog" class="w-full h-full object-cover" loading="eager"
+                        onerror="this.style.display='none'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent"></div>
+                    <div
+                        class="absolute bottom-5 left-5 right-5 rounded-2xl bg-cream/85 backdrop-blur px-5 py-4 flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-xl img-fallback overflow-hidden shrink-0">
+                            <img src="https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?auto=format&fit=crop&w=160&q=80"
+                                class="w-full h-full object-cover" alt="" onerror="this.style.display='none'">
+                        </div>
+                        <div class="leading-tight">
+                            <p class="text-sm font-semibold">Spa day for Nala</p>
+                            <p class="text-xs text-ink/60">Blueberry facial · Today 14:30</p>
+                        </div>
+                        <span
+                            class="ml-auto text-xs font-bold px-2.5 py-1 rounded-full bg-moss-100 text-moss-700">Booked</span>
+                    </div>
+                </div>
+
+                <div
+                    class="absolute -left-4 sm:-left-10 top-10 w-32 sm:w-40 aspect-square rounded-3xl overflow-hidden img-fallback shadow-lift rotate-[-8deg] hidden sm:block">
+                    <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=400&q=80"
+                        class="w-full h-full object-cover" alt="Cat" onerror="this.style.display='none'">
+                </div>
+
+                <div class="absolute -right-3 sm:-right-8 bottom-24 rounded-2xl bg-white shadow-lift px-5 py-4 w-44">
+                    <p class="text-[11px] uppercase tracking-widest text-ink/45">Nutrition score</p>
+                    <p class="font-display text-3xl font-700 text-moss-500">A+</p>
+                    <div class="mt-2 h-1.5 rounded-full bg-sand overflow-hidden">
+                        <div class="h-full w-[92%] bg-gold rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= MARQUEE ================= -->
+    <div class="border-y border-ink/10 bg-sand/60 py-4 overflow-hidden">
+        <div class="marquee text-sm font-semibold uppercase tracking-[.2em] text-ink/45">
+            <span>Vet approved</span><span>·</span><span>Grain-free kitchens</span><span>·</span><span>Sustainable
+                toys</span><span>·</span><span>Fear-free certified</span><span>·</span><span>Same-day
+                delivery</span><span>·</span>
+            <span>Vet approved</span><span>·</span><span>Grain-free kitchens</span><span>·</span><span>Sustainable
+                toys</span><span>·</span><span>Fear-free certified</span><span>·</span><span>Same-day
+                delivery</span><span>·</span>
+        </div>
+    </div>
+
+    <!-- ================= SERVICES ================= -->
+    <section id="services" class="py-24 sm:py-32">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="max-w-2xl reveal">
+                <p class="text-xs uppercase tracking-[.28em] text-gold font-bold">What we do</p>
+                <h2 class="mt-4 font-display text-4xl sm:text-5xl font-700 leading-tight">Care that feels like a
+                    five-star retreat</h2>
+                <p class="mt-5 text-ink/65 text-lg">Every service is delivered by certified specialists in low-stress,
+                    hand-designed rooms — because comfort is the real luxury.</p>
+            </div>
+
+            <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- card -->
+                <article class="reveal tilt card-glow group rounded-3xl bg-white border border-ink/5 p-7 shadow-soft">
+                    <div class="w-12 h-12 rounded-2xl bg-moss-100 text-moss-700 grid place-items-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                            <path d="M4 14c0-4 3.6-7 8-7s8 3 8 7-3.6 7-8 7-8-3-8-7z" />
+                            <path d="M9 12h.01M15 12h.01M10 16c1.2 1 2.8 1 4 0" />
+                        </svg>
+                    </div>
+                    <h3 class="mt-6 font-display text-2xl font-600">Signature Grooming</h3>
+                    <p class="mt-3 text-sm text-ink/60 leading-relaxed">Hydro-massage baths, hand-scissored styling and
+                        blueberry facials. Ozone drying, zero cages.</p>
+                    <p class="mt-5 text-sm font-bold text-moss-500">from $48</p>
+                </article>
+
+                <article class="reveal tilt card-glow rounded-3xl bg-ink text-cream p-7 shadow-soft"
+                    style="transition-delay:.08s">
+                    <div class="w-12 h-12 rounded-2xl bg-white/10 text-gold grid place-items-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                            <path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z" />
+                        </svg>
+                    </div>
+                    <h3 class="mt-6 font-display text-2xl font-600">Gentle Veterinary</h3>
+                    <p class="mt-3 text-sm text-cream/70 leading-relaxed">Fear-free consults, dentals, diagnostics and
+                        wellness plans with same-week appointments.</p>
+                    <p class="mt-5 text-sm font-bold text-gold">from $65</p>
+                </article>
+
+                <article class="reveal tilt card-glow rounded-3xl bg-white border border-ink/5 p-7 shadow-soft"
+                    style="transition-delay:.16s">
+                    <div class="w-12 h-12 rounded-2xl bg-blush/50 text-ink grid place-items-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                            <path d="M3 11l9-7 9 7" />
+                            <path d="M5 10v9h14v-9" />
+                            <path d="M10 19v-5h4v5" />
+                        </svg>
+                    </div>
+                    <h3 class="mt-6 font-display text-2xl font-600">Boutique Boarding</h3>
+                    <p class="mt-3 text-sm text-ink/60 leading-relaxed">Private suites with orthopedic beds, garden
+                        access, live cameras and bedtime stories.</p>
+                    <p class="mt-5 text-sm font-bold text-moss-500">from $59/night</p>
+                </article>
+
+                <article class="reveal tilt card-glow rounded-3xl bg-white border border-ink/5 p-7 shadow-soft"
+                    style="transition-delay:.24s">
+                    <div class="w-12 h-12 rounded-2xl bg-gold/20 text-gold grid place-items-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                            <path d="M12 3l2.2 5.6L20 10l-4 4 .9 6-4.9-3-4.9 3 .9-6-4-4 5.8-1.4z" />
+                        </svg>
+                    </div>
+                    <h3 class="mt-6 font-display text-2xl font-600">Positive Training</h3>
+                    <p class="mt-3 text-sm text-ink/60 leading-relaxed">Puppy school, loose-leash walking and
+                        calm-at-home coaching in small, kind classes.</p>
+                    <p class="mt-5 text-sm font-bold text-moss-500">from $35/class</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= SHOP ================= -->
+    <section id="shop" class="py-8 sm:py-12">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="flex flex-wrap items-end justify-between gap-6 reveal">
+                <div class="max-w-xl">
+                    <p class="text-xs uppercase tracking-[.28em] text-gold font-bold">The boutique</p>
+                    <h2 class="mt-4 font-display text-4xl sm:text-5xl font-700 leading-tight">Curated, never mass-market
+                    </h2>
+                </div>
+                <div id="filters" class="flex flex-wrap gap-2">
+                    <button
+                        class="chip active px-4 py-2.5 rounded-full border border-ink/15 text-sm font-semibold transition"
+                        data-filter="all">All</button>
+                    <button class="chip px-4 py-2.5 rounded-full border border-ink/15 text-sm font-semibold transition"
+                        data-filter="food">Nutrition</button>
+                    <button class="chip px-4 py-2.5 rounded-full border border-ink/15 text-sm font-semibold transition"
+                        data-filter="toys">Play</button>
+                    <button class="chip px-4 py-2.5 rounded-full border border-ink/15 text-sm font-semibold transition"
+                        data-filter="home">Home</button>
+                    <button class="chip px-4 py-2.5 rounded-full border border-ink/15 text-sm font-semibold transition"
+                        data-filter="care">Care</button>
+                </div>
+            </div>
+
+            <div id="grid" class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"></div>
+
+            <div class="mt-12 text-center reveal">
+                <button onclick="toggleCart(true)"
+                    class="inline-flex items-center gap-2 font-semibold text-moss-500 hover:text-ink transition">View
+                    your basket <span>→</span></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= SPLIT FEATURE ================= -->
+    <section class="py-24 sm:py-32">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="rounded-[2.5rem] bg-moss-500 text-cream overflow-hidden shadow-lift reveal">
+                <div class="grid lg:grid-cols-2">
+                    <div class="p-9 sm:p-14 lg:p-16">
+                        <p class="text-xs uppercase tracking-[.28em] text-gold font-bold">The Pawsh kitchen</p>
+                        <h2 class="mt-5 font-display text-4xl sm:text-5xl font-700 leading-[1.05]">Meals made this
+                            morning, not last year.</h2>
+                        <p class="mt-6 text-cream/75 text-lg leading-relaxed">Our in-house kitchen slow-cooks
+                            human-grade recipes with a veterinary nutritionist. Choose a bowl, tell us the breed &amp;
+                            weight, and we deliver weekly in returnable glass.</p>
+                        <ul class="mt-8 grid sm:grid-cols-2 gap-4 text-sm">
+                            <li class="flex items-start gap-3"><span class="text-gold mt-.5">✦</span> Vet-nutritionist
+                                formulated</li>
+                            <li class="flex items-start gap-3"><span class="text-gold mt-.5">✦</span> No fillers, no
+                                mystery meals</li>
+                            <li class="flex items-start gap-3"><span class="text-gold mt-.5">✦</span> Portioned per pet
+                                profile</li>
+                            <li class="flex items-start gap-3"><span class="text-gold mt-.5">✦</span> Carbon-neutral
+                                delivery</li>
+                        </ul>
+                        <a href="#book"
+                            class="mt-10 inline-flex items-center gap-3 rounded-2xl bg-cream text-ink px-7 py-4 font-semibold hover:bg-gold hover:text-white transition">Build
+                            a meal plan →</a>
+                    </div>
+                    <div class="relative min-h-[320px] img-fallback">
+                        <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=1000&q=80"
+                            alt="Dog with fresh food" class="absolute inset-0 w-full h-full object-cover"
+                            onerror="this.style.display='none'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CLUB / PRICING ================= -->
+    <section id="club" class="py-8 sm:py-12">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto reveal">
+                <p class="text-xs uppercase tracking-[.28em] text-gold font-bold">Care Club</p>
+                <h2 class="mt-4 font-display text-4xl sm:text-5xl font-700 leading-tight">Membership with real perks
+                </h2>
+                <p class="mt-5 text-ink/65 text-lg">Cancel anytime. All plans include free nail trims and priority
+                    booking.</p>
+            </div>
+
+            <div class="mt-14 grid lg:grid-cols-3 gap-6 items-start">
+                <div class="reveal rounded-3xl bg-white border border-ink/8 p-8 shadow-soft">
+                    <h3 class="font-display text-2xl font-600">Whisker</h3>
+                    <p class="mt-2 text-sm text-ink/55">For the low-maintenance companion.</p>
+                    <p class="mt-6 font-display text-5xl font-700">$29<span
+                            class="text-base font-sans font-medium text-ink/45">/mo</span></p>
+                    <ul class="mt-7 space-y-3 text-sm text-ink/70">
+                        <li class="flex gap-3"><span class="text-moss-500">✓</span> 10% off all boutique items</li>
+                        <li class="flex gap-3"><span class="text-moss-500">✓</span> 1 wellness check per year</li>
+                        <li class="flex gap-3"><span class="text-moss-500">✓</span> Free nail trims</li>
+                        <li class="flex gap-3"><span class="text-moss-500">✓</span> Members-only events</li>
+                    </ul>
+                    <button
+                        class="mt-8 w-full rounded-2xl border border-ink/15 py-3.5 font-semibold hover:bg-sand transition">Choose
+                        Whisker</button>
+                </div>
+
+                <div class="reveal relative rounded-3xl bg-ink text-cream p-8 shadow-lift lg:-mt-6"
+                    style="transition-delay:.1s">
+                    <span
+                        class="absolute top-6 right-6 text-[11px] font-bold uppercase tracking-widest bg-gold text-white px-3 py-1.5 rounded-full">Most
+                        loved</span>
+                    <h3 class="font-display text-2xl font-600">Velvet Paw</h3>
+                    <p class="mt-2 text-sm text-cream/55">Full-service care, handled.</p>
+                    <p class="mt-6 font-display text-5xl font-700">$79<span
+                            class="text-base font-sans font-medium text-cream/45">/mo</span></p>
+                    <ul class="mt-7 space-y-3 text-sm text-cream/80">
+                        <li class="flex gap-3"><span class="text-gold">✓</span> 20% off everything, always</li>
+                        <li class="flex gap-3"><span class="text-gold">✓</span> Monthly signature groom</li>
+                        <li class="flex gap-3"><span class="text-gold">✓</span> Unlimited vet consults</li>
+                        <li class="flex gap-3"><span class="text-gold">✓</span> Free weekly meal delivery</li>
+                        <li class="flex gap-3"><span class="text-gold">✓</span> 2 boarding nights per year</li>
+                    </ul>
+                    <button
+                        class="mt-8 w-full rounded-2xl bg-gold text-white py-3.5 font-semibold hover:bg-cream hover:text-ink transition">Choose
+                        Velvet Paw</button>
+                </div>
+
+                <div class="reveal rounded-3xl bg-white border border-ink/8 p-8 shadow-soft"
+                    style="transition-delay:.2s">
+                    <h3 class="font-display text-2xl font-600">Pack</h3>
+                    <p class="mt-2 text-sm text-ink/55">For multi-pet households.</p>
+                    <p class="mt-6 font-display text-5xl font-700">$129<span
+                            class="text-base font-sans font-medium text-ink/45">/mo</span></p>
+                    <ul class="mt-7 space-y-3 text-sm text-ink/70">
+                        <li class="flex gap-3"><span class="text-moss-500">✓</span> Everything in Velvet Paw</li>
+                        <li class="flex gap-3"><span class="text-moss-500">✓</span> Up to 4 pets covered</li>
+                        <li class="flex gap-3"><span class="text-moss-500">✓</span> Home visits &amp; dog walking</li>
+                        <li class="flex gap-3"><span class="text-moss-500">✓</span> Dedicated care concierge</li>
+                    </ul>
+                    <button
+                        class="mt-8 w-full rounded-2xl border border-ink/15 py-3.5 font-semibold hover:bg-sand transition">Choose
+                        Pack</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= ADOPT ================= -->
+    <section id="adopt" class="py-24 sm:py-32">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="flex flex-wrap items-end justify-between gap-6 reveal">
+                <div class="max-w-xl">
+                    <p class="text-xs uppercase tracking-[.28em] text-gold font-bold">Adoption corner</p>
+                    <h2 class="mt-4 font-display text-4xl sm:text-5xl font-700 leading-tight">Looking for their people
+                    </h2>
+                    <p class="mt-5 text-ink/65">100% of adoption fees fund our rescue partners. Every pet leaves
+                        vaccinated, chipped and spoiled.</p>
+                </div>
+                <a href="#book"
+                    class="inline-flex items-center gap-2 font-semibold text-moss-500 hover:text-ink transition">Meet
+                    them in store <span>→</span></a>
+            </div>
+
+            <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="reveal group rounded-3xl overflow-hidden bg-white border border-ink/5 shadow-soft tilt">
+                    <div class="aspect-[4/3] img-fallback overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1601979031925-424e53b6caaa?auto=format&fit=crop&w=800&q=80"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                            alt="Dog Milo" onerror="this.style.display='none'">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-display text-2xl font-600">Milo</h3>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-moss-100 text-moss-700">2
+                                yrs</span>
+                        </div>
+                        <p class="mt-3 text-sm text-ink/60">Border collie mix. Brilliant, gentle, obsessed with tennis
+                            balls and long hikes.</p>
+                    </div>
+                </div>
+                <div class="reveal group rounded-3xl overflow-hidden bg-white border border-ink/5 shadow-soft tilt"
+                    style="transition-delay:.1s">
+                    <div class="aspect-[4/3] img-fallback overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=800&q=80"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                            alt="Cat Juno" onerror="this.style.display='none'">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-display text-2xl font-600">Juno</h3>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-blush/60 text-ink">8 mo</span>
+                        </div>
+                        <p class="mt-3 text-sm text-ink/60">Tabby with opinions. Loves sunbeams, window-watching and a
+                            firm 6am breakfast.</p>
+                    </div>
+                </div>
+                <div class="reveal group rounded-3xl overflow-hidden bg-white border border-ink/5 shadow-soft tilt"
+                    style="transition-delay:.2s">
+                    <div class="aspect-[4/3] img-fallback overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=800&q=80"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                            alt="Dog Biscuit" onerror="this.style.display='none'">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-display text-2xl font-600">Biscuit</h3>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-gold/25 text-gold">5 yrs</span>
+                        </div>
+                        <p class="mt-3 text-sm text-ink/60">Retriever, professional napper. Great with kids, cats and
+                            anyone holding cheese.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= TESTIMONIALS ================= -->
+    <section class="py-8 sm:py-12">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8">
+            <div
+                class="reveal rounded-[2.5rem] bg-sand/70 border border-ink/5 p-9 sm:p-16 text-center relative overflow-hidden">
+                <svg class="absolute -top-6 -left-4 w-40 h-40 text-white/60" fill="currentColor" viewBox="0 0 24 24">
+                    <circle cx="7" cy="8" r="2.1" />
+                    <circle cx="12" cy="6" r="2.1" />
+                    <circle cx="17" cy="8" r="2.1" />
+                    <path
+                        d="M12 10.5c-3 0-5.4 2.2-5.4 4.6 0 1.9 1.6 2.9 3.3 2.4l1.4-.4c.5-.1 1-.1 1.5 0l1.4.4c1.7.5 3.3-.5 3.3-2.4 0-2.4-2.5-4.6-5.5-4.6z" />
+                </svg>
+                <div class="relative">
+                    <div class="text-gold text-xl tracking-widest">★★★★★</div>
+                    <blockquote id="tQuote"
+                        class="mt-7 font-display text-2xl sm:text-3xl leading-snug font-500 italic transition-opacity duration-500">
+                        "My anxious rescue actually wags his tail walking in. That says everything about how this team
+                        works."
+                    </blockquote>
+                    <div id="tAuthor" class="mt-7 text-sm font-semibold transition-opacity duration-500">Amara O. <span
+                            class="text-ink/45 font-normal">— parent of Theo, cocker spaniel</span></div>
+                    <div class="mt-8 flex justify-center gap-2" id="tDots"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= BOOK ================= -->
+    <section id="book" class="py-24 sm:py-32">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="reveal">
+                    <p class="text-xs uppercase tracking-[.28em] text-gold font-bold">Reservations</p>
+                    <h2 class="mt-4 font-display text-4xl sm:text-5xl font-700 leading-tight">Book a visit in under a
+                        minute</h2>
+                    <p class="mt-5 text-ink/65 text-lg">Tell us about your pet and we'll confirm by text within the
+                        hour. Walk-ins welcome for nail trims &amp; treats.</p>
+
+                    <div class="mt-10 grid sm:grid-cols-2 gap-5">
+                        <div class="rounded-2xl bg-white border border-ink/6 p-5 shadow-soft">
+                            <p class="text-xs uppercase tracking-widest text-ink/45">Flagship store</p>
+                            <p class="mt-2 font-semibold">14 Marlowe Lane, Lisbon</p>
+                        </div>
+                        <div class="rounded-2xl bg-white border border-ink/6 p-5 shadow-soft">
+                            <p class="text-xs uppercase tracking-widest text-ink/45">Open</p>
+                            <p class="mt-2 font-semibold">Mon–Sat · 8:00 – 20:00</p>
+                        </div>
+                        <div class="rounded-2xl bg-white border border-ink/6 p-5 shadow-soft">
+                            <p class="text-xs uppercase tracking-widest text-ink/45">Call us</p>
+                            <p class="mt-2 font-semibold">+351 910 442 118</p>
+                        </div>
+                        <div class="rounded-2xl bg-white border border-ink/6 p-5 shadow-soft">
+                            <p class="text-xs uppercase tracking-widest text-ink/45">Email</p>
+                            <p class="mt-2 font-semibold">hello@pawsh.co</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="bookForm" class="reveal rounded-3xl bg-white border border-ink/6 p-7 sm:p-9 shadow-lift"
+                    style="transition-delay:.12s">
+                    <div class="grid sm:grid-cols-2 gap-5">
+                        <label class="block">
+                            <span class="text-xs font-semibold uppercase tracking-widest text-ink/50">Your name</span>
+                            <input required type="text" placeholder="Ana Ribeiro"
+                                class="mt-2 w-full rounded-xl border border-ink/12 bg-cream/50 px-4 py-3.5 outline-none focus:border-moss-500 focus:bg-white transition">
+                        </label>
+                        <label class="block">
+                            <span class="text-xs font-semibold uppercase tracking-widest text-ink/50">Pet's name</span>
+                            <input required type="text" placeholder="Nala"
+                                class="mt-2 w-full rounded-xl border border-ink/12 bg-cream/50 px-4 py-3.5 outline-none focus:border-moss-500 focus:bg-white transition">
+                        </label>
+                        <label class="block">
+                            <span class="text-xs font-semibold uppercase tracking-widest text-ink/50">Email or
+                                phone</span>
+                            <input required type="text" placeholder="you@email.com"
+                                class="mt-2 w-full rounded-xl border border-ink/12 bg-cream/50 px-4 py-3.5 outline-none focus:border-moss-500 focus:bg-white transition">
+                        </label>
+                        <label class="block">
+                            <span class="text-xs font-semibold uppercase tracking-widest text-ink/50">Service</span>
+                            <select
+                                class="mt-2 w-full rounded-xl border border-ink/12 bg-cream/50 px-4 py-3.5 outline-none focus:border-moss-500 focus:bg-white transition">
+                                <option>Signature grooming</option>
+                                <option>Veterinary consult</option>
+                                <option>Boarding suite</option>
+                                <option>Training class</option>
+                                <option>Meal plan consult</option>
+                            </select>
+                        </label>
+                    </div>
+                    <label class="block mt-5">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-ink/50">Anything we should
+                            know?</span>
+                        <textarea rows="3" placeholder="Shy with strangers, loves peanut butter…"
+                            class="mt-2 w-full rounded-xl border border-ink/12 bg-cream/50 px-4 py-3.5 outline-none focus:border-moss-500 focus:bg-white transition resize-none"></textarea>
+                    </label>
+                    <button type="submit"
+                        class="mt-7 w-full rounded-2xl bg-ink text-cream py-4 font-semibold hover:bg-moss-500 transition">Request
+                        appointment</button>
+                    <p id="formMsg"
+                        class="mt-4 text-center text-sm font-semibold text-moss-500 opacity-0 transition-opacity">Thank
+                        you! We'll text you a confirmation shortly. 🐾</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section id="faq" class="pb-24 sm:pb-32">
+        <div class="max-w-3xl mx-auto px-5 sm:px-8">
+            <h2 class="reveal font-display text-4xl sm:text-5xl font-700 text-center leading-tight">Good questions</h2>
+            <div class="mt-12 divide-y divide-ink/10 border-y border-ink/10" id="faqList">
+                <div class="reveal py-2">
+                    <button
+                        class="faq-btn w-full flex items-center justify-between gap-6 py-5 text-left font-semibold text-lg">
+                        Do you use cages or dryers with heat?
+                        <span
+                            class="faq-icon shrink-0 grid place-items-center w-9 h-9 rounded-full border border-ink/15 transition">+</span>
+                    </button>
+                    <div class="accordion-body">
+                        <p class="pb-6 text-ink/65">Never. We're a cage-free, heat-free salon. Pets rest in open
+                            playrooms and dry with ambient ozone systems supervised by a groomer at all times.</p>
+                    </div>
+                </div>
+                <div class="reveal py-2">
+                    <button
+                        class="faq-btn w-full flex items-center justify-between gap-6 py-5 text-left font-semibold text-lg">
+                        Can I stay with my pet during appointments?
+                        <span
+                            class="faq-icon shrink-0 grid place-items-center w-9 h-9 rounded-full border border-ink/15 transition">+</span>
+                    </button>
+                    <div class="accordion-body">
+                        <p class="pb-6 text-ink/65">Absolutely — our salon and vet rooms have parent seating, and
+                            there's a lounge with coffee if your pet settles better solo.</p>
+                    </div>
+                </div>
+                <div class="reveal py-2">
+                    <button
+                        class="faq-btn w-full flex items-center justify-between gap-6 py-5 text-left font-semibold text-lg">
+                        How fast is delivery on boutique orders?
+                        <span
+                            class="faq-icon shrink-0 grid place-items-center w-9 h-9 rounded-full border border-ink/15 transition">+</span>
+                    </button>
+                    <div class="accordion-body">
+                        <p class="pb-6 text-ink/65">Same-day within the city for orders before 3pm, and 1–2 days
+                            nationwide. Fresh meals arrive chilled in returnable glass every Tuesday.</p>
+                    </div>
+                </div>
+                <div class="reveal py-2">
+                    <button
+                        class="faq-btn w-full flex items-center justify-between gap-6 py-5 text-left font-semibold text-lg">
+                        Is the Care Club worth it for one pet?
+                        <span
+                            class="faq-icon shrink-0 grid place-items-center w-9 h-9 rounded-full border border-ink/15 transition">+</span>
+                    </button>
+                    <div class="accordion-body">
+                        <p class="pb-6 text-ink/65">If you groom monthly, Velvet Paw pays for itself with a single visit
+                            plus the 20% boutique discount. You can pause or cancel from your account anytime.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= NEWSLETTER + FOOTER ================= -->
+    <footer class="bg-ink text-cream">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-20 pb-10">
+            <div
+                class="reveal rounded-[2rem] bg-cream/5 border border-cream/10 p-8 sm:p-12 grid lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="font-display text-3xl sm:text-4xl font-700 leading-tight">Treats for your inbox, not just
+                        your pet.</h3>
+                    <p class="mt-3 text-cream/60">Monthly care tips, new arrivals and members-only drops.</p>
+                </div>
+                <form onsubmit="event.preventDefault(); this.reset(); this.querySelector('p').style.opacity=1;"
+                    class="flex flex-col sm:flex-row gap-3">
+                    <input required type="email" placeholder="you@email.com"
+                        class="flex-1 rounded-2xl bg-cream/10 border border-cream/15 px-5 py-4 placeholder-cream/40 outline-none focus:border-gold transition">
+                    <button
+                        class="rounded-2xl bg-gold text-white px-7 py-4 font-semibold hover:bg-cream hover:text-ink transition">Subscribe</button>
+                    <p class="text-sm text-gold opacity-0 transition-opacity self-center">Welcome aboard! 🐾</p>
+                </form>
+            </div>
+
+            <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="grid place-items-center w-10 h-10 rounded-xl bg-cream text-moss-500">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor">
+                                <circle cx="7" cy="8" r="2.1" />
+                                <circle cx="12" cy="6" r="2.1" />
+                                <circle cx="17" cy="8" r="2.1" />
+                                <path
+                                    d="M12 10.5c-3 0-5.4 2.2-5.4 4.6 0 1.9 1.6 2.9 3.3 2.4l1.4-.4c.5-.1 1-.1 1.5 0l1.4.4c1.7.5 3.3-.5 3.3-2.4 0-2.4-2.5-4.6-5.5-4.6z" />
+                            </svg>
+                        </span>
+                        <span class="font-display text-2xl font-700">Pawsh</span>
+                    </div>
+                    <p class="mt-5 text-sm text-cream/55 leading-relaxed max-w-xs">A premium pet boutique and care house
+                        in the heart of Lisbon. Since 2013.</p>
+                    <div class="mt-6 flex gap-3">
+                        <a href="#"
+                            class="grid place-items-center w-10 h-10 rounded-xl bg-cream/10 hover:bg-gold transition"
+                            aria-label="Instagram">
+                            <svg class="w-4.5 h-4.5 w-[18px] h-[18px]" fill="none" stroke="currentColor"
+                                stroke-width="1.7" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="5" />
+                                <circle cx="12" cy="12" r="3.6" />
+                                <circle cx="17" cy="7" r="1" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="grid place-items-center w-10 h-10 rounded-xl bg-cream/10 hover:bg-gold transition"
+                            aria-label="Facebook">
+                            <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.5 22v-8h2.8l.4-3.2h-3.2V8.7c0-.9.3-1.5 1.6-1.5h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.5H7.3V14h2.8v8z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="grid place-items-center w-10 h-10 rounded-xl bg-cream/10 hover:bg-gold transition"
+                            aria-label="TikTok">
+                            <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M16.5 3h-2.7v11.4a2.6 2.6 0 1 1-2.1-2.5V9.1a5.4 5.4 0 1 0 4.8 5.3V8.6a5.5 5.5 0 0 0 3.3 1.1V7A3.9 3.9 0 0 1 16.5 3z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-xs uppercase tracking-[.22em] text-cream/40 font-bold">Shop</p>
+                    <ul class="mt-5 space-y-3 text-sm text-cream/70">
+                        <li><a href="#shop" class="hover:text-gold transition">Fresh nutrition</a></li>
+                        <li><a href="#shop" class="hover:text-gold transition">Toys &amp; enrichment</a></li>
+                        <li><a href="#shop" class="hover:text-gold transition">Beds &amp; home</a></li>
+                        <li><a href="#shop" class="hover:text-gold transition">Grooming care</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-xs uppercase tracking-[.22em] text-cream/40 font-bold">Services</p>
+                    <ul class="mt-5 space-y-3 text-sm text-cream/70">
+                        <li><a href="#services" class="hover:text-gold transition">Grooming salon</a></li>
+                        <li><a href="#services" class="hover:text-gold transition">Veterinary clinic</a></li>
+                        <li><a href="#services" class="hover:text-gold transition">Boarding suites</a></li>
+                        <li><a href="#club" class="hover:text-gold transition">Care Club</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-xs uppercase tracking-[.22em] text-cream/40 font-bold">Company</p>
+                    <ul class="mt-5 space-y-3 text-sm text-cream/70">
+                        <li><a href="#adopt" class="hover:text-gold transition">Adoption corner</a></li>
+                        <li><a href="#faq" class="hover:text-gold transition">Help &amp; FAQ</a></li>
+                        <li><a href="#book" class="hover:text-gold transition">Visit us</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="mt-14 pt-7 border-t border-cream/10 flex flex-col sm:flex-row gap-4 items-center justify-between text-xs text-cream/45">
+                <p>© 2024 Pawsh Pet Boutique. Made with fur on the keyboard.</p>
+                <div class="flex gap-6"><a href="#" class="hover:text-cream">Privacy</a><a href="#"
+                        class="hover:text-cream">Terms</a><a href="#" class="hover:text-cream">Cookies</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= CART DRAWER ================= -->
+    <div id="overlay" onclick="toggleCart(false)"
+        class="fixed inset-0 z-[60] bg-ink/45 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-400">
+    </div>
+    <aside id="cart"
+        class="drawer fixed z-[70] top-0 right-0 h-full w-full max-w-[420px] bg-cream shadow-2xl translate-x-full flex flex-col">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-ink/10">
+            <h3 class="font-display text-2xl font-700">Your basket</h3>
+            <button onclick="toggleCart(false)"
+                class="grid place-items-center w-10 h-10 rounded-xl border border-ink/10 hover:bg-sand transition"
+                aria-label="Close cart">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+            </button>
+        </div>
+        <div id="cartItems" class="flex-1 overflow-y-auto px-6 py-5 space-y-4"></div>
+        <div class="border-t border-ink/10 px-6 py-6 bg-white">
+            <div class="flex items-center justify-between text-sm text-ink/60"><span>Subtotal</span><span id="subTotal"
+                    class="font-semibold text-ink">$0.00</span></div>
+            <div class="flex items-center justify-between text-sm text-ink/60 mt-2"><span>Members save 20%</span><span
+                    class="text-moss-500 font-semibold">Applied at checkout</span></div>
+            <button
+                class="mt-5 w-full rounded-2xl bg-ink text-cream py-4 font-semibold hover:bg-moss-500 transition">Checkout</button>
+            <p class="mt-3 text-center text-xs text-ink/45">Free same-day delivery over $60</p>
+        </div>
+    </aside>
+
+    <script>
+        /* ---------- Nav ---------- */
+        const nav = document.getElementById('navInner');
+        addEventListener('scroll', () => {
+            if (scrollY > 20) nav.classList.add('shadow-soft', 'bg-cream/90');
+            else nav.classList.remove('shadow-soft', 'bg-cream/90');
+        });
+        const mm = document.getElementById('mobileMenu');
+        let menuOpen = false;
+        function toggleMenu() { menuOpen = !menuOpen; mm.style.maxHeight = menuOpen ? mm.scrollHeight + 'px' : '0px'; }
+        mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menuOpen = false; mm.style.maxHeight = '0px'; }));
+
+        /* ---------- Reveal ---------- */
+        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        /* ---------- Counters ---------- */
+        const counters = document.querySelectorAll('[data-count]');
+        const cio = new IntersectionObserver(es => es.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target, target = +el.dataset.count; let cur = 0;
+            const step = Math.max(1, Math.round(target / 40));
+            const t = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(t); } el.textContent = cur; }, 30);
+            cio.unobserve(el);
+        }), { threshold: .5 });
+        counters.forEach(c => cio.observe(c));
+
+        /* ---------- Products ---------- */
+        const products = [
+            { id: 1, name: "Wild Salmon Fresh Bowl", cat: "food", price: 24, tag: "Bestseller", note: "Human-grade · 7 meals", img: "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&w=700&q=80" },
+            { id: 2, name: "Oakwood Rope Tug", cat: "toys", price: 18, tag: "New", note: "Organic cotton · Medium", img: "https://images.unsplash.com/photo-1535294435445-d7249524ef2e?auto=format&fit=crop&w=700&q=80" },
+            { id: 3, name: "Cloud Orthopedic Bed", cat: "home", price: 129, tag: "Award", note: "Memory foam · Washable", img: "https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?auto=format&fit=crop&w=700&q=80" },
+            { id: 4, name: "Botanical Coat Shampoo", cat: "care", price: 22, tag: "", note: "Aloe & oat · 300ml", img: "https://images.unsplash.com/photo-1585584114963-503344a119b0?auto=format&fit=crop&w=700&q=80" },
+            { id: 5, name: "Free-Range Duck Bites", cat: "food", price: 16, tag: "", note: "Single-ingredient treats", img: "https://images.unsplash.com/photo-1591946614720-90a587da4a36?auto=format&fit=crop&w=700&q=80" },
+            { id: 6, name: "Felt Puzzle Feeder", cat: "toys", price: 34, tag: "Enrichment", note: "Slows eating by 4×", img: "https://images.unsplash.com/photo-1526336024174-e58f5150b44e?auto=format&fit=crop&w=700&q=80" },
+            { id: 7, name: "Terracotta Ceramic Bowls", cat: "home", price: 46, tag: "Set of 2", note: "Hand-glazed · Dishwasher safe", img: "https://images.unsplash.com/photo-1548681528-6a5c45b66b42?auto=format&fit=crop&w=700&q=80" },
+            { id: 8, name: "Vet Dental Care Kit", cat: "care", price: 29, tag: "", note: "Enzymatic gel + brush", img: "https://images.unsplash.com/photo-1601758064955-ff9d1e0f0f0a?auto=format&fit=crop&w=700&q=80" }
+        ];
+
+        const grid = document.getElementById('grid');
+        function renderProducts(filter = 'all') {
+            grid.innerHTML = products.filter(p => filter === 'all' || p.cat === filter).map((p, i) => `
+    <article class="group rounded-3xl bg-white border border-ink/5 overflow-hidden shadow-soft tilt card-glow" style="animation:none">
+      <div class="relative aspect-square img-fallback overflow-hidden">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.style.display='none'">
+        ${p.tag ? `<span class="absolute top-4 left-4 text-[11px] font-bold uppercase tracking-wider bg-cream/90 backdrop-blur px-3 py-1.5 rounded-full">${p.tag}</span>` : ''}
+        <button onclick="addToCart(${p.id})" class="absolute bottom-4 right-4 grid place-items-center w-11 h-11 rounded-full bg-ink text-cream shadow-lift translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition hover:bg-gold" aria-label="Add ${p.name}">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+      <div class="p-5">
+        <h3 class="font-semibold leading-snug">${p.name}</h3>
+        <p class="mt-1 text-xs text-ink/50">${p.note}</p>
+        <div class="mt-4 flex items-center justify-between">
+          <span class="font-display text-xl font-700">$${p.price}</span>
+          <button onclick="addToCart(${p.id})" class="text-sm font-semibold text-moss-500 hover:text-ink transition">Add</button>
+        </div>
+      </div>
+    </article>`).join('');
+        }
+        renderProducts();
+
+        document.querySelectorAll('#filters .chip').forEach(btn => btn.addEventListener('click', () => {
+            document.querySelectorAll('#filters .chip').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts(btn.dataset.filter);
+        }));
+
+        /* ---------- Cart ---------- */
+        let cart = [];
+        const cartEl = document.getElementById('cart'), overlay = document.getElementById('overlay');
+        function toggleCart(open) {
+            cartEl.classList.toggle('translate-x-full', !open);
+            overlay.classList.toggle('opacity-0', !open);
+            overlay.classList.toggle('pointer-events-none', !open);
+            document.body.style.overflow = open ? 'hidden' : '';
+        }
+        function addToCart(id) {
+            const p = products.find(x => x.id === id);
+            const found = cart.find(x => x.id === id);
+            found ? found.qty++ : cart.push({ ...p, qty: 1 });
+            renderCart(); bounce(); toggleCart(true);
+        }
+        function changeQty(id, d) {
+            const it = cart.find(x => x.id === id); if (!it) return;
+            it.qty += d; if (it.qty <= 0) cart = cart.filter(x => x.id !== id);
+            renderCart();
+        }
+        function bounce() {
+            const b = document.getElementById('cartCount');
+            b.classList.remove('bounce-badge'); void b.offsetWidth; b.classList.add('bounce-badge');
+        }
+        function renderCart() {
+            const items = document.getElementById('cartItems');
+            document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
+            document.getElementById('subTotal').textContent = '$' + cart.reduce((s, i) => s + i.qty * i.price, 0).toFixed(2);
+            if (!cart.length) {
+                items.innerHTML = `<div class="h-full grid place-items-center text-center py-16">
+      <div>
+        <svg class="w-16 h-16 mx-auto text-ink/15" fill="currentColor" viewBox="0 0 24 24"><circle cx="7" cy="8" r="2.1"/><circle cx="12" cy="6" r="2.1"/><circle cx="17" cy="8" r="2.1"/><path d="M12 10.5c-3 0-5.4 2.2-5.4 4.6 0 1.9 1.6 2.9 3.3 2.4l1.4-.4c.5-.1 1-.1 1.5 0l1.4.4c1.7.5 3.3-.5 3.3-2.4 0-2.4-2.5-4.6-5.5-4.6z"/></svg>
+        <p class="mt-4 font-semibold">Nothing here yet</p>
+        <p class="mt-1 text-sm text-ink/50">Your pet is judging you gently.</p>
+      </div></div>`;
+                return;
+            }
+            items.innerHTML = cart.map(i => `
+    <div class="flex gap-4 items-center rounded-2xl bg-white border border-ink/5 p-3">
+      <div class="w-16 h-16 rounded-xl img-fallback overflow-hidden shrink-0">
+        <img src="${i.img}" class="w-full h-full object-cover" alt="" onerror="this.style.display='none'">
+      </div>
+      <div class="min-w-0 flex-1">
+        <p class="text-sm font-semibold truncate">${i.name}</p>
+        <p class="text-xs text-ink/50 mt-.5">$${i.price}</p>
+        <div class="mt-2 inline-flex items-center gap-3 rounded-full border border-ink/10 px-2 py-1">
+          <button onclick="changeQty(${i.id},-1)" class="w-5 h-5 grid place-items-center hover:text-gold">−</button>
+          <span class="text-xs font-bold w-4 text-center">${i.qty}</span>
+          <button onclick="changeQty(${i.id},1)" class="w-5 h-5 grid place-items-center hover:text-gold">+</button>
+        </div>
+      </div>
+      <span class="font-semibold text-sm">$${(i.qty * i.price).toFixed(2)}</span>
+    </div>`).join('');
+        }
+        renderCart();
+        addEventListener('keydown', e => { if (e.key === 'Escape') toggleCart(false); });
+
+        /* ---------- Testimonials ---------- */
+        const testimonials = [
+            { q: '"My anxious rescue actually wags his tail walking in. That says everything about how this team works."', a: 'Amara O. <span class="text-ink/45 font-normal">— parent of Theo, cocker spaniel</span>' },
+            { q: '"The fresh meal plan cleared up my cat\'s coat in three weeks. I\'ve never seen her this shiny or this smug."', a: 'Diogo M. <span class="text-ink/45 font-normal">— parent of Juno, tabby</span>' },
+            { q: '"Boarding used to mean guilt. Now I get nightly photo updates and a dog who doesn\'t want to leave."', a: 'Sofia L. <span class="text-ink/45 font-normal">— parent of Biscuit, retriever</span>' },
+            { q: '"Their vet spent 40 minutes just letting my puppy sniff the room before touching him. Worth every cent."', a: 'Ravi K. <span class="text-ink/45 font-normal">— parent of Momo, shiba inu</span>' }
+        ];
+        let ti = 0;
+        const tQ = document.getElementById('tQuote'), tA = document.getElementById('tAuthor'), tD = document.getElementById('tDots');
+        tD.innerHTML = testimonials.map((_, i) => `<button data-i="${i}" class="w-2.5 h-2.5 rounded-full transition-all"></button>`).join('');
+        function setT(i) {
+            ti = i;
+            tQ.style.opacity = 0; tA.style.opacity = 0;
+            setTimeout(() => {
+                tQ.textContent = testimonials[i].q; tA.innerHTML = testimonials[i].a;
+                tQ.style.opacity = 1; tA.style.opacity = 1;
+            }, 300);
+            [...tD.children].forEach((d, k) => {
+                d.className = 'rounded-full transition-all ' + (k === i ? 'w-7 h-2.5 bg-ink' : 'w-2.5 h-2.5 bg-ink/20 hover:bg-ink/40');
+            });
+        }
+        setT(0);
+        [...tD.children].forEach(d => d.addEventListener('click', () => setT(+d.dataset.i)));
+        let tTimer = setInterval(() => setT((ti + 1) % testimonials.length), 6000);
+
+        /* ---------- FAQ ---------- */
+        document.querySelectorAll('.faq-btn').forEach(btn => btn.addEventListener('click', () => {
+            const body = btn.nextElementSibling, icon = btn.querySelector('.faq-icon');
+            const open = body.style.maxHeight && body.style.maxHeight !== '0px';
+            document.querySelectorAll('.accordion-body').forEach(b => b.style.maxHeight = '0px');
+            document.querySelectorAll('.faq-icon').forEach(i => { i.textContent = '+'; i.classList.remove('bg-ink', 'text-cream', 'rotate-90'); });
+            if (!open) {
+                body.style.maxHeight = body.scrollHeight + 'px';
+                icon.textContent = '−'; icon.classList.add('bg-ink', 'text-cream');
+            }
+        }));
+
+        /* ---------- Booking form ---------- */
+        document.getElementById('bookForm').addEventListener('submit', e => {
+            e.preventDefault();
+            e.target.reset();
+            const m = document.getElementById('formMsg');
+            m.style.opacity = 1;
+            setTimeout(() => m.style.opacity = 0, 5000);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOK & EGG | Fast Noodles, Sizzle Rice & RTC Meal Kits</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            yolk: '#FFB800',
+                            flame: '#FF4500',
+                            chili: '#E62E00',
+                            charcoal: '#121214',
+                            dark: '#18181B',
+                            card: '#202024',
+                            cream: '#FFFDF9',
+                            muted: '#71717A'
+                        }
+                    },
+                    fontFamily: {
+                        syne: ['Syne', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'floating 3s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'flame-flicker': 'flame 1.5s infinite alternate'
+                    },
+                    keyframes: {
+                        floating: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(255, 69, 0, 0.4)' },
+                            '50%': { boxShadow: '0 0 30px rgba(255, 184, 0, 0.7)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121214;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF4500;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+        }
+
+        .gold-glow {
+            text-shadow: 0 0 20px rgba(255, 184, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-brand-charcoal text-white font-sans antialiased overflow-x-hidden selection:bg-brand-flame selection:text-white">
+
+    <!-- Promo Banner -->
+    <div
+        class="bg-gradient-to-r from-brand-chili via-brand-flame to-brand-yolk text-brand-charcoal font-bold text-xs md:text-sm py-2 px-4 text-center tracking-wide flex items-center justify-center gap-2">
+        <span
+            class="inline-block px-2 py-0.5 bg-black text-white text-[10px] rounded uppercase tracking-wider font-extrabold">Flash
+            RTC Drop</span>
+        <span>🔥 Buy 3 Ready-To-Cook Packs & Get Free Crispy Garlic Chili Oil! Use Code: <strong
+                class="underline decoration-2">WOKFRESH</strong></span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-brand-charcoal/90 border-b border-zinc-800 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div
+                    class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-flame to-brand-yolk flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                    <i data-lucide="flame" class="w-6 h-6 text-black fill-black"></i>
+                </div>
+                <div>
+                    <span class="font-syne text-2xl font-extrabold tracking-tight block leading-none">
+                        WOK<span class="text-brand-yolk">&</span>CRACK
+                    </span>
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400">Noodles • Egg Rice •
+                        RTC</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-zinc-300">
+                <a href="#menu" class="hover:text-brand-yolk transition">Hot Menu</a>
+                <a href="#rtc-packs" class="flex items-center gap-1.5 hover:text-brand-yolk transition">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-flame opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-flame"></span>
+                    </span>
+                    RTC Home Kits
+                </a>
+                <a href="#diy-box" class="hover:text-brand-yolk transition">Custom Wok Box</a>
+                <a href="#about" class="hover:text-brand-yolk transition">Why RTC?</a>
+                <a href="#reviews" class="hover:text-brand-yolk transition">Street Reviews</a>
+            </nav>
+
+            <!-- Actions: Cart & CTA -->
+            <div class="flex items-center gap-3">
+                <button id="open-cart-btn"
+                    class="relative p-2.5 rounded-xl bg-zinc-800/80 border border-zinc-700 hover:border-brand-yolk text-zinc-200 hover:text-white transition group">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span id="cart-counter"
+                        class="absolute -top-1.5 -right-1.5 bg-brand-flame text-white text-[10px] font-black rounded-full h-5 w-5 flex items-center justify-center shadow">0</span>
+                </button>
+                <a href="#menu"
+                    class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-flame hover:bg-brand-chili font-bold text-sm shadow-lg shadow-brand-flame/30 hover:shadow-brand-flame/50 hover:scale-[1.02] active:scale-95 transition-all">
+                    <span>Order Now</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <!-- Mobile hamburger -->
+                <button id="mobile-menu-btn" class="p-2 md:hidden text-zinc-300 hover:text-white">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-b border-zinc-800 px-6 py-4 space-y-3">
+            <a href="#menu" class="block py-2 text-base font-semibold text-zinc-300 hover:text-brand-yolk">Hot Menu</a>
+            <a href="#rtc-packs" class="block py-2 text-base font-semibold text-zinc-300 hover:text-brand-yolk">RTC
+                Ready-To-Cook</a>
+            <a href="#diy-box" class="block py-2 text-base font-semibold text-zinc-300 hover:text-brand-yolk">Custom Wok
+                Box</a>
+            <a href="#about" class="block py-2 text-base font-semibold text-zinc-300 hover:text-brand-yolk">The 180s Wok
+                Story</a>
+            <a href="#menu" class="block text-center mt-3 py-3 rounded-xl bg-brand-flame font-bold text-white">Order
+                Fast Food</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[85vh] flex items-center overflow-hidden border-b border-zinc-800">
+        <!-- Background Glows -->
+        <div
+            class="absolute -top-24 left-1/4 w-96 h-96 bg-brand-flame/20 rounded-full blur-[120px] pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-10 right-10 w-96 h-96 bg-brand-yolk/15 rounded-full blur-[140px] pointer-events-none">
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+            <!-- Hero Left Content -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-800/90 border border-brand-yolk/30 text-brand-yolk text-xs font-bold tracking-wider uppercase">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 fill-brand-yolk"></i>
+                    Fast Casual Noodles & Golden Egg Wok
+                </div>
+
+                <h1 class="font-syne text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.08]">
+                    180 SECONDS OF <br>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-brand-flame via-brand-yolk to-yellow-300">
+                        WOK HEI BLISS.
+                    </span>
+                </h1>
+
+                <p class="text-zinc-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
+                    Ultra-fast fiery wok noodles, signature lava egg fried rice, and flash-sealed <strong
+                        class="text-brand-yolk font-bold">Ready-To-Cook (RTC)</strong> restaurant kits cooked straight
+                    at your kitchen stove in under 4 minutes.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a href="#menu"
+                        class="px-7 py-3.5 rounded-2xl bg-brand-flame hover:bg-brand-chili text-white font-extrabold text-base shadow-xl shadow-brand-flame/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                        <span>Eat Fresh Now</span>
+                        <i data-lucide="utensils" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#rtc-packs"
+                        class="px-7 py-3.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white font-extrabold text-base hover:border-brand-yolk/50 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                        <i data-lucide="package-check" class="w-4 h-4 text-brand-yolk"></i>
+                        <span>Shop RTC Kits</span>
+                    </a>
+                </div>
+
+                <!-- Stats / Micro Credibility -->
+                <div class="pt-6 grid grid-cols-3 gap-4 border-t border-zinc-800/80 max-w-lg mx-auto lg:mx-0">
+                    <div>
+                        <p class="font-syne text-2xl sm:text-3xl font-extrabold text-white">180<span
+                                class="text-brand-flame">s</span></p>
+                        <p class="text-xs text-zinc-400 font-semibold uppercase tracking-wider">Fast Wok Stir</p>
+                    </div>
+                    <div>
+                        <p class="font-syne text-2xl sm:text-3xl font-extrabold text-brand-yolk">100%</p>
+                        <p class="text-xs text-zinc-400 font-semibold uppercase tracking-wider">Free-Range Yolks</p>
+                    </div>
+                    <div>
+                        <p class="font-syne text-2xl sm:text-3xl font-extrabold text-white">4<span
+                                class="text-brand-flame">min</span></p>
+                        <p class="text-xs text-zinc-400 font-semibold uppercase tracking-wider">RTC Prep Time</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Right Visual Showcase -->
+            <div class="lg:col-span-5 relative">
+                <div
+                    class="relative w-full max-w-md mx-auto aspect-square rounded-3xl p-3 bg-gradient-to-tr from-brand-flame via-brand-yolk/40 to-transparent shadow-2xl">
+                    <!-- Main Hero Card -->
+                    <div class="w-full h-full rounded-[22px] bg-brand-dark overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=900&q=80"
+                            alt="Signature Sichuan Chili Noodles & Golden Egg Bowl"
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700" />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-transparent to-transparent">
+                        </div>
+
+                        <!-- Floating Interactive Badges -->
+                        <div
+                            class="absolute top-4 left-4 bg-brand-charcoal/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-zinc-700 flex items-center gap-2 shadow-lg">
+                            <span class="w-2.5 h-2.5 rounded-full bg-brand-flame animate-ping"></span>
+                            <span class="text-xs font-bold text-white tracking-wide">🔥 Live Heat #WokHei</span>
+                        </div>
+
+                        <!-- Bottom Floating Product Highlight -->
+                        <div
+                            class="absolute bottom-4 left-4 right-4 bg-brand-dark/95 backdrop-blur-md border border-zinc-700/80 rounded-2xl p-4 shadow-xl">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-[11px] font-bold uppercase tracking-wider text-brand-yolk">Chef's
+                                        Hot Pick</span>
+                                    <h4 class="font-syne text-base font-bold text-white">Garlic Chili Crisp Lo Mein</h4>
+                                    <p class="text-xs text-zinc-400">Hand-pulled ribbon noodle + 62°C onsen yolk</p>
+                                </div>
+                                <span class="font-syne text-xl font-extrabold text-brand-yolk">$11.49</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating mini badge: RTC Pack demo -->
+                <div
+                    class="absolute -bottom-6 -left-4 sm:-left-6 bg-zinc-900 border border-brand-yolk/40 rounded-2xl p-3 shadow-2xl flex items-center gap-3 animate-float">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-brand-yolk/20 flex items-center justify-center text-brand-yolk font-black text-xl">
+                        <i data-lucide="box" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-white">RTC Home Box Pack</p>
+                        <p class="text-[11px] text-zinc-400">Flash vacuum chilled &amp; pre-sauced</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Quick Categorical Ribbon -->
+    <section class="py-6 bg-zinc-900/60 border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/40 border border-zinc-800">
+                    <div class="p-2.5 rounded-lg bg-orange-500/10 text-brand-flame"><i data-lucide="zap"
+                            class="w-5 h-5"></i></div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase text-white">3-Min Quick Serve</h4>
+                        <p class="text-[11px] text-zinc-400">Grab &amp; go wok bowls</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/40 border border-zinc-800">
+                    <div class="p-2.5 rounded-lg bg-amber-500/10 text-brand-yolk"><i data-lucide="egg"
+                            class="w-5 h-5"></i></div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase text-white">Golden Egg Standard</h4>
+                        <p class="text-[11px] text-zinc-400">Crispy edges, rich custardy yolk</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/40 border border-zinc-800">
+                    <div class="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-400"><i data-lucide="snowflake"
+                            class="w-5 h-5"></i></div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase text-white">RTC Flash Sealed</h4>
+                        <p class="text-[11px] text-zinc-400">Keeps 14 days in fridge</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/40 border border-zinc-800">
+                    <div class="p-2.5 rounded-lg bg-purple-500/10 text-purple-400"><i data-lucide="truck"
+                            class="w-5 h-5"></i></div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase text-white">Cold-Chain Express</h4>
+                        <p class="text-[11px] text-zinc-400">Next-day RTC courier box</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The 3 Pillars Section: Noodles, Egg Rice, RTC -->
+    <section class="py-16 md:py-24 border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs uppercase font-extrabold tracking-widest text-brand-flame">Crafted For Instant
+                    Satisfaction</span>
+                <h2 class="font-syne text-3xl sm:text-5xl font-extrabold mt-2 text-white">
+                    OUR HOLY TRINITY
+                </h2>
+                <p class="text-zinc-400 text-sm sm:text-base mt-3">From roaring 500°F woks into your belly, or into a
+                    vacuum pouch to master on your home burners.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Pillar 1: Noodles -->
+                <div
+                    class="relative bg-zinc-900/90 rounded-3xl p-6 border border-zinc-800 hover:border-brand-flame/50 transition duration-300 group">
+                    <div class="h-48 rounded-2xl overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=700&q=80"
+                            alt="Fast Wok Noodles"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div
+                            class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-brand-flame">
+                            01. FAST NOODLES</div>
+                    </div>
+                    <h3 class="font-syne text-xl font-bold text-white mb-2">High-Velocity Hand Noodles</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+                        Ribbon egg noodles and alkaline wheat strands tossed violently over blazing iron. Smoky, chewy,
+                        soaked in aged dark soy and chili garlic drippings.
+                    </p>
+                    <a href="#menu"
+                        class="inline-flex items-center text-sm font-bold text-brand-flame hover:underline gap-1">
+                        Explore noodle bowls <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Pillar 2: Egg Fried Rice -->
+                <div
+                    class="relative bg-zinc-900/90 rounded-3xl p-6 border border-zinc-800 hover:border-brand-yolk/50 transition duration-300 group">
+                    <div class="h-48 rounded-2xl overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=700&q=80"
+                            alt="Golden Egg Fried Rice"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div
+                            class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-brand-yolk">
+                            02. SIZZLE EGG RICE</div>
+                    </div>
+                    <h3 class="font-syne text-xl font-bold text-white mb-2">Golden Lava &amp; Wok Grains</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+                        Day-old fragrant jasmine rice coated in beaten farm eggs, flash seared grain by grain with
+                        scallion fat, charred aromatics, and tornado omelet crowns.
+                    </p>
+                    <a href="#menu"
+                        class="inline-flex items-center text-sm font-bold text-brand-yolk hover:underline gap-1">
+                        Explore fried rice <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Pillar 3: RTC Ready-To-Cook -->
+                <div
+                    class="relative bg-zinc-900/90 rounded-3xl p-6 border border-zinc-800 hover:border-emerald-500/50 transition duration-300 group">
+                    <div class="h-48 rounded-2xl overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=700&q=80"
+                            alt="RTC Ready To Cook Kits"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div
+                            class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-emerald-400">
+                            03. RTC MEAL KITS</div>
+                    </div>
+                    <h3 class="font-syne text-xl font-bold text-white mb-2">Ready-To-Cook (RTC) Kits</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+                        Zero prep. Master broths, flash-cooked proteins, raw fresh noodles, and seasoned rice packs.
+                        Drop them in your pan for 4 minutes and eat restaurant hot.
+                    </p>
+                    <a href="#rtc-packs"
+                        class="inline-flex items-center text-sm font-bold text-emerald-400 hover:underline gap-1">
+                        Explore RTC packs <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Interactive Menu Section -->
+    <section id="menu" class="py-16 md:py-24 bg-brand-charcoal border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-xs uppercase font-extrabold tracking-widest text-brand-flame">Street Fast &amp;
+                        Hot</span>
+                    <h2 class="font-syne text-3xl sm:text-5xl font-extrabold text-white">THE SIGNATURE BOARD</h2>
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="flex flex-wrap items-center gap-2" id="filter-container">
+                    <button
+                        class="filter-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-brand-flame text-white transition"
+                        data-filter="all">All Items</button>
+                    <button
+                        class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition"
+                        data-filter="noodle">Wok Noodles</button>
+                    <button
+                        class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition"
+                        data-filter="rice">Golden Egg Rice</button>
+                    <button
+                        class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition"
+                        data-filter="rtc">RTC Meal Packs</button>
+                </div>
+            </div>
+
+            <!-- Dynamic Menu Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-grid">
+                <!-- Menu items injected by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- RTC (Ready-To-Cook) Deep Dive Section -->
+    <section id="rtc-packs"
+        class="py-16 md:py-24 bg-gradient-to-b from-brand-charcoal via-zinc-900 to-brand-charcoal relative overflow-hidden border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div
+                class="bg-gradient-to-r from-zinc-900 to-zinc-800/90 border border-zinc-700/80 rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+                    <div class="lg:col-span-6 space-y-6">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                            Cook Restaurant Food At Home
+                        </div>
+                        <h2 class="font-syne text-3xl sm:text-4xl font-extrabold text-white">
+                            READY-TO-COOK (RTC) <br>
+                            <span class="text-brand-yolk">FRESHLY PACKED MEAL KITS</span>
+                        </h2>
+                        <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
+                            Craving our 180s Wok Hei at midnight? Keep our vacuum chilled RTC packs in your fridge. No
+                            chopping, no measuring, zero cleanup. Just rip, sizzle in a skillet, and devour.
+                        </p>
+
+                        <!-- How it works 3 steps -->
+                        <div class="space-y-4 pt-2">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-brand-flame flex items-center justify-center font-black text-sm text-white shrink-0 mt-0.5">
+                                    1</div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Rip Sealed Pack</h4>
+                                    <p class="text-xs text-zinc-400">Everything is portioned: sauce concentrate, tender
+                                        meats, fresh raw noodles.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-brand-yolk flex items-center justify-center font-black text-sm text-black shrink-0 mt-0.5">
+                                    2</div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Sizzle on High Heat for 4 Mins</h4>
+                                    <p class="text-xs text-zinc-400">Drop into any pan or wok. The concentrated glaze
+                                        caramelizes effortlessly.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center font-black text-sm text-white shrink-0 mt-0.5">
+                                    3</div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Crack Fresh Egg &amp; Slurp</h4>
+                                    <p class="text-xs text-zinc-400">Top with our included chili crisp sachet and
+                                        optional onsen yolk pouch.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex flex-wrap gap-3">
+                            <button onclick="filterRTCAndScroll()"
+                                class="px-6 py-3 rounded-xl bg-brand-yolk hover:bg-yellow-400 text-black font-extrabold text-sm shadow-lg shadow-brand-yolk/20 transition flex items-center gap-2">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Browse RTC Packs ($8.99+)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- RTC Kit Pack Imagery -->
+                    <div class="lg:col-span-6 relative">
+                        <div class="relative rounded-2xl overflow-hidden border border-zinc-700 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80"
+                                alt="RTC Kit in Pouch" class="w-full h-80 object-cover">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                                <span
+                                    class="bg-emerald-500 text-black font-extrabold text-[10px] px-2.5 py-1 rounded w-fit mb-2 uppercase">Vacuum
+                                    Chill Tech</span>
+                                <h4 class="font-syne text-lg font-bold text-white">The RTC Dan-Dan &amp; Rice Bundle
+                                </h4>
+                                <p class="text-xs text-zinc-300">Contains 2x Sichuan Dan Dan Ribbons + 2x Smoked Char
+                                    Siu Egg Rice sets</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Custom Wok Box Builder -->
+    <section id="diy-box" class="py-16 md:py-24 bg-brand-charcoal border-b border-zinc-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <span class="text-xs uppercase font-extrabold tracking-widest text-brand-flame">Interactive
+                    Builder</span>
+                <h2 class="font-syne text-3xl sm:text-4xl font-extrabold text-white">BUILD YOUR FLASH WOK BOX</h2>
+                <p class="text-zinc-400 text-xs sm:text-sm mt-2">Pick your carb, egg style, fire sauce, and RTC option
+                    for takeout or home pack.</p>
+            </div>
+
+            <!-- Builder Container -->
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-2xl">
+                <!-- Step 1: Base -->
+                <div class="mb-8">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-yolk mb-3">1. Select Your
+                        Carb Foundation</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="step-base">
+                        <button type="button"
+                            class="builder-opt active p-4 rounded-xl border border-brand-flame bg-brand-flame/10 text-left transition"
+                            data-name="Knife-Cut Ribbon Noodles" data-price="7.50">
+                            <div class="font-bold text-white text-sm">Knife-Cut Ribbon Noodles</div>
+                            <div class="text-xs text-zinc-400">Thick, ultra-chewy wavy noodle</div>
+                            <div class="text-xs font-extrabold text-brand-yolk mt-2">$7.50</div>
+                        </button>
+                        <button type="button"
+                            class="builder-opt p-4 rounded-xl border border-zinc-700 bg-zinc-800/60 hover:border-zinc-500 text-left transition"
+                            data-name="Fragrant Jasmine Rice" data-price="6.50">
+                            <div class="font-bold text-white text-sm">Aged Jasmine Rice</div>
+                            <div class="text-xs text-zinc-400">Dry &amp; separated for smoky wok hei</div>
+                            <div class="text-xs font-extrabold text-brand-yolk mt-2">$6.50</div>
+                        </button>
+                        <button type="button"
+                            class="builder-opt p-4 rounded-xl border border-zinc-700 bg-zinc-800/60 hover:border-zinc-500 text-left transition"
+                            data-name="Half Noodle & Half Rice Combo" data-price="8.00">
+                            <div class="font-bold text-white text-sm">50/50 Noodle + Rice Combo</div>
+                            <div class="text-xs text-zinc-400">Best of both worlds hybrid</div>
+                            <div class="text-xs font-extrabold text-brand-yolk mt-2">$8.00</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Egg Crack Style -->
+                <div class="mb-8">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-yolk mb-3">2. Choose Your
+                        Golden Egg Finish</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="step-egg">
+                        <button type="button"
+                            class="builder-opt active p-3 rounded-xl border border-brand-flame bg-brand-flame/10 text-center transition"
+                            data-egg="Lava Tornado Omelet (+$2.00)" data-price="2.00">
+                            <div class="text-lg">🌪️</div>
+                            <div class="font-bold text-xs text-white mt-1">Lava Tornado</div>
+                            <div class="text-[10px] text-zinc-400">Custardy soft ribbon</div>
+                        </button>
+                        <button type="button"
+                            class="builder-opt p-3 rounded-xl border border-zinc-700 bg-zinc-800/60 hover:border-zinc-500 text-center transition"
+                            data-egg="Crispy Skirt Fried Egg (+$1.50)" data-price="1.50">
+                            <div class="text-lg">🍳</div>
+                            <div class="font-bold text-xs text-white mt-1">Crispy Lace Skirt</div>
+                            <div class="text-[10px] text-zinc-400">Deep fried browned edges</div>
+                        </button>
+                        <button type="button"
+                            class="builder-opt p-3 rounded-xl border border-zinc-700 bg-zinc-800/60 hover:border-zinc-500 text-center transition"
+                            data-egg="63°C Japanese Onsen Yolk (+$2.00)" data-price="2.00">
+                            <div class="text-lg">🥚</div>
+                            <div class="font-bold text-xs text-white mt-1">63°C Onsen Yolk</div>
+                            <div class="text-[10px] text-zinc-400">Silky melt-in yolk pool</div>
+                        </button>
+                        <button type="button"
+                            class="builder-opt p-3 rounded-xl border border-zinc-700 bg-zinc-800/60 hover:border-zinc-500 text-center transition"
+                            data-egg="Wok-Scrambled Inside (Free)" data-price="0.00">
+                            <div class="text-lg">🥢</div>
+                            <div class="font-bold text-xs text-white mt-1">Wok Folded</div>
+                            <div class="text-[10px] text-zinc-400">Flash tossed inside</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Heat & Sauce -->
+                <div class="mb-8">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-yolk mb-3">3. Sauce & Heat
+                        Profile</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="step-sauce">
+                        <button type="button"
+                            class="builder-opt active p-3 rounded-xl border border-brand-flame bg-brand-flame/10 text-left transition"
+                            data-sauce="Sichuan Crispy Garlic Chili Oil (Spicy)">
+                            <div class="font-bold text-xs text-white flex items-center justify-between">
+                                <span>Garlic Chili Crisp</span>
+                                <span class="text-brand-flame font-extrabold text-[10px]">HOT 🔥🔥</span>
+                            </div>
+                            <div class="text-[11px] text-zinc-400">Tingly peppercorn, roasted sesame</div>
+                        </button>
+                        <button type="button"
+                            class="builder-opt p-3 rounded-xl border border-zinc-700 bg-zinc-800/60 hover:border-zinc-500 text-left transition"
+                            data-sauce="Caramelized Sweet Soy Umami">
+                            <div class="font-bold text-xs text-white flex items-center justify-between">
+                                <span>Black Soy Umami</span>
+                                <span class="text-zinc-400 font-bold text-[10px]">MILD</span>
+                            </div>
+                            <div class="text-[11px] text-zinc-400">Shallot oil, dark soy, mirin caramel</div>
+                        </button>
+                        <button type="button"
+                            class="builder-opt p-3 rounded-xl border border-zinc-700 bg-zinc-800/60 hover:border-zinc-500 text-left transition"
+                            data-sauce="Golden Salted Egg Butter Crunch">
+                            <div class="font-bold text-xs text-white flex items-center justify-between">
+                                <span>Salted Egg Butter</span>
+                                <span class="text-brand-yolk font-bold text-[10px]">RICH</span>
+                            </div>
+                            <div class="text-[11px] text-zinc-400">Curry leaves, cured yolks, ghee</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Packaging Type (Hot Ready or RTC Kit) -->
+                <div class="mb-8">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-yolk mb-3">4. Packaging
+                        Format</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="step-pack">
+                        <button type="button"
+                            class="builder-opt active p-4 rounded-xl border border-brand-flame bg-brand-flame/10 flex items-center gap-3 text-left transition"
+                            data-format="Hot & Sizzling in Takeout Box">
+                            <i data-lucide="utensils" class="w-6 h-6 text-brand-flame shrink-0"></i>
+                            <div>
+                                <div class="font-bold text-xs text-white">Hot &amp; Sizzling (Eat Now)</div>
+                                <div class="text-[11px] text-zinc-400">Boxed hot right off the flame wok</div>
+                            </div>
+                        </button>
+                        <button type="button"
+                            class="builder-opt p-4 rounded-xl border border-zinc-700 bg-zinc-800/60 hover:border-zinc-500 flex items-center gap-3 text-left transition"
+                            data-format="RTC Vacuum Chilled DIY Kit">
+                            <i data-lucide="box" class="w-6 h-6 text-emerald-400 shrink-0"></i>
+                            <div>
+                                <div class="font-bold text-xs text-white">RTC DIY Home Pack (Cook Later)</div>
+                                <div class="text-[11px] text-zinc-400">Vacuum-sealed meal kit with cook cards</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Summary and Action -->
+                <div
+                    class="bg-black/60 border border-zinc-800 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <span class="text-[11px] uppercase tracking-wider text-zinc-400 font-bold">Your Custom Wok
+                            Box</span>
+                        <div id="builder-summary-title" class="font-bold text-sm text-white">Knife-Cut Ribbon Noodles +
+                            Lava Tornado</div>
+                        <div id="builder-summary-sub" class="text-xs text-zinc-400">Garlic Chili Crisp • Hot & Sizzling
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between sm:justify-end gap-4">
+                        <div class="text-right">
+                            <span class="text-[10px] text-zinc-400 block font-bold uppercase">Total Price</span>
+                            <span id="builder-total-price"
+                                class="font-syne text-2xl font-black text-brand-yolk">$9.50</span>
+                        </div>
+                        <button id="add-builder-to-cart"
+                            class="px-6 py-3 rounded-xl bg-brand-flame hover:bg-brand-chili font-bold text-sm text-white flex items-center gap-2 active:scale-95 transition shadow-lg shadow-brand-flame/30">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Add Box to Bag</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof / Reviews -->
+    <section id="reviews" class="py-16 bg-zinc-900/40 border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <span class="text-xs uppercase font-extrabold tracking-widest text-brand-flame">Street Feedback</span>
+                <h2 class="font-syne text-3xl font-extrabold text-white">LOVED BY NIGHT OWLS &amp; CHEFS</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="p-6 rounded-2xl bg-zinc-900 border border-zinc-800 relative">
+                    <div class="flex items-center gap-1 text-brand-yolk mb-3">
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                    </div>
+                    <p class="text-zinc-300 text-sm leading-relaxed mb-4">
+                        "The RTC packs completely changed my work-from-home lunches. I sizzled the dan-dan noodles in my
+                        cast iron pan in 3 minutes flat and it tasted exactly like a Chinatown wok spot."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand-flame/20 flex items-center justify-center font-bold text-brand-flame text-sm">
+                            MK</div>
+                        <div>
+                            <h5 class="text-xs font-bold text-white">Marcus Kim</h5>
+                            <span class="text-[11px] text-zinc-400">RTC Subscriber • Brooklyn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="p-6 rounded-2xl bg-zinc-900 border border-zinc-800 relative">
+                    <div class="flex items-center gap-1 text-brand-yolk mb-3">
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                    </div>
+                    <p class="text-zinc-300 text-sm leading-relaxed mb-4">
+                        "That golden egg fried rice with the crispy skirt yolk is ridiculous. You can genuinely smell
+                        the heavy wok breath on every rice kernel. 10/10 comfort fast food."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand-yolk/20 flex items-center justify-center font-bold text-brand-yolk text-sm">
+                            SL</div>
+                        <div>
+                            <h5 class="text-xs font-bold text-white">Samantha Lee</h5>
+                            <span class="text-[11px] text-zinc-400">Food Journalist • NYC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="p-6 rounded-2xl bg-zinc-900 border border-zinc-800 relative">
+                    <div class="flex items-center gap-1 text-brand-yolk mb-3">
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-yolk"></i>
+                    </div>
+                    <p class="text-zinc-300 text-sm leading-relaxed mb-4">
+                        "I order 6 RTC packs every two weeks. My freezer is packed with their noodles. It costs half the
+                        price of ordinary restaurant food apps and tastes ten times fresher."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 text-sm">
+                            DT</div>
+                        <div>
+                            <h5 class="text-xs font-bold text-white">David Tan</h5>
+                            <span class="text-[11px] text-zinc-400">Late Night Programmer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-zinc-400 py-16 border-t border-zinc-800 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <!-- Col 1 -->
+            <div class="space-y-4 md:col-span-1">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-flame to-brand-yolk flex items-center justify-center">
+                        <i data-lucide="flame" class="w-5 h-5 text-black fill-black"></i>
+                    </div>
+                    <span class="font-syne text-xl font-extrabold text-white">WOK<span
+                            class="text-brand-yolk">&</span>CRACK</span>
+                </div>
+                <p class="text-xs text-zinc-400 leading-relaxed">
+                    Fast food noodles, fiery golden egg fried rice, and flash-sealed Ready-To-Cook packs engineered for
+                    ultimate crunch and comfort.
+                </p>
+                <div class="text-xs text-zinc-500">
+                    &copy; <span id="current-year"></span> WOK &amp; CRACK Inc. All rights reserved.
+                </div>
+            </div>
+
+            <!-- Col 2: Locations -->
+            <div>
+                <h5 class="text-xs font-bold uppercase tracking-wider text-white mb-3">Kitchen Outposts</h5>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex items-center gap-2"><i data-lucide="map-pin"
+                            class="w-3.5 h-3.5 text-brand-flame"></i> Soho Outpost: 142 Mercer St</li>
+                    <li class="flex items-center gap-2"><i data-lucide="map-pin"
+                            class="w-3.5 h-3.5 text-brand-flame"></i> LES Flagship: 88 Orchard St</li>
+                    <li class="flex items-center gap-2"><i data-lucide="map-pin"
+                            class="w-3.5 h-3.5 text-brand-flame"></i> Williamsburg Wok Hub: 204 N 6th</li>
+                    <li class="text-[11px] text-brand-yolk pt-1 font-semibold">Open daily: 11:00 AM – 3:00 AM</li>
+                </ul>
+            </div>
+
+            <!-- Col 3: RTC Shipping -->
+            <div>
+                <h5 class="text-xs font-bold uppercase tracking-wider text-white mb-3">RTC Kits Logistics</h5>
+                <p class="text-xs text-zinc-400 mb-2">We ship vacuum cold-packs across the Northeast with eco dry-ice
+                    insulated containers.</p>
+                <ul class="space-y-1.5 text-xs">
+                    <li><a href="#rtc-packs" class="hover:text-white transition">RTC Subscription Perks</a></li>
+                    <li><a href="#rtc-packs" class="hover:text-white transition">Cooking & Storage Guidelines</a></li>
+                    <li><a href="#rtc-packs" class="hover:text-white transition">Bulk Corporate Catering</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Newsletter -->
+            <div>
+                <h5 class="text-xs font-bold uppercase tracking-wider text-white mb-3">Get Secret Noodle Drops</h5>
+                <p class="text-xs text-zinc-400 mb-3">Subscribe for limited-run chili oil batches and monthly RTC 20%
+                    promo codes.</p>
+                <form id="newsletter-form" class="space-y-2">
+                    <div class="flex gap-2">
+                        <input type="email" required placeholder="Enter your email"
+                            class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-yolk">
+                        <button type="submit"
+                            class="px-4 py-2 bg-brand-flame hover:bg-brand-chili text-white font-bold rounded-xl text-xs transition shrink-0">Join</button>
+                    </div>
+                    <span id="newsletter-success" class="text-[11px] text-emerald-400 hidden block">Thanks for joining
+                        the wok squad!</span>
+                </form>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Slide-over Cart Drawer -->
+    <div id="cart-drawer"
+        class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-all duration-300 opacity-0 invisible">
+        <!-- Backdrop -->
+        <div id="cart-backdrop" class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity"></div>
+
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
+            <div
+                class="w-screen max-w-md bg-brand-dark border-l border-zinc-800 p-6 flex flex-col justify-between shadow-2xl">
+                <!-- Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-zinc-800">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-yolk"></i>
+                        <h3 class="font-syne text-lg font-bold text-white">Your Wok Bag</h3>
+                    </div>
+                    <button id="close-cart-btn" class="p-2 text-zinc-400 hover:text-white transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Item list -->
+                <div id="cart-items" class="flex-1 overflow-y-auto py-4 space-y-4 divide-y divide-zinc-800/60">
+                    <!-- Dynamic cart items go here -->
+                </div>
+
+                <!-- Cart Footer -->
+                <div class="pt-4 border-t border-zinc-800 space-y-4">
+                    <div class="space-y-1.5 text-xs">
+                        <div class="flex justify-between text-zinc-400">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-zinc-400">
+                            <span>Estimated Tax</span>
+                            <span id="cart-tax">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm font-bold text-white pt-2 border-t border-zinc-800/80">
+                            <span>Estimated Total</span>
+                            <span id="cart-grand-total"
+                                class="text-brand-yolk font-syne text-lg font-extrabold">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button id="checkout-btn"
+                        class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-flame to-brand-yolk text-brand-charcoal font-black text-sm tracking-wide shadow-lg hover:brightness-110 active:scale-98 transition flex items-center justify-center gap-2">
+                        <span>Checkout Now</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                    <p class="text-[10px] text-center text-zinc-500 font-medium">Fast pickup or Express RTC refrigerated
+                        pack delivery</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 bg-zinc-900 border border-brand-yolk px-5 py-3 rounded-2xl shadow-2xl">
+        <i data-lucide="check-circle" class="w-5 h-5 text-brand-yolk"></i>
+        <div>
+            <div id="toast-title" class="font-bold text-xs text-white">Item added!</div>
+            <div id="toast-sub" class="text-[11px] text-zinc-400">Check your cart to finish order</div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Database of menu items focusing on Fast Noodles, Egg Rice, and RTC Kits
+        const menuProducts = [
+            {
+                id: 'nood-01',
+                title: 'Fiery Chili Crisp Knife Ribbons',
+                category: 'noodle',
+                categoryLabel: 'Fast Noodles',
+                price: 11.99,
+                spicy: 3,
+                time: '3 min',
+                desc: 'Hand-stretched thick wheat noodles tossed in hot smoking chili garlic tallow, aged black vinegar, crushed peanuts, and bok choy.',
+                image: 'https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=600&q=80',
+                badge: 'Street Hero'
+            },
+            {
+                id: 'rice-01',
+                title: 'Golden Tornado Egg Fried Rice',
+                category: 'rice',
+                categoryLabel: 'Egg Rice',
+                price: 12.49,
+                spicy: 1,
+                time: '3 min',
+                desc: 'Smoky wok jasmine rice with scallion lard, topped with a velvety vortex swirl of 3 cage-free runny eggs and sweet dark soy drizzle.',
+                image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=600&q=80',
+                badge: 'Signature'
+            },
+            {
+                id: 'rtc-01',
+                title: 'RTC: Sichuan Dan-Dan Noodle Kit (2 Servings)',
+                category: 'rtc',
+                categoryLabel: 'RTC Meal Kit',
+                price: 14.99,
+                spicy: 2,
+                time: 'Cook in 4 min',
+                desc: 'Ready-To-Cook home meal kit: 2x fresh ramen bundles, slow-braised spiced minced pork pouch, sesame paste & numbing chili oil sachet.',
+                image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80',
+                badge: 'Cook At Home'
+            },
+            {
+                id: 'nood-02',
+                title: 'Charred Beef Flat Chow Fun',
+                category: 'noodle',
+                categoryLabel: 'Fast Noodles',
+                price: 13.95,
+                spicy: 0,
+                time: '3 min',
+                desc: 'Wide rice noodles blasted under extreme flame with tender flank steak, yellow chives, crisp bean sprouts, and dark soy wok-smoke.',
+                image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80',
+                badge: '180s Wok Hei'
+            },
+            {
+                id: 'rice-02',
+                title: 'Salted Egg Prawn Sizzle Rice',
+                category: 'rice',
+                categoryLabel: 'Egg Rice',
+                price: 14.25,
+                spicy: 1,
+                time: '3 min',
+                desc: 'Tiger prawns flash seared with butter, aromatic curry leaves, and rich creamy salted duck egg yolks folded through jasmine rice.',
+                image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80',
+                badge: 'Rich & Crispy'
+            },
+            {
+                id: 'rtc-02',
+                title: 'RTC: Cantonese BBQ Pork Egg Rice Kit (2 Packs)',
+                category: 'rtc',
+                categoryLabel: 'RTC Meal Kit',
+                price: 15.50,
+                spicy: 0,
+                time: 'Cook in 4 min',
+                desc: 'Ready-To-Cook flash frozen kit: seasoned dehydrated jasmine rice, char siu cuts, rendered scallion oil, and 2 pasture eggs ready to crack.',
+                image: 'https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=600&q=80',
+                badge: 'Pantry Essential'
+            },
+            {
+                id: 'rice-03',
+                title: 'Crispy Skirt Double Yolk Bowl',
+                category: 'rice',
+                categoryLabel: 'Egg Rice',
+                price: 10.99,
+                spicy: 2,
+                time: '2 min',
+                desc: 'A simple street masterpiece. Steamy scallion fried rice crowned with 2 eggs pan-fried until the edges are brown and crackly, yolk still warm fluid.',
+                image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
+                badge: 'Classic Street'
+            },
+            {
+                id: 'rtc-03',
+                title: 'RTC: Wok & Crack Signature Jar Trio',
+                category: 'rtc',
+                categoryLabel: 'RTC Meal Kit',
+                price: 18.00,
+                spicy: 3,
+                time: 'Ready to spoon',
+                desc: '3 signature airtight jars: 1x Garlic Chili Crunch, 1x Sweet Dark Wok Glaze, 1x Scallion Ginger Lard Paste for lightning home cooking.',
+                image: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=600&q=80',
+                badge: 'Secret Sauces'
+            },
+            {
+                id: 'nood-03',
+                title: 'Shoyu Truffle Butter Ramen Toss',
+                category: 'noodle',
+                categoryLabel: 'Fast Noodles',
+                price: 12.95,
+                spicy: 0,
+                time: '3 min',
+                desc: 'Dry-style fast wavy ramen noodles glazed in reduced dashi soy sauce, black truffle butter pat, soft onsen egg, and shredded nori.',
+                image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80',
+                badge: 'Chef Special'
+            }
+        ];
+
+        // Cart state
+        let cart = [];
+
+        // DOM elements
+        const menuGrid = document.getElementById('menu-grid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartBackdrop = document.getElementById('cart-backdrop');
+        const openCartBtn = document.getElementById('open-cart-btn');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const cartCounter = document.getElementById('cart-counter');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartSubtotalEl = document.getElementById('cart-subtotal');
+        const cartTaxEl = document.getElementById('cart-tax');
+        const cartGrandTotalEl = document.getElementById('cart-grand-total');
+        const toastEl = document.getElementById('toast');
+        const toastTitle = document.getElementById('toast-title');
+        const toastSub = document.getElementById('toast-sub');
+
+        // Builder selections state
+        let builderConfig = {
+            base: { name: 'Knife-Cut Ribbon Noodles', price: 7.50 },
+            egg: { name: 'Lava Tornado Omelet (+$2.00)', price: 2.00 },
+            sauce: 'Sichuan Crispy Garlic Chili Oil (Spicy)',
+            format: 'Hot & Sizzling in Takeout Box'
+        };
+
+        // Render Menu Items
+        function renderMenu(items) {
+            menuGrid.innerHTML = '';
+            items.forEach(item => {
+                const spicyDots = item.spicy > 0
+                    ? `<span class="flex items-center text-xs font-bold text-brand-flame"><i data-lucide="flame" class="w-3.5 h-3.5 fill-brand-flame"></i> ${item.spicy > 1 ? 'Spicy x' + item.spicy : 'Mild'}</span>`
+                    : '<span class="text-xs text-zinc-400 font-medium">Non-spicy</span>';
+
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900/90 border border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-600 transition-all duration-300 flex flex-col justify-between group shadow-lg";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-52 overflow-hidden bg-zinc-800">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-3 left-3 bg-brand-charcoal/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider ${item.category === 'rtc' ? 'text-emerald-400 border border-emerald-500/30' : 'text-brand-yolk border border-brand-yolk/30'}">
+                                ${item.badge}
+                            </span>
+                            <span class="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-zinc-300 flex items-center gap-1">
+                                <i data-lucide="clock" class="w-3 h-3"></i> ${item.time}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-[10px] uppercase font-bold tracking-wider text-brand-flame">${item.categoryLabel}</span>
+                                ${spicyDots}
+                            </div>
+                            <h3 class="font-syne font-bold text-base text-white group-hover:text-brand-yolk transition">${item.title}</h3>
+                            <p class="text-zinc-400 text-xs mt-2 line-clamp-2 leading-relaxed">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 flex items-center justify-between mt-2">
+                        <span class="font-syne text-xl font-extrabold text-brand-yolk">$${item.price.toFixed(2)}</span>
+                        <button onclick="addToCart('${item.id}')" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-brand-flame text-white text-xs font-bold transition flex items-center gap-1.5 active:scale-95 shadow">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            <span>Add</span>
+                        </button>
+                    </div>
+                `;
+                menuGrid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Filter Logic
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-brand-flame', 'text-white');
+                    b.classList.add('bg-zinc-800', 'text-zinc-300');
+                });
+                btn.classList.add('active', 'bg-brand-flame', 'text-white');
+                btn.classList.remove('bg-zinc-800', 'text-zinc-300');
+
+                const filter = btn.getAttribute('data-filter');
+                if (filter === 'all') {
+                    renderMenu(menuProducts);
+                } else {
+                    const filtered = menuProducts.filter(item => item.category === filter);
+                    renderMenu(filtered);
+                }
+            });
+        });
+
+        // Add to Cart
+        function addToCart(productId) {
+            const product = menuProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(c => c.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    image: product.image,
+                    qty: 1
+                });
+            }
+            updateCartUI();
+            showToast(product.title, "Added to wok bag!");
+        }
+
+        // Builder Options click logic
+        function setupBuilderListeners() {
+            // Step 1: Base
+            const baseButtons = document.querySelectorAll('#step-base .builder-opt');
+            baseButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    baseButtons.forEach(b => {
+                        b.classList.remove('active', 'border-brand-flame', 'bg-brand-flame/10');
+                        b.classList.add('border-zinc-700', 'bg-zinc-800/60');
+                    });
+                    btn.classList.add('active', 'border-brand-flame', 'bg-brand-flame/10');
+                    btn.classList.remove('border-zinc-700', 'bg-zinc-800/60');
+                    builderConfig.base.name = btn.getAttribute('data-name');
+                    builderConfig.base.price = parseFloat(btn.getAttribute('data-price'));
+                    updateBuilderDisplay();
+                });
+            });
+
+            // Step 2: Egg
+            const eggButtons = document.querySelectorAll('#step-egg .builder-opt');
+            eggButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    eggButtons.forEach(b => {
+                        b.classList.remove('active', 'border-brand-flame', 'bg-brand-flame/10');
+                        b.classList.add('border-zinc-700', 'bg-zinc-800/60');
+                    });
+                    btn.classList.add('active', 'border-brand-flame', 'bg-brand-flame/10');
+                    btn.classList.remove('border-zinc-700', 'bg-zinc-800/60');
+                    builderConfig.egg.name = btn.getAttribute('data-egg');
+                    builderConfig.egg.price = parseFloat(btn.getAttribute('data-price'));
+                    updateBuilderDisplay();
+                });
+            });
+
+            // Step 3: Sauce
+            const sauceButtons = document.querySelectorAll('#step-sauce .builder-opt');
+            sauceButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sauceButtons.forEach(b => {
+                        b.classList.remove('active', 'border-brand-flame', 'bg-brand-flame/10');
+                        b.classList.add('border-zinc-700', 'bg-zinc-800/60');
+                    });
+                    btn.classList.add('active', 'border-brand-flame', 'bg-brand-flame/10');
+                    btn.classList.remove('border-zinc-700', 'bg-zinc-800/60');
+                    builderConfig.sauce = btn.getAttribute('data-sauce');
+                    updateBuilderDisplay();
+                });
+            });
+
+            // Step 4: Pack format
+            const packButtons = document.querySelectorAll('#step-pack .builder-opt');
+            packButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    packButtons.forEach(b => {
+                        b.classList.remove('active', 'border-brand-flame', 'bg-brand-flame/10');
+                        b.classList.add('border-zinc-700', 'bg-zinc-800/60');
+                    });
+                    btn.classList.add('active', 'border-brand-flame', 'bg-brand-flame/10');
+                    btn.classList.remove('border-zinc-700', 'bg-zinc-800/60');
+                    builderConfig.format = btn.getAttribute('data-format');
+                    updateBuilderDisplay();
+                });
+            });
+
+            // Add custom box to cart button
+            document.getElementById('add-builder-to-cart').addEventListener('click', () => {
+                const totalPrice = builderConfig.base.price + builderConfig.egg.price;
+                const customId = 'custom-' + Date.now();
+                cart.push({
+                    id: customId,
+                    title: `DIY Box: ${builderConfig.base.name}`,
+                    desc: `${builderConfig.egg.name} • ${builderConfig.sauce} (${builderConfig.format})`,
+                    price: totalPrice,
+                    qty: 1,
+                    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=400&q=80'
+                });
+                updateCartUI();
+                showToast("Custom Box Added!", `${builderConfig.base.name} was added to cart`);
+                openCart();
+            });
+        }
+
+        function updateBuilderDisplay() {
+            const totalPrice = builderConfig.base.price + builderConfig.egg.price;
+            document.getElementById('builder-total-price').textContent = `$${totalPrice.toFixed(2)}`;
+            document.getElementById('builder-summary-title').textContent = `${builderConfig.base.name} + ${builderConfig.egg.name}`;
+            document.getElementById('builder-summary-sub').textContent = `${builderConfig.sauce} • ${builderConfig.format}`;
+        }
+
+        // Cart Drawer UI Operations
+        function updateCartUI() {
+            // Count total
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCounter.textContent = totalCount;
+
+            // Render items
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="h-64 flex flex-col items-center justify-center text-center p-6 text-zinc-500">
+                        <i data-lucide="soup" class="w-12 h-12 stroke-[1.5] mb-2 text-zinc-600"></i>
+                        <p class="text-sm font-semibold text-zinc-400">Your bag is empty.</p>
+                        <p class="text-xs text-zinc-500 mt-1">Add hot noodles or vacuum RTC kits to begin.</p>
+                    </div>
+                `;
+            } else {
+                cartItemsContainer.innerHTML = '';
+                cart.forEach((item, index) => {
+                    const row = document.createElement('div');
+                    row.className = "pt-3 flex items-center justify-between gap-3";
+                    row.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" class="w-14 h-14 rounded-xl object-cover shrink-0 border border-zinc-800">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-xs font-bold text-white truncate">${item.title}</h4>
+                            ${item.desc ? `<p class="text-[10px] text-zinc-400 truncate">${item.desc}</p>` : ''}
+                            <div class="text-xs font-extrabold text-brand-yolk mt-0.5">$${(item.price * item.qty).toFixed(2)}</div>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0 bg-zinc-800 rounded-lg p-1 border border-zinc-700">
+                            <button onclick="changeQty(${index}, -1)" class="w-5 h-5 flex items-center justify-center text-xs font-bold text-zinc-400 hover:text-white">-</button>
+                            <span class="text-xs font-bold text-white px-1">${item.qty}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-5 h-5 flex items-center justify-center text-xs font-bold text-zinc-400 hover:text-white">+</button>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(row);
+                });
+            }
+
+            // Subtotals
+            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const tax = subtotal * 0.08875; // Approx NY tax
+            const grandTotal = subtotal + (subtotal > 0 ? tax : 0);
+
+            cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            cartTaxEl.textContent = `$${tax.toFixed(2)}`;
+            cartGrandTotalEl.textContent = `$${grandTotal.toFixed(2)}`;
+
+            lucide.createIcons();
+        }
+
+        function changeQty(index, delta) {
+            if (cart[index]) {
+                cart[index].qty += delta;
+                if (cart[index].qty <= 0) {
+                    cart.splice(index, 1);
+                }
+                updateCartUI();
+            }
+        }
+
+        function openCart() {
+            cartDrawer.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+            cartDrawer.classList.add('opacity-100', 'visible');
+        }
+
+        function closeCart() {
+            cartDrawer.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+            cartDrawer.classList.remove('opacity-100', 'visible');
+        }
+
+        // Toast feedback
+        function showToast(title, sub) {
+            toastTitle.textContent = title;
+            toastSub.textContent = sub;
+            toastEl.classList.remove('translate-y-20', 'opacity-0');
+            toastEl.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toastEl.classList.add('translate-y-20', 'opacity-0');
+                toastEl.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // Quick RTC trigger from deep dive
+        function filterRTCAndScroll() {
+            const rtcBtn = document.querySelector('[data-filter="rtc"]');
+            if (rtcBtn) rtcBtn.click();
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Event Listeners
+        openCartBtn.addEventListener('click', openCart);
+        closeCartBtn.addEventListener('click', closeCart);
+        cartBackdrop.addEventListener('click', closeCart);
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Checkout Button Click Demo
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert("Your bag is empty! Pick some noodles or RTC kits first.");
+                return;
+            }
+            alert(`🔥 Order Received! Total: ${cartGrandTotalEl.textContent}. \nIf this contains RTC Packs, cold-chain courier dispatch is triggered.`);
+            cart = [];
+            updateCartUI();
+            closeCart();
+        });
+
+        // Newsletter form
+        document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('newsletter-success').classList.remove('hidden');
+            e.target.reset();
+        });
+
+        // Auto Year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Initialize Page
+        window.addEventListener('DOMContentLoaded', () => {
+            renderMenu(menuProducts);
+            setupBuilderListeners();
+            updateCartUI();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+
+</html>

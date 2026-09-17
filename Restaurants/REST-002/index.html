@@ -1,0 +1,630 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savor & Vine | Modern European Bistro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Styles */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-img {
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body class="font-sans text-gray-800 antialiased">
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white md:text-gray-900 transition-colors duration-300">Savor &
+                Vine</a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#home"
+                    class="text-white md:text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium">Home</a>
+                <a href="#about"
+                    class="text-white md:text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium">About</a>
+                <a href="#menu"
+                    class="text-white md:text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium">Menu</a>
+                <a href="#reservations"
+                    class="text-white md:text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium">Reservations</a>
+                <a href="#contact"
+                    class="text-white md:text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white md:text-gray-900 text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="#home"
+                    class="text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium mobile-link">Home</a>
+                <a href="#about"
+                    class="text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium mobile-link">About</a>
+                <a href="#menu"
+                    class="text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium mobile-link">Menu</a>
+                <a href="#reservations"
+                    class="text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium mobile-link">Reservations</a>
+                <a href="#contact"
+                    class="text-gray-900 hover:text-red-700 transition-colors duration-300 font-medium mobile-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="h-screen bg-cover bg-center relative"
+        style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div
+            class="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center text-white">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Savor & Vine</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl">Modern European cuisine crafted with locally sourced
+                ingredients, served in a warm and inviting atmosphere.</p>
+            <a href="#reservations"
+                class="bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg">Book
+                a Table</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white fade-in-section">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="rounded-xl overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                        alt="Chef plating a dish" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Our Story</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Founded in 2018, Savor & Vine was born from a passion
+                        for bringing people together through exceptional food. Our head chef, Maria Rossi, brings 15
+                        years of culinary experience from top restaurants across Europe, blending traditional techniques
+                        with modern innovation.</p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">We source 90% of our ingredients from local farms and
+                        producers, ensuring every dish is fresh, sustainable, and bursting with flavor. Whether you're
+                        joining us for a casual weeknight dinner or a special celebration, we promise an unforgettable
+                        dining experience.</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div
+                                class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-leaf text-red-700 text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-900">Fresh Ingredients</h3>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-hat-chef text-red-700 text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-900">Expert Chefs</h3>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-wine-glass-alt text-red-700 text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-900">Curated Wines</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-gray-50 fade-in-section">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Our Menu</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Discover our seasonal offerings, crafted with the freshest
+                    local ingredients and inspired by European culinary traditions.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Appetizers -->
+                <div class="bg-white rounded-xl shadow-md p-6 menu-item">
+                    <h3 class="text-2xl font-bold mb-6 text-red-700 text-center">Appetizers</h3>
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Bruschetta Trio</h4>
+                                <span class="text-red-700 font-semibold">$12</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Classic tomato basil, ricotta honey, and mushroom truffle
+                                on toasted ciabatta</p>
+                        </div>
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Burrata Salad</h4>
+                                <span class="text-red-700 font-semibold">$14</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Creamy burrata, heirloom tomatoes, basil, balsamic glaze,
+                                and toasted pine nuts</p>
+                        </div>
+                        <div class="pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Tuna Tartare</h4>
+                                <span class="text-red-700 font-semibold">$16</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Sushi-grade tuna, avocado, sesame, citrus soy dressing, and
+                                wonton crisps</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mains -->
+                <div class="bg-white rounded-xl shadow-md p-6 menu-item">
+                    <h3 class="text-2xl font-bold mb-6 text-red-700 text-center">Main Courses</h3>
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Pan-Seared Salmon</h4>
+                                <span class="text-red-700 font-semibold">$28</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Wild-caught salmon, lemon butter sauce, roasted asparagus,
+                                and garlic mashed potatoes</p>
+                        </div>
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Braised Short Rib</h4>
+                                <span class="text-red-700 font-semibold">$32</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">12-hour braised short rib, red wine reduction, truffle mac
+                                and cheese, and seasonal vegetables</p>
+                        </div>
+                        <div class="pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Wild Mushroom Risotto</h4>
+                                <span class="text-red-700 font-semibold">$24</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Arborio rice, mixed wild mushrooms, parmesan, white truffle
+                                oil, and fresh herbs</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desserts -->
+                <div class="bg-white rounded-xl shadow-md p-6 menu-item">
+                    <h3 class="text-2xl font-bold mb-6 text-red-700 text-center">Desserts</h3>
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Tiramisu</h4>
+                                <span class="text-red-700 font-semibold">$10</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Classic Italian tiramisu with espresso-soaked ladyfingers
+                                and mascarpone cream</p>
+                        </div>
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Chocolate Lava Cake</h4>
+                                <span class="text-red-700 font-semibold">$12</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Warm chocolate cake with a molten center, served with
+                                vanilla bean ice cream</p>
+                        </div>
+                        <div class="pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-lg">Lemon Tart</h4>
+                                <span class="text-red-700 font-semibold">$9</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Tangy lemon curd in a buttery crust, topped with fresh
+                                berries and meringue</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-20 bg-white fade-in-section">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Gallery</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">A glimpse into our culinary creations and cozy ambiance.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="overflow-hidden rounded-xl h-64">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+                        alt="Fresh salad" class="gallery-img w-full h-full object-cover">
+                </div>
+                <div class="overflow-hidden rounded-xl h-64">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+                        alt="Wood-fired pizza" class="gallery-img w-full h-full object-cover">
+                </div>
+                <div class="overflow-hidden rounded-xl h-64">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+                        alt="Creamy pasta" class="gallery-img w-full h-full object-cover">
+                </div>
+                <div class="overflow-hidden rounded-xl h-64">
+                    <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+                        alt="Chocolate dessert" class="gallery-img w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservations Section -->
+    <section id="reservations" class="py-20 bg-gray-50 fade-in-section">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Make a Reservation</h2>
+                    <p class="text-gray-600 mb-8 leading-relaxed">Join us for an unforgettable dining experience. We
+                        accept reservations for parties of up to 12 guests. For larger groups, please contact us
+                        directly.</p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div
+                                class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-red-700 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Address</h3>
+                                <p class="text-gray-600">123 Bistro Lane, Downtown, New York, NY 10001</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-phone-alt text-red-700 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Phone</h3>
+                                <p class="text-gray-600">(212) 555-1234</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-envelope text-red-700 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Email</h3>
+                                <p class="text-gray-600">reservations@savorandvine.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <form id="reservation-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+                                <input type="text" id="name" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-700 focus:border-transparent outline-none transition-all">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                                <input type="email" id="email" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-700 focus:border-transparent outline-none transition-all">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="phone" class="block text-gray-700 font-medium mb-2">Phone Number</label>
+                                <input type="tel" id="phone" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-700 focus:border-transparent outline-none transition-all">
+                            </div>
+                            <div>
+                                <label for="guests" class="block text-gray-700 font-medium mb-2">Number of
+                                    Guests</label>
+                                <select id="guests" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-700 focus:border-transparent outline-none transition-all">
+                                    <option value="">Select</option>
+                                    <option value="1">1 Guest</option>
+                                    <option value="2">2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5 Guests</option>
+                                    <option value="6">6 Guests</option>
+                                    <option value="7+">7+ Guests</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="date" class="block text-gray-700 font-medium mb-2">Date</label>
+                                <input type="date" id="date" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-700 focus:border-transparent outline-none transition-all">
+                            </div>
+                            <div>
+                                <label for="time" class="block text-gray-700 font-medium mb-2">Time</label>
+                                <input type="time" id="time" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-700 focus:border-transparent outline-none transition-all">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="special-requests" class="block text-gray-700 font-medium mb-2">Special Requests
+                                (Optional)</label>
+                            <textarea id="special-requests" rows="3"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-700 focus:border-transparent outline-none transition-all"></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-red-700 hover:bg-red-800 text-white px-6 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:shadow-lg">Book
+                            Reservation</button>
+                        <div id="form-message" class="hidden text-center py-3 rounded-lg"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white fade-in-section">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Visit Us</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We can't wait to welcome you to Savor & Vine.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-gray-50 rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-red-700 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Opening Hours</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex justify-between"><span>Mon - Thu</span> <span>11am - 10pm</span></li>
+                        <li class="flex justify-between"><span>Fri - Sat</span> <span>11am - 11pm</span></li>
+                        <li class="flex justify-between"><span>Sunday</span> <span>10am - 9pm</span></li>
+                    </ul>
+                    <span
+                        class="inline-block mt-4 bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">Open
+                        Now</span>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone-alt text-red-700 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Contact</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li>(212) 555-1234</li>
+                        <li>reservations@savorandvine.com</li>
+                        <li>events@savorandvine.com</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-red-700 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Location</h3>
+                    <p class="text-gray-600">123 Bistro Lane<br>Downtown, New York, NY 10001</p>
+                    <a href="https://maps.google.com" target="_blank"
+                        class="inline-block mt-4 text-red-700 hover:text-red-800 font-medium">Get Directions <i
+                            class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+            </div>
+
+            <!-- Map Embed -->
+            <div class="rounded-xl overflow-hidden shadow-lg h-96">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-73.98510768463413!3d40.74844097932847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1689300000000!5m2!1sen!2sus"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Savor & Vine</h3>
+                    <p class="text-gray-400 mb-6">Modern European bistro serving locally sourced, seasonal cuisine in a
+                        warm and welcoming atmosphere.</p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors duration-300"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors duration-300"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors duration-300"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors duration-300"><i
+                                class="fab fa-yelp"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300">About
+                                Us</a></li>
+                        <li><a href="#menu"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Menu</a></li>
+                        <li><a href="#reservations"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Reservations</a>
+                        </li>
+                        <li><a href="#contact"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Sign up for our newsletter to get updates on special events, new menu
+                        items, and exclusive offers.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email"
+                            class="px-4 py-2 w-full rounded-l-lg focus:outline-none text-gray-900">
+                        <button type="submit"
+                            class="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-r-lg transition-colors duration-300"><i
+                                class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Savor & Vine. All rights reserved. Designed with <i
+                        class="fas fa-heart text-red-700 mx-1"></i> for food lovers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.remove('bg-transparent');
+                navbar.classList.add('bg-white', 'shadow-md');
+                navbar.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('text-white');
+                    link.classList.add('text-gray-900');
+                });
+                navbar.querySelector('#mobile-menu-btn').classList.remove('text-white');
+                navbar.querySelector('#mobile-menu-btn').classList.add('text-gray-900');
+            } else {
+                navbar.classList.add('bg-transparent');
+                navbar.classList.remove('bg-white', 'shadow-md');
+                navbar.querySelectorAll('a').forEach(link => {
+                    link.classList.add('text-white');
+                    link.classList.remove('text-gray-900');
+                });
+                navbar.querySelector('#mobile-menu-btn').classList.add('text-white');
+                navbar.querySelector('#mobile-menu-btn').classList.remove('text-gray-900');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Scroll fade-in animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Reservation form validation
+        const reservationForm = document.getElementById('reservation-form');
+        const formMessage = document.getElementById('form-message');
+        const dateInput = document.getElementById('date');
+        const timeInput = document.getElementById('time');
+        const today = new Date().toISOString().split('T')[0];
+
+        // Set min date to today
+        dateInput.setAttribute('min', today);
+
+        // Update min time if date is today
+        dateInput.addEventListener('change', () => {
+            if (dateInput.value === today) {
+                const now = new Date();
+                const currentTime = now.toTimeString().split(' ')[0].substring(0, 5);
+                timeInput.setAttribute('min', currentTime);
+            } else {
+                timeInput.removeAttribute('min');
+            }
+        });
+
+        reservationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const guests = document.getElementById('guests').value;
+
+            if (!name || !email || !phone || !date || !time || !guests) {
+                formMessage.textContent = 'Please fill in all required fields.';
+                formMessage.className = 'text-center py-3 rounded-lg bg-red-100 text-red-700';
+                formMessage.classList.remove('hidden');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                formMessage.textContent = 'Please enter a valid email address.';
+                formMessage.className = 'text-center py-3 rounded-lg bg-red-100 text-red-700';
+                formMessage.classList.remove('hidden');
+                return;
+            }
+
+            formMessage.textContent = 'Reservation request submitted successfully! We will contact you shortly to confirm.';
+            formMessage.className = 'text-center py-3 rounded-lg bg-green-100 text-green-700';
+            formMessage.classList.remove('hidden');
+            reservationForm.reset();
+
+            setTimeout(() => {
+                formMessage.classList.add('hidden');
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>

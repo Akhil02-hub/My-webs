@@ -1,0 +1,538 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Premier Academy | Excellence in Education</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        gold: '#c5a059'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.4) 50%, rgba(15, 23, 42, 0.8) 100%);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .delay-300 {
+            transition-delay: 300ms;
+        }
+
+        .delay-400 {
+            transition-delay: 400ms;
+        }
+
+        .card-hover img {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card-hover:hover img {
+            transform: scale(1.08);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c5a059;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8843f;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-brand-900 bg-brand-50">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-500" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-5 transition-all duration-500" id="nav-container">
+                <div class="flex items-center">
+                    <span
+                        class="font-serif text-3xl font-bold text-white tracking-widest transition-colors duration-500"
+                        id="logo-text">LUMINA</span>
+                </div>
+                <div class="hidden md:flex space-x-10 items-center">
+                    <a href="#about"
+                        class="nav-link text-white hover:text-gold transition-colors text-sm font-medium tracking-wide uppercase">About</a>
+                    <a href="#academics"
+                        class="nav-link text-white hover:text-gold transition-colors text-sm font-medium tracking-wide uppercase">Academics</a>
+                    <a href="#gallery"
+                        class="nav-link text-white hover:text-gold transition-colors text-sm font-medium tracking-wide uppercase">School
+                        Life</a>
+                    <a href="#contact"
+                        class="px-6 py-2.5 bg-gold text-white rounded-full hover:bg-white hover:text-brand-900 transition-all text-sm font-medium shadow-lg hover:shadow-xl">Admissions</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden bg-brand-900/95 backdrop-blur-md shadow-2xl md:hidden absolute w-full">
+            <div class="px-6 py-8 space-y-4 text-center flex flex-col">
+                <a href="#about" class="text-white text-lg hover:text-gold transition-colors">About</a>
+                <a href="#academics" class="text-white text-lg hover:text-gold transition-colors">Academics</a>
+                <a href="#gallery" class="text-white text-lg hover:text-gold transition-colors">School Life</a>
+                <a href="#contact" class="text-gold text-lg font-semibold pt-4 border-t border-white/20">Admissions</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="Premium School Building"
+                class="w-full h-full object-cover transform scale-105 motion-safe:animate-[pulse_20s_ease-in-out_infinite]">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20">
+            <span
+                class="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-xs tracking-widest uppercase mb-6 animate-on-scroll">Nursery
+                to Grade 10</span>
+            <h1
+                class="font-serif text-5xl md:text-7xl lg:text-8xl text-white font-bold leading-tight mb-6 animate-on-scroll delay-100">
+                Nurturing Tomorrow's <br><span class="text-gold italic font-normal">Visionaries</span>
+            </h1>
+            <p class="text-brand-100 text-lg md:text-xl mb-10 font-light max-w-2xl mx-auto animate-on-scroll delay-200">
+                A premier educational institution offering world-class learning.
+                Where tradition meets innovation in a safe, inspiring environment.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate-on-scroll delay-300">
+                <a href="#gallery"
+                    class="px-8 py-4 bg-gold text-white rounded-full font-medium hover:bg-white hover:text-brand-900 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                    Explore School Life
+                </a>
+                <a href="#about"
+                    class="px-8 py-4 bg-transparent border border-white/60 text-white rounded-full font-medium hover:bg-white hover:text-brand-900 transition-all backdrop-blur-sm">
+                    Discover More
+                </a>
+            </div>
+        </div>
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-on-scroll delay-400">
+            <div class="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center p-1.5">
+                <div class="w-1.5 h-2 bg-white rounded-full animate-bounce mt-1"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 sm:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                <div class="animate-on-scroll">
+                    <span class="text-gold font-semibold tracking-widest uppercase text-sm">Our Philosophy</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-900 font-bold mt-4 mb-6 leading-tight">
+                        Excellence in Every Milestone</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6 text-lg">
+                        At Lumina Premier Academy, we believe that education is not just about academics, but about
+                        shaping character, fostering creativity, and building resilience. Our campus is designed to
+                        inspire, with state-of-the-art facilities that cater to the developmental needs of every age
+                        group.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-10 text-lg">
+                        We provide a seamless educational journey from the playful curiosity of nursery to the rigorous
+                        scholarship of grade 10.
+                    </p>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="border-l-2 border-gold pl-5">
+                            <h4 class="font-bold text-3xl text-brand-900 font-serif">500+</h4>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide mt-1">Students Enrolled</p>
+                        </div>
+                        <div class="border-l-2 border-gold pl-5">
+                            <h4 class="font-bold text-3xl text-brand-900 font-serif">50+</h4>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide mt-1">Expert Faculty</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative animate-on-scroll delay-200">
+                    <div class="aspect-w-4 aspect-h-5 rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Students Learning" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -bottom-10 -left-10 bg-gold p-8 rounded-2xl shadow-xl hidden md:block">
+                        <p class="text-white font-serif text-4xl font-bold">15</p>
+                        <p class="text-white text-sm uppercase tracking-widest mt-1">Years of Excellence</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery / School Life (Nursery to 10th) -->
+    <section id="gallery" class="py-24 sm:py-32 bg-brand-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 md:mb-24 animate-on-scroll">
+                <span class="text-gold font-semibold tracking-widest uppercase text-sm">Campus Gallery</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-brand-900 font-bold mt-4">Life at Lumina</h2>
+                <p class="text-gray-600 mt-6 max-w-2xl mx-auto text-lg">From the first steps in nursery to the final
+                    projects in grade 10, our environment evolves with our students to support their growth.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <!-- Nursery -->
+                <div
+                    class="card-hover group relative rounded-3xl overflow-hidden shadow-lg cursor-pointer h-96 animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Nursery Class" class="w-full h-full object-cover">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-brand-900 via-brand-900/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <span class="text-gold text-xs font-bold uppercase tracking-widest mb-2 block">Ages 3-5</span>
+                        <h3 class="text-white font-serif text-3xl font-bold">Nursery</h3>
+                        <div
+                            class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-3 transition-all duration-500 opacity-0 group-hover:opacity-100">
+                            <p class="text-brand-100 text-sm leading-relaxed">Play-based early learning foundations that
+                                spark natural curiosity and joy.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Primary -->
+                <div
+                    class="card-hover group relative rounded-3xl overflow-hidden shadow-lg cursor-pointer h-96 animate-on-scroll delay-100">
+                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Primary School" class="w-full h-full object-cover">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-brand-900 via-brand-900/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <span class="text-gold text-xs font-bold uppercase tracking-widest mb-2 block">Grades 1-5</span>
+                        <h3 class="text-white font-serif text-3xl font-bold">Primary</h3>
+                        <div
+                            class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-3 transition-all duration-500 opacity-0 group-hover:opacity-100">
+                            <p class="text-brand-100 text-sm leading-relaxed">Curiosity-driven core academics building
+                                strong fundamental skills.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle -->
+                <div
+                    class="card-hover group relative rounded-3xl overflow-hidden shadow-lg cursor-pointer h-96 animate-on-scroll delay-200">
+                    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Middle School" class="w-full h-full object-cover">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-brand-900 via-brand-900/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <span class="text-gold text-xs font-bold uppercase tracking-widest mb-2 block">Grades 6-8</span>
+                        <h3 class="text-white font-serif text-3xl font-bold">Middle</h3>
+                        <div
+                            class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-3 transition-all duration-500 opacity-0 group-hover:opacity-100">
+                            <p class="text-brand-100 text-sm leading-relaxed">Critical thinking and exploration across
+                                diverse subjects and projects.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- High School -->
+                <div
+                    class="card-hover group relative rounded-3xl overflow-hidden shadow-lg cursor-pointer h-96 animate-on-scroll delay-300">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="High School" class="w-full h-full object-cover">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-brand-900 via-brand-900/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <span class="text-gold text-xs font-bold uppercase tracking-widest mb-2 block">Grades
+                            9-10</span>
+                        <h3 class="text-white font-serif text-3xl font-bold">High School</h3>
+                        <div
+                            class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-3 transition-all duration-500 opacity-0 group-hover:opacity-100">
+                            <p class="text-brand-100 text-sm leading-relaxed">Advanced scholarship preparing students
+                                for global futures and universities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features / Why Choose Us -->
+    <section id="academics" class="py-24 sm:py-32 bg-brand-900 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-32 -mt-32 w-128 h-128 rounded-full bg-brand-800 blur-3xl opacity-60">
+        </div>
+        <div class="absolute bottom-0 left-0 -ml-32 -mb-32 w-128 h-128 rounded-full bg-gold blur-3xl opacity-20"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 md:mb-24 animate-on-scroll">
+                <span class="text-gold font-semibold tracking-widest uppercase text-sm">Premium Facilities</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold mt-4">Why Parents Choose Us</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+                <div
+                    class="bg-white/5 p-10 rounded-3xl border border-white/10 hover:border-gold/50 transition-colors duration-500 backdrop-blur-sm animate-on-scroll">
+                    <div class="w-14 h-14 bg-gold/20 rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold mb-4">Holistic Curriculum</h3>
+                    <p class="text-brand-100 text-base leading-relaxed font-light">Balancing rigorous academics with
+                        arts, sports, and social-emotional learning for comprehensive growth.</p>
+                </div>
+
+                <div
+                    class="bg-white/5 p-10 rounded-3xl border border-white/10 hover:border-gold/50 transition-colors duration-500 backdrop-blur-sm animate-on-scroll delay-100">
+                    <div class="w-14 h-14 bg-gold/20 rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold mb-4">Smart Classrooms</h3>
+                    <p class="text-brand-100 text-base leading-relaxed font-light">Interactive digital boards and
+                        adaptive learning technologies in every classroom from Nursery upwards.</p>
+                </div>
+
+                <div
+                    class="bg-white/5 p-10 rounded-3xl border border-white/10 hover:border-gold/50 transition-colors duration-500 backdrop-blur-sm animate-on-scroll delay-200">
+                    <div class="w-14 h-14 bg-gold/20 rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold mb-4">Safe Environment</h3>
+                    <p class="text-brand-100 text-base leading-relaxed font-light">24/7 security surveillance, trained
+                        staff, and a nurturing atmosphere ensuring peace of mind for parents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Admissions -->
+    <section id="contact" class="py-24 sm:py-32 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+                class="bg-brand-50 rounded-3xl p-10 md:p-16 shadow-xl border border-gray-100 text-center relative overflow-hidden animate-on-scroll">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gold"></div>
+                <h2 class="font-serif text-4xl md:text-5xl text-brand-900 font-bold mb-6">Begin Your Journey With Us
+                </h2>
+                <p class="text-gray-600 mb-12 text-lg max-w-2xl mx-auto">Admissions for the upcoming academic year are
+                    now open. Join the Lumina family today and give your child the premium education they deserve.</p>
+
+                <form class="max-w-xl mx-auto text-left grid grid-cols-1 md:grid-cols-2 gap-6"
+                    onsubmit="event.preventDefault(); alert('Thank you for your interest! Our admissions team will contact you shortly.');">
+                    <div class="flex flex-col">
+                        <label class="text-sm font-medium text-gray-700 mb-2">Parent's Name</label>
+                        <input type="text"
+                            class="px-5 py-3.5 rounded-xl border border-gray-300 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors bg-white"
+                            placeholder="Jane Doe" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email"
+                            class="px-5 py-3.5 rounded-xl border border-gray-300 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors bg-white"
+                            placeholder="jane@example.com" required>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                        <label class="text-sm font-medium text-gray-700 mb-2">Select Grade (Nursery - 10)</label>
+                        <select
+                            class="px-5 py-3.5 rounded-xl border border-gray-300 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold bg-white transition-colors appearance-none"
+                            required>
+                            <option value="" disabled selected>Choose a grade level...</option>
+                            <option>Nursery</option>
+                            <option>Kindergarten</option>
+                            <option>Grade 1</option>
+                            <option>Grade 2</option>
+                            <option>Grade 3</option>
+                            <option>Grade 4</option>
+                            <option>Grade 5</option>
+                            <option>Grade 6</option>
+                            <option>Grade 7</option>
+                            <option>Grade 8</option>
+                            <option>Grade 9</option>
+                            <option>Grade 10</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2 mt-4">
+                        <button type="submit"
+                            class="w-full px-8 py-4 bg-brand-900 text-white rounded-xl font-medium hover:bg-gold transition-colors shadow-lg text-lg">
+                            Request Prospectus
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-900 text-brand-100 py-16 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2">
+                <span class="font-serif text-3xl font-bold text-white tracking-widest block mb-6">LUMINA</span>
+                <p class="text-sm max-w-sm leading-relaxed text-brand-100/80">Premier Academy providing exceptional
+                    education from Nursery to Grade 10. Building foundations for a brighter tomorrow in a nurturing,
+                    world-class environment.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-6 uppercase text-sm tracking-widest">Quick Links</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#about" class="hover:text-gold transition-colors">About Us</a></li>
+                    <li><a href="#gallery" class="hover:text-gold transition-colors">School Life</a></li>
+                    <li><a href="#academics" class="hover:text-gold transition-colors">Academics</a></li>
+                    <li><a href="#contact" class="hover:text-gold transition-colors">Admissions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-6 uppercase text-sm tracking-widest">Contact</h4>
+                <ul class="space-y-3 text-sm text-brand-100/80">
+                    <li>123 Education Lane</li>
+                    <li>Metropolis, NY 10001</li>
+                    <li>info@lumina.edu</li>
+                    <li>+1 (555) 000-0000</li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-white/10 text-sm text-center md:text-left flex flex-col md:flex-row justify-between items-center text-brand-100/60">
+            <p>&copy; 2023 Lumina Premier Academy. All rights reserved.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-gold transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            const navContainer = document.getElementById('nav-container');
+            const logoText = document.getElementById('logo-text');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-brand-900/95', 'backdrop-blur-md', 'shadow-lg');
+                    navContainer.classList.remove('py-5');
+                    navContainer.classList.add('py-3');
+                    logoText.classList.remove('text-white');
+                    logoText.classList.add('text-gold');
+
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-white');
+                        link.classList.add('text-brand-100', 'hover:text-gold');
+                    });
+                } else {
+                    navbar.classList.remove('bg-brand-900/95', 'backdrop-blur-md', 'shadow-lg');
+                    navContainer.classList.add('py-5');
+                    navContainer.classList.remove('py-3');
+                    logoText.classList.add('text-white');
+                    logoText.classList.remove('text-gold');
+
+                    navLinks.forEach(link => {
+                        link.classList.add('text-white');
+                        link.classList.remove('text-brand-100');
+                    });
+                }
+            });
+
+            // Mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+
+</html>
