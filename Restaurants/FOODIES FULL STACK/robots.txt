@@ -1,0 +1,22 @@
+# robots.txt for Foodies Kodad
+# Developer: amarachintha akhil (amarachinthaakhil@gmail.com)
+
+# Allow all search engines and AI bots
+User-agent: *
+Allow: /
+
+# Specific allowances for AI Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://foodieskodad.com/sitemap.xml

@@ -1,0 +1,18 @@
+# Foodies Kodad
+
+> Foodies is a family-friendly restaurant and bakery located in Kodad, Telangana. We offer fresh cakes, bakery favourites, fast food, Chinese dishes, biryani, and beverages.
+
+Developer: amarachintha akhil (amarachinthaakhil@gmail.com)
+
+## Location
+Kodad Main Road, beside Ranga Theater, Kodad, Telangana 508206.
+Open Monday to Sunday, 9:00 AM to 10:00 PM.
+
+## Features
+- Dine-in, Takeaway, Delivery, Drive-through
+- Custom birthday and anniversary cakes
+- Online menu and table booking
+- Order via WhatsApp or Tizola
+
+## Links
+- [Home Page](https://foodieskodad.com/): Main page with interactive menu, gallery, and reviews.

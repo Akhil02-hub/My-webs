@@ -1,0 +1,12 @@
+/* TEAM */
+    Developer: amarachintha akhil
+    Contact: amarachinthaakhil@gmail.com
+    Location: Kodad, Telangana, India
+
+/* SITE */
+    Last update: 2026-11-11
+    Language: English, Telugu
+    Doctype: HTML5
+    Standarts: HTML5, CSS3, ES6
+    Components: Vanilla JavaScript, Custom CSS
+    Software: VS Code, Git, Vercel

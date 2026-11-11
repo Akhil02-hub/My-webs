@@ -1,0 +1,19 @@
+{
+    "name": "Foodies Kodad",
+    "short_name": "Foodies",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#1B1612",
+    "background_color": "#1B1612",
+    "display": "standalone"
+}

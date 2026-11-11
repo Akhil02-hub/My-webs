@@ -6,12 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta name="description"
-        content="Foodies in Kodad offers fresh cakes, bakery favourites, fast food, Chinese dishes, biryani and more." />
-
+        content="Foodies in Kodad offers fresh cakes, bakery favourites, fast food, Chinese dishes, biryani and more. Visit us on Kodad Main Road beside Ranga Theater." />
+    <meta name="keywords"
+        content="Foodies Kodad, bakery Kodad, cakes Kodad, fast food Kodad, biryani Kodad, Chinese food Kodad, restaurants in Kodad, best bakery in Kodad" />
+    <meta name="author" content="amarachinthaakhil" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#1B1612" />
+
+    <!-- Canonical URL (Replace with your actual domain) -->
+    <link rel="canonical" href="https://foodieskodad.com/" />
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:url" content="https://foodieskodad.com/" />
+    <meta property="og:title" content="Foodies | Bakery, Cakes & Fast Food in Kodad" />
+    <meta property="og:description"
+        content="Fresh cakes, bakery favourites, fast food, Chinese dishes, biryani and more. Located at Kodad Main Road." />
+    <meta property="og:image" content="https://foodieskodad.com/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Foodies | Bakery, Cakes & Fast Food in Kodad" />
+    <meta name="twitter:description"
+        content="Fresh cakes, bakery favourites, fast food, Chinese dishes, biryani and more." />
+    <meta name="twitter:image" content="https://foodieskodad.com/og-image.jpg" />
 
     <title>Foodies | Bakery, Cakes & Fast Food in Kodad</title>
 
+    <!-- Standard Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Apple iOS (iPhone/iPad) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Android & PWA -->
+    <link rel="manifest" href="/site.webmanifest">
+    <link type="text/plain" rel="author" href="/humans.txt" />
+    <link rel="llms" href="/llms.txt" />
+
+    <!-- Windows Metro Tile -->
+    <meta name="msapplication-TileColor" content="#1B1612">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+
+    <!-- Fallback SVG (Modern Browsers) -->
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
 
@@ -24,165 +63,49 @@
 
     <link rel="stylesheet" href="style.css" />
 
-    <!-- =========================================================
-         THREE UI CHANGES
-         ========================================================= -->
-
-    <style>
-        /* ---------------------------------------------------------
-           1. TOP SEARCH BAR
-           --------------------------------------------------------- */
-
-        .nav-search {
-            position: relative;
-            display: flex;
-            align-items: center;
-            margin-left: auto;
-            margin-right: 10px;
-        }
-
-        .nav-search input {
-            width: 210px;
-            height: 40px;
-            padding: 0 38px 0 14px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 22px;
-            background: rgba(255, 255, 255, 0.08);
-            color: inherit;
-            font: inherit;
-            outline: none;
-        }
-
-        .nav-search input::placeholder {
-            opacity: 0.65;
-        }
-
-        .nav-search input:focus {
-            border-color: currentColor;
-        }
-
-        .nav-search .search-icon {
-            position: absolute;
-            right: 13px;
-            pointer-events: none;
-            font-size: 15px;
-        }
-
-        /* ---------------------------------------------------------
-           2. SMALL FAVOURITE HEART
-           --------------------------------------------------------- */
-
-        .favourite-btn {
-            width: 30px !important;
-            height: 30px !important;
-            min-width: 30px !important;
-            min-height: 30px !important;
-            padding: 0 !important;
-            font-size: 15px !important;
-            line-height: 1 !important;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        /* ---------------------------------------------------------
-           3. MOBILE NAV SEARCH
-           --------------------------------------------------------- */
-
-        @media (max-width: 900px) {
-            .nav-search {
-                width: 100%;
-                margin: 10px 0;
-                order: 10;
-            }
-
-            .nav-search input {
-                width: 100%;
-            }
-        }
-
-        /* ---------------------------------------------------------
-           4. SEARCH RESULTS - HORIZONTAL (image left, text right)
-        --------------------------------------------------------- */
-
-        .search-results {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            padding: 8px 0;
-            max-height: 400px;
-            overflow-y: auto;
-            z-index: 999;
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .search-results.active {
-            display: flex;
-        }
-
-        .search-result-item {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: background 0.15s;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .search-result-item:hover {
-            background: #f8f8f8;
-        }
-
-        .search-result-item img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 8px;
-            flex-shrink: 0;
-            background: #eee;
-        }
-
-        .search-result-item .item-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1B1612;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex: 1;
-        }
-
-        .search-result-item .item-category {
-            font-size: 11px;
-            color: #999;
-            font-weight: 400;
-            margin-left: 8px;
-            flex-shrink: 0;
-        }
-
-        .search-no-results {
-            padding: 16px;
-            text-align: center;
-            color: #888;
-            font-size: 14px;
-        }
-    </style>
+    <!-- Structured Data (JSON-LD) for Local Business SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Foodies",
+      "image": "https://foodieskodad.com/og-image.jpg",
+      "@id": "https://foodieskodad.com/",
+      "url": "https://foodieskodad.com/",
+      "telephone": "+919951000029",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Kodad Main Road, beside Ranga Theater",
+        "addressLocality": "Kodad",
+        "addressRegion": "Telangana",
+        "postalCode": "508206",
+        "addressCountry": "IN"
+      },
+      "servesCuisine": ["Bakery", "Fast Food", "Chinese", "Biryani"],
+      "priceRange": "$",
+      "hasMenu": {
+        "@type": "Menu",
+        "url": "https://foodieskodad.com/#menu"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "22:00"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "amarachinthaakhil"
+      }
+    }
+    </script>
 </head>
 
 <body>
+
+    <a href="#main" class="skip-link">Skip to content</a>
 
     <!-- =========================================================
          LOADING SCREEN
@@ -233,7 +156,7 @@
 
                     <span class="search-icon" aria-hidden="true">🔍</span>
 
-                    <div id="searchResults" class="search-results"></div>
+                    <div id="searchResults" class="search-results" aria-live="polite" role="listbox"></div>
                 </li>
 
                 <!-- TIZOLA -->
@@ -293,6 +216,7 @@
 
     </nav>
 
+    <div class="nav-overlay" id="navOverlay"></div>
 
     <!-- =========================================================
          MAIN
@@ -313,6 +237,10 @@
 
                 <h1 class="hero-title">
                     FOODIES
+                    <span
+                        style="display: block; font-size: clamp(0.9rem, 2.5vw, 1.2rem); font-family: var(--font-body); letter-spacing: 1px; margin-top: 16px; color: var(--color-muted-gold); text-transform: uppercase;">
+                        Bakery, Cakes & Fast Food in Kodad
+                    </span>
                 </h1>
 
                 <p class="hero-tagline">
@@ -472,7 +400,7 @@
                 </span>
 
                 <h2 class="section-title">
-                    Chef's Special
+                    Chef's Special in Kodad
                 </h2>
 
                 <div class="featured-grid" id="featuredGrid">
@@ -502,8 +430,17 @@
                 </span>
 
                 <h2 class="section-title">
-                    Explore What We Offer
+                    Explore Our Menu in Kodad
                 </h2>
+
+                <noscript>
+                    <div
+                        style="padding: 20px; background: #fff; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee;">
+                        <h3>Our Menu (Text Version)</h3>
+                        <p>We offer Biryani, Fast Food, Chinese, Cakes, Bakery items, and Beverages. Please enable
+                            JavaScript to view our dynamic interactive menu.</p>
+                    </div>
+                </noscript>
 
                 <div class="menu-filters">
 
@@ -1067,6 +1004,44 @@
         </section>
 
 
+        <!-- LOCAL FAQ (For SEO) -->
+        <section class="faq-section" id="faq" style="padding: 60px 0; background: #fff;">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <details
+                        style="margin-bottom: 16px; padding: 16px; background: var(--color-cream); border-radius: 8px; cursor: pointer;">
+                        <summary style="font-weight: 600; color: var(--color-deep-brown);">Where is Foodies located in
+                            Kodad?</summary>
+                        <p style="margin-top: 12px; color: var(--color-gray);">Foodies is located at Kodad Main Road,
+                            beside Ranga Theater, Kodad, Telangana 508206.</p>
+                    </details>
+                    <details
+                        style="margin-bottom: 16px; padding: 16px; background: var(--color-cream); border-radius: 8px; cursor: pointer;">
+                        <summary style="font-weight: 600; color: var(--color-deep-brown);">Does Foodies Kodad deliver?
+                        </summary>
+                        <p style="margin-top: 12px; color: var(--color-gray);">Yes! You can order online via Tizola, or
+                            call us directly for takeaway and delivery options.</p>
+                    </details>
+                    <details
+                        style="margin-bottom: 16px; padding: 16px; background: var(--color-cream); border-radius: 8px; cursor: pointer;">
+                        <summary style="font-weight: 600; color: var(--color-deep-brown);">What are Foodies Kodad
+                            timings?</summary>
+                        <p style="margin-top: 12px; color: var(--color-gray);">We are open Monday to Sunday, from 9:00
+                            AM to 10:00 PM.</p>
+                    </details>
+                    <details
+                        style="margin-bottom: 16px; padding: 16px; background: var(--color-cream); border-radius: 8px; cursor: pointer;">
+                        <summary style="font-weight: 600; color: var(--color-deep-brown);">Can I order custom birthday
+                            cakes in Kodad?</summary>
+                        <p style="margin-top: 12px; color: var(--color-gray);">Yes, we specialize in custom cakes for
+                            birthdays, anniversaries, and special occasions. Contact us via WhatsApp to place an order.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
         <!-- CONTACT -->
         <section class="contact-section" id="contact">
 
@@ -1282,7 +1257,9 @@
             <div class="footer-bottom">
 
                 <p>
-                    &copy; 2026 Foodies. All rights reserved.
+                    &copy; 2026 Foodies. All rights reserved. | Developed by <a
+                        href="mailto:amarachinthaakhil@gmail.com"
+                        style="color: inherit; text-decoration: underline;">amarachinthaakhil</a>
                 </p>
 
             </div>
@@ -1311,7 +1288,8 @@
     </div>
 
 
-    <aside class="cart-panel" id="cartPanel" aria-label="Shopping cart" aria-hidden="true">
+    <aside class="cart-panel" id="cartPanel" aria-label="Shopping cart" aria-hidden="true" role="dialog"
+        aria-modal="true">
 
         <div class="cart-header">
 

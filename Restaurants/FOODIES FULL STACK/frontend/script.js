@@ -34,14 +34,7 @@ let whatsappNumber = '919951000029';
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    const loadingScreen = document.getElementById('loading-screen');
-
-    if (loadingScreen) {
-        setTimeout(() => {
-            loadingScreen.classList.add('hidden');
-        }, 600);
-    }
+    // Loading screen is now handled by the data fetch functions
 
     const navbar = document.getElementById('navbar');
 
@@ -117,18 +110,24 @@ function setupMobileNav() {
 
     if (!navToggle || !navLinks) return;
 
+    const navOverlay = document.getElementById('navOverlay');
+
     navToggle.addEventListener('click', () => {
 
         const open = !navLinks.classList.contains('open');
 
         navToggle.classList.toggle('open', open);
         navLinks.classList.toggle('open', open);
+        document.body.classList.toggle('nav-open', open);
+        navOverlay?.classList.toggle('open', open);
 
         navToggle.setAttribute(
             'aria-expanded',
             String(open)
         );
     });
+
+    navOverlay?.addEventListener('click', closeMobileNav);
 
     navLinks
         .querySelectorAll('a[href^="#"]')
@@ -145,11 +144,14 @@ function closeMobileNav() {
 
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
 
     if (!navToggle || !navLinks) return;
 
     navToggle.classList.remove('open');
     navLinks.classList.remove('open');
+    document.body.classList.remove('nav-open');
+    navOverlay?.classList.remove('open');
 
     navToggle.setAttribute(
         'aria-expanded',
@@ -436,6 +438,17 @@ function setupCart() {
         redirectToTizola
     );
 
+    cartItems?.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+
+        if (action === 'decrease') decreaseCartItem(id);
+        if (action === 'increase') increaseCartItem(id);
+        if (action === 'remove') removeCartItem(id);
+    });
+
     document.addEventListener(
         'keydown',
         e => {
@@ -657,7 +670,7 @@ function updateCartCount() {
             String(total);
 
         navCartCount.style.display =
-            'inline-flex';
+            total > 0 ? 'inline-flex' : 'none';
 
     }
 
@@ -725,7 +738,8 @@ function renderCart() {
                         <button
                             type="button"
                             class="quantity-btn"
-                            onclick="decreaseCartItem('${id}')"
+                            data-action="decrease"
+                            data-id="${id}"
                             aria-label="Decrease quantity"
                         >
                             −
@@ -738,7 +752,8 @@ function renderCart() {
                         <button
                             type="button"
                             class="quantity-btn"
-                            onclick="increaseCartItem('${id}')"
+                            data-action="increase"
+                            data-id="${id}"
                             aria-label="Increase quantity"
                         >
                             +
@@ -753,7 +768,8 @@ function renderCart() {
                     <button
                         type="button"
                         class="cart-remove-btn"
-                        onclick="removeCartItem('${id}')"
+                        data-action="remove"
+                        data-id="${id}"
                         aria-label="Remove ${escapeHtml(item.name)}"
                     >
                         ✕
@@ -1752,8 +1768,32 @@ async function handleLogin(e) {
             );
         }
 
-        authToken =
-            data.access_token;
+        if (!data?.access_token) {
+            throw new Error('Invalid login response');
+        }
+
+        const guestCartRaw = localStorage.getItem('foodies_cart_guest');
+        if (guestCartRaw) {
+            try {
+                const guestCart = JSON.parse(guestCartRaw);
+                const userCartKey = `foodies_cart_user_${data.user_id}`;
+                const userCartRaw = localStorage.getItem(userCartKey);
+                let userCart = userCartRaw ? JSON.parse(userCartRaw) : [];
+
+                guestCart.forEach(gItem => {
+                    const existing = userCart.find(u => String(u.id) === String(gItem.id));
+                    if (existing) {
+                        existing.quantity = Math.min(MAX_CART_QUANTITY, existing.quantity + gItem.quantity);
+                    } else {
+                        userCart.push(gItem);
+                    }
+                });
+                localStorage.setItem(userCartKey, JSON.stringify(userCart));
+                localStorage.removeItem('foodies_cart_guest');
+            } catch (e) { console.error('Cart merge failed', e); }
+        }
+
+        authToken = data.access_token;
 
         localStorage.setItem(
             'foodies_token',
@@ -3013,7 +3053,8 @@ function renderMenuItemCard(item) {
                 <button
                     type="button"
                     class="add-to-cart-btn"
-                    onclick="addMenuItemToCart('${escapeHtml(item.id)}')"
+                    data-action="add-to-cart"
+                    data-id="${escapeHtml(item.id)}"
                     ${!Number(item.available) ? 'disabled' : ''}
                 >
                     🛒 Add to Cart
@@ -3028,6 +3069,12 @@ function renderMenuItemCard(item) {
 function attachFavouriteHandlers(
     container
 ) {
+    container.addEventListener('click', (e) => {
+        const btn = e.target.closest('.add-to-cart-btn');
+        if (btn && !btn.disabled) {
+            addMenuItemToCart(btn.dataset.id);
+        }
+    });
 
     container
         .querySelectorAll(
@@ -3397,6 +3444,10 @@ async function loadFeatured() {
                 Could not load featured dishes.
             </p>
         `;
+    } finally {
+        // Hide loader when featured finishes (prevents artificial delay)
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) loadingScreen.classList.add('hidden');
     }
 }
 
@@ -3553,11 +3604,7 @@ async function loadReviews() {
                             </div>
 
                             <div class="review-date">
-                                ${escapeHtml(
-                        new Date(
-                            r.created_at
-                        ).toLocaleDateString()
-                    )}
+                                ${r.created_at ? escapeHtml(new Date(r.created_at).toLocaleDateString()) : ''}
                             </div>
 
                         </div>
@@ -4410,6 +4457,8 @@ function setupGallery() {
     async function renderGallery(
         filter = 'all'
     ) {
+        currentImages = [];
+        currentIndex = 0;
 
         try {
 
@@ -4674,39 +4723,4 @@ async function loadAboutImage() {
     }
 }
 
-// ============================================================
-// GLOBALS FOR INLINE BUTTONS
-// ============================================================
-
-window.showToast =
-    showToast;
-
-window.addToCart =
-    addToCart;
-
-window.addMenuItemToCart =
-    addMenuItemToCart;
-
-window.increaseCartItem =
-    increaseCartItem;
-
-window.decreaseCartItem =
-    decreaseCartItem;
-
-window.removeCartItem =
-    removeCartItem;
-
-window.openCart =
-    openCart;
-
-window.closeCart =
-    closeCart;
-
-window.orderCart =
-    orderCart;
-
-window.toggleFavourite =
-    toggleFavourite;
-
-window.submitItemRequest =
-    submitItemRequest;
+// End of script.js

@@ -46,7 +46,8 @@ body {
     background: var(--color-cream);
     color: var(--color-charcoal);
     line-height: 1.6;
-    overflow-x: hidden;
+    overflow-x: clip;
+    /* Fixes iOS Safari bugs better than hidden */
 }
 
 body.cart-open {
@@ -121,30 +122,34 @@ ul {
 }
 
 .btn-primary {
-    background: var(--color-warm-orange);
+    background: linear-gradient(135deg, var(--color-warm-orange), #e67e22);
     color: var(--color-white);
-    box-shadow: 0 4px 14px rgba(214, 106, 43, .30);
+    box-shadow: 0 4px 15px rgba(214, 106, 43, 0.4);
+    border: none;
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible {
-    background: #c45a22;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(214, 106, 43, .35);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(214, 106, 43, 0.6);
     outline: none;
 }
 
 .btn-secondary {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: var(--color-white);
-    border: 2px solid var(--color-white);
+    transition: all 0.3s ease;
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus-visible {
     background: var(--color-white);
     color: var(--color-deep-brown);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
 }
 
 .btn-outline {
@@ -275,7 +280,7 @@ ul {
     color: #fff;
 }
 
-.nav-links a[href^="#"]::after {
+.nav-links>li>a:not(.btn)[href^="#"]::after {
     content: '';
     position: absolute;
     left: 0;
@@ -317,8 +322,18 @@ ul {
     border: 1px solid rgba(255, 255, 255, .22);
     border-radius: 50px;
     background: rgba(255, 255, 255, .10);
-    color: #fff;
+    color: #fff !important;
+    font: inherit;
     outline: none;
+}
+
+.nav-search input::placeholder {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+.nav-search input:focus {
+    border-color: var(--color-warm-orange) !important;
+    background: rgba(255, 255, 255, .15) !important;
 }
 
 .nav-search input::placeholder {
@@ -328,6 +343,7 @@ ul {
 .nav-search input:focus {
     border-color: var(--color-warm-orange);
     background: rgba(255, 255, 255, .14);
+    box-shadow: 0 0 0 3px rgba(214, 106, 43, 0.2);
 }
 
 .nav-search .search-icon {
@@ -479,11 +495,15 @@ ul {
 .hero {
     position: relative;
     min-height: 100vh;
+    min-height: 100svh;
+    /* Fixes iOS dynamic toolbar overlap */
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: var(--color-deep-brown);
+    /* Added a high-quality background image with fallback */
+    background: var(--color-deep-brown) url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1934&auto=format&fit=crop') center/cover no-repeat;
+    background-attachment: fixed;
 }
 
 .hero::before {
@@ -491,30 +511,32 @@ ul {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at 20% 50%,
-            rgba(214, 106, 43, .20),
-            transparent 60%),
-        radial-gradient(ellipse at 80% 50%,
-            rgba(201, 154, 82, .15),
-            transparent 60%),
-        linear-gradient(135deg,
-            #1B1612,
-            #2A201A);
+        radial-gradient(ellipse at 20% 50%, rgba(214, 106, 43, .25), transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(201, 154, 82, .20), transparent 60%);
+    mix-blend-mode: overlay;
 }
 
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(27, 22, 18, .35);
+    background: linear-gradient(to bottom, rgba(27, 22, 18, .70), rgba(27, 22, 18, .95));
+    backdrop-filter: blur(4px);
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
     max-width: 800px;
-    padding: 40px 24px;
+    padding: 48px 32px;
     text-align: center;
-    animation: heroFade 1.2s ease forwards;
+    animation: heroFade 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    /* Glassmorphism card effect for the hero text */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    margin: 20px;
 }
 
 .hero-subtitle {
@@ -764,15 +786,17 @@ ul {
     overflow: hidden;
     border-radius: var(--radius);
     background: #fff;
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .featured-card:hover,
 .menu-card:hover,
 .review-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border-color: rgba(214, 106, 43, 0.2);
 }
 
 .card-image {
@@ -874,6 +898,70 @@ ul {
 }
 
 /* ============================================================
+   SEARCH RESULTS (Matches JS Classes)
+   ============================================================ */
+.search-results {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    padding: 8px 0;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 999;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.search-result-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.search-result-item:hover,
+.search-result-item:focus-visible {
+    background: #f8f8f8;
+    outline: none;
+}
+
+.search-result-image img,
+.search-result-image .image-fallback {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-result-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1B1612;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
+
+/* ============================================================
    MENU
    ============================================================ */
 
@@ -893,7 +981,8 @@ ul {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-    min-height: 2.7em;
+    min-height: 2.88em;
+    /* Actual height of 2 lines */
     margin: 4px 0 8px;
 }
 
@@ -1029,6 +1118,36 @@ ul {
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 24px;
     width: 100%;
+}
+
+@media (max-width: 1024px) {
+
+    .featured-skeleton,
+    .review-skeleton {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .featured-skeleton,
+    .review-skeleton,
+    .menu-skeleton {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 425px) {
+
+    .featured-skeleton,
+    .review-skeleton {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-skeleton {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
 }
 
 .skeleton-card {
@@ -1453,8 +1572,10 @@ ul {
 }
 
 .booking-confirmation .btn-secondary {
+    background: transparent;
+    backdrop-filter: none;
     color: var(--color-deep-brown);
-    border-color: var(--color-deep-brown);
+    border: 2px solid var(--color-deep-brown);
 }
 
 .booking-confirmation .btn-secondary:hover {
@@ -1577,7 +1698,8 @@ ul {
 .footer-bottom {
     text-align: center;
     padding-top: 24px;
-    color: rgba(255, 255, 255, .4);
+    color: rgba(255, 255, 255, .65);
+    /* Improved contrast */
     font-size: .85rem;
 }
 
@@ -1629,8 +1751,7 @@ ul {
     top: 0;
     right: 0;
     z-index: 1999;
-    width: 420px;
-    max-width: 92vw;
+    width: min(420px, 92vw);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -2019,15 +2140,18 @@ ul {
 }
 
 .badge.pending {
-    background: #f39c12;
+    background: #b5651d;
+    /* Darkened for contrast */
 }
 
 .badge.confirmed {
-    background: #2ecc71;
+    background: #1e7a4a;
+    /* Darkened for contrast */
 }
 
 .badge.cancelled {
-    background: #e74c3c;
+    background: #a93226;
+    /* Darkened for contrast */
 }
 
 /* ============================================================
@@ -2035,7 +2159,6 @@ ul {
    ============================================================ */
 
 @media (max-width: 1100px) {
-
     .nav-links {
         gap: 10px;
     }
@@ -2043,7 +2166,14 @@ ul {
     .nav-search input {
         width: 175px;
     }
+}
 
+@media (max-width: 900px) {
+
+    /* Hides top search on tablets to prevent nav overflow */
+    .nav-search {
+        display: none;
+    }
 }
 
 @media (max-width: 1024px) {
@@ -2105,6 +2235,31 @@ ul {
 
     .nav-links.open {
         right: 0;
+        z-index: 1050;
+    }
+
+    body.nav-open {
+        overflow: hidden;
+    }
+
+    body.nav-open .cart-floating-btn {
+        display: none !important;
+    }
+
+    .nav-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background: rgba(27, 22, 18, .48);
+        backdrop-filter: blur(2px);
+        opacity: 0;
+        visibility: hidden;
+        transition: .35s;
+    }
+
+    .nav-overlay.open {
+        opacity: 1;
+        visibility: visible;
     }
 
     .nav-links>li {
@@ -2150,7 +2305,6 @@ ul {
     }
 
     .cart-floating-btn {
-        display: inline-flex !important;
         top: auto;
         right: 16px;
         bottom: 76px;
@@ -2158,6 +2312,11 @@ ul {
 
     .hero-title {
         font-size: clamp(2.8rem, 10vw, 4.5rem);
+    }
+
+    .hero {
+        background-attachment: scroll !important;
+        /* Fixes mobile scroll jank / LCP issue */
     }
 
     .featured-grid,
@@ -2195,7 +2354,7 @@ ul {
     .toast-container {
         left: 12px;
         right: 12px;
-        top: 80px;
+        top: calc(60px + env(safe-area-inset-top));
         max-width: none;
     }
 
@@ -2371,5 +2530,170 @@ ul {
     .hero-content {
         animation: none;
         opacity: 1;
+    }
+}
+
+/* ============================================================
+   GLOBAL ACCESSIBILITY & POLISH (Audit Fixes)
+   ============================================================ */
+
+/* 1. Global Focus States */
+:focus-visible {
+    outline: 2px solid var(--color-warm-orange);
+    outline-offset: 2px;
+}
+
+/* 2. Tap Targets (Min 44x44px via pseudo-element expansion) */
+@media (max-width: 768px) {
+
+    .favourite-btn,
+    .cart-remove-btn,
+    .quantity-btn,
+    .nav-toggle,
+    .filter-btn {
+        position: relative;
+    }
+
+    .favourite-btn::after,
+    .cart-remove-btn::after,
+    .quantity-btn::after,
+    .nav-toggle::after {
+        content: '';
+        position: absolute;
+        inset: -12px;
+        /* Expands hitbox invisibly */
+    }
+}
+
+/* 3. Button Active Press Feedback */
+.btn:active,
+.add-to-cart-btn:active,
+.nav-cart-btn:active {
+    transform: translateY(1px) scale(0.98) !important;
+}
+
+/* 4. Add to Cart Loading State */
+.add-to-cart-btn.loading {
+    pointer-events: none;
+    opacity: .75;
+}
+
+.add-to-cart-btn.loading::after {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 8px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+}
+
+/* 5. Form Group Focus */
+.form-group:focus-within label {
+    color: var(--color-warm-orange);
+}
+
+/* 6. Better Star Rating Hover */
+.star-rating:hover button {
+    color: var(--color-light-gray);
+}
+
+.star-rating button:hover,
+.star-rating button:hover~button {
+    color: var(--color-light-gray);
+}
+
+.star-rating:hover button:hover,
+.star-rating:hover button:hover~button {
+    color: var(--color-muted-gold);
+}
+
+.star-rating button.active {
+    color: var(--color-muted-gold);
+}
+
+/* 7. Reduced Motion Spinner Fix */
+@media (prefers-reduced-motion: reduce) {
+    .loader-spinner {
+        animation: none;
+        border-top-color: #fff;
+    }
+}
+
+/* 8. Performance: Content Visibility */
+.menu-section,
+.gallery-section,
+.reviews-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 800px;
+}
+
+/* 9. Auth Modal Consistency */
+.auth-modal-overlay.open {
+    display: flex;
+}
+
+/* 10. Elegant Dark Mode (Auto-switches based on user OS) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-cream: #1A1614;
+        --color-deep-brown: #0F0C0A;
+        --color-charcoal: #E8E0D6;
+        --color-light-gray: #332E2A;
+        --color-gray: #A69B91;
+        --color-white: #221E1A;
+    }
+
+    /* Invert specific elements that need it */
+    .nav-links.open {
+        background: #110E0C;
+    }
+
+    .cart-panel,
+    .auth-modal,
+    .user-dropdown,
+    .toast {
+        background: #221E1A;
+        color: #E8E0D6;
+    }
+
+    .menu-card,
+    .featured-card,
+    .review-card,
+    .booking-form-container,
+    .skeleton-card {
+        background: #28231F;
+    }
+
+    .card-body h4,
+    .contact-card h4,
+    .auth-modal h2,
+    .cart-header h2 {
+        color: #fff;
+    }
+
+    .btn-secondary {
+        border-color: rgba(255, 255, 255, .4);
+    }
+
+    .filter-btn,
+    .gallery-tab {
+        background: #221E1A;
+    }
+
+    .filter-btn.active,
+    .gallery-tab.active {
+        background: var(--color-warm-orange);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .auth-modal input {
+        background: #1A1614;
+        color: #fff;
+        border-color: #332E2A;
     }
 }
