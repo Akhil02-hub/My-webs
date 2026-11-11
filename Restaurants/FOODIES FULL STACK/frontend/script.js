@@ -193,38 +193,54 @@ function setupScrollTop() {
 }
 
 // ============================================================
-// SMOOTH ANCHORS
+// CLIENT-SIDE ROUTER (Clean URLs)
 // ============================================================
 
 function setupSmoothAnchors() {
 
-    document
-        .querySelectorAll('a[href^="#"]')
-        .forEach(anchor => {
+    const routes = {
+        '/': 'home',
+        '/menu': 'menu',
+        '/about': 'about',
+        '/featured': 'featured',
+        '/cakes': 'cakes',
+        '/gallery': 'gallery',
+        '/reviews': 'reviews',
+        '/booking': 'booking',
+        '/contact': 'contact'
+    };
 
-            anchor.addEventListener('click', function (e) {
+    function handleRoute() {
+        const path = window.location.pathname;
+        const targetId = routes[path] || 'home';
+        const target = document.getElementById(targetId);
 
-                const targetId = this.getAttribute('href');
-
-                if (!targetId || targetId === '#') {
-                    return;
-                }
-
-                const target =
-                    document.querySelector(targetId);
-
-                if (!target) return;
-
-                e.preventDefault();
-
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
+        }
+    }
 
-        });
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (!link) return;
+
+        const href = link.getAttribute('href');
+
+        // Intercept internal links only
+        if (href && href.startsWith('/') && !href.startsWith('//')) {
+            e.preventDefault();
+            window.history.pushState({}, '', href);
+            handleRoute();
+        }
+    });
+
+    window.addEventListener('popstate', handleRoute);
+
+    // Handle initial page load routing
+    setTimeout(handleRoute, 100);
 }
 
 // ============================================================

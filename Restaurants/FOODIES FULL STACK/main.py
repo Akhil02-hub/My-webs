@@ -31,11 +31,20 @@ async def google_verification():
 async def sitemap():
     xml = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://foodieskodada.onrender.com/</loc>
-    </url>
+    <url><loc>https://foodieskodada.onrender.com/</loc><priority>1.0</priority></url>
+    <url><loc>https://foodieskodada.onrender.com/menu</loc><priority>0.9</priority></url>
+    <url><loc>https://foodieskodada.onrender.com/booking</loc><priority>0.8</priority></url>
+    <url><loc>https://foodieskodada.onrender.com/gallery</loc><priority>0.7</priority></url>
+    <url><loc>https://foodieskodada.onrender.com/reviews</loc><priority>0.7</priority></url>
 </urlset>"""
     return Response(content=xml, media_type="application/xml")
+
+@app.get("/robots.txt", include_in_schema=False)
+async def robots():
+    txt = """User-agent: *
+Allow: /
+Sitemap: https://foodieskodada.onrender.com/sitemap.xml"""
+    return PlainTextResponse(txt)
 
 IS_PRODUCTION = os.getenv("ENVIRONMENT", "development").strip().lower() == "production"
 
@@ -1231,8 +1240,32 @@ async def get_stats():
     }
 
 # ============================================================
-# STATIC FRONTEND
+# STATIC FRONTEND & SPA ROUTING
 # ============================================================
 
+from fastapi.responses import FileResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.exception_handlers import http_exception_handler
+
 FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend")
-app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
+
+# 1. Mount static assets (css, js, images)
+app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+
+# 2. Catch-all route for the React/Vanilla JS single-page app
+@app.get("/{full_path:path}", include_in_schema=False)
+async def serve_spa(full_path: str):
+    # If the file exists in the frontend folder, serve it
+    file_path = os.path.join(FRONTEND_DIR, full_path)
+    if os.path.isfile(file_path):
+        return FileResponse(file_path)
+    
+    # Otherwise, serve index.html so the JS router can handle /menu, /booking, etc.
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
+# 3. Fallback for missing static assets (so API 404s don't return HTML)
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request, exc):
+    if exc.status_code == 404 and not request.url.path.startswith("/api/"):
+        return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+    return await http_exception_handler(request, exc)

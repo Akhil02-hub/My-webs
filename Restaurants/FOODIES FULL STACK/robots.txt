@@ -19,4 +19,4 @@ User-agent: ClaudeBot
 Allow: /
 
 # Sitemap location
-Sitemap: https://foodieskodad.com/sitemap.xml
+Sitemap: https://foodieskodad.onrender.com/sitemap.xml

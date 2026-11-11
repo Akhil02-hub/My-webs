@@ -15,4 +15,4 @@ Open Monday to Sunday, 9:00 AM to 10:00 PM.
 - Order via WhatsApp or Tizola
 
 ## Links
-- [Home Page](https://foodieskodad.com/): Main page with interactive menu, gallery, and reviews.
+- [Home Page](https://foodieskodad.onrender.com/): Main page with interactive menu, gallery, and reviews.
